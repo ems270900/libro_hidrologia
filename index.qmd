@@ -1,0 +1,39 @@
+--- 
+numbered: false      # ← ESTA ES LA CLAVE PARA QUITAR LA NUMERACIÓN DEL TÍTULO DE PORTADA
+format:
+  html:
+    number-sections: false
+  pdf:
+    number-sections: false
+--- 
+
+# Hidrología Aplicada a la Ingeniería Civil {.unnumbered}
+
+::: {.custom-cover} 
+
+<div class="cover-logos"> 
+ <img src="assets/img/logoeic.png" class="logo-eic"> 
+ <img src="assets/img/logoucr.png" class="logo-ucr"> 
+</div> 
+
+<h1 class="cover-title"> 
+ Hidrología IC-0808 
+</h1> 
+
+<h2 class="cover-subtitle"> 
+ Fundamentos, análisis estadístico y aplicaciones 
+</h2> 
+
+<p class="cover-author"> 
+ Ing. Edwin Matarrita Segura 
+</p> 
+
+<p class="cover-affiliation"> 
+ Escuela de Ingeniería Civil – Universidad de Costa Rica 
+</p> 
+
+<div class="cover-hero"> 
+<img src="assets/img/ciclo_h.png" class="cover-image"> 
+</div> 
+
+:::

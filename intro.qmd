@@ -1,0 +1,91 @@
+---
+page-layout: article
+---
+
+# Introducción {.unnumbered}
+
+El curso introduce al estudiantado en los fundamentos de las ciencias hidrológicas y habilita el uso de metodologías para obtener, procesar, analizar y generar información básica para el diseño y operación de obras hidráulicas.
+
+A través del desarrollo del curso, se busca que el estudiante:
+
+- Comprenda los procesos que gobiernan el movimiento del agua.
+- Analice el ciclo hidrológico desde una perspectiva cuantitativa.
+- Conozca las fuentes y métodos de medición de datos hidrometeorológicos.
+- Utilice herramientas estadísticas para el análisis y modelación de variables hidrológicas.
+- Aplique métodos de estimación de caudales y diseño de tormentas.
+- Vincule los procesos hidrológicos con la planificación y diseño de infraestructura.
+
+El curso forma parte del **bloque formativo fundamental** para la carrera de Ingeniería Civil, y se ubica en el octavo semestre según el plan de estudios vigente. Requiere conocimientos previos en Probabilidad, Estadística, Sistemas de Ingeniería y Mecánica de Suelos.
+
+## Importancia dentro de la ingeniería civil {.unnumbered}
+
+La hidrología es esencial en el diseño, operación y evaluación de:
+
+- Sistemas de drenaje pluvial y alcantarillado.
+- Puentes, carreteras y obras lineales.
+- Presas, embalses y canales.
+- Modelación de inundaciones y amenazas naturales.
+- Captación, conducción y distribución de agua potable.
+- Gestión de aguas residuales.
+- Aprovechamiento hidroeléctrico.
+
+Su correcta aplicación permite prevenir daños, optimizar recursos y diseñar obras más seguras, resilientes y sostenibles.
+
+
+## Objetivo general del curso {.unnumbered}
+
+Utilizar principios y teorías científicas del ciclo hidrológico para el análisis, evaluación y predicción de fenómenos hidrológicos, así como para el diseño de sistemas de ingeniería que aprovechan o controlan el recurso hídrico.
+
+## Objetivos específicos {.unnumbered}
+
+A. Reconocer el papel de la hidrología y su relación con el diseño de obras de ingeniería.  
+B. Comprender el ciclo hidrológico y analizar el balance hídrico en una cuenca.  
+C. Aplicar métodos de medición y fuentes de información hidrometeorológica.  
+D. Utilizar estadística y probabilidad para análisis hidrológicos.  
+E. Relacionar procesos atmosféricos con la precipitación.  
+F. Comprender procesos de evaporación, evapotranspiración, infiltración y almacenamiento en el suelo.  
+G. Aplicar métodos hidrológicos para estimación de caudales y tormentas de diseño.  
+H. Utilizar modelos hidrológicos e información geoespacial para estudios aplicados.
+
+## Contenidos generales del curso {.unnumbered}
+
+Los temas principales que se desarrollarán a lo largo del semestre incluyen:
+
+1. Elementos introductorios  
+   - Importancia de la hidrología.  
+   - Ciclo hidrológico y balances hídricos.  
+   - La cuenca hidrográfica y su caracterización.  
+   - Delimitación de cuencas y análisis morfológico.
+
+2. Mediciones hidrológicas  
+   - Redes y estaciones meteorológicas.  
+   - Medición de lluvia, caudal, evaporación y humedad.  
+   - Fuentes de información y tratamiento de datos.
+
+3. Métodos estadísticos e hidrología probabilística  
+   - Estadística de variables hidrológicas.  
+   - Frecuencia de eventos extremos.  
+   - Ajuste de distribuciones de probabilidad.  
+   - Muestreo y análisis de series temporales.
+
+4. Meteorología y climatología  
+   - Radiación, atmósfera y estabilidad.  
+   - Clasificación climática y clima de Costa Rica.
+
+5. Precipitación  
+   - Análisis temporal y espacial de la lluvia.  
+   - Curvas IDF.  
+   - Precipitación efectiva y métodos de interpolación.
+
+6. Evaporación y evapotranspiración  
+   - Métodos empíricos y físicos.  
+   - Modelos para ET real y potencial.
+
+7. Intercepción e infiltración  
+   - Modelos de Horton, Green–Ampt y escorrentía.
+
+8. Escorrentía superficial  
+   - Hidrogramas unitarios.  
+   - Hidrogramas de crecientes.  
+   - Estimación de caudales en cuencas sin aforos.  
+   - Modelos conceptuales de simulación continua.

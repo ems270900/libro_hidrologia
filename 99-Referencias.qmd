@@ -1,0 +1,10 @@
+---
+bibliography: references.bib
+csl: assets/csl/apa.csl
+nocite: |
+  @*
+body-class: show-refs
+---
+
+# Referencias {.unnumbered}
+

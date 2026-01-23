@@ -1,0 +1,507 @@
+/* Tipografía y ancho del contenido */
+body {
+  font-family: "Roboto", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+main.content {
+  max-width: 1200px;
+}
+
+/* Títulos de capítulo */
+h1.title {
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+/* Código (por si en algún momento se muestra) */
+pre code {
+  font-size: 0.9rem;
+}
+
+/* Tablas */
+table.table {
+  font-size: 0.9rem;
+}
+
+/* ===== Portada personalizada ===== */
+
+.custom-cover {
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+}
+
+/* Logos EIC + UCR */
+.cover-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.cover-logos img {
+  height: 70px;
+  width: auto;
+}
+
+.logo-eic {
+  /* ajustes específicos si los necesitas */
+}
+
+.logo-ucr {
+  /* ajustes específicos si los necesitas */
+}
+
+/* Títulos de portada */
+.cover-title {
+  font-size: 2.3rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.cover-subtitle {
+  font-size: 1.3rem;
+  font-weight: 400;
+  margin-bottom: 1.2rem;
+  color: #555555;
+}
+
+/* Autor y afiliación */
+.cover-author {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.cover-affiliation {
+  font-size: 0.95rem;
+  color: #555555;
+  margin-bottom: 1.8rem;
+}
+
+/* Imagen principal de portada */
+.cover-hero {
+  display: flex;
+  justify-content: center;
+}
+
+.cover-image {
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+}
+
+/* Opcional: ocultar cualquier imagen de portada automática
+   por si en algún momento vuelves a usar `cover-image` en el YAML */
+/*
+.quarto-cover-image {
+  display: none;
+}
+*/
+
+/* Justificación del texto */
+p, li {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+/* Fuente tipo LaTeX (Computer Modern) */
+body {
+  font-family: "Latin Modern Roman", "Computer Modern Serif", "CMU Serif", serif;
+}
+
+/* Aumentar ligeramente el tamaño del texto */
+body {
+  font-size: 1.25rem;   /* prueba 1.0 si quieres aún más grande */
+  line-height: 1.55;
+}
+
+.cover-author {
+  font-size: 1.08rem;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.cover-affiliation {
+  font-size: 1.0rem;
+  font-weight: 400;
+  text-align: center;
+  margin-top: -0.5rem;
+}
+
+/* Centrar subtítulos de figuras */
+.figure-caption,
+.figcaption,
+.quarto-figure > figcaption {
+  text-align: center !important;
+}
+
+.figure-caption {
+  margin: auto;
+  text-align: center;
+}
+
+.fig-border img {
+  border: 3px solid #000000;   /* borde negro */
+  border-radius: 4px;          /* curva opcional, quitar si no lo querés */
+}
+
+
+
+/* Bloque de cita estilo R4DS */
+.quote-block {
+  border-left: 4px solid #2574A9;   /* color elegante */
+  background: #f9fbfd;
+  padding: 1.2em 1.5em;
+  margin: 1.5em 0;
+  border-radius: 4px;
+  font-style: italic;
+  color: #333;
+}
+
+.quote-block p {
+  margin: 0.2em 0;
+}
+
+
+/* ------- TIMELINE HIDROLOGÍA ------- */
+
+.timeline {
+  border-left: 4px solid #1a73e8;
+  margin: 2rem 0;
+  padding-left: 1.5rem;
+}
+
+.timeline-block {
+  margin-bottom: 2.2rem;
+  position: relative;
+}
+
+.timeline-block::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  background: #1a73e8;
+  border-radius: 50%;
+  position: absolute;
+  left: -31px;
+  top: 4px;
+}
+
+.timeline-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0d47a1;
+  margin-bottom: 0.3rem;
+}
+
+.timeline-sub {
+  font-style: italic;
+  color: #555;
+  margin-bottom: 0.8rem;
+}
+
+.timeline ul {
+  margin-top: -0.5rem;
+}
+
+/* Línea de tiempo histórica de la hidrología */
+
+.timeline {
+  margin: 1.5rem 0 2rem;
+  padding-left: 1.75rem;
+  border-left: 3px solid #0d6efd;        /* línea vertical */
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.timeline-item {
+  position: relative;
+  background: #f8f9fa;
+  border: 1px solid #e1e5ea;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -1.95rem;
+  top: 0.9rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: #0d6efd;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+}
+
+.timeline-era {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  color: #0d6efd;
+  margin-bottom: 0.1rem;
+}
+
+.timeline-title {
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.timeline-item ul {
+  margin-bottom: 0;
+}
+
+.instituciones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.2rem;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.inst-card {
+  background: #f5faff;
+  border: 1px solid #c8d7e8;
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+.inst-card h3 {
+  margin-top: 0;
+  margin-bottom: .4rem;
+  color: #003366;
+  font-weight: 700;
+  text-align: center;
+}
+
+.inst-card p {
+  margin: 0;
+  text-align: justify;
+}
+
+/* --- Hidrología en Costa Rica: tarjetas --- */
+
+.cr-hidro-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.2rem;
+  margin: 1.5rem 0 1rem 0;
+}
+
+.cr-card {
+  border-radius: 8px;
+  padding: 1rem 1.1rem;
+  border: 1px solid #d0d0d0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  font-size: 0.96rem;
+}
+
+/* Colores por categoría */
+.cr-card.cr-public {
+  background-color: #e3f2fd;           /* azul muy claro */
+  border-left: 4px solid #1976d2;
+}
+
+.cr-card.cr-academic {
+  background-color: #e8f5e9;           /* verde muy claro */
+  border-left: 4px solid #388e3c;
+}
+
+.cr-card.cr-private {
+  background-color: #fff8e1;           /* amarillo muy claro */
+  border-left: 4px solid #f9a825;
+}
+
+/* Títulos dentro de tarjetas */
+.cr-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.4rem;
+  font-size: 1.02rem;
+}
+
+/* Pie de tarjeta (texto aclaratorio) */
+.cr-card-foot {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+/* Nota internacional al final */
+.cr-international-note {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  font-style: italic;
+  text-align: justify;
+}
+
+/* Eliminar numeración de la portada */
+.quarto-title-block .quarto-title-meta {
+  counter-reset: none;
+}
+
+.quarto-title-block h1.title {
+  counter-reset: none;
+}
+
+.sidebar-title {
+  color: #10199e;
+}
+
+div.sidebar-item-container .active {
+  font-weight: bold;
+}
+
+
+
+/* Tamaño de letra de los enlaces Siguiente / Anterior */
+.page-navigation .nav-page .nav-page-text {
+  font-size: 1.05rem !important;  /* prueba 1.1rem si quieres más grande */
+}
+
+/* (opcional) hacer un poco más grande la flecha */
+.page-navigation .nav-page i.bi {
+  font-size: 1.15rem !important;
+}
+
+/* Aumentar tamaño de letra del TOC (sidebar) */
+.sidebar .sidebar-item-text {
+  font-size: 0.9rem !important;   /* Ajusta: 1.0, 1.1, 1.15, 1.2 */
+}
+
+/* Aumentar tamaño de las secciones principales */
+.sidebar .sidebar-section .sidebar-item-text {
+  font-size: 0.9rem !important;
+  font-weight: 600;
+}
+
+/* Aumentar tamaño del título del TOC */
+.sidebar-title {
+  font-size: 1.2rem !important;
+  font-weight: 700 !important;
+}
+
+
+/* --- Footer como en R4DS: izquierda + derecha --- */
+
+footer.footer .nav-footer {
+  display: flex !important;
+  justify-content: space-between !important;  /* izquierda y derecha separadas */
+  align-items: center;
+  padding: 0 1.5rem;                          /* margen horizontal suave */
+}
+
+/* bloque izquierdo: tu nombre/libro */
+footer.footer .nav-footer-left {
+  text-align: left;
+  flex: 0 0 auto;
+}
+
+/* bloque central: si no lo usas, que no estorbe */
+footer.footer .nav-footer-center {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+/* bloque derecho: "Este libro fue construido con Quarto" pegado a la derecha */
+footer.footer .nav-footer-right {
+  flex: 0 0 auto;
+  margin-left: auto !important;
+  text-align: right !important;
+  white-space: nowrap;   /* evita que se rompa la línea */
+}
+
+/* === TOC estilo R4DS === */
+
+/* Color y peso base para TODOS los ítems del TOC */
+.sidebar .sidebar-item-text,
+.sidebar .sidebar-link {
+  color: #444444 !important;      /* gris neutro */
+  font-weight: 400 !important;    /* normal */
+}
+
+/* Secciones (grupos) del TOC: un poco más gruesas, pero mismo color */
+.sidebar .sidebar-section > .sidebar-item-container > .sidebar-item-text {
+  font-weight: 600 !important;    /* similar a R4DS */
+}
+
+/* Solo la página ACTIVA resaltada */
+.sidebar .sidebar-item-container .active,
+.sidebar nav[role=doc-toc] ul > li > a.active,
+.sidebar nav[role=doc-toc] ul > li > ul > li > a.active {
+  color: #10199e !important;      /* tu azul */
+  font-weight: 700 !important;    /* más grueso */
+}
+
+h1.center-title {
+  text-align: center !important;
+}
+
+.table-footnote {
+  font-size: 0.85rem;
+  font-style: italic;
+  margin-top: 0.25rem;
+}
+
+.table > caption {
+  text-align: left !important;
+  padding-left: 0 !important;
+}
+
+/* Reducir tamaño de letra del footer del libro */
+footer.footer .nav-footer {
+  font-size: 0.8rem !important;   /* prueba 0.75 o 0.7 si lo quieres aún más pequeño */
+}
+
+/* Si quieres ser más explícito: */
+footer.footer .nav-footer-left,
+footer.footer .nav-footer-right {
+  font-size: 0.8rem !important;
+}
+
+/* No justificar el texto dentro de la barra lateral (TOC) */
+.sidebar li,
+.sidebar .sidebar-item-text,
+.sidebar .sidebar-link {
+  text-align: left !important;
+  text-justify: auto !important;
+}
+
+/* Leyenda de figura: espacio pequeño debajo de la imagen */
+.quarto-figure > figcaption {
+  margin-top: 0.4rem;
+  margin-bottom: 0;            /* pegado a la fuente */
+}
+
+/* Párrafo de la fuente de figura */
+.fig-source {
+  font-size: 0.8em;
+  font-style: italic;
+  margin-top: 0.1rem;          /* casi sin espacio con el caption */
+  margin-bottom: 0.5rem;       /* espacio normal hacia lo que sigue */
+  color: inherit;              /* mismo color que el texto normal */
+}
+
+.fig-source p {
+  margin: 0;               /* quita margen interno del <p> */
+}
+
+.firebrick {
+  color: firebrick;
+}
+
+.highlight-blue {
+  color: #10199e;
+}
+
+.tabla-hover-custom tbody tr:hover {
+  background-color: #f2f2f2 !important;
+}
+
+

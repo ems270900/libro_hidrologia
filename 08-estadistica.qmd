@@ -1,0 +1,10 @@
+---
+title: "Métodos estadísticos"
+bibliography: references.bib
+suppress-bibliography: true
+---
+
+::: {.quote-block}
+“Para comprender el clima, primero debemos comprender el movimiento del aire.”\
+— *Carl-Gustaf Rossby, meteorólogo, pionero en el estudio de los movimientos a gran escala del aire y las corrientes oceánicas*
+:::

@@ -1,0 +1,35 @@
+---
+page-layout: article
+---
+
+# Bienvenida {.unnumbered}
+
+La hidrología constituye uno de los pilares fundamentales de la ingeniería civil moderna. Su estudio permite comprender la dinámica del agua en el ambiente, analizar fenómenos de interés ingenieril y diseñar soluciones basadas en evidencia científica y análisis cuantitativos rigurosos.
+
+Este curso está diseñado para brindar a las personas estudiantes los fundamentos teóricos y prácticos de la hidrología, enfocados en su aplicación dentro de la ingeniería civil. A lo largo del programa, se explorarán conceptos esenciales como el ciclo hidrológico, precipitación, escorrentía, infiltración y análisis de cuencas, así como herramientas para el diseño y evaluación de sistemas hidráulicos.
+
+El curso abordará tanto aspectos descriptivos como cuantitativos de la hidrología, incluyendo métodos para el cálculo de caudales máximos, modelación hidrológica y técnicas de gestión del recurso hídrico. Las personas estudiantes desarrollarán habilidades clave mediante ejercicios prácticos, estudios de caso y proyectos aplicados, orientados a resolver problemas reales en el ámbito de la ingeniería civil.
+
+Además, se destacará la importancia de la hidrología en la planificación y diseño de infraestructuras sostenibles, tales como sistemas de drenaje, presas, alcantarillas, canales y obras de mitigación de inundaciones. El objetivo es que, al finalizar el curso, los participantes puedan aplicar estos conocimientos en su ejercicio profesional, contribuyendo a la formulación de soluciones eficientes, resilientes y adaptadas a las condiciones hidrológicas de cada proyecto.
+
+---
+
+## ¿Cómo usar este libro? {.unnumbered}
+
+Este material está organizado para acompañar tanto la teoría fundamental como la aplicación práctica de métodos hidrológicos utilizando R y las prácticas en clase. Cada capítulo combina explicaciones conceptuales, ejemplos guiados, visualizaciones y ejercicios que facilitan el aprendizaje activo.
+
+Se recomienda:
+
+- Leer cada capítulo en orden progresivo.
+- Explorar las actividades prácticas para consolidar los conceptos.
+- Integrar los conceptos y resultados a proyectos reales o académicos.
+
+Este libro busca convertirse en una herramienta de consulta y estudio continuo durante la formación y el ejercicio profesional en ingeniería civil e hidrología aplicada.
+
+---
+
+## Nota importante {.unnumbered}
+
+Las presentes notas se elaboraron para su utilización en el curso de Hidrología impartido en la Escuela de Ingeniería Civil de la Universidad de Costa Rica. Constituyen material didáctico y se destinan exclusivamente a fines académicos y docentes.
+
+Se agradecerá toda recomendación o sugerencia que el lector considere pertinente para mejorar la calidad y el contenido de este trabajo.
