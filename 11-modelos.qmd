@@ -1,0 +1,743 @@
+---
+title: "Modelos estadísticos y distribuciones de probabilidad"
+bibliography: references.bib
+suppress-bibliography: true
+---
+
+::: {.quote-block}
+“Un solo dato de caudal máximo es solo una anécdota. Una serie temporal de 50 años es una estadística. Y solo con estadísticas robustas podemos hablar con autoridad sobre recursos hídricos y riesgos.”\
+— *John C. Rodda (Hidrólogo, ex presidente de la OMM)*
+:::
+
+En la hidrología, el análisis de datos no se limita a describir eventos pasados, sino que busca inferir el comportamiento futuro de sistemas naturales con el fin de diseñar obras hidráulicas seguras, eficientes y económicamente viables. Dado que es imposible observar la totalidad de los eventos pasados y futuros de un río (la población), el análisis se realiza a partir de un subconjunto limitado de observaciones disponibles (la muestra).
+
+## Modelos paramétricos y no paramétricos
+
+Para transformar la información contenida en una muestra hidrológica en parámetros útiles para el diseño, el hidrólogo puede adoptar dos enfoques fundamentales.
+
+1. **Los modelos paramétricos**:
+
+Asumen que los datos siguen una forma funcional específica, representada por una distribución de probabilidad definida por un conjunto reducido de parámetros, como la media, la desviación estándar o el coeficiente de asimetría. En hidrología son comunes distribuciones como la Normal, Gumbel o Log-Pearson tipo III. Su principal fortaleza radica en su eficiencia y claridad conceptual cuando la distribución seleccionada representa adecuadamente el proceso físico. No obstante, estos modelos pueden ser sensibles a valores atípicos y producir estimaciones sesgadas si la forma funcional asumida no es consistente con los datos observados.
+
+2. **Los modelos no paramétricos**:
+
+No imponen una forma matemática predefinida a la distribución de los datos, sino que se apoyan directamente en la información contenida en la muestra. Ejemplos de este enfoque incluyen la estimación de densidad por núcleos (kernel density estimation) y métodos basados en vecinos más cercanos. Estos modelos suelen ser más robustos frente a distribuciones altamente asimétricas o multimodales, aunque requieren tamaños de muestra mayores para alcanzar niveles de precisión comparables a los modelos paramétricos bien ajustados.
+
+### Supuestos estadísticos en hidrología
+
+Para que los resultados de un análisis de frecuencia sean estadísticamente válidos, la serie de datos debería cumplir, idealmente, con tres supuestos fundamentales.
+
+A. <u>El supuesto de independencia</u>:
+
+  Establece que cada evento hidrológico, no debe estar influenciado por eventos anteriores. En la práctica, este supuesto suele verse vulnerado por la presencia de persistencia o autocorrelación, donde periodos húmedos tienden a agruparse temporalmente, al igual que periodos secos.
+
+B. <u>Supuesto de estacionariedad</u>:
+
+  Implica que las propiedades estadísticas de la serie, tales como la media y la varianza, permanecen constantes a lo largo del tiempo. Sin embargo, procesos como la urbanización, la deforestación y el cambio climático han puesto en evidencia que muchos registros hidrológicos presentan tendencias o cambios estructurales, reduciendo la validez de este supuesto.
+
+C. <u>Supuesto de homogeneidad</u>:
+
+  Requiere que todos los datos analizados provengan de una misma población estadística. Un problema frecuente consiste en combinar eventos generados por distintos mecanismos físicos, por ejemplo, crecidas asociadas a tormentas convectivas intensas con aquellas producidas por frentes fríos, lo cual puede distorsionar el análisis de frecuencias.  
+
+### Muestreo aleatorio y representatividad
+
+Un registro hidrológico puede considerarse una muestra aleatoria cuando cada evento potencial de la población tiene la misma probabilidad de ser observado. Para que dicha muestra sea representativa, debe reflejar adecuadamente la variabilidad natural del proceso hidrológico. Registros muy cortos, por ejemplo de cinco años, rara vez capturan esta variabilidad, ya que pueden estar dominados por condiciones excepcionalmente secas o húmedas. En la práctica profesional, se suele considerar que registros con una longitud mínima de 20 a 30 años permiten realizar análisis de frecuencia de extremos con un nivel aceptable de confiabilidad.
+
+
+```{r message=FALSE, warning=FALSE, error=FALSE}
+#| label: fig-plot130
+#| fig-cap: "Población completa vs muestra observada"
+#| class: fig-border
+
+# ============================================================
+# Ilustración del concepto de muestreo estadístico en hidrología
+# Población completa vs muestra observada
+# ============================================================
+
+library(tidyverse)
+
+set.seed(123)
+
+# ------------------------------------------------------------
+# 1) Generar "población" de eventos hidrológicos posibles
+# ------------------------------------------------------------
+poblacion <- tibble(
+  x = rnorm(5000, mean = 0, sd = 1),
+  y = rnorm(5000, mean = 0, sd = 1),
+  Tipo = "Población"
+)
+
+# ------------------------------------------------------------
+# 2) Extraer una muestra limitada
+# ------------------------------------------------------------
+muestra <- poblacion %>%
+  slice_sample(n = 120) %>%
+  mutate(Tipo = "Muestra")
+
+# ------------------------------------------------------------
+# 3) Gráfico esquemático
+# ------------------------------------------------------------
+ggplot() +
+  geom_point(
+    data = poblacion,
+    aes(x = x, y = y),
+    color = "grey70",
+    alpha = 0.35,
+    size = 1
+  ) +
+  geom_point(
+    data = muestra,
+    aes(x = x, y = y),
+    color = "steelblue",
+    size = 2
+  ) +
+  annotate(
+    "segment",
+    x = 2.5, xend = 1.2,
+    y = 2.5, yend = 1.2,
+    arrow = arrow(length = unit(0.15, "cm")),
+    linewidth = 0.7
+  ) +
+  annotate(
+    "text",
+    x = 1.5, y = 2.8,
+    label = "Población de \n eventos posibles",
+    hjust = 0,
+    size = 4
+  ) +
+  annotate(
+    "text",
+    x = -1.0, y = -1.5,
+    label = "Muestra\n(datos observados)",
+    hjust = 1,
+    size = 4,
+    color = "steelblue"
+  ) +
+  coord_equal() +
+  labs(
+    title = "Concepto de muestreo estadístico en hidrología"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    axis.title = element_blank(),
+    axis.text  = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_blank()
+  )
+
+
+```
+
+
+
+### Problemas asociados a series cortas y datos faltantes
+
+En la práctica profesional, el hidrólogo rara vez dispone de registros largos y completos. Entre los problemas más comunes se encuentran los siguientes.
+
+1. La incertidumbre asociada a series cortas aumenta considerablemente cuando se extrapolan los datos para estimar eventos de baja frecuencia. Por ejemplo, utilizar un registro de 10 años para estimar una creciente con periodo de retorno de 100 años puede conducir a errores significativos. Como regla general, se recomienda no extrapolar más allá del doble de la longitud del registro disponible (aunque en muchas ocasiones no es posible cumplir esta regla, debido a lo limitado de los registros disponibles).
+
+2. Los datos faltantes son frecuentes debido a fallas instrumentales o errores de operación. Para completar estos vacíos, se emplean técnicas de extensión de registros basadas en información de estaciones vecinas. métodos como el de la razón normal, IDW e isoyetas, son recomendados cuando las medias anuales de las estaciones auxiliares $N_i$ difieren en más de un 10% respecto a la media de la estación objetivo $N_x$.
+
+Otra alternativa ampliamente utilizada es la regresión lineal, que establece una relación estadística entre la estación con datos faltantes $Y$ y una estación auxiliar $X$, expresada como:
+
+$$
+Y = a + bX
+$$
+
+donde $a$ y $b$ son parámetros estimados a partir de los datos observados en ambas estaciones.
+
+En la ingeniería hidrológica, el objetivo primordial no es simplemente describir el pasado, sino utilizar la información histórica disponible para realizar inferencias sobre el comportamiento futuro de un sistema natural. El ajuste de distribuciones de probabilidad constituye el proceso técnico mediante el cual se emplea una muestra de datos observados para identificar y cuantificar la población estadística —es decir, el modelo matemático y sus parámetros— que gobierna un fenómeno hidrológico, como las avenidas o las sequías.
+
+## Objetivo del ajuste estadístico
+
+El propósito fundamental del ajuste estadístico es obtener una representación matemática compacta, continua y suavizada de la distribución de frecuencias de los datos observados. Esta representación permite al hidrólogo:
+
+1. **Extrapolar eventos de diseño**: Estimar la magnitud de eventos extremos asociados a periodos de retorno que superan ampliamente la longitud del registro disponible, por ejemplo, la estimación de la creciente de 100 años a partir de un registro de 30 años.
+
+2. **Cuantificar el riesgo**: Evaluar la probabilidad de que una estructura hidráulica sea igualada o superada por una carga hidrológica durante su vida útil.
+
+3. **Definir niveles de retorno**: Transformar la incertidumbre natural del proceso hidrológico en valores numéricos concretos (caudales, volúmenes o láminas de precipitación), análogos a las cargas de diseño utilizadas en el análisis estructural.
+
+### Métodos de estimación de parámetros
+
+Una vez seleccionada una familia de distribuciones de probabilidad (Normal, Gumbel, Log-Pearson tipo III, GEV, entre otras), es necesario estimar los valores de sus parámetros. En la práctica profesional, los métodos más utilizados son los siguientes.
+
+**A. Método de los momentos (MOM)**
+
+El método se fundamenta en una premisa intuitiva y poderosa: las características estadísticas de una muestra, conocidas como *momentos muestrales*, deben ser reflejos fieles de las características de la población total (los *momentos poblacionales*) de la cual provienen. En hidrología, este método permite ajustar una función matemática de probabilidad a un conjunto de datos observados, como caudales máximos o precipitaciones extremas, determinando los parámetros específicos que definen la forma de la distribución seleccionada.
+
+<u>Fundamento de los momentos</u>
+
+Para comprender el método, es necesario definir con más detalle el concepto de **momento estadístico**. Un momento describe cuantitativamente una característica de la forma de la distribución de los datos. Se distinguen dos tipos principales:
+
+1. **Momentos respecto al origen**:  
+   El primer momento respecto al origen corresponde a la media poblacional $\mu$, la cual localiza el centro de gravedad de la distribución.
+
+2. **Momentos respecto a la media**:  
+   Estos momentos describen la dispersión y la forma de la distribución:
+   - El segundo momento respecto a la media es la varianza $\sigma^2$, que mide qué tan dispersos están los datos alrededor de la media.
+   - El tercer momento respecto a la media mide la asimetría o sesgo $\gamma$, indicando si la distribución presenta una cola más larga hacia valores altos o bajos.
+
+<u>Procedimiento de ajuste mediante MOM</u>
+
+El principio operativo del MOM consiste en igualar los momentos teóricos de la distribución seleccionada, los cuales son funciones explícitas de sus parámetros desconocidos, con los momentos calculados a partir de la muestra observada.  
+
+Si la distribución elegida posee $k$ parámetros, el hidrólogo debe plantear y resolver un sistema de $k$ ecuaciones con $k$ incógnitas, utilizando los momentos muestrales como estimadores.
+
+Los estimadores muestrales más comunes utilizados en este procedimiento son:
+
+- **Media muestral** $\bar{x}$, estimador del primer momento poblacional:
+
+$$
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n} X_i
+$$
+
+- **Desviación estándar muestral** $s$, asociada al segundo momento respecto a la media. Se emplea el divisor $(n-1)$ para obtener un estimador insesgado de la varianza:
+
+$$
+s = \sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(X_i - \bar{x})^2}
+$$
+
+- **Coeficiente de asimetría muestral** $C_s$ (o $G$), estimador del tercer momento, fundamental para distribuciones asimétricas como la Pearson tipo III:
+
+$$
+C_s = \frac{n}{(n-1)(n-2)} \,
+\frac{\sum_{i=1}^{n}(X_i - \bar{x})^3}{s^3}
+$$
+
+
+
+<u>Ventajas y desafíos técnicos</u>
+
+La principal fortaleza del Método de los Momentos radica en su **sencillez algebraica**. Para muchas distribuciones empleadas en hidrología existen fórmulas deterministicas que permiten estimar los parámetros sin recurrir a procedimientos numéricos iterativos. 
+
+No obstante, el método presenta limitaciones importantes que deben ser cuidadosamente evaluadas:
+
+- **Ineficiencia en muestras pequeñas**:  
+  Cuando el registro histórico es corto (menor a 20–30 años), los estimadores pueden ser altamente variables, incrementando la incertidumbre en la estimación de eventos raros.
+
+- **Sensibilidad a valores atípicos**:  
+  Dado que la varianza y la asimetría involucran potencias cuadráticas y cúbicas de las desviaciones respecto a la media, un solo valor extremo puede distorsionar significativamente los parámetros estimados.
+
+- **Sesgo en momentos superiores**:  
+  El coeficiente de asimetría muestral suele ser un estimador sesgado del valor poblacional real. Por esta razón, en aplicaciones profesionales es común recurrir a técnicas de análisis regional o al uso de asimetrías regionales para mejorar la estabilidad del ajuste.
+
+En consecuencia, aunque el MOM es una herramienta valiosa por su claridad conceptual, su aplicación en hidrología debe complementarse con un análisis crítico de los datos y, cuando sea posible, con métodos alternativos más robustos.
+
+
+**B. L-momentos**
+
+Los L-momentos representan una evolución fundamental en la hidrología estadística, ofreciendo un método para caracterizar datos que supera las limitaciones de los momentos convencionales, como la media, la varianza y la asimetría. A diferencia de los momentos producto-momento tradicionales, los L-momentos se basan en combinaciones lineales de los estadísticos de orden, lo que implica que el análisis comienza siempre ordenando la muestra de datos de menor a mayor:
+
+$$
+x_{(1)} \le x_{(2)} \le \cdots \le x_{(n)}
+$$
+
+<u>Fundamentos matemáticos: momentos probabilísticos ponderados (PWM)</u>
+
+Para comprender los L-momentos, primero es necesario introducir los Momentos Probabilísticos Ponderados (PWM), que constituyen sus componentes básicos. Los PWM, denotados como $\beta_r$, representan el valor esperado de una variable aleatoria multiplicado por potencias de su función de distribución acumulada.
+
+Los estimadores muestrales de los primeros cuatro PWM, $b_0$, $b_1$, $b_2$ y $b_3$, se calculan a partir de una muestra ordenada de la siguiente manera:
+
+- **Primer PWM**:
+  
+$$
+b_0 = \bar{X}
+$$
+
+- **Segundo PWM**:
+
+$$
+b_1 = \sum_{j=1}^{n-1} \left[ \frac{n-j}{n(n-1)} \right] x_{(j)}
+$$
+
+- **Tercer PWM**:
+
+$$
+b_2 = \sum_{j=1}^{n-2} \left[ \frac{(n-j)(n-j-1)}{n(n-1)(n-2)} \right] x_{(j)}
+$$
+
+- **Cuarto PWM**:
+
+$$
+b_3 = \sum_{j=1}^{n-3} \left[ \frac{(n-j)(n-j-1)(n-j-2)}{n(n-1)(n-2)(n-3)} \right] x_{(j)}
+$$
+
+En estas expresiones, $x_{(j)}$ representa el dato ubicado en la posición $j$ de la serie ordenada.
+
+<u>Definición de los L-momentos</u>
+
+Los L-momentos se definen como combinaciones lineales de los momentos probabilísticos ponderados, lo que facilita considerablemente la interpretación de la forma de la distribución. Los cuatro primeros L-momentos son:
+
+1. **Primer L-momento**:
+
+$$
+\lambda_1 = b_0
+$$
+
+Representa la localización de la distribución y es análogo a la media aritmética.
+
+2. **Segundo L-momento**:
+
+$$
+\lambda_2 = 2b_1 - b_0
+$$
+
+Describe la escala o dispersión de los datos.
+
+3. **Tercer L-momento**:
+
+$$
+\lambda_3 = 6b_2 - 6b_1 + b_0
+$$
+
+Caracteriza la asimetría de la distribución.
+
+4. **Cuarto L-momento**:
+
+$$
+\lambda_4 = 20b_3 - 30b_2 + 12b_1 - b_0
+$$
+
+Describe la curtosis, asociada al peso de las colas.
+
+<u>Cocientes de L-momentos: medidas adimensionales</u>
+
+Para comparar cuencas o regiones independientemente de su escala física, se emplean cocientes adimensionales de L-momentos:
+
+- **L-CV** $(\tau_2)$:
+
+$$
+\tau_2 = \frac{\lambda_2}{\lambda_1}
+$$
+
+Mide la variabilidad relativa.
+
+- **L-asimetría** $(\tau_3)$:
+
+$$
+\tau_3 = \frac{\lambda_3}{\lambda_2}
+$$
+
+Cuantifica la asimetría o forma de la muestra.
+
+- **L-curtosis** $(\tau_4)$:
+
+$$
+\tau_4 = \frac{\lambda_4}{\lambda_2}
+$$
+
+Indica el peso relativo de las colas de la distribución.
+
+<u>Ventajas críticas: robustez y eficiencia</u>
+
+La superioridad de los L-momentos en aplicaciones hidrológicas se fundamenta en dos propiedades clave:
+
+- **Robustez frente a valores atípicos**:  
+  A diferencia de los momentos tradicionales, que elevan las desviaciones al cuadrado o al cubo, los L-momentos no magnifican valores extremos, proporcionando una descripción más estable y representativa de la población.
+
+- **Estabilidad en muestras cortas**:  
+  En registros hidrológicos limitados, típicamente de 20 a 30 años, los L-momentos presentan un comportamiento casi insesgado, mientras que los estimadores clásicos de asimetría suelen ser altamente erráticos.
+
+<u>Aplicaciones en el ajuste de distribuciones</u>
+
+Los L-momentos se han consolidado como el estándar para el ajuste de la Distribución Generalizada de Valores Extremos (GEV). Para una distribución GEV con parámetros de localización $(\xi)$, escala $(\alpha)$ y forma $(k)$, los L-momentos permiten obtener estimaciones notablemente más estables que el método de momentos tradicional.
+
+Asimismo, se emplean en la construcción de diagramas de L-momentos, donde se grafica $\tau_4$ frente a $\tau_3$, facilitando la identificación visual de la familia de distribuciones que mejor representa los datos de una región.
+
+<u>Análisis regional de frecuencias</u>
+
+La aplicación más potente de los L-momentos se da en el análisis regional de frecuencias, donde se sustituye espacio por tiempo para compensar la escasez de datos en estaciones individuales. Mediante el uso de L-momentos regionales ponderados por la longitud del registro de cada estación $(n_i)$, es posible derivar curvas de crecimiento regionales mucho más robustas que las obtenidas a partir de análisis locales aislados.
+
+**C. Evaluación visual del ajuste mediante gráficos de probabilidad (*Plotting Positions*)**
+
+La evaluación visual del ajuste mediante gráficos de probabilidad constituye una de las etapas más críticas en el análisis de frecuencias hidrológicas. Aunque existen pruebas numéricas rigurosas, como Chi-cuadrado o Kolmogorov–Smirnov, el ojo humano es excepcionalmente eficaz para detectar patrones, tendencias sistemáticas y valores atípicos que un único estadístico podría omitir.
+
+El objetivo fundamental de estos gráficos es transformar la función de distribución acumulada (FDA), que es inherentemente no lineal, en una representación donde, si los datos siguen el modelo propuesto, los puntos observados se alineen aproximadamente sobre una línea recta.
+
+<u>Fundamento conceptual: ¿por qué una línea recta?</u>
+
+Las funciones de distribución teóricas, como la Normal o la Gumbel, tienen forma curvilínea. Sin embargo, numerosos estudios en percepción visual demuestran que las desviaciones respecto a una línea recta son mucho más fáciles de identificar que las desviaciones respecto a una curva.
+
+Para aprovechar esta ventaja, se emplea papel de probabilidad especializado, en el cual el eje de las probabilidades no es lineal, sino que ha sido transformado matemáticamente de acuerdo con la distribución seleccionada. Esta transformación “estira” las colas de la distribución y comprime la zona central, forzando a la FDA teórica a comportarse como una recta.
+
+Por ejemplo, en un papel de probabilidad normal, las probabilidades cercanas al 50% aparecen comprimidas, mientras que las probabilidades extremas (muy bajas o muy altas) se expanden, facilitando el análisis visual de eventos raros.
+
+<u>Posiciones de graficación: probabilidad empírica</u>
+
+Para construir el gráfico, los datos observados deben ordenarse de mayor a menor (en el caso de series de máximos anuales) y asignarse un rango $m$, donde $m = 1$ corresponde al mayor evento observado. Dado que la probabilidad verdadera de estos eventos es desconocida, se emplean fórmulas empíricas denominadas posiciones de graficación para estimar la probabilidad de excedencia o el periodo de retorno asociado.
+
+Las fórmulas más utilizadas en la práctica hidrológica son:
+
+- **Ecuación de Weibull**:  
+  Es la más empleada en hidrología en América y se asocia directamente al periodo de retorno:
+
+$$
+P(X \ge x_m) = \frac{m}{n+1}
+$$
+
+  Esta formulación asigna un periodo de retorno de $T = n+1$ años al mayor evento observado.
+
+- **Ecuación de Cunnane**:  
+  Recomendada para la estimación de cuantiles, ya que es aproximadamente insesgada para una amplia gama de distribuciones:
+
+$$
+P = \frac{m - 0.4}{n + 0.2}
+$$
+
+- **Fórmula de Hazen**:  
+  Una alternativa clásica que sitúa la probabilidad en el centro de los intervalos:
+
+$$
+P = \frac{m - 0.5}{n}
+$$
+
+<u>Construcción del gráfico y línea de referencia</u>
+
+Un análisis profesional no se limita a graficar los puntos observados. Es indispensable trazar la línea de población teórica que representa la distribución ajustada utilizando los parámetros estimados, ya sea por el método de los momentos o por máxima verosimilitud.
+
+En el caso de una distribución Normal, la línea teórica puede construirse a partir de dos puntos de referencia basados en la media muestral $\bar{x}$ y la desviación estándar $s$:
+
+1. **Punto de la media**:  
+   Corresponde a una probabilidad de no excedencia del 50%:
+
+$$
+(Z_p = 0,\; x = \bar{x})
+$$
+
+2. **Punto de una desviación estándar**:  
+   Corresponde a una probabilidad de no excedencia de aproximadamente 84.13%:
+
+$$
+(Z_p = 1,\; x = \bar{x} + s)
+$$
+
+Si los datos observados se distribuyen de forma aproximadamente lineal alrededor de esta recta, se considera que el modelo proporciona una representación adecuada del proceso hidrológico.
+
+<u>Diagnóstico visual: interpretación de las desviaciones</u>
+
+Las desviaciones sistemáticas respecto a la línea recta aportan información valiosa sobre la idoneidad del modelo y la naturaleza física de la cuenca:
+
+- **Curvatura sistemática**:  
+  Una forma en “S” o un arco pronunciado indica que la asimetría de los datos difiere de la del modelo seleccionado. Por ejemplo, una curvatura cóncava en un papel log-normal sugiere que una distribución de tres parámetros, como la Log-Pearson tipo III, podría representar mejor la asimetría observada.
+
+- **Valores atípicos**:  
+  Puntos que se separan significativamente de la tendencia general, especialmente en los extremos, pueden distorsionar la estimación de la media y la desviación estándar, afectando el ajuste global.
+
+- **Colas pesadas**:  
+  Si los eventos extremos aumentan más rápidamente que la línea teórica, la cuenca presenta una mayor propensión a eventos severos de lo que predice el modelo asumido.
+
+<u>Límites de confianza: el margen de seguridad</u>
+
+Dado que los análisis hidrológicos se basan en muestras limitadas, típicamente de 20 a 30 años, existe incertidumbre en la posición real de la línea de población. Por esta razón, los gráficos de probabilidad profesionales incluyen límites de confianza que delimitan una banda alrededor de la recta teórica.
+
+Si la mayoría de los puntos observados se mantiene dentro de estos límites, el hidrólogo puede tener confianza estadística en que el modelo es representativo y adecuado para el diseño de obras hidráulicas como vertederos, puentes y alcantarillas.
+
+
+::: {.callout-note title="Ejemplo"}
+
+A partir de la **serie de máximos anuales (AMS)** de caudales pico (ordenados de mayor a menor), calcule el **periodo de retorno** $T$ (años) asociado a cada evento usando los siguientes métodos de *plotting positions*:
+
+- California
+- Weibull
+- Chegodayev
+- Gringorten
+- Cunnane
+- Blom
+- Hazen
+
+```{r}
+#| label: tbl-caudales-log
+#| tbl-cap: "Serie de máximos anuales de caudal y caudal logarítmico."
+#| echo: false
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(kableExtra)
+
+# ------------------------------------------------------------
+# Tabla base: Caudales máximos anuales y log10(Q)
+# ------------------------------------------------------------
+tabla_caudales <- tibble::tribble(
+  ~m, ~`Q_max (m^3/s)`, ~`log10(Q_max)`,
+   1, 319.0, 2.504,
+   2, 271.0, 2.433,
+   3, 269.0, 2.430,
+   4, 206.0, 2.314,
+   5, 198.0, 2.297,
+   6, 155.0, 2.190,
+   7, 144.0, 2.158,
+   8, 142.0, 2.152,
+   9, 131.0, 2.117,
+  10, 120.0, 2.079,
+  11, 115.0, 2.061,
+  12, 104.0, 2.017,
+  13, 104.0, 2.017,
+  14, 101.0, 2.004,
+  15,  98.2, 1.992,
+  16,  97.8, 1.990,
+  17,  81.3, 1.910,
+  18,  68.9, 1.838,
+  19,  46.0, 1.663,
+  20,  32.5, 1.512
+)
+
+# ------------------------------------------------------------
+# kableExtra
+# ------------------------------------------------------------
+tabla_caudales %>%
+  mutate(
+    `Q_max (m^3/s)` = round(`Q_max (m^3/s)`, 1),
+    `log10(Q_max)`  = round(`log10(Q_max)`, 3)
+  ) %>%
+  kbl(
+    booktabs = TRUE,
+    format = "html",
+    align = c("c", "c", "c"),
+    col.names = c("Orden m", "Q máximo (m³/s)", "log₁₀(Q máximo)"),
+    escape = FALSE
+  ) %>%
+  kable_classic(html_font = "Latin Modern Roman") %>%
+  kable_styling(
+    full_width = FALSE,
+    bootstrap_options = c("hover", "condensed")
+  ) %>%
+  row_spec(0, bold = TRUE)
+
+```
+
+1. Datos de entrada (AMS)
+- Tamaño de muestra: $$n = 20$$
+- Rango: $$m = 1,2,\dots,n$$ donde $m=1$ corresponde al mayor caudal observado.
+
+2, Fórmulas de *plotting positions* (periodo de retorno)
+
+En general, cada método define primero una probabilidad de excedencia empírica $\hat{p}_m$ y, de forma equivalente, el periodo de retorno:
+
+$$
+T_m \;=\; \frac{1}{\hat{p}_m}
+$$
+
+En la práctica hidrológica (AMS), es común usar directamente expresiones cerradas para $T_m$ en función de $n$ y $m$:
+
+- (A) California
+$$
+T_m \;=\; \frac{n}{m}
+$$
+
+**Ejemplo (m = 1):**
+$$
+T_1 \;=\; \frac{20}{1} \;=\; 20.000
+$$
+
+**Ejemplo (m = 20):**
+$$
+T_{20} \;=\; \frac{20}{20} \;=\; 1.000
+$$
+
+- (B) Weibull
+$$
+T_m \;=\; \frac{n+1}{m}
+$$
+
+**Ejemplo (m = 1):**
+$$
+T_1 \;=\; \frac{20+1}{1} \;=\; 21.000
+$$
+
+**Ejemplo (m = 20):**
+$$
+T_{20} \;=\; \frac{21}{20} \;=\; 1.050
+$$
+
+- (C) Chegodayev
+$$
+T_m \;=\; \frac{n+0.4}{m-0.3}
+$$
+
+**Ejemplo (m = 1):**
+$$
+T_1 \;=\; \frac{20+0.4}{1-0.3}
+\;=\; \frac{20.4}{0.7}
+\;=\; 29.143
+$$
+
+**Ejemplo (m = 2):**
+$$
+T_2 \;=\; \frac{20.4}{2-0.3}
+\;=\; \frac{20.4}{1.7}
+\;=\; 12.000
+$$
+
+- Gringorten
+$$
+T_m \;=\; \frac{n+0.12}{m-0.44}
+$$
+
+**Ejemplo (m = 1):**
+$$
+T_1 \;=\; \frac{20+0.12}{1-0.44}
+\;=\; \frac{20.12}{0.56}
+\;=\; 35.929
+$$
+
+- Cunnane
+$$
+T_m \;=\; \frac{n+0.2}{m-0.4}
+$$
+
+**Ejemplo (m = 1):**
+$$
+T_1 \;=\; \frac{20.2}{0.6}
+\;=\; 33.667
+$$
+
+- Bloom
+$$
+T_m \;=\; \frac{n+0.25}{m-0.375}
+$$
+
+**Ejemplo (m = 1):**
+$$
+T_1 \;=\; \frac{20.25}{0.625}
+\;=\; 32.400
+$$
+
+- Hazen
+$$
+T_m \;=\; \frac{n}{m-0.5}
+$$
+
+**Ejemplo (m = 1):**
+$$
+T_1 \;=\; \frac{20}{0.5}
+\;=\; 40.000
+$$
+
+**Ejemplo (m = 2):**
+$$
+T_2 \;=\; \frac{20}{1.5}
+\;=\; 13.333
+$$
+
+
+```{r}
+#| label: tbl-plotpos-ams
+#| tbl-cap: "Periodos de retorno (años) por método de plotting positions (AMS, n=20)."
+#| echo: false
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(kableExtra)
+
+# ------------------------------------------------------------
+# Datos (AMS) transcritos de la tabla proporcionada
+# ------------------------------------------------------------
+ams_tbl <- tibble::tribble(
+  ~Qmax, ~logQ, ~m, ~California, ~Weibull, ~Chegodoyev, ~Gringorten, ~Cunnane, ~Blom, ~Hazen,
+  319.0, 2.504,  1, 20.000, 21.000, 29.143, 35.929, 33.667, 32.400, 40.000,
+  271.0, 2.433,  2, 10.000, 10.500, 12.000, 12.897, 12.625, 12.462, 13.333,
+  269.0, 2.430,  3,  6.667,  7.000,  7.556,  7.859,  7.769,  7.714,  8.000,
+  206.0, 2.314,  4,  5.000,  5.250,  5.514,  5.652,  5.611,  5.586,  5.714,
+  198.0, 2.297,  5,  4.000,  4.200,  4.340,  4.412,  4.391,  4.378,  4.444,
+  155.0, 2.190,  6,  3.333,  3.500,  3.579,  3.619,  3.607,  3.600,  3.636,
+  144.0, 2.158,  7,  2.857,  3.000,  3.045,  3.067,  3.061,  3.057,  3.077,
+  142.0, 2.152,  8,  2.500,  2.625,  2.649,  2.661,  2.658,  2.656,  2.667,
+  131.0, 2.117,  9,  2.222,  2.333,  2.345,  2.350,  2.349,  2.348,  2.353,
+  120.0, 2.079, 10,  2.000,  2.100,  2.103,  2.105,  2.104,  2.104,  2.105,
+  115.0, 2.061, 11,  1.818,  1.909,  1.907,  1.905,  1.906,  1.906,  1.905,
+  104.0, 2.017, 12,  1.667,  1.750,  1.744,  1.740,  1.741,  1.742,  1.739,
+  104.0, 2.017, 13,  1.538,  1.615,  1.606,  1.602,  1.603,  1.604,  1.600,
+  101.0, 2.004, 14,  1.429,  1.500,  1.489,  1.484,  1.485,  1.486,  1.481,
+   98.2, 1.992, 15,  1.333,  1.400,  1.388,  1.382,  1.384,  1.385,  1.379,
+   97.8, 1.990, 16,  1.250,  1.313,  1.299,  1.293,  1.295,  1.296,  1.290,
+   81.3, 1.910, 17,  1.176,  1.235,  1.222,  1.215,  1.217,  1.218,  1.212,
+   68.9, 1.838, 18,  1.111,  1.167,  1.153,  1.146,  1.148,  1.149,  1.143,
+   46.0, 1.663, 19,  1.053,  1.105,  1.091,  1.084,  1.086,  1.087,  1.081,
+   32.5, 1.512, 20,  1.000,  1.050,  1.036,  1.029,  1.031,  1.032,  1.026
+)
+
+# ------------------------------------------------------------
+# Tabla en kableExtra
+# ------------------------------------------------------------
+ams_tbl %>%
+  mutate(across(where(is.numeric), ~ round(.x, 3))) %>%
+  kbl(
+    booktabs = TRUE,
+    format = "html",
+    align = "c",
+    col.names = c("Qmax (m³/s)", "log Q", "m",
+                  "California", "Weibull", "Chegodayev", "Gringorten", "Cunnane", "Blom", "Hazen"),
+    escape = FALSE
+  ) %>%
+  kable_classic(html_font = "Latin Modern Roman") %>%
+  kable_styling(full_width = FALSE, bootstrap_options = c("hover","condensed")) %>%
+  row_spec(0, bold = TRUE)
+```
+
+O visto de manera gráfica:
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
+#| label: fig-plot2009
+#| fig-cap: "Comparación de periodos de retorno por método de plotting positions (AMS)."
+#| class: fig-border
+
+library(tidyverse)
+
+# ------------------------------------------------------------
+# Gráfico comparativo: Q vs T (eje X en escala log)
+# ------------------------------------------------------------
+ams_long <- ams_tbl %>%
+  pivot_longer(
+    cols = c(California, Weibull, Chegodoyev, Gringorten, Cunnane, Blom, Hazen),
+    names_to = "Metodo",
+    values_to = "T"
+  )
+
+ggplot(ams_long, aes(x = T, y = Qmax, color = Metodo)) +
+  geom_line(linewidth = 0.8, alpha = 0.9) +
+  geom_point(size = 1.8, alpha = 0.9) +
+  scale_x_log10() +
+  labs(
+    title = "Plotting positions en AMS: comparación de T–Q",
+    x = "Periodo de retorno, T (años) [escala log]",
+    y = "Caudal máximo anual, Q (m³/s)",
+    color = "Método"
+  ) +
+  theme(
+    plot.title.position = "plot",
+    panel.grid.minor = element_blank(),
+    legend.position = "bottom"
+  )
+
+```
+
+
+::: 
+
+
+**Limitaciones del uso de plotting positions**
+
+Los métodos de *plotting positions* constituyen una herramienta básica y y actualmente no tan utilizada en el análisis exploratorio de frecuencias hidrológicas. Esto debido a que su aplicación presenta una serie de limitaciones conceptuales y prácticas que deben ser reconocidas explícitamente por el hidrólogo al interpretar los resultados.
+
+<u>Dependencia del tamaño de muestra</u>
+
+Las fórmulas de *plotting positions* dependen directamente del tamaño de la muestra $n$. En registros cortos, pequeñas diferencias en la expresión matemática del método (por ejemplo, Weibull, Gringorten o Cunnane) pueden generar variaciones significativas en los periodos de retorno asignados a los eventos extremos. Esta sensibilidad aumenta conforme se analizan cuantiles asociados a periodos de retorno mayores que la longitud del registro disponible.
+
+<u>Carácter empírico y no probabilístico</u>
+
+Las *plotting positions* no constituyen modelos probabilísticos en sí mismos, sino estimaciones empíricas de la probabilidad de excedencia basadas únicamente en el ordenamiento de los datos. No derivan de una función de distribución explícita ni permiten, por sí solas, extrapolar eventos más allá del rango observado con un fundamento estadístico riguroso.
+
+<u>Incertidumbre en los extremos</u>
+
+Las mayores discrepancias entre métodos ocurren en los valores extremos de la serie (especialmente para $m=1$ y $m=n$). Dado que estos puntos tienen un peso desproporcionado en el diseño de obras hidráulicas, la elección del método de *plotting position* puede influir de forma significativa en la estimación de eventos raros, como avenidas con periodos de retorno de 50 o 100 años.
+
+<u>Ausencia de cuantificación formal de la incertidumbre</u>
+
+A diferencia del ajuste paramétrico de distribuciones de probabilidad, los métodos de *plotting positions* no proporcionan intervalos de confianza ni una medida explícita de la incertidumbre asociada a las estimaciones. El análisis se limita a una evaluación visual, lo que puede inducir a una falsa sensación de precisión si no se complementa con métodos estadísticos formales.
+
+<u>Necesidad de métodos complementarios</u>
+
+En consecuencia, aunque las *plotting positions* son indispensables para la inspección visual de los datos, la detección de valores atípicos y la comparación preliminar entre modelos, su uso en la hidrología debe considerarse como una etapa exploratoria. Para el diseño definitivo de obras, es imprescindible complementarlas con el ajuste de distribuciones de probabilidad, la estimación de parámetros y la evaluación cuantitativa de la incertidumbre.  

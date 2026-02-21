@@ -1,0 +1,481 @@
+---
+title: "Conceptos clave de probabilidad en hidrología"
+bibliography: references.bib
+suppress-bibliography: true
+---
+
+::: {.quote-block}
+“La hidrología es una ciencia de probabilidades. Diseñamos para el evento de 100 años, no porque ocurrirá exactamente cada 100 años, sino porque tiene un 1% de probabilidad de ser igualado o excedido en cualquier año.”\
+— *Ven Te Chow, (Hidrólogo e ingeniero civil)*
+:::
+
+Para el diseño y la planeación de obras hidráulicas, el ingeniero o ingeniera debe enfrentarse a la incertidumbre asociada a eventos futuros que no pueden predecirse con exactitud mediante leyes físicas puramente deterministas. En este contexto, la estadística hidrológica proporciona el marco conceptual y matemático necesario para cuantificar la aleatoriedad inherente a fenómenos como las crecidad extremas y las sequías. A continuación, se presentan los conceptos fundamentales que permiten transformar datos observados en parámetros de diseño.
+ 
+
+## Probabilidad de excedencia
+
+La probabilidad de excedencia, denotada como $q$ o $p$, se define como la probabilidad de que un evento de una magnitud y duración especificadas sea **igualado o superado** en un intervalo de tiempo dado, el cual en la práctica hidrológica suele asumirse como un año.
+
+Si $X$ representa una variable aleatoria (por ejemplo, el caudal máximo anual) y $x$ es un valor específico de diseño, la probabilidad de excedencia se expresa como el complemento de la función de distribución acumulada $F_X(x)$:
+
+$$
+q \;=\; P(X \geq x) \;=\; 1 - F_X(x)
+$$
+
+donde $F_X(x)$ corresponde a la **probabilidad de no excedencia**. En ingeniería hidráulica, este valor cuantifica el **riesgo anual** de que una estructura sea superada por un evento natural de magnitud $x$.
+
+## Periodo de retorno (T) y evento de T años
+
+El periodo de retorno $T$ (o intervalo de recurrencia) se define como el tiempo promedio, expresado en años, entre las ocurrencias de un evento hidrológico que iguala o excede una magnitud determinada. Existe una relación recíproca fundamental entre la probabilidad anual de excedencia $q$ y el periodo de retorno $T$:
+
+$$
+T \;=\; \frac{1}{q}
+$$
+
+Un error común consiste en interpretar que un evento con periodo de retorno de 100 años ocurrirá exactamente una vez cada siglo. En realidad, el periodo de retorno es una **expectativa estadística a largo plazo**. Un evento de 100 años tiene una probabilidad anual de ocurrencia de $q = 0.01$, independientemente de cuándo ocurrió el último evento de esa magnitud.
+
+
+
+## Nivel de retorno
+
+El nivel de retorno (o cuantil), denotado como $x_T$, es el valor de la variable aleatoria asociado a un periodo de retorno específico $T$. Por ejemplo, el nivel de retorno para $T = 50$ años corresponde a la magnitud del caudal cuya probabilidad anual de excedencia es $q = 0.02$.
+
+Este valor se obtiene mediante la inversión de la función de distribución acumulada de la distribución de probabilidad seleccionada:
+
+$$
+x_T \;=\; F_X^{-1}(1 - q)
+$$
+
+El nivel de retorno constituye uno de los parámetros fundamentales para el dimensionamiento y la verificación de obras hidráulicas. En la práctica profesional, numerosos carteles de licitación, pliegos de condiciones y especificaciones técnicas de diseño establecen explícitamente que las obras deben ser concebidas para resistir o conducir eventos asociados a un nivel de retorno específico (por ejemplo, 25, 50, 100 o más años), el cual define el grado de seguridad hidráulica exigido. De esta manera, el nivel de retorno se convierte en un criterio normativo que traduce el riesgo hidrológico aceptable en parámetros cuantitativos de diseño.
+
+Típicamente se tienen estos niveles de retorno para diseño:
+
+A. Puentes y drenajes mayores: 100 años de periodo de retorno.
+
+B. Alcantarillas y pasos transversales: 50 años de periodo de retorno.
+
+C. Drenajes menores, alcantarillado pluvial, desfogues y disipadores de energía: entre 10 y 25 años de periodo de retorno.
+
+## Riesgo 
+
+Para realizar un optimo análisis y diseño de obras hidráulicas, es imprescindible reconocer que los procesos hidrológicos en los cuales se basan están dominados por la aleatoriedad. La precipitación, los caudales y las sequías no siguen patrones deterministas, sino que responden a leyes probabilísticas. En consecuencia, las obras de ingeniería no se diseñan para garantizar una seguridad absoluta, sino para operar dentro de un nivel de riesgo aceptable, explícitamente cuantificado y técnicamente justificado.
+
+Mientras que el periodo de retorno $T$ describe la frecuencia media con la que un evento extremo es igualado o excedido, el concepto de riesgo hidrológico, usualmente denotado como $R$ (o $J$ en algunas literaturas), representa la probabilidad de que dicho evento ocurra al menos una vez durante la vida útil o el horizonte de planeación de una estructura. Este enfoque es fundamental, pues reconoce que la magnitud real de las crecientes o déficits hídricos durante la vida económica de una obra es inherentemente incierta y debe evaluarse de forma probabilística para garantizar la confiabilidad del sistema.
+
+Desde una perspectiva estadística, la ocurrencia anual de un evento hidrológico extremo puede modelarse como un proceso estocástico del tipo ensayo de Bernoulli, de forma más específica, se puede modelar según una distribución Geométrica. Cada año constituye un experimento independiente con dos posibles resultados: que el evento sea excedido (éxito) o que no lo sea (fracaso). Si se diseña una estructura para un periodo de retorno $T$, la probabilidad anual de excedencia es
+
+$$
+p = \frac{1}{T},
+$$
+
+y, en consecuencia, la probabilidad de no excedencia en un año dado es
+
+$$
+q = 1 - p = 1 - \frac{1}{T}.
+$$
+
+Si se asume independencia entre años consecutivos, la probabilidad de que el evento de diseño no ocurra durante $n$ años consecutivos es el producto de las probabilidades individuales, es decir,
+
+$$
+P(\text{no excedencia en } n \text{ años}) = \left(1 - \frac{1}{T}\right)^n.
+$$
+
+
+El riesgo hidrológico $R$, definido como la probabilidad de que el evento sea excedido al menos una vez durante la vida útil de la obra, se obtiene como el complemento de esta probabilidad:
+
+$$
+R = 1 - \left(1 - \frac{1}{T}\right)^n.
+$$
+
+
+Donde:
+
+- $T$: Es el periodo de retorno para el cual se analiza el riesgo.
+- $n$: Cantidad de años consecutivos donde la obra no es excedida. 
+
+Esta expresión constituye una de las relaciones más importantes del análisis hidrológico aplicado al diseño, ya que permite vincular directamente el periodo de retorno con la vida útil de la estructura y el nivel de riesgo asumido. La ecuación anterior conduce a conclusiones de gran relevancia práctica. 
+
+::: {.callout-note title="Ejemplo"}
+
+Si una obra se diseña para un periodo de retorno de $T=50$ años y se espera que funcione durante $n=50$ años, el riesgo de que el evento de diseño sea excedido al menos una vez es
+
+$$
+R = 1 - \left(1 - \frac{1}{50}\right)^{50} \approx 0.634,
+$$
+
+lo que implica un riesgo cercano al $63.4\%$. Este resultado suele sorprender a quienes interpretan erróneamente el periodo de retorno como una garantía de seguridad durante $T$ años.
+
+De manera inversa, si se desea limitar el riesgo de falla a un valor máximo admisible $R_{admis}$ durante una vida útil $n$, la ecuación puede despejarse para determinar el periodo de retorno requerido:
+
+$$
+T = \frac{1}{1 - (1 - R_{admis})^{1/n}}.
+$$
+
+Por ejemplo, si se exige que el riesgo no supere el $10\%$ durante $n=25$ años, el periodo de retorno necesario es aproximadamente
+
+$$
+T \approx 238 \text{ años},
+$$
+
+lo que evidencia que niveles bajos de riesgo requieren diseños asociados a eventos extremadamente raros.
+
+::: 
+
+El complemento del riesgo, $1-R$, se denomina confiabilidad del sistema y suele representarse como $Q$ o $p_s$. Esta magnitud expresa la probabilidad de que la estructura cumpla satisfactoriamente su función sin ser superada por el evento extremo durante todo su periodo de servicio:
+
+$$
+Q = 1 - R = \left(1 - \frac{1}{T}\right)^n.
+$$
+
+En la práctica profesional, la selección del nivel de riesgo aceptable constituye un problema de optimización técnica, económica y ética. No resulta razonable aplicar los mismos criterios de riesgo a una obra menor, como una alcantarilla vial, donde una falla puede generar únicamente inundaciones temporales o molestias al tránsito, que a una infraestructura crítica, como el vertedero de una gran presa ubicada aguas arriba de un centro poblado, cuyo colapso podría ocasionar pérdidas catastróficas de vidas humanas y daños irreversibles.
+
+Por esta razón, en estructuras de bajo impacto suelen adoptarse periodos de retorno del orden de $10$ a $50$ años, mientras que en obras estratégicas o de alto riesgo social se emplean periodos de retorno de $1{,}000$ años o superiores. En casos extremos, se recurre al análisis de la Creciente Máxima Probable (CMP), donde el riesgo teórico tiende a valores extremadamente bajos, cercanos a cero.
+
+Finalmente, el hidrólogo debe ser consciente de que los cálculos de riesgo basados en registros históricos se basan en la hipótesis de estacionariedad, es decir, que las propiedades estadísticas del ciclo hidrológico permanecen constantes en el tiempo. 
+
+El cambio climático, la urbanización y las alteraciones en el uso del suelo odifican la intensidad y frecuencia de los eventos extremos, introduciendo una incertidumbre adicional que desafía esta hipótesis. En este contexto, el análisis del riesgo hidrológico exige la incorporación de enfoques no estacionarios, factores de escala climática y evaluaciones de resiliencia, con el fin de asegurar que las obras hidráulicas mantengan niveles adecuados de seguridad y desempeño frente a los escenarios futuros.
+
+
+
+## Series de máximos anuales (AMS)
+
+El muestreo de datos para el análisis de frecuencias puede realizarse mediante distintos esquemas. La serie de máximos anuales (*Annual Maximum Series, AMS*) es el método más utilizado y consiste en seleccionar el evento de mayor magnitud registrado en cada año hidrológico.
+
+**Ventajas**:
+
+- Simplicidad conceptual y computacional.
+
+- Garantiza, en general, la independencia estadística entre eventos.
+
+- Facilita el ordenamiento cronológico y el análisis de frecuencias.
+
+**Desventajas**:
+
+- Puede descartar eventos relevantes. Por ejemplo, el segundo o tercer mayor evento de un año muy lluvioso podría ser superior al máximo anual de un año seco y, aun así, no ser considerado. Por ejemplo en la siguiente gráfica, se muestran en puntos sólidos: máximo anual (AMS) y en círculos huecos: 2º y 3º mayor del año (eventos descartados por AMS).
+
+
+```{r message=FALSE, warning=FALSE, error=FALSE}
+#| label: fig-plot124
+#| fig-cap: "Análisis de AMS"
+#| class: fig-border
+# ============================================================
+# Ilustración profesional de AMS (Annual Maximum Series)
+# - Genera una serie diaria sintética (varios años)
+# - Extrae el máximo anual (AMS) y muestra eventos "descartados"
+#   (2º y 3º mayor del año) para evidenciar la desventaja.
+# ============================================================
+
+library(tidyverse)
+library(lubridate)
+library(ggplot2)
+
+set.seed(20260207)
+
+# ------------------------------------------------------------
+# 1) Serie diaria sintética (puedes reemplazar por tus datos reales)
+# ------------------------------------------------------------
+n_years <- 8
+dates <- seq.Date(as.Date("2012-01-01"), by = "day", length.out = 365 * n_years)
+
+# Señal estacional + ruido + picos extremos (para simular crecidas)
+df <- tibble(
+  fecha = dates,
+  anio  = year(fecha),
+  doy   = yday(fecha),
+  # "caudal" (o lluvia) base con estacionalidad suave
+  base  = 6 + 2 * sin(2 * pi * doy / 365),
+  ruido = rnorm(length(fecha), 0, 0.9),
+  # picos raros (extremos): mezcla lognormal activada al azar
+  pico  = if_else(runif(length(fecha)) < 0.02, rlnorm(length(fecha), meanlog = 1.8, sdlog = 0.35), 0),
+  Q     = pmax(base + ruido + pico, 0.01)
+) %>%
+  select(fecha, anio, Q)
+
+# Forzar un año "muy lluvioso" con varios eventos grandes (para que se note la desventaja)
+anio_intenso <- sort(unique(df$anio))[3]
+df <- df %>%
+  mutate(
+    Q = if_else(
+      anio == anio_intenso & month(fecha) %in% c(9, 10),
+      Q + if_else(runif(n()) < 0.06, rlnorm(n(), 2.0, 0.25), 0),
+      Q
+    )
+  )
+
+# ------------------------------------------------------------
+# 2) AMS y eventos "descartados" (top-3 por año)
+# ------------------------------------------------------------
+topk <- df %>%
+  group_by(anio) %>%
+  arrange(desc(Q), .by_group = TRUE) %>%
+  mutate(rank_anual = row_number()) %>%
+  ungroup()
+
+ams <- topk %>% filter(rank_anual == 1)
+top2_3 <- topk %>% filter(rank_anual %in% 2:3)
+
+# Tabla corta para anotar casos donde 2º/3º > máximo de otro año (desventaja)
+max_por_anio <- ams %>% select(anio, Q_max = Q)
+
+comparacion <- top2_3 %>%
+  crossing(max_por_anio %>% rename(anio_ref = anio, Q_max_ref = Q_max)) %>%
+  filter(anio != anio_ref, Q > Q_max_ref) %>%
+  arrange(desc(Q)) %>%
+  slice_head(n = 1)
+
+# Texto de anotación (si existe caso)
+txt_anot <- if (nrow(comparacion) == 1) {
+  glue::glue(
+    "Ejemplo de desventaja:\n",
+    "Un evento rank {comparacion$rank_anual} del año {comparacion$anio}\n",
+    "({round(comparacion$Q, 2)}) supera el máximo anual del año {comparacion$anio_ref}\n",
+    "({round(comparacion$Q_max_ref, 2)}), pero AMS lo descarta."
+  )
+} else {
+  "Ejemplo: en AMS solo se conserva el máximo anual;\nlos siguientes mayores eventos del año se descartan."
+}
+
+# ------------------------------------------------------------
+# 3) Gráfico 1: Serie diaria + AMS + (2º,3º) como eventos descartados
+# ------------------------------------------------------------
+ggplot(df, aes(x = fecha, y = Q)) +
+  geom_line(linewidth = 0.35, alpha = 0.8) +
+  geom_point(
+    data = top2_3,
+    aes(x = fecha, y = Q),
+    size = 1.6,
+    alpha = 0.9,
+    shape = 1,
+    stroke = 0.9
+  ) +
+  geom_point(
+    data = ams,
+    aes(x = fecha, y = Q),
+    size = 2.3,
+    shape = 16
+  ) +
+  labs(
+    title = "Serie diaria y selección AMS (máximo anual)",
+    x = NULL,
+    y = "Magnitud (caudal o lluvia)") +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title.position = "plot",
+    legend.position = "none",
+    panel.grid.minor = element_blank()
+  )
+```
+
+
+```{r message=FALSE, warning=FALSE, error=FALSE}
+#| label: fig-plot125
+#| fig-cap: "Análisis de AMS"
+#| class: fig-border
+# ------------------------------------------------------------
+# 4) Gráfico 2: Comparación por año (barras top-3) para evidenciar descartes
+# ------------------------------------------------------------
+top3 <- topk %>%
+  filter(rank_anual <= 3) %>%
+  mutate(
+    rank_lab = factor(rank_anual, levels = c(1, 2, 3),
+                      labels = c("AMS (máximo)", "2º mayor", "3º mayor"))
+  )
+
+# ggplot(top3, aes(x = factor(anio), y = Q, fill = rank_lab)) +
+#   geom_col(position = position_dodge(width = 0.72), width = 0.65) +
+#   labs(
+#     title = "Por año: AMS vs eventos descartados (top-3)",
+#     subtitle = "AMS conserva únicamente el máximo anual, aunque el 2º/3º mayor pueda ser relevante",
+#     x = "Año",
+#     y = "Magnitud",
+#     fill = NULL
+#   ) +
+#   theme_minimal(base_size = 12) +
+#   theme(
+#     plot.title.position = "plot",
+#     panel.grid.minor = element_blank(),
+#     legend.position = "top"
+#   )
+```
+
+Si nos fijamos en un año en particular, por ejemplo el año 2014, vemos como de los 365 datos maximos, únicamente estamos trabajando con uno, mientras que se descartan otros que pueden ser de interés, como por ejemplo, el segundo y tercer máximo anual.
+
+
+```{r message=FALSE, warning=FALSE, error=FALSE}
+#| label: fig-plot126
+#| fig-cap: "Análisis de AMS para el año 2014"
+#| class: fig-border
+# ------------------------------------------------------------
+# 5) Gráfico 3 (opcional): “Zoom” del año intenso (muestra varios eventos grandes)
+# ------------------------------------------------------------
+df_zoom <- df %>% filter(anio == anio_intenso)
+
+ggplot(df_zoom, aes(x = fecha, y = Q)) +
+  geom_line(linewidth = 0.55) +
+  geom_point(
+    data = top3 %>% filter(anio == anio_intenso),
+    aes(x = fecha, y = Q),
+    size = 2.4
+  ) +
+  labs(
+    title = paste0("Zoom del año ", anio_intenso, ": múltiples eventos grandes"),
+    x = NULL,
+    y = "Magnitud"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title.position = "plot",
+    panel.grid.minor = element_blank()
+  )
+
+
+```
+
+Método de picos sobre umbral (POT)
+
+El método de picos sobre umbral (*Peaks Over Threshold, POT*) es una formulación específica del análisis mediante series de duración parcial. Consiste en identificar todos los picos independientes que exceden un nivel de truncamiento seleccionado. Este enfoque tiene los siguientes aspectos clave_
+
+- **Modelado**: 
+
+La ocurrencia de eventos suele modelarse mediante un proceso de Poisson para la tasa de llegada, mientras que las magnitudes de los excedentes se ajustan comúnmente con una distribución Generalizada de Pareto (GPD).
+
+- **Relación con AMS**: 
+
+Para periodos de retorno grandes (típicamente mayores a 10 años), los resultados obtenidos mediante AMS y POT tienden a converger, produciendo estimaciones similares para el diseño de grandes obras hidráulicas.
+
+Este enfoque ofrece una utilización más eficiente de la información disponible, especialmente en registros extensos y de alta resolución temporal.
+
+La **serie de duración parcial** (*Partial Duration Series, PDS*) incluye todos los eventos independientes que superan un umbral predefinido, sin limitarse a un único evento por año. Cuando el número total de eventos seleccionados coincide con el número de años del registro, se habla de una **serie de excedencias anuales**.
+
+Este enfoque resulta especialmente adecuado para el análisis de eventos frecuentes, asociados a periodos de retorno pequeños (menores a 5 o 10 años), donde la serie de máximos anuales puede no capturar adecuadamente la variabilidad del proceso hidrológico.
+
+Por ejemplo, para la serie anual mostrada anteriormente, si en lugar de seleccionar un único valor maximo anual, definimos un umbral de excendencia la cantidad de informaicón disponible aumenta.
+
+```{r message=FALSE, warning=FALSE, error=FALSE}
+#| label: fig-plot128
+#| fig-cap: "Análisis de PDS"
+#| class: fig-border
+
+# ============================================================
+# Ilustración profesional de Series Parciales o de Excedencias (PDS)
+# - Serie diaria sintética de caudales
+# - Definición de umbral
+# - Identificación de eventos independientes sobre umbral
+# - Comparación conceptual con AMS
+# ============================================================
+
+library(tidyverse)
+library(lubridate)
+library(ggplot2)
+
+set.seed(20260207)
+
+# ------------------------------------------------------------
+# 1) Generar serie diaria sintética (puede reemplazarse por datos reales)
+# ------------------------------------------------------------
+n_years <- 8
+fechas <- seq.Date(as.Date("2012-01-01"), by = "day", length.out = 365 * n_years)
+
+datos <- tibble(
+  Fecha = fechas,
+  Año   = year(Fecha),
+  doy   = yday(Fecha),
+  # señal estacional
+  base  = 5 + 2 * sin(2 * pi * doy / 365),
+  ruido = rnorm(length(Fecha), 0, 0.8),
+  # eventos extremos frecuentes
+  pico  = if_else(runif(length(Fecha)) < 0.03,
+                  rlnorm(length(Fecha), meanlog = 1.6, sdlog = 0.4), 0),
+  Caudal = pmax(base + ruido + pico, 0.01)
+) %>%
+  select(Fecha, Año, Caudal)
+
+# ------------------------------------------------------------
+# 2) Definir umbral para PDS
+#    (ejemplo: percentil 90 de la serie)
+# ------------------------------------------------------------
+umbral <- quantile(datos$Caudal, probs = 0.90, na.rm = TRUE)
+
+# ------------------------------------------------------------
+# 3) Identificar excedencias (PDS)
+#    Nota: para fines didácticos se asume independencia temporal;
+#    en aplicaciones reales debe imponerse un tiempo de separación.
+# ------------------------------------------------------------
+pds <- datos %>%
+  filter(Caudal > umbral)
+
+# ------------------------------------------------------------
+# 4) Extraer AMS para comparación conceptual
+# ------------------------------------------------------------
+ams <- datos %>%
+  group_by(Año) %>%
+  slice_max(Caudal, n = 1, with_ties = FALSE) %>%
+  ungroup()
+
+# ------------------------------------------------------------
+# 5) Gráfico principal: Serie diaria + umbral + PDS + AMS
+# ------------------------------------------------------------
+ggplot(datos, aes(x = Fecha, y = Caudal)) +
+  geom_line(linewidth = 0.4, alpha = 0.8) +
+  geom_hline(
+    yintercept = umbral,
+    linetype = "dashed",
+    linewidth = 1.0,
+    color      = "red"   # ← umbral en rojo
+  ) +
+  geom_point(
+    data = pds,
+    aes(x = Fecha, y = Caudal),
+    color= "#1E90FF",
+    size = 1.8,
+    alpha = 0.9
+  ) +
+  geom_point(
+    data = ams,
+    aes(x = Fecha, y = Caudal),
+    color="#CD00CD",
+    size = 2.5,
+    shape = 16
+  ) +
+  labs(
+    title = "Serie de duración parcial (PDS) y comparación con AMS",
+    x = NULL,
+    y = "Caudal") +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title.position = "plot",
+    panel.grid.minor = element_blank(),
+    legend.position = "none"
+  )
+```
+
+Habiendo hecho este análisis, podemos ver que ahora en lugar de un único valor por año, se pasa a tener múltiples valores por año, lo que aumenta la robustez del diseño.
+
+```{r message=FALSE, warning=FALSE, error=FALSE}
+#| label: fig-plot129
+#| fig-cap: "Cantidad de valores por año, a partir de análisis de PDS"
+#| class: fig-border
+# ------------------------------------------------------------
+# 6) Gráfico auxiliar: Número de eventos PDS por año
+# ------------------------------------------------------------
+pds %>%
+  count(Año) %>%
+  ggplot(aes(x = factor(Año), y = n)) +
+  geom_col(width = 0.7) +
+  labs(
+    title = "Número de excedencias por año (PDS)",
+    subtitle = "A diferencia de AMS, pueden existir múltiples eventos relevantes en un mismo año",
+    x = "Año",
+    y = "Número de eventos sobre el umbral"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title.position = "plot",
+    panel.grid.minor = element_blank()
+  )
+
+
+```
+
+
+
