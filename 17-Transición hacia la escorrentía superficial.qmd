@@ -1,0 +1,123 @@
+---
+title: "Transición hacia la escorrentía superficial"
+bibliography: references.bib
+suppress-bibliography: true
+---
+
+::: {.quote-block}
+"El agua que fluye sobre la superficie de la tierra es el principal agente que esculpe el paisaje."\
+— *Luna B. Leopold (geógrafo e hidrólogo estadounidense)*
+:::
+
+Cuando una precipitación incide sobre la superficie terrestre, el agua puede seguir distintas trayectorias:
+
+a. Infiltrarse en el suelo.
+
+b. Almacenarse temporalmente en depresiones superficiales.
+
+c. Evaporarse.
+
+d. Generar escorrentía superficial.
+
+Mientras la capacidad del sistema suelo–superficie sea suficiente para absorber el agua precipitada, **no existe escorrentía**. La transición ocurre cuando dicha capacidad es superada. Este punto marca el inicio del proceso que, a escala de cuenca, conduce a la formación de hidrogramas y crecientes.
+
+## Precipitación efectiva
+
+La precipitación efectiva es la fracción de la precipitación total que contribuye directamente a los procesos de generación de escorrentía, una vez descontadas todas las pérdidas iniciales.
+
+Desde un punto de vista hidrológico, la precipitación total $P$ puede descomponerse conceptualmente como:
+
+$$
+P = P_{\text{pérdidas}} + P_{\text{ef}}
+$$
+
+donde:
+
+- $P_{\text{pérdidas}}$ incluye infiltración, intercepción, almacenamiento superficial inicial y evaporación durante el evento.
+
+- $P_{\text{ef}}$ es la precipitación efectiva.
+
+Mientras $P_{\text{ef}} = 0$, el sistema no genera escorrentía superficial.
+
+## Excedente de lluvia
+
+El excedente de lluvia es el volumen o intensidad de precipitación que no puede ser absorbido por el sistema y, por tanto, queda disponible para escurrir sobre la superficie.
+
+A escala puntual, el excedente se define comparando la intensidad de lluvia $i(t)$ con la capacidad de infiltración $f(t)$:
+
+$$
+\text{Excedente}(t) =
+\begin{cases}
+0, & i(t) \le f(t) \\
+i(t) - f(t), & i(t) > f(t)
+\end{cases}
+$$
+
+Este concepto conecta directamente con los modelos de infiltración estudiados previamente. El excedente **no implica todavía escorrentía organizada**, sino la existencia de agua superficial potencialmente movilizable.
+
+## Umbral de generación de escorrentía
+
+El umbral de generación de escorrentía es el conjunto de condiciones a partir de las cuales el excedente de lluvia se transforma efectivamente en flujo superficial.
+
+Este umbral no es un valor único, sino que depende de múltiples factores:
+
+- Estado de humedad antecedente del suelo.
+
+- Capacidad de infiltración instantánea.
+
+- Microtopografía y almacenamiento superficial.  
+
+- Cobertura vegetal y uso del suelo.
+
+- Intensidad y duración de la lluvia.
+
+Desde el punto de vista físico, el umbral se alcanza cuando el suelo superficial se encuentra próximo a la saturación, o la intensidad de la lluvia excede persistentemente la capacidad de infiltración, o las depresiones superficiales se llenan y comienzan a desbordarse.
+
+Este instante marca el inicio real del proceso de escorrentía.
+
+**Mecanismos de transición hacia la escorrentía**
+
+Existen dos mecanismos fundamentales que explican esta transición:
+
+- <u>Exceso de precipitación sobre infiltración (mecanismo hortoniano)</u>
+
+Ocurre cuando la intensidad de la lluvia supera la capacidad de infiltración del suelo:
+
+$$
+i(t) > f(t)
+$$
+
+Este mecanismo es típico de:
+
+- Suelos compactados o sellados.
+- Áreas urbanas.
+- Lluvias intensas y de corta duración.
+
+La escorrentía se genera aunque el suelo no esté saturado en profundidad.
+
+- <u>Exceso de saturación</u>
+
+Ocurre cuando el suelo alcanza la saturación y pierde su capacidad de almacenamiento adicional, aun cuando la intensidad de lluvia sea moderada:
+
+$$
+\theta \approx \theta_s
+$$
+
+Es característico de zonas con nivel freático somero, áreas ribereñas, suelos finos con baja permeabilidad o bajo condiciones de lluvias prolongadas.
+
+Ambos mecanismos pueden coexistir dentro de una misma cuenca.
+
+La escorrentía directa es la porción del caudal observado en un cauce que responde **rápidamente** a un evento de precipitación y está asociada a:
+
+1. El excedente de lluvia.
+
+2. El flujo superficial.
+
+3. El flujo subsuperficial rápido.
+
+Desde el punto de vista temporal, la escorrentía directa se distingue del flujo base, que responde a procesos subterráneos lentos.
+
+
+
+
+
