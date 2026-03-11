@@ -1,0 +1,5 @@
+---
+title: "Definición y fundamentos del cambio climático"
+bibliography: references.bib
+suppress-bibliography: true
+---

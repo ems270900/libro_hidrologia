@@ -30,6 +30,8 @@ Este libro busca convertirse en una herramienta de consulta y estudio continuo d
 
 ## Nota importante {.unnumbered}
 
-Las presentes notas se elaboraron para su utilización en el curso de Hidrología impartido en la Escuela de Ingeniería Civil de la Universidad de Costa Rica. Constituyen material didáctico y se destinan exclusivamente a fines académicos y docentes.
+Este libro ha sido concebido como un recurso técnico y académico para el estudio y la aplicación de la hidrología en el contexto de la ingeniería civil y la gestión de los recursos hídricos. Aunque su desarrollo se origina en el ámbito de la enseñanza universitaria, su alcance no se limita al uso como material de curso. El contenido ha sido estructurado para servir tanto como herramienta de formación para estudiantes, como texto de consulta para profesionales, consultores e investigadores interesados en el análisis hidrológico.
+
+El enfoque del libro integra fundamentos conceptuales con métodos cuantitativos y procedimientos aplicados, con el objetivo de facilitar la comprensión y aplicación de técnicas utilizadas en el estudio del ciclo hidrlógico y sus diferentes procesos. De esta forma, el texto busca contribuir tanto a la formación académica de nuevos profesionales como al desarrollo de capacidades técnicas para el análisis y la toma de decisiones en problemas reales relacionados con la hidrología y la ingeniería de recursos hídricos.
 
 Se agradecerá toda recomendación o sugerencia que el lector considere pertinente para mejorar la calidad y el contenido de este trabajo.

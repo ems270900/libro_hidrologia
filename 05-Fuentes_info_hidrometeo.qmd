@@ -325,7 +325,7 @@ knitr::include_graphics("assets/img/global_solar_atlas.png")
 
 ### Brillo solar
 
-El brillo solar, también conocido como heliofanía, insolación o duración de la insolación, se define técnicamente como el tiempo (expresado en horas) durante el cual la radiación solar directa que llega a la superficie terrestre es lo suficientemente intensa como para proyectar una sombra clara. Según la Organización Meteorológica Mundial (OMM), este umbral se sitúa en una intensidad de radiación solar directa mayor a 120 vatios por metro cuadrado ($\left(\frac{W}{m^2}\right)$).
+El brillo solar, también conocido como heliofanía, insolación o duración de la insolación, se define técnicamente como el tiempo (expresado en horas) durante el cual la radiación solar directa que llega a la superficie terrestre es lo suficientemente intensa como para proyectar una sombra clara. Según la Organización Meteorológica Mundial (OMM), este umbral se sitúa en una intensidad de radiación solar directa mayor a 120 vatios por metro cuadrado $\left(\frac{W}{m^2}\right)$.
 
 El brillo solar es un parámetro importante dentro de la hidrología por dos razones fundamentales:
 
@@ -333,7 +333,7 @@ El brillo solar es un parámetro importante dentro de la hidrología por dos raz
 
 2. Es la variable principal para estimar la radiación solar global ($R_s$) en estaciones que no disponen de piranómetros, lo cual es esencial para calcular la evapotranspiración mediante métodos como el de Penman-Monteith.
 
-El instrumento estándar para medir esta variable es el heliógrafo, siendo el modelo Campbell–Stokes el más utilizado a nivel mundial, como el que se puede observar en la @fig-piro.
+El instrumento estándar para medir esta variable es el heliógrafo, siendo el modelo Campbell–Stokes el más utilizado a nivel mundial.
 
 a. Consiste en una esfera de cristal macizo (generalmente de unos 10 cm de diámetro) que actúa como una lente convergente. Esta esfera concentra los rayos solares en un punto focal que quema una banda de cartulina graduada en horas, la cual se coloca concéntricamente detrás de la esfera en un soporte metálico.  
 
@@ -954,6 +954,11 @@ Q = a (h \pm h_0)^n
 $$
 
 ```{r message=FALSE, warning=FALSE, error=FALSE}
+#| label: fig-curva_descarga
+#| fig-cap: "Ejemplo de curva de descarga."
+#| fig-align: center
+#| out-width: 100%
+#| class: fig-border
 # Simulación de una curva de descarga (curva nivel–caudal)
 # Estilo inspirado en curvas clásicas de aforo
 

@@ -504,4 +504,98 @@ footer.footer .nav-footer-right {
   background-color: #f2f2f2 !important;
 }
 
+#TOC a,
+#TOC a:visited {
+  transition: background-color 0.15s ease, color 0.15s ease, border-left-color 0.15s ease;
+  border-left: 3px solid transparent;
+  border-radius: 6px;
+  padding: 0.10rem 0.35rem;
+  text-decoration: none;
+}
 
+#TOC a:hover,
+#TOC a:focus {
+  background-color: rgba(31, 120, 180, 0.10);
+  color: #1f78b4;
+  border-left-color: #1f78b4;
+  outline: none;
+}
+
+
+
+#quarto-sidebar .sidebar-item-container a,
+#quarto-sidebar .sidebar-item-container a:visited {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  text-decoration: none !important;
+}
+
+#quarto-sidebar .sidebar-item-text {
+  background: transparent !important;
+  background-color: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+#quarto-sidebar .sidebar-item-container a:hover,
+#quarto-sidebar .sidebar-item-container a:focus,
+#quarto-sidebar .sidebar-item-container a:hover .sidebar-item-text,
+#quarto-sidebar .sidebar-item-container a:focus .sidebar-item-text {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #87CEFA !important;
+  text-decoration: none !important;
+  outline: none !important;
+}
+
+#quarto-sidebar .sidebar-item-container a:hover .sidebar-item-text,
+#quarto-sidebar .sidebar-item-container a:focus .sidebar-item-text {
+  font-weight: inherit !important;
+}
+
+#quarto-sidebar .sidebar-item-container a:hover .sidebar-item-text * ,
+#quarto-sidebar .sidebar-item-container a:focus .sidebar-item-text * {
+  color: #87CEFA !important;
+}
+
+/* opcional: si querés un resaltado solo-tipográfico (sin fondo) */
+#quarto-sidebar .sidebar-item-container a:hover .sidebar-item-text,
+#quarto-sidebar .sidebar-item-container a:focus .sidebar-item-text {
+  text-decoration: underline !important;
+  text-decoration-color: #87CEFA !important;
+  text-decoration-thickness: 0.08em !important;
+  text-underline-offset: 0.16em !important;
+}
+
+.cover-license{
+  margin-top: 30px;
+  text-align: center;
+  opacity: 0.9;
+}
+
+.cover-license img{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cover-citation{
+  margin-top: 25px;
+  padding-top: 10px;
+  border-top: 1px solid #cccccc;
+  text-align: center;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.cover-hidden {
+  display: none;
+}

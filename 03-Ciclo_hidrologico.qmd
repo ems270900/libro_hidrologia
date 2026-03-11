@@ -22,7 +22,7 @@ El ciclo hidrológico es el eje central de la hidrología, ya que describe el mo
 Una vez que el agua precipita sobre la superficie terrestre, puede seguir distintos caminos. Parte de ella es interceptada por la vegetación, otra fracción fluye sobre el terreno como escorrentía superficial, y otra se infiltra en el suelo, desplazándose como flujo subsuperficial. El agua infiltrada puede percolar a mayores profundidades, recargando los acuíferos, desde donde eventualmente emerge en manantiales o contribuye al caudal de ríos. Tanto el agua interceptada como la escorrentía superficial y el agua almacenada en cuerpos superficiales retornan a la atmósfera mediante evaporación, cerrando así el ciclo y asegurando su continuidad en el tiempo.
 
 
-En la @fig-balance se detalla el ciclo del agua.
+En la siguiente figura se detalla el ciclo del agua.
 
 ```{r}
 #| label: fig-balance
@@ -35,7 +35,7 @@ En la @fig-balance se detalla el ciclo del agua.
 knitr::include_graphics("assets/img/wb.jpg")
 ```
 
-La @fig-cantidad ilustra el ciclo hidrológico global, mostrando los principales flujos de agua entre el océano, la atmósfera y los continentes. Las flechas representan procesos como evaporación, precipitación, escorrentía superficial y flujo subsuperficial, mientras que los valores numéricos indican estimaciones del volumen anual asociado a cada proceso. En conjunto, el esquema evidencia la magnitud de los intercambios de agua a escala planetaria y resalta el papel dominante de los océanos como principal fuente de evaporación dentro del sistema hidrológico global.
+La figura siguiente ilustra el ciclo hidrológico global, mostrando los principales flujos de agua entre el océano, la atmósfera y los continentes. Las flechas representan procesos como evaporación, precipitación, escorrentía superficial y flujo subsuperficial, mientras que los valores numéricos indican estimaciones del volumen anual asociado a cada proceso. En conjunto, el esquema evidencia la magnitud de los intercambios de agua a escala planetaria y resalta el papel dominante de los océanos como principal fuente de evaporación dentro del sistema hidrológico global.
 
 
 ```{r}
@@ -140,9 +140,9 @@ Las salidas de agua pueden darse de las siguientes formas:
 
 ## Aplicaciones del balance hídrico en ingeniería
 
-Todo estudio hidrológico desarrollado desde la ingeniería civil, ya sea el análisis de un sistema pluvial a escala local —como el drenaje de una calle—, el estudio hidrológico para el diseño de una represa hidroeléctrica, o la estimación del agua disponible para una captación destinada al consumo humano, tiene como objetivo fundamental **representar y cuantificar procesos del ciclo hidrológico**.
+Todo estudio hidrológico desarrollado desde la ingeniería civil, ya sea el análisis de un sistema pluvial a escala local ,como el drenaje de una calle, el estudio hidrológico para el diseño de una represa hidroeléctrica, o la estimación del agua disponible para una captación destinada al consumo humano, tiene como objetivo fundamental representar y cuantificar procesos del ciclo hidrológico.
 
-En la práctica, estos estudios no abordan el ciclo hidrológico en su totalidad, sino que se enfocan en reproducir aquellos procesos relevantes para el problema de ingeniería en cuestión. Por ejemplo, en el diseño de obras de control de avenidas se simula principalmente el proceso de **precipitación–escorrentía**, el cual ocurre en escalas temporales cortas, que pueden variar desde pocas horas hasta algunos días. En contraste, para el diseño de sistemas de abastecimiento o captaciones de agua resulta más relevante modelar un balance hídrico, asociado a escalas temporales más largas, que pueden extenderse desde meses hasta varios años.
+En la práctica, estos estudios no abordan el ciclo hidrológico en su totalidad, sino que se enfocan en reproducir aquellos procesos relevantes para el problema de ingeniería en cuestión. Por ejemplo, en el diseño de obras de control de avenidas se simula principalmente el proceso de precipitación–escorrentía, el cual ocurre en escalas temporales cortas, que pueden variar desde pocas horas hasta algunos días. En contraste, para el diseño de sistemas de abastecimiento o captaciones de agua resulta más relevante modelar un balance hídrico, asociado a escalas temporales más largas, que pueden extenderse desde meses hasta varios años.
 
 Desde esta perspectiva, todo análisis hidrológico aplicado en ingeniería civil puede interpretarse como una aplicación del concepto de balance hídrico, entendido como la contabilidad de las entradas, salidas y almacenamiento de agua dentro de un sistema definido. Este enfoque constituye la base de numerosas aplicaciones prácticas, entre las que destacan:
 
@@ -158,7 +158,7 @@ Desde esta perspectiva, todo análisis hidrológico aplicado en ingeniería civi
 
 ## Importancia del ciclo hidrológico en la planificación y gestión
 
-El análisis del ciclo hidrológico mediante el balance hídrico permite cuantificar la <span class="firebrick"><strong>disponibilidad real del agua</strong></span>, evaluar su variabilidad espacial y temporal, y estimar la confiabilidad del recurso frente a distintas demandas. Esta información es esencial para la planificación de infraestructuras hidráulicas, la gestión integrada de los recursos hídricos y la adaptación frente a la variabilidad climática y el cambio climático.
+El análisis del ciclo hidrológico mediante el balance hídrico permite cuantificar la disponibilidad real del agua, evaluar su variabilidad espacial y temporal, y estimar la confiabilidad del recurso frente a distintas demandas. Esta información es esencial para la planificación de infraestructuras hidráulicas, la gestión integrada de los recursos hídricos y la adaptación frente a la variabilidad climática y el cambio climático.
 
 ```{r}
 #| label: fig-rippl

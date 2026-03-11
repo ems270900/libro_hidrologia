@@ -331,15 +331,15 @@ ggplot(df_zoom, aes(x = fecha, y = Q)) +
 
 ```
 
-Método de picos sobre umbral (POT)
+**Método de picos sobre umbral (POT)**
 
-El método de picos sobre umbral (*Peaks Over Threshold, POT*) es una formulación específica del análisis mediante series de duración parcial. Consiste en identificar todos los picos independientes que exceden un nivel de truncamiento seleccionado. Este enfoque tiene los siguientes aspectos clave_
+El método de picos sobre umbral (*Peaks Over Threshold, POT*) es una formulación específica del análisis mediante series de duración parcial. Consiste en identificar todos los picos independientes que exceden un nivel de truncamiento seleccionado. Este enfoque tiene los siguientes aspectos clave.
 
-- **Modelado**: 
+- <u>Modelado</u>: 
 
 La ocurrencia de eventos suele modelarse mediante un proceso de Poisson para la tasa de llegada, mientras que las magnitudes de los excedentes se ajustan comúnmente con una distribución Generalizada de Pareto (GPD).
 
-- **Relación con AMS**: 
+- <u>Relación con AMS</u>: 
 
 Para periodos de retorno grandes (típicamente mayores a 10 años), los resultados obtenidos mediante AMS y POT tienden a converger, produciendo estimaciones similares para el diseño de grandes obras hidráulicas.
 
@@ -349,7 +349,7 @@ La **serie de duración parcial** (*Partial Duration Series, PDS*) incluye todos
 
 Este enfoque resulta especialmente adecuado para el análisis de eventos frecuentes, asociados a periodos de retorno pequeños (menores a 5 o 10 años), donde la serie de máximos anuales puede no capturar adecuadamente la variabilidad del proceso hidrológico.
 
-Por ejemplo, para la serie anual mostrada anteriormente, si en lugar de seleccionar un único valor maximo anual, definimos un umbral de excendencia la cantidad de informaicón disponible aumenta.
+Por ejemplo, para la serie anual mostrada anteriormente, si en lugar de seleccionar un único valor máximo anual, definimos un umbral de excedencia la cantidad de información disponible aumenta.
 
 ```{r message=FALSE, warning=FALSE, error=FALSE}
 #| label: fig-plot128
@@ -449,7 +449,7 @@ ggplot(datos, aes(x = Fecha, y = Caudal)) +
   )
 ```
 
-Habiendo hecho este análisis, podemos ver que ahora en lugar de un único valor por año, se pasa a tener múltiples valores por año, lo que aumenta la robustez del diseño.
+Habiendo hecho este análisis, podemos ver que ahora en lugar de un único valor por año, se pasa a tener múltiples valores por año, lo que aumenta la robustez del diseño. 
 
 ```{r message=FALSE, warning=FALSE, error=FALSE}
 #| label: fig-plot129

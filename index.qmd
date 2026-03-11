@@ -1,5 +1,5 @@
 --- 
-numbered: false      # ← ESTA ES LA CLAVE PARA QUITAR LA NUMERACIÓN DEL TÍTULO DE PORTADA
+numbered: false
 format:
   html:
     number-sections: false
@@ -7,21 +7,19 @@ format:
     number-sections: false
 --- 
 
-# Hidrología Aplicada a la Ingeniería Civil {.unnumbered}
+<center>
+# Fundamentos de la Hidrología Aplicada a la Ingeniería Civil {.unnumbered}
+</center>
 
 ::: {.custom-cover} 
 
-<div class="cover-logos"> 
- <img src="assets/img/logoeic.png" class="logo-eic"> 
- <img src="assets/img/logoucr.png" class="logo-ucr"> 
-</div> 
-
-<h1 class="cover-title"> 
- Hidrología IC-0808 
-</h1> 
+<div class="cover-logos" style="display: flex; justify-content: center; align-items: center;">
+  <img src="assets/img/logoeic.png" style="width: 200px; height: auto; margin-right: 250px;">
+  <img src="assets/img/logoucr.png" style="width: 150px; height: auto;">
+</div>
 
 <h2 class="cover-subtitle"> 
- Fundamentos, análisis estadístico y aplicaciones 
+ Fundamentos, análisis estadístico y aplicaciones prácticas
 </h2> 
 
 <p class="cover-author"> 
@@ -35,5 +33,33 @@ format:
 <div class="cover-hero"> 
 <img src="assets/img/ciclo_h.png" class="cover-image"> 
 </div> 
+
+
+<div class="cover-license">
+
+<img src="assets/img/by-nc-sa.png" style="height:45px; margin-top:20px;">
+
+<p style="margin-top:10px; font-size:0.95em;">
+Este libro se distribuye bajo la licencia 
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional
+</a>.
+</p>
+
+</div>
+
+
+<div class="cover-citation">
+
+<p style="margin-top:20px; font-size:0.95em;">
+
+<b>Cite este libro como:</b>  
+Matarrita Segura, E. (2026).  
+<i>Hidrología aplicada a la ingeniería civil: fundamentos, análisis estadístico y aplicaciones prácticas</i>.  
+Escuela de Ingeniería Civil, Universidad de Costa Rica.
+
+</p>
+
+</div>
 
 :::

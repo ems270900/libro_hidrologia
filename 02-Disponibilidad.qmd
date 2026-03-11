@@ -13,7 +13,7 @@ suppress-bibliography: true
 
 El agua es un componente esencial de la vida y desempeña un papel crucial en el funcionamiento de los sistemas naturales y antrópicos. Regula el clima, participa en los ciclos biogeoquímicos, permite el transporte de sedimentos, nutrientes y energía, y controla la estructura y distribución de los ecosistemas.
 
-La totalidad del agua contenida en la atmósfera, el suelo, los océanos y la corteza terrestre constituye la <span class="firebrick"><strong>hidrósfera</strong></span>. De este volumen, únicamente <span class="firebrick"><strong>alrededor del 2.5 % corresponde a agua dulce</strong></span>, y tan solo una fracción mínima se encuentra disponible para su aprovechamiento directo.
+La totalidad del agua contenida en la atmósfera, el suelo, los océanos y la corteza terrestre constituye la hidrósfera. De este volumen, <span class="firebrick"><strong>únicamente alrededor del 2.5 % corresponde a agua dulce</strong></span>, y tan solo una fracción mínima se encuentra disponible para su aprovechamiento directo.
 
 
 ```{r}
@@ -46,78 +46,52 @@ library(kableExtra)
 library(tibble)
 
 tabla_agua <- tribble(
-~`Fuente de agua`,            ~`Volumen (km^3)`,   ~`Porcentaje del total`, ~`Porcentaje del agua dulce`, ~`Tiempo de residencia (años)`,
-
-# --- Bloque aguas superficiales (filas 1–5) ---
-
-"Aguas superficiales",        "47.971.710",        3.5,                    NA,
-"Todas las aguas superficiales: 4.0<br>0.05 (17 días)",
-"Lagos (dulces)",             "91.000",            0.007,                  0.26,
-"Todas las aguas superficiales: 4.0<br>0.05 (17 días)",
-"Lagos (salobres)",           "85.400",            0.006,                  NA,
-"Todas las aguas superficiales: 4.0<br>0.05 (17 días)",
-"Ríos",                       "2.120",             0.0002,                 0.006,
-"Todas las aguas superficiales: 4.0<br>0.05 (17 días)",
-"Pantanos",                   "11.470",            0.0008,                 0.03,
-"Todas las aguas superficiales: 4.0<br>0.05 (17 días)",
-
-# --- Fila 6: humedad del suelo (separada por línea gruesa abajo) ---
-
-"Humedad del suelo",          "16.500",            0.0012,                 0.05,                         "Todas las aguas subterráneas: 20.000",
-
-# --- Bloque aguas subterráneas (filas 7–8) ---
-
-"Agua subterránea dulce*",    "10.530.000*",       0.76,                   30.1,
-"Todas las aguas subterráneas: 20.000",
-"Agua subterránea salobre",   "12.870.000",        0.93,                   NA,
-"Todas las aguas subterráneas: 20.000",
-
-# --- Resto de filas con celdas independientes en la última columna ---
-
-"Agua biológica",             "1.120",             0.0001,                 0.003,                        "  ",
-"Hielo polar y glaciares",    "24.364.100",        1.76,                   69.6,                         "   ",
-"Atmósfera",                  "12.900",            0.001,                  0.04,                         "0.02 (8 días)",
-"Océanos",                    "1.338.000.000",     96.5,                   NA,                           "2.650",
-"Total",                      "1.385.984.610",     100.0,                  100.0,                        "      "
+  ~`Fuente de agua`, ~`Volumen`, ~`Porcentaje del total`, ~`Porcentaje del agua dulce`, ~`Tiempo de residencia (años)`,
+  "Aguas superficiales",        "47.971.710",        3.5,    NA,    "Todas las aguas superficiales: 4.0<br>0.05 (17 días)",
+  "Lagos (dulces)",             "91.000",            0.007,  0.26,  "Todas las aguas superficiales: 4.0<br>0.05 (17 días)",
+  "Lagos (salobres)",           "85.400",            0.006,  NA,    "Todas las aguas superficiales: 4.0<br>0.05 (17 días)",
+  "Ríos",                       "2.120",             0.0002, 0.006, "Todas las aguas superficiales: 4.0<br>0.05 (17 días)",
+  "Pantanos",                   "11.470",            0.0008, 0.03,  "Todas las aguas superficiales: 4.0<br>0.05 (17 días)",
+  "Humedad del suelo",          "16.500",            0.0012, 0.05,  "Todas las aguas subterráneas: 20.000",
+  "Agua subterránea dulce*",    "10.530.000*",       0.76,   30.1,  "Todas las aguas subterráneas: 20.000",
+  "Agua subterránea salobre",   "12.870.000",        0.93,   NA,    "Todas las aguas subterráneas: 20.000",
+  "Agua biológica",             "1.120",             0.0001, 0.003, "",
+  "Hielo polar y glaciares",    "24.364.100",        1.76,   69.6,  "",
+  "Atmósfera",                  "12.900",            0.001,  0.04,  "0.02 (8 días)",
+  "Océanos",                    "1.338.000.000",     96.5,   NA,    "2.650",
+  "Total",                      "1.385.984.610",     100.0,  100.0, ""
 )
 
 tabla_agua %>%
-kbl(
-booktabs = TRUE,
-align    = c("l", "c", "c", "c", "c"),
-format   = "html",
-escape   = FALSE,  # para permitir el <br> en la celda combinada
-na       = ""
-) %>%
-kable_classic(html_font = "Latin Modern Roman") %>%
-kable_styling(
-full_width        = FALSE,
-bootstrap_options = "hover"
-) %>%
-
-# Encabezado en negrita
-
-row_spec(0, bold = TRUE) %>%
-
-# Filas importantes en negrita
-
-row_spec(c(1, 6, 11, 12, 13), bold = TRUE) %>%  # Aguas superficiales, Atmósfera, Océanos, Total
-
-# Filas en cursiva
-
-row_spec(c(2, 3, 7, 8), italic = TRUE) %>%   # Lagos y aguas subterráneas
-
-# Líneas horizontales negras gruesas donde marcaste
-
-row_spec(5, extra_css = "border-bottom: 2px solid black;") %>%  # debajo de Pantanos
-row_spec(8, extra_css = "border-bottom: 2px solid black;") %>%  # debajo de Agua subterránea salobre
-
-# Combinar celdas de la columna 'Tiempo de residencia' para los bloques deseados
-
-collapse_rows(
-columns = 5,            # solo la 5ta columna
-valign  = "middle"
-)
+  kbl(
+    booktabs = TRUE,
+    format = "html",
+    align = c("l", "c", "c", "c", "c"),
+    escape = FALSE,
+    na = "",
+    col.names = c(
+      "Fuente de agua",
+      "Volumen (km<sup>3</sup>)",
+      "Porcentaje del total",
+      "Porcentaje del agua dulce",
+      "Tiempo de residencia (años)"
+    ),
+    caption = "Distribución del agua en la Tierra: volúmenes, porcentajes y tiempos de residencia."
+  ) %>%
+  kable_classic(html_font = "Latin Modern Roman") %>%
+  kable_styling(
+    full_width = FALSE,
+    bootstrap_options = c("hover", "condensed", "striped")
+  ) %>%
+  row_spec(0, bold = TRUE) %>%
+  row_spec(c(1, 6, 11, 12, 13), bold = TRUE) %>%
+  row_spec(c(2, 3, 7, 8), italic = TRUE) %>%
+  row_spec(5, extra_css = "border-bottom: 2px solid black;") %>%
+  row_spec(8, extra_css = "border-bottom: 2px solid black;") %>%
+  collapse_rows(
+    columns = 5,
+    valign = "middle"
+  )
 
 
 ```
@@ -153,9 +127,9 @@ La heterogeneidad climática y fisiográfica determina la disponibilidad natural
 
 En el análisis hidrológico aplicado es indispensable diferenciar entre conceptos que suelen emplearse como sinónimos, pero que representan realidades distintas desde el punto de vista técnico y de gestión:
 
--   <span class="firebrick"><strong>Recurso hídrico:</strong></span> volumen total de agua presente en un sistema natural o artificial, independientemente de su uso o accesibilidad (océanos, glaciares, acuíferos, lagos, ríos, embalses).
--   <span class="firebrick"><strong>Disponibilidad hídrica:</strong></span> fracción del recurso que puede ser utilizada de forma efectiva dentro de un horizonte espacial y temporal definido, considerando su renovación natural y las restricciones físicas del sistema.
--   <span class="firebrick"><strong>Accesibilidad:</strong></span> condición que limita o habilita la disponibilidad en función de infraestructura, tecnología, costos económicos, marco legal e institucional.
+-   <u>Disponibilidad hídrica:</u> fracción del recurso que puede ser utilizada de forma efectiva dentro de un horizonte espacial y temporal definido, considerando su renovación natural y las restricciones físicas del sistema.
+-   <u>Recurso hídrico:</u> volumen total de agua presente en un sistema natural o artificial, independientemente de su uso o accesibilidad (océanos, glaciares, acuíferos, lagos, ríos, embalses).
+-   <u>Accesibilidad:</u> condición que limita o habilita la disponibilidad en función de infraestructura, tecnología, costos económicos, marco legal e institucional. 
 
 
 Esta distinción permite explicar por qué regiones con abundantes recursos hídricos pueden enfrentar problemas de abastecimiento, mientras que otras con recursos limitados logran cubrir sus demandas mediante una gestión eficiente.
@@ -178,10 +152,10 @@ knitr::include_graphics("assets/img/marimba.jpg")
 
 La disponibilidad del agua depende de manera crítica de la escala de análisis adoptada:
 
--   <span class="firebrick"><strong>Escala global:</strong></span> permite identificar la distribución general del agua y los grandes contrastes planetarios.
--   <span class="firebrick"><strong>Escala regional o nacional:</strong></span> integra factores climáticos, fisiográficos y de gestión.
--   <span class="firebrick"><strong>Escala de cuenca hidrográfica:</strong></span> constituye la escala fundamental para la ingeniería civil, ya que en ella se concentran los procesos hidrológicos relevantes para el diseño y la planificación.
--   <span class="firebrick"><strong>Escala temporal:</strong></span> la disponibilidad puede evaluarse a nivel anual, estacional, mensual o incluso diario, dependiendo del objetivo del estudio.
+-   <u>Escala global:</u> permite identificar la distribución general del agua y los grandes contrastes planetarios.
+-   <u>Escala regional o nacional:</u> integra factores climáticos, fisiográficos y de gestión.
+-   <u>Escala de cuenca hidrográfica:</u> constituye la escala fundamental para la ingeniería civil, ya que en ella se concentran los procesos hidrológicos relevantes para el diseño y la planificación.
+-   <u>Escala temporal:</u> la disponibilidad puede evaluarse a nivel anual, estacional, mensual o incluso diario, dependiendo del objetivo del estudio.
 
 
 ```{r}
@@ -200,14 +174,14 @@ knitr::include_graphics("assets/img/sequia.jpg")
 
 Las series de tiempo hidrológicas, tales como la precipitación y el caudal, suelen observarse y registrarse en intervalos que van desde segundos, minutos u horas hasta días, semanas, meses, estaciones o años. La relevancia de cada componente del ciclo hidrológico está estrechamente ligada a la escala temporal considerada, la cual resulta crítica al momento de simular el ciclo completo o alguno de sus procesos individuales.
 
-Los <span class="firebrick"><strong>tiempos de residencia del agua</strong></span> varían de manera significativa según el componente del sistema hidrológico:
+Los tiempos de residencia del agua varían de manera significativa según el componente del sistema hidrológico:
 
 -   <u>Agua subterránea</u>: puede permanecer almacenada durante periodos muy prolongados, que van desde aproximadamente 1 400 hasta más de 10 000 años.
 -   <u>Humedad del suelo:</u> presenta tiempos de residencia típicamente del orden de 1 año.
 -   <u>Red de cauces:</u> el agua que circula en los ríos tiene un tiempo de residencia promedio cercano a 16 días.
 -   <u>Atmósfera:</u> el tiempo de residencia es relativamente corto, del orden de 8 días o aproximadamente una semana.
 
-En la modelación hidrológica, la selección del <span class="firebrick"><strong>intervalo de tiempo de cálculo</strong> ($\Delta t$)</span> debe ser lo suficientemente pequeño para capturar la variabilidad relevante de los procesos, pero sin generar una carga excesiva en la recopilación de datos ni en el esfuerzo computacional. Por ejemplo, las predicciones de caudal para grandes embalses de abastecimiento de agua pueden realizarse adecuadamente utilizando intervalos semanales o mensuales, mientras que otros estudios para diseño de puentes requieren resoluciones temporales mucho más finas.
+En la modelación hidrológica, la selección del **intervalo de tiempo de cálculo ($\Delta t$)** debe ser lo suficientemente pequeño para capturar la variabilidad relevante de los procesos, pero sin generar una carga excesiva en la recopilación de datos ni en el esfuerzo computacional. Por ejemplo, las predicciones de caudal para grandes embalses de abastecimiento de agua pueden realizarse adecuadamente utilizando intervalos semanales o mensuales, mientras que otros estudios para diseño de puentes requieren resoluciones temporales mucho más finas.
 
 ### Escalas espaciales de la disponibilidad
 
@@ -219,7 +193,7 @@ Las escalas espaciales relevantes en la investigación hidrológica incluyen, en
 -   el continente,
 -   y la escala global.
 
-Los <span class="firebrick"><strong>Sistemas de Información Geográfica (SIG)</strong></span> constituyen herramientas fundamentales para el almacenamiento, análisis y manipulación de información espacial asociada a estas escalas.
+Los Sistemas de Información Geográfica (SIG) constituyen herramientas fundamentales para el almacenamiento, análisis y manipulación de información espacial asociada a estas escalas.
 
 ```{r}
 #| label: fig-qgis_hidro
@@ -279,7 +253,7 @@ knitr::include_graphics("assets/img/afoto.jpg")
 
 ```
 
-En este contexto, la <span class="firebrick"><strong>regionalización hidrológica</strong></span> surge como un enfoque multiescala que permite identificar unidades hidrológicas similares y estimar la respuesta hidrológica en cuencas sin mediciones directas, apoyándose en información disponible de cuencas análogas.
+En este contexto, la regionalización hidrológica surge como un enfoque multiescala que permite identificar unidades hidrológicas similares y estimar la respuesta hidrológica en cuencas sin mediciones directas, apoyándose en información disponible de cuencas análogas. 
 
 ```{r}
 #| label: fig-region
@@ -293,11 +267,11 @@ knitr::include_graphics("assets/img/region.jpg")
 
 ```
 
-En esencia, la <span class="firebrick"><strong>escala</strong></span> actúa como un lente en hidrología: una visión amplia, correspondiente a escalas globales o anuales, ofrece promedios simples y suavizados; mientras que una visión cercana, asociada a escalas locales o de alta resolución temporal, se asocia a la compleja y altamente variable disponibilidad del agua.
+En esencia, la escala actúa como un lente en hidrología: una visión amplia, correspondiente a escalas globales o anuales, ofrece promedios simples y suavizados; mientras que una visión cercana, asociada a escalas locales o de alta resolución temporal, se asocia a la compleja y altamente variable disponibilidad del agua.
 
 ## Disponibilidad y calidad del agua
 
-La disponibilidad efectiva del recurso hídrico no depende únicamente de la cantidad de agua, sino también de su <span class="firebrick"><strong>calidad</strong></span>. En muchos sistemas, la presencia de contaminantes físicos, químicos o biológicos limita el uso del agua para determinados fines.
+La disponibilidad efectiva del recurso hídrico no depende únicamente de la cantidad de agua, sino también de su **calidad**. En muchos sistemas, la presencia de contaminantes físicos, químicos o biológicos limita el uso del agua para determinados fines.
 
 Entre los factores más relevantes se incluyen:
 
@@ -312,13 +286,13 @@ Estas restricciones reducen la fracción del recurso que puede considerarse disp
 
 La disponibilidad del agua presenta una marcada heterogeneidad espacial, controlada por:
 
-- <span class="firebrick"><strong>Patrones climáticos regionales</strong></span>, por ejemplo, la influencia de la Zona de Convergencia Intertropical en Centroamérica, que genera contrastes significativos entre regiones húmedas del Caribe y regiones más secas del Pacífico Norte.
 
-- <span class="firebrick"><strong>Relieve y orografía</strong></span>, como la presencia de cordilleras que inducen lluvias orográficas en las laderas de barlovento y condiciones más secas en sotavento, tal como ocurre en la vertiente Caribe y Pacífica de Costa Rica.
+- <u>Patrones climáticos regionales</u>, por ejemplo, la influencia de la Zona de Convergencia Intertropical en Centroamérica, que genera contrastes significativos entre regiones húmedas del Caribe y regiones más secas del Pacífico Norte.
+- <u>Relieve y orografía</u>, como la presencia de cordilleras que inducen lluvias orográficas en las laderas de barlovento y condiciones más secas en sotavento, tal como ocurre en la vertiente Caribe y Pacífica de Costa Rica.
 
-- <span class="firebrick"><strong>Cercanía a cuerpos de agua mayores</strong></span>, donde regiones próximas a océanos, grandes lagos o embalses presentan mayor disponibilidad potencial de humedad y, en algunos casos, una regulación natural del recurso, en comparación con zonas continentales alejadas.
+- <u>Cercanía a cuerpos de agua mayores</u>, donde regiones próximas a océanos, grandes lagos o embalses presentan mayor disponibilidad potencial de humedad y, en algunos casos, una regulación natural del recurso, en comparación con zonas continentales alejadas.
 
-- <span class="firebrick"><strong>Características geológicas e hidrogeológicas</strong></span>, tales como la presencia de acuíferos de alta permeabilidad en formaciones volcánicas o aluviales, frente a zonas con rocas poco permeables que limitan la infiltración y el almacenamiento subterráneo.
+- <u>Características geológicas e hidrogeológicas</u>, tales como la presencia de acuíferos de alta permeabilidad en formaciones volcánicas o aluviales, frente a zonas con rocas poco permeables que limitan la infiltración y el almacenamiento subterráneo.
 
 Como resultado, cuencas vecinas pueden exhibir comportamientos hidrológicos muy distintos.
 
@@ -368,7 +342,7 @@ knitr::include_graphics("assets/img/enos_noaa.png")
 
 ```
 
-Estas características determinan la <span class="firebrick"><strong>confiabilidad del recurso</strong></span>, entendida como la capacidad de satisfacer una demanda específica a lo largo del tiempo, concepto fundamental para la planificación de infraestructuras hidráulicas.
+Estas características determinan la confiabilidad del recurso, entendida como la capacidad de satisfacer una demanda específica a lo largo del tiempo, concepto fundamental para la planificación de infraestructuras hidráulicas.
 
 
 ## Implicaciones para la ingeniería civil

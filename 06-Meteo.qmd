@@ -138,6 +138,7 @@ gases_atmosfera %>%
 #| fig-cap: "Composición de la atmósfera"
 #| fig-align: center
 #| out-width: 100%
+#| class: fig-border
 #| echo: false
 #| message: false
 #| warning: false
@@ -789,7 +790,251 @@ tabla_escalas %>%
 
 ## Corrientes oceánicas
 
-## Fenómeno ENOS (El Niño- Oscilación del Sur)
+::: {.callout-tip appearance="minimal" icon="false"}
+**¿Por qué en Nueva York nieva y hace frío parte del año, pero en España (a latitudes similares) hace calor casi todo el año?**
+
+
+:::
+
+```{r}
+#| label: fig-lat_españa
+#| fig-cap: "Misma latitud entre New York y Madrid."
+#| fig-align: center
+#| out-width: 100%
+#| echo: false
+#| class: fig-border
+
+knitr::include_graphics("assets/img/latitud_españa.png")
+
+```
+
+Aunque Nueva York y muchas zonas de España se ubican en rangos de latitud parecidos, la latitud por sí sola no determina el clima. La diferencia principal está en cómo se transporta y se conserva el calor a escala regional y global.
+
+```{r}
+#| label: fig-corrientes
+#| fig-cap: "Corrientes oceánicas globales.<br><span style='font-size:0.8em;'>Fuente: [EOM.com, 2026]</span>"
+#| fig-align: center
+#| out-width: 100%
+#| echo: false
+#| class: fig-border
+
+knitr::include_graphics("assets/img/corrientes.png")
+
+```
+
+- <u>Influencia del océano (marítimo vs. continental):</u>  
+  La vertiente Atlántica de Europa recibe una fuerte influencia del océano, que amortigua los extremos térmicos: inviernos menos fríos y veranos menos extremos. En cambio, Nueva York está más expuesta a masas de aire continentales, y la tierra se enfría y calienta más rápido que el mar.
+
+- <u>Corrientes oceánicas (calor “importado”):</u>  
+  El Atlántico nororiental se ve favorecido por la circulación oceánica asociada a la *Corriente del Golfo / Deriva del Atlántico Norte*, que transporta agua relativamente cálida hacia Europa. Esto contribuye a inviernos más templados en comparación con regiones del oeste del Atlántico a latitudes similares.
+
+- <u>Vientos dominantes (Oestes):</u>  
+  En latitudes medias predominan los *vientos del oeste*, que en Europa suelen traer aire cálido y húmedo desde el Atlántico hacia el continente. En la costa este de Norteamérica, esos mismos patrones pueden favorecer entradas de aire frío continental, además de la influencia de masas polares desde Canadá.
+
+
+Dentro de la hidrometeorología, las corrientes oceánicas representan flujos persistentes de agua que se desplazan principalmente en sentido horizontal a través de los océanos, cumpliendo una función vital como reguladores térmicos de la superficie terrestre. Al transportar calor desde las regiones ecuatoriales hacia las latitudes altas, estas corrientes modifican el balance de energía global y condicionan los patrones de clima y humedad que el ingeniero hidrólogo debe analizar.
+
+**Origen y factores que determinan el movimiento**
+
+El sistema de corrientes oceánicas es el resultado de una compleja interacción entre la atmósfera y la hidrosfera. Los principales factores que las originan y dirigen son:
+
+a. <u>Fricción del viento</u>: La totalidad de las grandes corrientes superficiales se pone en movimiento debido a la presencia de vientos permanentes que ejercen un esfuerzo cortante sobre la superficie del océano.
+
+b. <u>Efecto de Coriolis</u>: Debido a la rotación de la Tierra, el movimiento del agua experimenta una desviación aparente hacia la derecha de su trayectoria en el hemisferio norte y hacia la izquierda en el hemisferio sur.
+
+c. <u>Gradientes de densidad</u>: Las diferencias en temperatura y salinidad generan variaciones de densidad que impulsan la circulación profunda.
+
+d. <u>Configuración de las costas</u>: Las masas continentales actúan como barreras físicas que deflectan y encauzan las corrientes, obligándolas a seguir trayectorias específicas.
+
+A diferencia de la atmósfera, que se calienta mayoritariamente *desde abajo* por la superficie terrestre, el océano recibe el calor principalmente en su superficie. Esto genera una estructura térmica característica dividida en tres estratos principales:
+
+1. Capa de mezcla (capa activa): 
+
+Se extiende desde la superficie hasta aproximadamente 200 m de profundidad. En esta zona, la temperatura presenta variaciones estacionales, horizontales y verticales constantes debido a la interacción directa con la atmósfera.
+
+2. Termoclina: 
+
+Capa de transición situada debajo de la capa de mezcla, donde la temperatura disminuye rápidamente con la profundidad.
+
+3. Zona profunda: Se localiza por debajo de la termoclina (generalmente a profundidades mayores a 500–1000 m), donde las temperaturas son bajas, estables y presentan cambios mínimos.
+
+
+
+## Variabilidad climática: el fenómeno ENOS
+
+La interacción entre las corrientes oceánicas y la atmósfera no es estática. El fenómeno **El Niño–Oscilación del Sur (ENOS)** constituye el ejemplo más representativo de cómo una anomalía térmica en las corrientes del Pacífico ecuatorial puede debilitar o incluso invertir la circulación atmosférica asociada (Celdas de Walker). Estas alteraciones tienen un impacto directo sobre el ciclo hidrológico global, generando inundaciones severas en algunas regiones y sequías extremas en otras.
+
+Dentro del análisis hidrológico, no basta con comprender los promedios estadísticos del clima, es necesario analizar la variabilidad climática interanual, cuya fuente más influyente en las regiones tropicales es el fenómeno **ENOS (El Niño–Oscilación del Sur)**. 
+
+Este fenómeno corresponde a un sistema acoplado océano–atmósfera que altera el balance energético global y distorsiona de forma significativa el ciclo hidrológico.
+
+El ENOS no es un evento meteorológico aislado, sino una oscilación climática aperiódica cuyo ciclo típico varía entre **2 y 7 años**. Se compone de dos subsistemas que interactúan continuamente:
+
+1. Componente oceánico (El Niño / La Niña):  
+
+Asociado a las anomalías de la temperatura superficial del mar (TSM) en el océano Pacífico ecuatorial.
+
+2. Componente atmosférico (Oscilación del Sur):
+
+Representa las fluctuaciones interanuales de la presión atmosférica a nivel del mar entre el Pacífico oriental (Tahiti) y el Pacífico occidental (Darwin, Australia).
+
+Ambos componentes están físicamente vinculados mediante la circulación de Walker, que controla el transporte zonal de calor y humedad en el Pacífico tropical.
+
+**Fases del fenómeno ENOS**
+
+El sistema ENOS oscila entre tres estados bien definidos: 
+
+A. Fase cálida: El Niño
+
+Durante un evento El Niño, el flujo normal de aire y agua desde el este hacia el oeste del Pacífico ecuatorial se debilita o se invierte, produciendo un calentamiento anómalo de las aguas superficiales frente a las costas de Ecuador y Perú.
+
+- <u>Mecánica</u>: El gradiente de presión de la circulación de Walker disminuye, reduciendo la surgencia de aguas frías y redistribuyendo las zonas de convección y precipitación a escala global.
+
+- <u>Características</u>: Un evento típico de El Niño presenta una duración media de **15.6 meses** y suele alcanzar su máxima intensidad entre **septiembre y diciembre**.
+
+B. Fase fría: La Niña
+
+La Niña corresponde al estado opuesto, caracterizado por temperaturas superficiales del mar más frías de lo normal en el Pacífico ecuatorial.
+
+- <u>Mecánica</u>: La circulación de Walker se intensifica, fortaleciendo los vientos alisios y acumulando aguas cálidas en el Pacífico occidental.
+
+- <u>Características</u>: Los eventos La Niña suelen ser más persistentes, con una duración promedio de 19.6 meses, y tienden a generar anomalías hidrológicas más extremas en regiones tropicales.
+
+C. Fase neutra: El sistema global se encuentra en una especia de "equilibrio inestable".
+
+El ENOS influye en regiones remotas mediante teleconexiones atmosféricas, alterando la posición e intensidad de las corrientes en chorro (como el chorro de bajo nivel del Caribe) y modificando las trayectorias de los sistemas de tormenta.
+
+```{r}
+#| label: tbl-enos-impactos
+#| tbl-cap: "Impactos hidrológicos y climáticos asociados a las fases del fenómeno ENOS."
+#| echo: false
+#| message: false
+#| warning: false
+
+library(dplyr)
+library(tibble)
+library(kableExtra)
+
+tabla_enos <- tribble(
+  ~Región, ~`Impacto durante El Niño`, ~`Impacto durante La Niña`,
+  "Sudamérica (Perú / Ecuador)",
+  "Lluvias intensas e inundaciones costeras",
+  "Condiciones más secas de lo habitual",
+
+  "Norteamérica",
+  "Sur de EE. UU. más húmedo; norte más cálido",
+  "Sur de EE. UU. más cálido y seco; aumento del riesgo de sequía",
+
+  "Centroamérica (Costa Rica)",
+  "Sequía en la vertiente del Pacífico; exceso de lluvia en el Caribe",
+  "Inundaciones en el Pacífico; déficit de precipitación en el Caribe",
+
+  "Asia y Australia",
+  "Sequías severas, incendios forestales y monzones debilitados",
+  "Inundaciones generalizadas y monzones intensificados"
+)
+
+tabla_enos %>%
+  kbl(
+    booktabs = TRUE,
+    align = c("c", "c", "c"),
+    format = "html",
+    escape = FALSE,
+    col.names = c(
+      "Región",
+      "Impacto durante El Niño",
+      "Impacto durante La Niña"
+    )
+  ) %>%
+  kable_classic(html_font = "Latin Modern Roman") %>%
+  kable_styling(
+    full_width = FALSE,
+    bootstrap_options = c("hover", "condensed")
+  ) %>%
+  row_spec(0, bold = TRUE)
+```
+
+
+El ENOS es un factor clave para la gestión de riesgos y el diseño de infraestructura, que debe ser tomado en cuenta dentro de los análsis hidrológicos cuando se quiere evaluar la condición futura, ya que influye en:
+
+- Predicción de caudales:  
+
+En regiones del sur el ENOS puede llegar a explicar hasta el 40% de la variabilidad interanual de la precipitación, siendo determinante en la operación de embalses y captación de agua para consumo.
+
+- Análisis de frecuencia de inundaciones:  
+
+Las curvas de frecuencia de crecientes presentan diferencias significativas según la fase del ENOS. Ignorar esta variabilidad puede conducir a la subestimación del riesgo de crecidas súbitas en años La Niña o de sequías severas en años El Niño.
+
+- Ajuste de la precipitación de diseño:  
+
+Las anomalías térmicas asociadas al ENOS, amplificadas por el cambio climático, incrementan la capacidad de la atmósfera para retener vapor de agua. En Costa Rica, aproximadamente el 80% de los años La Niña han coincidido con eventos de inundación severa en el Pacífico Norte.
+
+## Cambio climático
+
+El estudio de la hidrología moderna no puede ser estático, ya que nos encontramos en una era donde el clima está experimentando transformaciones profundas debido a la actividad humana. Para el análisis hidrológico, el cambio climático representa el mayor desafío de diseño, pues invalida el supuesto tradicional de "estacionariedad", el cual dicta que el pasado es una guía confiable para el futuro.
+
+El cambio climático se define como cualquier variación sistemática y persistente de las propiedades del tiempo (como la temperatura, la presión o los vientos) que se mantiene durante varias décadas o periodos más largos. Es fundamental diferenciarlo de la variabilidad climática, la cual se refiere a oscilaciones naturales de corto o mediano plazo, como el fenómeno de El Niño (ENOS), que ocurren dentro de un estado climático dado.  
+
+A menudo se utiliza el término calentamiento global como sinónimo, pero técnicamente este último se refiere específicamente al incremento observado de las temperaturas medias de la atmósfera y los océanos, el cual es el principal motor del cambio climático actual.
+
+**Las Causas del Cambio: Forzamientos Naturales y Antropogénicos**
+
+El clima de la Tierra depende del balance entre la energía solar que entra y la energía infrarroja que sale del planeta. Cualquier factor que altere este balance se denomina "forzamiento". Entre estos existen:
+
+1. Forzamientos Naturales: 
+
+Incluyen variaciones en la órbita terrestre, fluctuaciones en la actividad del Sol y erupciones volcánicas masivas que inyectan aerosoles en la estratosfera, enfriando temporalmente el planeta.
+
+2. Forzamientos Antropogénicos: 
+
+Son causados por el hombre, principalmente mediante la emisión de Gases de Efecto Invernadero (GEI) como el dióxido de carbono (CO₂), el metano (CH₄) y el óxido nitroso (N₂O). Estos gases provienen de la quema de combustibles fósiles, la deforestación y prácticas agrícolas intensivas.
+
+### El efecto invernadero 
+
+La atmósfera es mayoritariamente transparente a la luz solar de onda corta. Sin embargo, los GEI absorben la radiación térmica de onda larga emitida por la superficie terrestre, atrapando el calor y reemitiéndolo hacia abajo. Sin este proceso natural, la Tierra sería unos 30 °C más fría y hostil para la vida; el problema actual radica en que el aumento descontrolado de estos gases está sobrecalentando el sistema.
+
+
+### Intensificación del ciclo hidrológico 
+
+El impacto más directo del calentamiento es la intensificación del ciclo del agua. Una atmósfera más cálida tiene una mayor capacidad de retener humedad, relación descrita por la Ecuación de Clausius-Clapeyron.  
+
+Por cada 1 °C que aumenta la temperatura de la atmósfera, su capacidad para retener vapor de agua se incrementa en aproximadamente un 7 %.  
+
+Esto conlleva tres consecuencias hidrológicas críticas:
+
+1. Redistribución de la precipitación: En términos generales, las regiones húmedas tienden a volverse más húmedas y las regiones áridas más secas.
+
+2. Extremos más violentos: Al haber más energía y humedad en el aire, las tormentas se vuelven más intensas, aumentando el riesgo de inundaciones repentinas. Al mismo tiempo, el aumento de la evaporación prolonga y agrava las sequías en otras regiones. 
+
+3. Degradación de la calidad del agua: El aumento de la temperatura del agua reduce el oxígeno disuelto y favorece el crecimiento de patógenos, afectando la potabilidad del recurso.
+
+4. Impactos observados en la criósfera y el Mar: El calentamiento no es uniforme y se siente con mayor fuerza en las altas latitudes y montañas.  
+
+  - Glaciares y Nieve: Se observa un retroceso acelerado de los glaciares alpinos y una disminución del manto de nieve estacional. En cuencas dependientes del deshielo, esto altera el "timing" de los caudales, provocando picos de escorrentía más tempranos en la primavera y caudales mínimos más severos en verano.
+
+  - Nivel del Mar: El nivel medio del océano ha subido a una tasa de aproximadamente 1.5 a 3.2 mm/año debido a la expansión térmica del agua y al derretimiento de los mantos de hielo de Groenlandia y la Antártida. Esto incrementa la intrusión salina en acuíferos costeros.
+
+5. Implicaciones para la ingeniería civil
+
+El diseño de infraestructura (presas, puentes, sistemas de alcantarillado pluvial, carreteras) se basa históricamente en el análisis de frecuencia de eventos extremos. Sin embargo, el cambio climático introduce no-estacionariedad: las probabilidades de inundación calculadas con datos del siglo XX ya no son válidas para el siglo XXI.  
+
+
+6. Modelado y escenarios futuros
+
+Para predecir estos cambios, se utilizan Modelos de Circulación General (GCM), que son representaciones matemáticas complejas de los procesos físicos de la atmósfera y los océanos. Estos modelos se alimentan de escenarios de emisiones (como los RCP o SRES), que suponen diferentes niveles de éxito de la humanidad en la reducción de GEI. El objetivo no es dar un pronóstico exacto, sino evaluar la sensibilidad de nuestras cuencas ante posibles condiciones futuras para diseñar estrategias de adaptación robustas.
+
+
+---
+
+<div style="font-size: 0.8em;">
+
+**Nota**
+
+En apartados siguientes se abordará nuevamente la temática de cambio climático, pero desde una perspectiva de análisis y diseño hidrológico.
+
+ </div>
+ 
+---
 
 
 

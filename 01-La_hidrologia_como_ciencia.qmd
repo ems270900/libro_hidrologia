@@ -4,12 +4,14 @@ bibliography: references.bib
 suppress-bibliography: true
 ---
 
-## ¿Qué es la hidrología?
-
 ::: {.quote-block}
 “El agua es la fuerza motriz de toda la naturaleza.”  
 — *Leonardo da Vinci*
 :::
+
+## ¿Qué es la hidrología?
+
+
 
 La hidrología es la ciencia que estudia el agua en la Tierra: su presencia, circulación, distribución y las interacciones que tiene con el ambiente y las actividades humanas. Como disciplina aplicada, ofrece herramientas fundamentales para el diseño de infraestructura, la gestión del recurso hídrico, la previsión de fenómenos extremos y la planificación territorial.
 

@@ -24,28 +24,6 @@ El ciclo hidrológico es el foco central de la hidrología, y la cuenca constitu
 
 Este sistema se considera abierto, ya que intercambia masa y energía con su entorno. Las principales entradas corresponden a la precipitación y a la energía solar, mientras que las salidas incluyen el caudal o escorrentía, la evapotranspiración y la infiltración profunda hacia el subsuelo.
 
-El principio fundamental que rige el comportamiento de este sistema es la ecuación de continuidad, también conocida como balance hídrico. En su forma más básica, esta ecuación establece que la diferencia entre las entradas y las salidas de agua del sistema es igual a la variación del almacenamiento por unidad de tiempo, y se expresa como:
-
-$$\frac{\Delta S }{\Delta t} = I - O$$
-
-Donde:
-
-- $I$: entradas de agua al sistema, como la precipitación.  
-- $O$: salidas de agua del sistema, como la escorrentía.  
-- $\Delta S$: cambio en el almacenamiento de agua dentro de la cuenca.  
-- $\Delta t$: intervalo de tiempo considerado.
-
-```{r}
-#| label: fig-cuenca
-#| fig-cap: "Cuenca como unidad hidrológica.<br><span style='font-size:0.8em;'>Fuente: [@MasísCampos2020_BurioQuebradaSeca]</span><br><span style='font-size:0.8em;'>Modificado por (Matarrita,2025)"
-#| fig-align: center
-#| out-width: 100%
-#| echo: false
-#| class: fig-border
-
-knitr::include_graphics("assets/img/cuenca.png")
-
-```
 
 ### Cuencas como unidades de planificación y gestión del recurso hídrico
 
@@ -89,13 +67,11 @@ knitr::include_graphics("assets/img/quebrada_seca.jpg")
 
 ## Elementos morfométricos de cuencas
 
-### Divisoria de aguas
-
 ### Divisoria de aguas de una cuenca
 
 La divisoria de aguas, corresponde a la línea topográfica que delimita una cuenca hidrográfica y separa las áreas de drenaje que escurren hacia distintos sistemas fluviales. Esta divisoria se define, en general, por los puntos de mayor elevación del terreno, como crestas montañosas, cerros o lomas, y establece el límite físico dentro del cual las precipitaciones contribuyen al escurrimiento hacia un punto de control común. 
 
-Para trazar esta línea en un mapa topográfico, como se observa en la @fig-divisoria, se debe seguir el contorno conectando los puntos de máxima cota,. La divisoria siempre corre perpendicularmente a las curvas de nivel sobre las crestas y cumbres más altas, ya que el agua fluye siguiendo la máxima pendiente,.
+Para trazar esta línea en un mapa topográfico, como se observa en la figura siguiente se debe seguir el contorno conectando los puntos de máxima cota,. La divisoria siempre corre perpendicularmente a las curvas de nivel sobre las crestas y cumbres más altas, ya que el agua fluye siguiendo la máxima pendiente,.
 
 ```{r}
 #| label: fig-divisoria
@@ -1018,6 +994,8 @@ tabla_altimetrica %>%
 ```
 
 <br>
+
+
 
 Por lo tanto, el histograma de frecuencias se vería como: 
 

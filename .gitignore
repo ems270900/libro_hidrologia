@@ -15,3 +15,5 @@
 Thumbs.db
 Hidrología-Aplicada-a-la-Ingeniería-Civil.pdf
 *.pdf
+
+**/*.quarto_ipynb

@@ -1275,6 +1275,584 @@ A pesar de su amplia aceptación y uso, el método de Horton presenta limitacion
 3. <u>Sensibilidad a intensidades variables</u>: 
   El modelo no se adapta adecuadamente a hietogramas con variaciones abruptas de intensidad que caen por debajo de la capacidad de infiltración, ya que la curva continúa decreciendo como si la superficie permaneciera saturada.
 
+### Obtención de los parámetros del modelo de Horton a partir de ensayos de infiltración en campo
+
+El modelo de Horton describe empíricamente la disminución temporal de la capacidad de infiltración del suelo durante un evento de humedecimiento continuo. No siempre es factible pagar ensayos a laboratorios de suelos certificados para estimar estos parámetros, por lo que es común que el hidrólogo recurra a ensayos de campo para estimar los parámetros de infiltración necesarios para aplicar el modelo de Horton.
+
+La correcta estimación de sus parámetros requiere ensayos de infiltración cuidadosamente ejecutados y un tratamiento sistemático de los datos observados. En Costa Rica, estos ensayos se encuentran normados en el **Anexo 3: Procedimiento para las pruebas de infiltración y para el diseño del sistema de drenajes**, incluido en el *Reglamento para la Disposición al Subsuelo de Aguas Residuales Ordinarias Tratadas* [@CostaRica_Reglamento_Infiltracion_2015]
+
+El objetivo de esta sección es describir, de manera detallada y operativa, el proceso completo que permite pasar desde la medición directa del descenso del nivel de agua en campo hasta la obtención de los parámetros $f_0$, $f_c$ y $k$ del modelo de Horton.
+
+Es importante señalar que, si bien el enfoque de este capítulo se centra en el análisis de la infiltración como un proceso fundamental del ciclo hidrológico aplicado al diseño, análisis y modelación hidrológica, los procedimientos para la estimación de sus parámetros trascienden este ámbito. Dichos métodos se emplean también de forma sistemática en otras áreas de la ingeniería y las ciencias ambientales, tales como el diseño y dimensionamiento de sistemas de tratamiento y disposición de aguas residuales (por ejemplo, tanques sépticos y campos de infiltración), la planificación y manejo agrícola, los estudios de impacto y fragilidad ambiental, así como en el análisis de propiedades hidráulicas del suelo dentro de la mecánica de suelos. En este sentido, la correcta caracterización de la infiltración constituye una herramienta transversal para la evaluación del comportamiento del suelo frente al movimiento del agua en múltiples aplicaciones técnicas y científicas.
+
+**Fundamento físico del ensayo de infiltración**
+
+Los ensayos de infiltración buscan reproducir, de forma controlada, un proceso de encharcamiento superficial sostenido, de manera que el flujo vertical hacia el suelo esté gobernado por la capacidad de infiltración del medio. Bajo estas condiciones, la tasa de infiltración disminuye progresivamente conforme se reduce la succión capilar y el suelo se aproxima a un estado cercano a la saturación superficial.
+
+**Métodos de ensayo en campo**
+
+- <u>Infiltrómetro de doble anillo</u>
+
+El infiltrómetro de doble anillo es el método más utilizado para ensayos de infiltración destinados a caracterizar el suelo para aplicaciones hidrológicas. Consta de dos anillos concéntricos hincados en el suelo:
+
+El **anillo interno**, donde se mide la infiltración.
+
+El **anillo externo**, que actúa como zona de guarda para minimizar el flujo lateral.
+
+```{r}
+#| label: fig-doble_anillo
+#| fig-cap: "Infiltrómetro de doble anillo.<br><span style='font-size:0.8em;'>Fuente: [environmentalbiophysics.org, 2026]</span>"
+#| fig-align: center
+#| out-width: 100%
+#| echo: false
+#| class: fig-border
+
+knitr::include_graphics("assets/img/doble_anillo.png")
+```
+
+El principio del método consiste en mantener una lámina de agua aproximadamente constante en ambos anillos y medir el descenso del nivel de agua en el anillo interno a intervalos regulares de tiempo. El uso del anillo externo permite que el flujo en el anillo interno sea predominantemente vertical, aproximando el supuesto teórico del modelo de Horton.
+
+- <u>Ensayo por excavación (“gaveta”)</u>
+
+El reglamento nacional para la disposición al subsuelo establece una alternativa basada en excavaciones escalonadas, coloquialmente conocida como una "*gaveta*". El procedimiento general es el siguiente:
+
+1. Se realiza una excavación principal de forma cilíndrica o rectangular, con una profundidad aproximada entre 0.30 y 0.60 m y un diámetro o ancho entre 0.80 y 1.00 m.
+
+2. En el fondo de esta excavación se realiza una excavación secundaria, más pequeña, con un diámetro entre 0.10 y 0.30 m y una profundidad adicional mínima de 0.30 m.
+
+3. En el fondo de la excavación menor se coloca una capa de arena gruesa o grava fina de aproximadamente 5 cm de espesor.
+
+4. El hueco menor se llena completamente con agua limpia y se mantiene saturado durante al menos 24 horas, con el fin de asegurar la saturación inicial del suelo.
+
+Este procedimiento busca reproducir condiciones de infiltración representativas del sistema de drenaje que se desea diseñar.
+
+```{r}
+#| label: fig-gaveta
+#| fig-cap: "Prueba de infiltración por medio de excavación.<br><span style='font-size:0.8em;'>Fuente: [@CostaRica_Reglamento_Infiltracion_2015]</span>"
+#| fig-align: center
+#| out-width: 100%
+#| echo: false
+#| class: fig-border
+
+knitr::include_graphics("assets/img/gaveta.png")
+```
+
+**Lectura de niveles y toma de datos**
+
+Una vez concluido el periodo de saturación inicial en cualquiera de ambos métodos, se procede a la medición de la infiltración propiamente dicha:
+
+1. Se define un punto de referencia fijo en la pared de la excavación menor o del anillo interior.
+
+2. Se ajusta el nivel inicial del agua.
+
+3. Se deja transcurrir un intervalo de tiempo predefinido, usualmente de 30 minutos.
+
+4. Se mide el nivel final del agua y se registra la diferencia de alturas.
+
+Este procedimiento se repite de manera sistemática durante un periodo total de aproximadamente 4 horas, obteniendo una serie temporal de descensos del nivel de agua.
+
+Para cada intervalo $i$, se registra:
+
+- el tiempo inicial y final,
+- la lectura inicial $L_i$,
+- la lectura final $L_f$,
+- la diferencia $\Delta F_i = L_i - L_f$.
+
+```{r}
+#| label: tbl-DCH
+#| tbl-cap: "Cuadro para toma de datos de campo para la prueba de infiltración"
+#| echo: false
+#| message: false
+#| warning: false
+library(tibble)
+library(kableExtra)
+
+tabla_infiltracion <- tibble(
+  `Intervalo de medición` = 1:8,
+  `Hora inicial` = rep("", 8),
+  `Hora final`   = rep("", 8),
+  `Lectura inicial (Li)` = rep("", 8),
+  `Lectura final (Lf)`   = rep("", 8),
+  `Diferencia (Lf − Li)` = rep("", 8)
+)
+
+tabla_infiltracion |>
+  kbl(
+    format   = "html",
+    booktabs = TRUE,
+    align    = c("c","c","c","c","c","c"),
+    escape   = FALSE) |>
+  kable_classic(html_font = "Latin Modern Roman") |>
+  kable_styling(
+    full_width        = TRUE,
+    bootstrap_options = c("striped", "hover", "condensed")
+  ) |>
+  row_spec(0, bold = TRUE) |>
+  column_spec(1, width = "12em") |>
+  column_spec(2:3, width = "10em") |>
+  column_spec(4:6, width = "14em")
+```
+
+
+**Conversión de lecturas a infiltración experimental**
+
+La diferencia de niveles $\Delta F_i$ representa la profundidad de agua infiltrada durante el intervalo de tiempo $\Delta t_i$. A partir de esta información se obtienen dos magnitudes fundamentales:
+
+1. <u>Infiltración acumulada experimental</u>:
+
+$$
+F_{\text{exp}}(t_j) = \sum_{i=1}^{j} \Delta F_i
+$$
+
+2. <u>Tasa media de infiltración experimental en cada intervalo</u>:
+
+$$
+f_{\text{exp},i} = \frac{\Delta F_i}{\Delta t_i}
+$$
+
+Estas tasas medias constituyen la base para el ajuste del modelo de Horton.
+
+**Estimación preliminar de la capacidad final $f_c$**
+
+El parámetro $f_c$ se asocia a la tasa de infiltración cuando el suelo ha alcanzado un estado cuasi-estacionario. En la práctica, se estima como el promedio de las tasas de infiltración observadas en los últimos intervalos de medición, o el valor mínimo estable hacia el final del ensayo.
+
+<u>Este paso es crítico, ya que un valor inadecuado de $f_c$ afecta directamente la estimación de $f_0$ y $k$.</u>
+
+**Linealización del modelo de Horton**
+
+Partiendo de la expresión del modelo:
+
+$$
+f_p(t) = f_c + (f_0 - f_c)\,e^{-k t}
+$$
+
+y asumiendo que, durante el ensayo, la infiltración real coincide con la capacidad del suelo, se obtiene:
+
+$$
+f_r(t) - f_c = (f_0 - f_c)\,e^{-k t}
+$$
+
+Aplicando logaritmo natural:
+
+$$
+\ln(f_r - f_c) = \ln(f_0 - f_c) - k\,t
+$$
+
+Esta ecuación tiene la forma de una recta:
+
+$$
+y = b + m x
+$$
+
+con:
+
+- $y = \ln(f_r - f_c)$,
+- $x = t$,
+- $b = \ln(f_0 - f_c)$,
+- $m = -k$.
+
+**Ajuste por regresión lineal**
+
+El procedimiento práctico es el siguiente:
+
+1. Se calcula $f_r - f_c$ para cada intervalo.
+
+2. Se descartan los primeros puntos si presentan alta dispersión inicial.
+
+3. Se calcula el logaritmo natural de $f_r - f_c$.
+
+4. Se ajusta una regresión lineal simple entre $\ln(f_r - f_c)$ y $t$.
+
+De la regresión se obtienen directamente:
+
+$$
+k = -m
+$$
+
+$$
+f_0 = f_c + e^{b}
+$$
+
+**Verificación del ajuste**
+
+Con los parámetros estimados, se reconstruyen:
+
+a. la curva de capacidad de infiltración $f_p(t)$.
+
+b. la infiltración acumulada teórica $F(t)$.
+
+Estas se comparan con los valores experimentales para evaluar errores relativos en $f$,  errores relativos en $F$, coherencia física de los parámetros.
+
+Un ajuste adecuado se caracteriza por errores pequeños, sin tendencias sistemáticas y con un valor de $f_c$ consistente con la textura del suelo y la experiencia de campo.
+
+::: {.callout-note title="Ejemplo"}
+
+Usted es el hidrólogo a cargo de ejecutar una prueba de infiltración mediante un método de campo (infiltrómetro de doble anillo o excavación tipo “gaveta”). Con el objetivo de calibrar el modelo de Horton para su posterior uso en diseño y modelación hidrológica, se realizó la prueba bajo encharcamiento sostenido y se registró el descenso del nivel de agua en el elemento de medición (anillo interno o excavación menor). A partir de dicha prueba, se recolectaron los siguientes datos.
+
+
+```{r}
+#| label: tbl-DCH2
+#| tbl-cap: "Datos de campo (descenso de nivel en centímetros)"
+#| echo: false
+#| message: false
+#| warning: false
+#| 
+library(tibble)
+library(kableExtra)
+library(tibble)
+library(dplyr)
+library(kableExtra)
+
+tabla_infiltracion <- tibble(
+  `Intervalo de medición` = 1:10,
+  `Hora inicial` = c("08:00","08:15","08:30","08:45","09:00","09:15","09:30","09:45","10:00","10:15"),
+  `Hora final`   = c("08:15","08:30","08:45","09:00","09:15","09:30","09:45","10:00","10:15","10:30"),
+  `Lectura inicial (Li)` = c(30.0, 26.1, 23.1, 20.8, 19.1, 17.7, 16.6, 15.7, 15.0, 14.4),
+  `Lectura final (Lf)`   = c(26.1, 23.1, 20.8, 19.1, 17.7, 16.6, 15.7, 15.0, 14.4, 13.9),
+  `Diferencia (Li − Lf)` = c( 3.9,  3.0,  2.3,  1.7,  1.4,  1.1,  0.9,  0.7,  0.6,  0.5)
+)
+
+tabla_infiltracion |>
+  kbl(
+    format   = "html",
+    booktabs = TRUE,
+    align    = c("c","c","c","c","c","c"),
+    escape   = FALSE) |>
+  kable_classic(html_font = "Latin Modern Roman") |>
+  kable_styling(
+    full_width        = TRUE,
+    bootstrap_options = c("striped", "hover", "condensed")
+  ) |>
+  row_spec(0, bold = TRUE) |>
+  column_spec(1, width = "12em") |>
+  column_spec(2:3, width = "9em") |>
+  column_spec(4:6, width = "14em")
+```
+
+
+En cada intervalo $i$ se dispone de la profundidad infiltrada $\Delta F_i$ (cm), obtenida como el descenso del nivel:
+
+$$
+\Delta F_i = L_i - L_f
+$$
+
+El intervalo de medición es $\Delta t = 15\ \text{min} = 0.25\ \text{h}$. La tasa media de infiltración experimental en el intervalo $i$ se calcula como:
+
+$$
+f_{\text{exp},i} = \frac{\Delta F_i}{\Delta t}
+$$
+
+Como $\Delta t = 0.25\ \text{h}$, se obtiene directamente:
+
+$$
+f_{\text{exp},i} = \frac{\Delta F_i}{0.25}
+\quad\Rightarrow\quad
+f_{\text{exp},i}\ (\text{cm/h}) = 4\times \Delta F_i\ (\text{cm})
+$$
+
+> Es importante adecuar cada $\Delta t$, según el intervalo de medición que se tenga en la prueba.
+
+Ejemplos de cálculo:
+
+- Intervalo 1: $\Delta F_1 = 3.9\ \text{cm}\ \Rightarrow\ f_{\text{exp},1} = 4(3.9)=15.6\ \text{cm/h}$
+- Intervalo 10: $\Delta F_{10} = 0.5\ \text{cm}\ \Rightarrow\ f_{\text{exp},10} = 4(0.5)=2.0\ \text{cm/h}$
+
+La infiltración acumulada experimental hasta el final del intervalo $j$ es:
+
+$$
+F_{\text{exp}}(t_j) = \sum_{i=1}^{j} \Delta F_i
+$$
+
+- **Estimación preliminar de $f_c$**
+
+Se adopta $f_c$ como el promedio de las últimas tasas cuando el proceso se aproxima al régimen cuasi-estacionario. Con los tres últimos intervalos:
+
+$$
+f_c \approx \frac{f_{\text{exp},8}+f_{\text{exp},9}+f_{\text{exp},10}}{3}
+= \frac{2.8+2.4+2.0}{3} = 2.4\ \text{cm/h}
+$$
+
+- **Linealización del modelo de Horton para estimar $k$ y $f_0$**
+
+El modelo de Horton se expresa como:
+
+$$
+f(t) = f_c + (f_0 - f_c)e^{-kt}
+$$
+
+Reordenando:
+
+$$
+f(t)-f_c = (f_0-f_c)e^{-kt}
+$$
+
+Aplicando logaritmo natural:
+
+$$
+\ln\!\big(f(t)-f_c\big) = \ln(f_0-f_c) - kt
+$$
+
+Definiendo:
+
+$$
+y = \ln\!\big(f-f_c\big),\quad x=t,\quad b=\ln(f_0-f_c),\quad m=-k
+$$
+
+se obtiene el modelo lineal:
+
+$$
+y = b + mx
+$$
+
+Para representar cada intervalo se usa el tiempo medio:
+
+$$
+t_i^\text{*} = \frac{t_{i,\text{ini}} + t_{i,\text{fin}}}{2}
+$$
+
+Con intervalos de 15 min, los tiempos medios (min) son:
+
+$$
+t^\text{*} = 7.5,\ 22.5,\ 37.5,\ 52.5,\ 67.5,\ 82.5,\ 97.5,\ 112.5,\ 127.5,\ 142.5
+$$
+
+Se calcula $y_i = \ln(f_{\text{exp},i}-f_c)$. Para evitar valores no definidos, se usan los puntos con $f_{\text{exp},i}>f_c$; en este caso se emplean los primeros 8 intervalos.
+
+Valores de $y$ (con $f_c=2.4$):
+
+$$
+y_i = \ln(f_{\text{exp},i}-2.4)
+$$
+
+- **Estimación de la recta por mínimos cuadrados**
+
+Con $n=8$ observaciones $(x_i,y_i)$, la pendiente e intercepto se obtienen mediante:
+
+> **Nota:** aunque durante el ensayo se registraron $10$ intervalos de observación, no todos los datos se utilizan para la estimación de los parámetros del modelo de Horton. En la etapa de ajuste lineal se consideran únicamente aquellos intervalos en los que la tasa de infiltración experimental satisface claramente $f_r > f_c$ y el proceso de decaimiento exponencial es dominante. Los últimos intervalos, en los que $f_r$ se aproxima a $f_c$, no aportan información relevante sobre la pendiente $k$ y pueden generar inestabilidad numérica al evaluar el término $\ln(f_r - f_c)$. Por esta razón, en el ajuste se emplean únicamente $n=8$ observaciones, correspondientes a los intervalos físicamente representativos del proceso transitorio de infiltración.
+
+$$
+m=\frac{n\sum x_iy_i - (\sum x_i)(\sum y_i)}{n\sum x_i^2 - (\sum x_i)^2},
+\qquad
+b=\frac{\sum y_i - m\sum x_i}{n}
+$$
+
+Para este conjunto de datos (intervalos 1 a 8) se tiene:
+
+$$
+\sum x_i = 480.0,\quad
+\sum y_i = 9.3628,\quad
+\sum x_i^2 = 38250.0,\quad
+\sum x_iy_i = 270.3011
+$$
+
+Sustituyendo:
+
+$$
+m=\frac{8(270.3011)-(480.0)(9.3628)}{8(38250.0)-(480.0)^2}
+=-0.03084\ \text{min}^{-1}
+$$
+
+$$
+b=\frac{9.3628-(-0.03084)(480.0)}{8}=3.02095
+$$
+
+Por lo tanto:
+
+$$
+k=-m=0.03084\ \text{min}^{-1}
+$$
+
+y:
+
+$$
+f_0 = f_c + e^{b}
+= 2.4 + e^{3.02095}
+= 2.4 + 20.51
+= 22.91\ \text{cm/h}
+$$
+
+- **Resultados del ajuste**
+
+Parámetros estimados:
+
+- $f_c = 2.4\ \text{cm/h}$
+- $k = 0.03084\ \text{min}^{-1}$
+- $f_0 = 22.91\ \text{cm/h}$
+
+Modelo calibrado:
+
+$$
+f(t) = 2.4 + (22.91 - 2.4)e^{-0.03084\,t}
+\quad\text{con}\quad t\ \text{en minutos}
+$$
+
+```{r}
+#| label: tbl-DCH3
+#| tbl-cap: "Resumen de resultados."
+#| echo: false
+#| message: false
+#| warning: false
+library(tibble)
+library(dplyr)
+library(kableExtra)
+
+datos <- tibble(
+  intervalo = 1:10,
+  t_ini_min = seq(0, 135, by = 15),
+  t_fin_min = seq(15, 150, by = 15),
+  t_mid_min = seq(7.5, 142.5, by = 15),
+  Li_cm = c(30.0, 26.1, 23.1, 20.8, 19.1, 17.7, 16.6, 15.7, 15.0, 14.4),
+  Lf_cm = c(26.1, 23.1, 20.8, 19.1, 17.7, 16.6, 15.7, 15.0, 14.4, 13.9),
+  dF_cm = c(3.9, 3.0, 2.3, 1.7, 1.4, 1.1, 0.9, 0.7, 0.6, 0.5)
+) |>
+  mutate(
+    dt_h = 0.25,
+    f_exp_cm_h = dF_cm / dt_h,
+    F_exp_cm = cumsum(dF_cm)
+  )
+
+fc <- 2.4
+k  <- 0.03084
+f0 <- 22.91
+
+datos <- datos |>
+  mutate(
+    f_horton_cm_h = fc + (f0 - fc) * exp(-k * t_mid_min),
+    error_f_pct = 100 * (f_horton_cm_h - f_exp_cm_h) / f_exp_cm_h,
+    F_horton_cm = (fc/60) * t_fin_min + ((f0 - fc)/(60*k)) * (1 - exp(-k * t_fin_min)),
+    error_F_pct = 100 * (F_horton_cm - F_exp_cm) / F_exp_cm
+  )
+
+tabla_resumen <- datos |>
+  transmute(
+    `Intervalo` = intervalo,
+    `t_ini (min)` = t_ini_min,
+    `t_fin (min)` = t_fin_min,
+    `t* (min)` = t_mid_min,
+    `ΔF (cm)` = dF_cm,
+    `F_exp (cm)` = round(F_exp_cm, 1),
+    `f_exp (cm/h)` = round(f_exp_cm_h, 1),
+    `f_Horton (cm/h)` = round(f_horton_cm_h, 2),
+    `Error f (%)` = round(error_f_pct, 1),
+    `F_Horton (cm)` = round(F_horton_cm, 2),
+    `Error F (%)` = round(error_F_pct, 1)
+  )
+
+tabla_resumen |>
+  kbl(
+    format   = "html",
+    booktabs = TRUE,
+    align    = rep("c", ncol(tabla_resumen)),
+    escape   = FALSE) |>
+  kable_classic(html_font = "Latin Modern Roman") |>
+  kable_styling(
+    full_width        = TRUE,
+    bootstrap_options = c("striped", "hover", "condensed")
+  ) |>
+  row_spec(0, bold = TRUE) |>
+  column_spec(1, width = "8em")
+```
+
+
+```{r}
+#| label: fig-DCH45
+#| fig-cap: "Tasa de infiltración respecto al tiempo."
+#| fig-align: center
+#| out-width: 100%
+#| echo: false
+#| class: fig-border
+
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+tt <- tibble(
+  t_min = seq(0, 150, by = 1)
+) |>
+  mutate(
+    f_horton_cm_h = fc + (f0 - fc) * exp(-k * t_min),
+    F_horton_cm   = (fc/60) * t_min + ((f0 - fc)/(60*k)) * (1 - exp(-k * t_min))
+  )
+
+# Re-escalar F para dibujarlo sobre el eje izquierdo (escala de f)
+f_max <- max(c(datos$f_exp_cm_h, tt$f_horton_cm_h), na.rm = TRUE)
+F_max <- max(c(datos$F_exp_cm, tt$F_horton_cm), na.rm = TRUE)
+scale_F_to_f <- f_max / F_max
+
+ggplot() +
+  # f (experimental y Horton) en eje izquierdo
+  geom_line(
+    data = tt,
+    aes(x = t_min, y = f_horton_cm_h, color = "f Horton", linetype = "f Horton"),
+    linewidth = 0.8
+  ) +
+  geom_point(
+    data = datos,
+    aes(x = t_mid_min, y = f_exp_cm_h, color = "f exp", shape = "f exp"),
+    size = 2.2,
+    stroke = 0.9
+  ) +
+  # F (experimental y Horton) re-escalado al eje izquierdo
+  geom_line(
+    data = tt,
+    aes(x = t_min, y = F_horton_cm * scale_F_to_f, color = "F Horton", linetype = "F Horton"),
+    linewidth = 0.8
+  ) +
+  geom_point(
+    data = datos,
+    aes(x = t_fin_min, y = F_exp_cm * scale_F_to_f, color = "F exp", shape = "F exp"),
+    size = 2.2,
+    stroke = 0.9
+  ) +
+  scale_y_continuous(
+    name = "Tasa de infiltración, f (cm/h)",
+    sec.axis = sec_axis(~ . / scale_F_to_f, name = "Infiltración acumulada, F (cm)")
+  ) +
+  scale_color_manual(
+    name = NULL,
+    values = c(
+      "f exp" = "#1f77b4",
+      "f Horton" = "#1f77b4",
+      "F exp" = "#d62728",
+      "F Horton" = "#d62728"
+    )
+  ) +
+  scale_linetype_manual(
+    name = NULL,
+    values = c(
+      "f Horton" = "solid",
+      "F Horton" = "solid"
+    ),
+    breaks = c("f Horton", "F Horton")
+  ) +
+  scale_shape_manual(
+    name = NULL,
+    values = c(
+      "f exp" = 1,
+      "F exp" = 0
+    ),
+    breaks = c("f exp", "F exp")
+  ) +
+  guides(
+    color = guide_legend(override.aes = list(linetype = c("blank", "solid", "blank", "solid"))),
+    linetype = "none",
+    shape = guide_legend(override.aes = list(linetype = "blank"))
+  ) +
+  labs(
+    x = "Tiempo, t (min)"
+  ) +
+  theme(
+    axis.title = element_text(face = "bold"),
+    legend.position = "right",
+    legend.text = element_text(size = 10),
+    axis.title.y.right = element_text(face = "bold")
+  )
+```
+
+
+
+::: 
+
 
 
 ### Modelo de Green-Ampt
@@ -2403,3 +2981,45 @@ ggplot(datos_F, aes(x = t_min, y = F_cm)) +
 
 
 ::: 
+
+
+## Papel de la infiltración en los procesos hidrológicos fundamentales
+
+La infiltración constituye uno de los procesos centrales del ciclo hidrológico terrestre, ya que controla la partición inicial de la precipitación entre escorrentía superficial, almacenamiento en el suelo y recarga subterránea. Su comportamiento condiciona de manera directa la respuesta hidrológica de una cuenca, tanto en eventos ordinarios como en eventos extremos. Comprender su relación con la humedad antecedente, la saturación del suelo, la recarga y los eventos extremos resulta esencial para el análisis y el diseño hidrológico.
+
+### Relación entre infiltración y humedad antecedente
+
+La humedad antecedente del suelo describe el estado hídrico previo a un evento de precipitación y constituye uno de los factores más influyentes sobre la infiltración. Desde un punto de vista físico, la capacidad del suelo para infiltrar agua depende de la diferencia entre su contenido de humedad actual y su contenido a saturación.
+
+Cuando el suelo presenta baja humedad antecedente, la infiltración inicial es elevada debido a la presencia de poros parcialmente vacíos y a una fuerte succión capilar. En estas condiciones, una fracción significativa de la precipitación se almacena temporalmente en el perfil del suelo, reduciendo la generación de escorrentía superficial.
+
+En contraste, cuando la humedad antecedente es alta, el déficit de humedad disponible es pequeño y la capacidad de infiltración se reduce de forma considerable. El suelo alcanza rápidamente condiciones cercanas a la saturación superficial, lo que incrementa la probabilidad de encharcamiento y de generación de escorrentía directa, incluso bajo lluvias de intensidad moderada.
+
+Desde el punto de vista hidrológico, la humedad antecedente actúa como una variable de memoria del sistema suelo–cuenca, integrando el efecto de eventos de precipitación previos, evapotranspiración y drenaje interno.
+
+### Infiltración y condiciones de saturación
+
+La saturación del suelo representa un estado límite en el cual los poros se encuentran completamente llenos de agua y la infiltración queda restringida por la conductividad hidráulica saturada. Bajo estas condiciones, la infiltración no puede incrementarse aunque aumente la intensidad de la lluvia.
+
+Es importante distinguir entre saturación superficial y saturación del perfil. En muchos casos, la superficie del suelo puede saturarse rápidamente mientras capas más profundas aún presentan capacidad de almacenamiento. No obstante, desde el punto de vista de la generación de escorrentía, la saturación superficial es el factor determinante.
+
+La saturación juega un papel clave en la transición entre infiltración controlada por la succión capilar y infiltración controlada exclusivamente por la conductividad hidráulica. Este cambio de régimen explica la aparición de escorrentía por exceso de lluvia y, en cuencas con niveles freáticos someros, la escorrentía por saturación.
+
+### Infiltración, almacenamiento en el suelo y recarga subterránea
+
+La infiltración constituye el mecanismo primario mediante el cual el agua superficial accede al sistema subterráneo. Una fracción del agua infiltrada se almacena temporalmente en la zona no saturada del suelo, donde puede ser posteriormente devuelta a la atmósfera mediante evapotranspiración.
+
+Otra fracción percola hacia capas más profundas y contribuye a la recarga de acuíferos. Este proceso es fundamental para el mantenimiento de caudales base en ríos, la sostenibilidad de fuentes de agua subterránea y la regulación hidrológica a escala estacional y anual.
+
+Desde una perspectiva de balance hídrico, la infiltración actúa como un regulador natural que desacopla temporalmente la precipitación de la escorrentía, redistribuyendo el agua en el tiempo. Cuencas con altas tasas de infiltración y recarga tienden a presentar respuestas hidrológicas más amortiguadas, con picos de caudal menores y mayor persistencia de caudales en periodos secos.
+
+### Rol de la infiltración en eventos extremos
+
+En eventos extremos de precipitación, el comportamiento de la infiltración adquiere un papel crítico en la magnitud y rapidez de la respuesta hidrológica. Durante lluvias intensas, la capacidad de infiltración puede verse rápidamente superada, especialmente si el suelo presenta alta humedad antecedente o condiciones de compactación.
+
+En estos casos, la infiltración actúa como un umbral dinámico que define el inicio de la escorrentía superficial. Pequeñas variaciones en la humedad inicial, la estructura del suelo o la cobertura vegetal pueden producir diferencias sustanciales en los volúmenes de escorrentía generados.
+
+En contextos urbanos o de uso intensivo del suelo, la reducción de la infiltración debido a superficies impermeables incrementa de manera significativa la severidad de los eventos extremos, aumentando los picos de caudal y reduciendo los tiempos de concentración.
+
+Desde el punto de vista del diseño hidrológico y de la gestión del riesgo, la infiltración constituye un proceso clave para la mitigación de inundaciones. Prácticas como la conservación de suelos, la restauración de coberturas vegetales y la implementación de sistemas de drenaje urbano sostenible buscan, precisamente, maximizar la infiltración efectiva y restablecer parte de la función reguladora natural del suelo.
+

@@ -1,5 +1,149 @@
 project:
-  title: "libro_hidrologia"
+  type: book
+  output-dir: _book
 
-editor: visual
+lang: es
+editor: source
 
+prefer-html: true
+
+crossref:
+  fig-title: "Figura"
+  tbl-title: "Cuadro"
+  eq-title: "Ecuación"
+  fig-prefix: "Figura"
+  tbl-prefix: "Cuadro"
+  eq-prefix: "Ecuación"
+
+book:
+  title: "Hidrología Aplicada a la Ingeniería Civil"
+  subtitle: "Fundamentos, análisis estadístico y aplicaciones prácticas"
+  author:
+    - name: "Ing. Edwin Matarrita Segura"
+      affiliation: "Escuela de Ingeniería Civil, Universidad de Costa Rica"
+  favicon: assets/img/favicon.png
+  date: today
+
+  reader-mode: true
+
+  page-footer:
+    left: |
+      Hidrología Aplicada a la Ingeniería Civil, Ing. Edwin Matarrita Segura.
+    right: |
+      Este libro fue construido con <a href="https://quarto.org/">Quarto</a> y
+      <a href="https://posit.co/download/rstudio-desktop/">RStudio</a>.
+
+  repo-url: https://github.com/ems270900/libro_hidrologia
+  site-url: https://ems270900.github.io/libro_hidrologia/
+
+  chapters:
+    - index.qmd
+    - welcome.qmd
+    - intro.qmd
+
+    - part: "Estudios en el Recurso Hídrico"
+      chapters:
+        - 01-La_hidrologia_como_ciencia.qmd
+        - 02-Disponibilidad.qmd
+
+    - part: "El Ciclo Hidrológico"
+      chapters:
+        - 03-Ciclo_hidrologico.qmd
+
+    - part: "La Cuenca como Unidad Hidrológica"
+      chapters:
+        - 04-Cuenca.qmd
+
+    - part: "Principios de Hidroclimatología"
+      chapters:
+        - 05-Fuentes_info_hidrometeo.qmd
+        - 06-Meteo.qmd
+        - 07-Precip.qmd
+
+    - part: "Análisis y Manejo de Registros Hidrológicos"
+      chapters:
+        - 08-registros_hidro.qmd
+
+    - part: "Análisis Estadístico Aplicado a Hidrología"
+      chapters:
+        - 09-estadistica.qmd
+        - 10-retorno_y_riesgo.qmd
+        - 11-modelos.qmd
+        - 12-dist_parametrica.qmd
+
+    - part: "Análisis de Precipitaciones Intensas"
+      chapters:
+        - 13-IDF.qmd
+
+    - part: "Procesos de Pérdida y Transformación del Agua en el Ciclo Hidrológico"
+      chapters:
+        - 14-Evaporación.qmd
+        - 15-Evapotranspiración.qmd
+        - 16-Infiltración y almacenamiento en el suelo.qmd
+        - 17-Transición hacia la escorrentía superficial.qmd
+
+    - part: "Balance Hídrico y Conservación del Agua en Sistemas Hidrológicos"
+      chapters:
+        - 18-Principio de conservación de la masa.qmd
+        - 19-Balance hídrico a escala de cuenca.qmd
+        - 20-Balance hídrico del suelo.qmd
+        - 21-Balance hídrico en embalses y acuíferos.qmd
+        - 22-Incertidumbre y limitaciones del balance hídrico.qmd
+
+    - part: "Generación de Escorrentía y Respuesta Hidrológica de Cuencas"
+      chapters:
+        - 23-Escorrentía superficial_fundamentos físicos.qmd
+        - 24-Precipitación efectiva y excedente de lluvia.qmd
+        - 25-Hidrograma de escorrentía directa.qmd
+        - 26-Modelos precipitación–escorrentía_enfoque conceptual.qmd
+        - 27-Métodos clásicos de estimación de escorrentía.qmd
+        - 28-Introducción a modelos hidrológicos computacionales.qmd
+
+    - part: "Cambio Climático y sus Implicaciones Hidrológicas"
+      chapters:
+        - 29-Definición y fundamentos del cambio climático.qmd
+        - 30-Evidencia y cambios observados del clima a nivel global.qmd
+        - 31-Cambio climático en América Central.qmd
+        - 32-Marco internacional y políticas climáticas.qmd
+        - 33-Escenarios de cambio climático.qmd
+        - 34-Modelos climáticos y estimación de precipitación futura.qmd
+
+    - part: "Tránsito de Avenidas y Propagación de Caudales en Sistemas Hidrológicos"
+      chapters:
+        - 35-Fundamentos del tránsito de avenidas.qmd
+        - 36-Tránsito de avenidas en embalses.qmd
+        - 37-Tránsito hidrológico en ríos.qmd
+
+    - part: "Hidrología Urbana y Gestión Sostenible del Escurrimiento"
+      chapters:
+        - 38-Bases físicas y conceptuales de la hidrología urbana.qmd
+        - 39-Generación y estimación de escorrentía urbana.qmd
+        - 40-Sistemas de drenaje urbano.qmd
+        - 41-Hidrología urbana sostenible y adaptación climática.qmd
+
+    - 99-Referencias.qmd
+
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: false
+    code-tools: false
+    code-line-numbers: false
+    fig-cap-location: bottom
+    tbl-cap-location: top
+    link-external-newwindow: true
+    df-print: paged
+    smooth-scroll: true
+    css: assets/css/styles.css
+    lightbox: true
+
+execute:
+  echo: false
+  warning: false
+  error: false
+  message: false
