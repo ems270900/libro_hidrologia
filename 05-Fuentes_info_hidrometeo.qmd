@@ -541,6 +541,7 @@ knitr::include_graphics("assets/img/bal_rad.png")
 La nubosidad se mide tradicionalmente de forma visual, estimando la fracción del cielo cubierta por nubes. Aunque en algunos contextos se utilizan octavos, el estándar descrito en la literatura técnica suele expresar la nubosidad en décimas partes del cielo ocupado. 
 
 ```{r message=FALSE, warning=FALSE, error=FALSE}
+#| echo: false
 library(dplyr)
 library(tibble)
 library(kableExtra)

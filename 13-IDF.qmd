@@ -249,7 +249,6 @@ $$
 ```{r}
 #| label: tbl-valores_hieto_banda
 #| tbl-cap: "Pulsos de precipitación por hora."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -368,7 +367,6 @@ knitr::include_graphics("assets/img/idf2.png")
 ```{r}
 #| label: tbl-valores_intensidad
 #| tbl-cap: "Volúmenes de máxima precipitación para cada intervalo de duración definido."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -441,7 +439,6 @@ Por lo que al final se obtiene para cada duración, una intensidad definida.
 ```{r}
 #| label: tbl-valores_intensidad2
 #| tbl-cap: "Máximas intensidades de precipitación para cada intervalo de duración definido."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -994,7 +991,6 @@ datos %>%
 #| fig-align: center
 #| out-width: 100%
 #| class: fig-border
-#| echo: false
 #| message: false
 #| warning: false
 ggplot(datos, aes(x = Año, y = Pmax)) +
@@ -1498,7 +1494,6 @@ A continuación, se presentan los datos:
 ```{r}
 #| label: tbl-MBA1
 #| tbl-cap: "Datos de Intensidad-Duración-Frecuencia."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -1610,7 +1605,6 @@ Según la información suministrada para el ejercicio, se tienen los siguientes 
 ```{r}
 #| label: tbl-MBA_idf_T10
 #| tbl-cap: "Valores IDF para $T=10$ años: intensidad media $i(d,10)$ (mm/h) por duración $d$."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -1685,7 +1679,6 @@ A continuación se muestra el resultado de este proceso.
 ```{r}
 #| label: tbl-curva_masa
 #| tbl-cap: "Curva de masa e incrementos de precipitación para la tormenta de diseño (T = 10 años)."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -1853,7 +1846,6 @@ donde $\Delta P^{*}_j$ es la precipitación del bloque $j$ en el hietograma MBA.
 ```{r}
 #| label: tbl-hietograma_MBA
 #| tbl-cap: "Tabla resumen para la construcción del hietograma de diseño mediante el Método del Bloque Alterno."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -2031,7 +2023,6 @@ knitr::include_graphics("assets/img/imn_mecanicas.png")
 ```{r}
 #| label: tbl-estaciones_mecanicas_imn
 #| tbl-cap: "Estaciones mecánicas presentes en el bolétin de [@Rojas2011mecanicas]."
-#| echo: false
 #| message: false
 #| warning: false
 library(tibble)

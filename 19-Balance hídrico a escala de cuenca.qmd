@@ -106,7 +106,6 @@ Desde el punto de vista operativo, existen dos enfoques principales para cuantif
 ```{r}
 #| label: tbl-BH1
 #| tbl-cap: "Enfoques prinicipales para la estimacion de $ETR$."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -449,7 +448,6 @@ En términos gráficos, resulta especialmente informativo representar en un mism
 #| fig-cap: "Balance hídrico mensual: precipitación efectiva (barras) y series de ETR, escorrentía equivalente y almacenamiento del suelo (líneas)."
 #| fig-align: center
 #| out-width: 100%
-#| echo: false
 #| message: false
 #| warning: false
 #| class: fig-border
@@ -553,7 +551,6 @@ A continuación se presentan los valores de precipitación (mm), temperatura ($�
 ```{r}
 #| label: tbl-BHE1
 #| tbl-cap: "Datos climatológicos registrados para la cuenca."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -670,7 +667,6 @@ $$
 ```{r}
 #| label: tbl-BHe1
 #| tbl-cap: "Estimación de ET0 por el método de Thornthwaite."
-#| echo: false
 #| message: false
 #| warning: false
 ### Tabla resumen (Thornthwaite): $i_i$, $I$, $\alpha$ y $ET_{0,i}$
@@ -782,7 +778,6 @@ $P_{\text{ef},Feb}=52.9-7.935=44.965\ \text{mm/mes}\approx 45.0\ \text{mm/mes}$
 ```{r}
 #| label: tbl-BHe2
 #| tbl-cap: "Estimación de pérdidas por infiltración e intercepción."
-#| echo: false
 #| message: false
 #| warning: false
 library(tibble)
@@ -960,7 +955,6 @@ $R_{Feb}=7.0\times 10^{-9}\,(2{,}419{,}200)\,1000=16.93\ \text{mm/mes}$
 ```{r}
 #| label: tbl-BHe3
 #| tbl-cap: "Balance hídrico mensual, con $S_{\text{inicial}}=20$ mm."
-#| echo: false
 #| message: false
 #| warning: false
 #| results: asis
@@ -1030,7 +1024,6 @@ Variación mensual del almacenamiento:
 #| fig-cap: "Variación mensual del cambio de almacenamiento del suelo ($S_{mes}$)."
 #| fig-align: center
 #| out-width: 90%
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -1109,7 +1102,6 @@ Finalmente se muestra la variación combinada de las variables del balance hídr
 #| fig-cap: "Balance hídrico mensual: precipitación efectiva (barras) y series de ETR, R=Q/A y almacenamiento S (líneas)."
 #| fig-align: center
 #| out-width: 100%
-#| echo: false
 #| message: false
 #| warning: false
 #| class: fig-border

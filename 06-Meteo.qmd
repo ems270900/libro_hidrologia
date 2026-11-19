@@ -88,7 +88,6 @@ Es importante destacar que el contenido de vapor de agua es extremadamente varia
 ```{r}
 #| label: tbl-atmosfera
 #| tbl-cap: "Composición de la atmósfera."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -139,7 +138,6 @@ gases_atmosfera %>%
 #| fig-align: center
 #| out-width: 100%
 #| class: fig-border
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -576,6 +574,7 @@ Esta ecuación es fundamental en hidrología para ajustar registros meteorológi
 
 
 ```{r}
+#| echo: false
 ### Tabla de referencia: atmósfera estándar
 
 library(dplyr)

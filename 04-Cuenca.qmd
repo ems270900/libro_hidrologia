@@ -125,7 +125,7 @@ Por esta razón, se recomienda realizar una delimitación manual con una revisi�
 #| echo: false
 #| class: fig-border
 
-knitr::include_graphics("assets/img/curvas_snit.jpg")
+knitr::include_graphics("assets/img/curvas_snit.JPG")
 
 ```
 
@@ -262,7 +262,6 @@ A continuación, se muestra un ejemplo de cálculo de la razón de bifurcación.
 ```{r}
 #| label: tbl-razon-bifurcacion
 #| tbl-cap: "Distribución de órdenes de cauces y razón de bifurcación en una cuenca hidrográfcia."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -855,7 +854,6 @@ La elección del tamaño del intervalo depende de la escala del estudio y del ni
 #| fig-cap: "Histograma de frecuencias altimétricas, río La Estrella"
 #| fig-align: center
 #| out-width: 100%
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -1005,7 +1003,6 @@ Por lo tanto, el histograma de frecuencias se vería como:
 #| fig-cap: "Histograma de frecuencias altimétricas"
 #| fig-align: center
 #| out-width: 100%
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -1100,7 +1097,6 @@ Considere una cuenca hidrográfica para la cual se dispone de información altim
 A partir del análisis del relieve, se han definido intervalos altimétricos de 50 m y se ha estimado el área comprendida en cada intervalo. La información se presenta a continuación.
 
 ```{r}
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -1146,7 +1142,6 @@ El área acumulada se calcula desde la cota máxima hacia la cota mínima, suman
 
 
 ```{r}
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -1185,7 +1180,6 @@ Para construir la curva hipsométrica se procede de la siguiente manera:
 #| fig-cap: "Curva hipsométrica de la cuenca (elevación vs. porcentaje de área acumulada)."
 #| fig-align: center
 #| out-width: 85%
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -1615,6 +1609,7 @@ Para fines de análisis hidrológico, manejo de suelos y diseño de infraestruct
 
 
 ```{r}
+#| echo: false
 library(dplyr)
 library(tibble)
 library(kableExtra)
@@ -1764,6 +1759,7 @@ knitr::include_graphics("assets/img/s3.png")
 Considérese un cauce principal de longitud total $L = 2000 \ \text{m}$, dividido en $m = 5$ tramos de igual longitud $d_i = 400 \ \text{m}$. Para cada tramo se conoce el desnivel $\Delta h_i$ y se calcula la pendiente media $S_i = \Delta h_i / d_i$. Se evalúa el término $d_i / \sqrt{S_i}$, que representa el tiempo relativo de recorrido en cada tramo.
 
 ```{r}
+#| echo: false
 library(dplyr)
 library(tibble)
 library(kableExtra)

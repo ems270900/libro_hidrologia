@@ -523,7 +523,6 @@ En cada franja, la precipitación representativa se aproxima como el promedio de
 ```{r}
 #| label: tbl-isoyetas-calculo
 #| tbl-cap: "Cálculo de precipitación media areal (método de isoyetas)."
-#| echo: false
 #| message: false
 #| warning: false
 
