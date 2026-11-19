@@ -146,7 +146,7 @@ $$
 
 donde $a$ y $b$ son parámetros estimados a partir de los datos observados en ambas estaciones.
 
-En la ingeniería hidrológica, el objetivo primordial no es simplemente describir el pasado, sino utilizar la información histórica disponible para realizar inferencias sobre el comportamiento futuro de un sistema natural. El ajuste de distribuciones de probabilidad constituye el proceso técnico mediante el cual se emplea una muestra de datos observados para identificar y cuantificar la población estadística —es decir, el modelo matemático y sus parámetros— que gobierna un fenómeno hidrológico, como las avenidas o las sequías.
+En la hidrología, el objetivo principal no es simplemente describir el pasado, sino utilizar la información histórica disponible para realizar inferencias sobre el comportamiento futuro de un sistema natural. El ajuste de distribuciones de probabilidad constituye el proceso técnico mediante el cual se emplea una muestra de datos observados para identificar y cuantificar la población estadística, es decir, el modelo matemático y sus parámetros que gobierna un fenómeno hidrológico, como las crecientes o las sequías.
 
 ## Objetivo del ajuste estadístico
 
@@ -357,7 +357,7 @@ El objetivo fundamental de estos gráficos es transformar la función de distrib
 
 <u>Fundamento conceptual: ¿por qué una línea recta?</u>
 
-Las funciones de distribución teóricas, como la Normal o la Gumbel, tienen forma curvilínea. Sin embargo, numerosos estudios en percepción visual demuestran que las desviaciones respecto a una línea recta son mucho más fáciles de identificar que las desviaciones respecto a una curva.
+Las funciones de distribución teóricas, como la Normal o la Gumbel, tienen forma curvilínea. Sin embargo, por percepción visual las desviaciones respecto a una línea recta son mucho más fáciles de identificar que las desviaciones respecto a una curva.
 
 Para aprovechar esta ventaja, se emplea papel de probabilidad especializado, en el cual el eje de las probabilidades no es lineal, sino que ha sido transformado matemáticamente de acuerdo con la distribución seleccionada. Esta transformación “estira” las colas de la distribución y comprime la zona central, forzando a la FDA teórica a comportarse como una recta.
 

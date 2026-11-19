@@ -1,0 +1,19 @@
+# Texto con fin de línea LF en el repo (Windows lo convierte a CRLF al hacer checkout)
+* text=auto
+*.qmd text
+*.bib text
+*.yml text
+*.css text
+*.lua text
+*.R text
+*.csv text
+
+# Binarios
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.JPG binary
+*.gif binary
+*.jfif binary
+*.pdf binary
+*.woff binary

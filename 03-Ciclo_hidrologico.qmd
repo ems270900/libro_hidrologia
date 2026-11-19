@@ -13,7 +13,7 @@ suppress-bibliography: true
 
 El ciclo hidrológico describe la circulación continua del agua en la Tierra, conectando la atmósfera, la superficie terrestre, el subsuelo y los océanos. Este ciclo es impulsado fundamentalmente por dos fuerzas: la <span class="firebrick"><strong>energía solar</strong></span>, que gobierna los procesos de evaporación y evapotranspiración, y la <span class="firebrick"><strong>gravedad</strong></span>, responsable del movimiento del agua en forma de precipitación, escorrentía superficial y flujo subterráneo.
 
-La hidrosfera comprende el conjunto total de aguas presentes en la Tierra en sus distintos estados físicos, incluyendo océanos, ríos, lagos, glaciares, aguas subterráneas y vapor de agua atmosférico. Se extiende desde unos 15 kilómetros por encima de la atmósfera hasta aproximadamente un kilómetro por debajo de la litosfera o corteza terrestre.
+La hidrosfera comprende el conjunto total de aguas presentes en la Tierra en sus distintos estados físicos, incluyendo océanos, ríos, lagos, glaciares, aguas subterráneas y vapor de agua atmosférico. Se extiende hasta aproximadamente un kilómetro por debajo de la litosfera o corteza terrestre.
 
 La hidrosfera se comporta como un sistema dinámico e interconectado, en el cual el agua circula de manera continua entre diferentes compartimentos naturales a través de procesos que, en conjunto, constituyen el ciclo hidrológico.
 

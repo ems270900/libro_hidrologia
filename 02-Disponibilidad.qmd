@@ -32,7 +32,7 @@ knitr::include_graphics("assets/img/imagen_usgs.png")
 
 La mayor parte del agua del planeta se encuentra almacenada en los océanos (≈96.5 %). El agua dulce, aunque esencial para los ecosistemas terrestres y para las actividades humanas, representa una fracción muy reducida del total.
 
-Dentro del agua dulce, los principales reservorios corresponden a glaciares, casquetes polares y aguas subterráneas profundas; mientras que los cuerpos de agua superficial —ríos, lagos y humedales— corresponden a menos del **0.5 % del agua dulce total**.
+Dentro del agua dulce, los principales reservorios corresponden a glaciares, casquetes polares y aguas subterráneas profundas; mientras que los cuerpos de agua superficial (ríos, lagos y humedales) corresponden a menos del **0.5 % del agua dulce total**.
 
 ```{r}
 #| label: tbl-distribucion-agua

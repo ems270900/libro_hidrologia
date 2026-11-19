@@ -3,3 +3,166 @@ title: "Balance hídrico del suelo"
 bibliography: references.bib
 suppress-bibliography: true
 ---
+
+::: {.quote-block}
+"El agua subterránea es invisible, pero su impacto es visible en todas partes."\
+— *JRaya Marina Stephan, James E. Nickum y Philippus Wester (Editores de "Groundwater: Recent Advances in Interdisciplinary Knowledge", contribución al Año del Agua Subterránea de Naciones Unidas 2022)*
+:::
+
+## Enfoque conceptual del balance hídrico del suelo
+
+El balance hídrico del suelo constituye una aplicación directa del principio de conservación de la masa al sistema suelo–planta–atmósfera, permitiendo describir y cuantificar la dinámica del agua en la zona no saturada. En este sistema, el suelo actúa como un medio de almacenamiento temporal que regula la disponibilidad de agua para los procesos hidrológicos y biológicos.
+
+Desde un punto de vista conceptual, el balance hídrico del suelo se basa en la relación fundamental:
+
+$$
+\text{Entradas} = \text{Salidas} + \Delta S
+$$
+
+donde las entradas corresponden principalmente a la precipitación efectiva que logra infiltrarse en el suelo, las salidas están asociadas a la evapotranspiración y la percolación profunda, y $\Delta S$ representa la variación del almacenamiento de agua en el perfil del suelo.
+
+A diferencia del balance hídrico a escala de cuenca, el balance del suelo se enfoca específicamente en la zona no saturada, es decir, en el volumen de suelo comprendido entre la superficie y la profundidad efectiva de raíces. En este dominio, el agua se encuentra retenida por fuerzas capilares y es parcialmente disponible para las plantas, lo que introduce un fuerte control físico y biológico sobre su movimiento y disponibilidad.
+
+El sistema suelo–planta–atmósfera puede interpretarse como un sistema abierto, en el cual:
+
+- la atmósfera aporta agua mediante la precipitación,
+- el suelo almacena y regula dicha agua,
+- la vegetación extrae agua a través de la transpiración,
+- y el excedente puede drenar hacia capas más profundas o generar escorrentía.
+
+Bajo este enfoque, el balance hídrico del suelo permite responder preguntas fundamentales en hidrología aplicada, tales como:
+
+- ¿cuánta agua queda disponible en el suelo para las plantas?,
+- ¿en qué periodos ocurre déficit o exceso hídrico?,
+- ¿cuándo se produce recarga hacia los acuíferos?,
+- ¿cómo evoluciona el almacenamiento de humedad en el tiempo?
+
+En términos matemáticos, para un intervalo de tiempo discreto $i$, el balance puede expresarse como:
+
+$$
+S_i = S_{i-1} + P_{\text{ef},i} - ETR_i - R_i
+$$
+
+donde:
+
+- $S_i$ es el almacenamiento de agua en el suelo al final del intervalo,
+- $S_{i-1}$ es el almacenamiento inicial,
+- $P_{\text{ef},i}$ es la precipitación efectiva,
+- $ETR_i$ es la evapotranspiración real,
+- $R_i$ representa las pérdidas por excedente (escorrentía o percolación profunda).
+
+Esta formulación discreta es especialmente útil en hidrología, ya que la mayoría de los datos disponibles (precipitación, temperatura, caudal) se registran en intervalos de tiempo definidos, como días o meses.
+
+Finalmente, es importante destacar que el balance hídrico del suelo no solo tiene un valor descriptivo, sino también predictivo, ya que constituye la base para múltiples aplicaciones en ingeniería civil, tales como la estimación de disponibilidad hídrica, el diseño de sistemas de riego, la evaluación de sequías y la modelación hidrológica de cuencas.
+
+**El sistema suelo–planta–atmósfera (SPA)**
+
+El sistema suelo–planta–atmósfera (SPA) constituye un continuo físico a través del cual el agua se desplaza siguiendo gradientes de energía, desde su almacenamiento en el suelo hasta su liberación en forma de vapor hacia la atmósfera. En el contexto del balance hídrico del suelo, este sistema permite comprender que el movimiento del agua no es un proceso aislado, sino el resultado de la interacción entre componentes físicos y biológicos que operan de manera integrada. 
+
+El SPA puede interpretarse como un sistema de transporte dinámico en el cual el suelo actúa como reservorio, la planta como medio conductor y la atmósfera como sumidero final. Este enfoque resulta fundamental para interpretar correctamente procesos como la evapotranspiración, la recarga y la evolución del almacenamiento de humedad en el suelo.
+
+
+**El componente suelo: almacenamiento y disponibilidad hídrica**
+
+El suelo constituye el reservorio base del sistema, donde el agua se almacena en los poros mediante fuerzas capilares y de adsorción. La disponibilidad de esta agua no depende únicamente de su cantidad, sino de su estado energético, lo cual determina si puede ser extraída por las plantas.
+
+Dos estados de humedad son fundamentales:
+
+- <u>Capacidad de campo (CC):</u> contenido de agua retenido en el suelo después del drenaje gravitacional.
+- <u>Punto de marchitez permanente (PMP):</u> nivel de humedad a partir del cual las plantas no pueden extraer agua.
+
+La diferencia entre estos estados define el agua disponible total (ADT):
+
+$$
+ADT = 1000(\theta_{FC} - \theta_{WP}) Z_r
+$$
+
+donde:
+
+- $\theta_{FC}$ es el contenido volumétrico de agua a capacidad de campo.
+
+- $\theta_{WP}$ es el contenido volumétrico al punto de marchitez.
+
+- $Z_r$ es la profundidad efectiva de raíces (m).
+
+- el factor $1000$ convierte a lámina de agua (mm).
+
+El movimiento del agua en el suelo está gobernado por el potencial hídrico total ($\psi$), que integra:
+
+- potencial matricial,
+- potencial gravitacional,
+- potencial de presión,
+- potencial osmótico.
+
+En suelos no saturados, el flujo vertical se describe mediante la ecuación de Richards, que combina la ley de Darcy con la ecuación de continuidad para modelar el transporte de humedad.
+
+**El componente planta: transporte y regulación**
+
+Las plantas actúan como un conducto hidráulico que conecta el suelo con la atmósfera. La absorción de agua ocurre principalmente en las raíces, desde donde el flujo asciende a través del xilema hacia las hojas, impulsado por gradientes de potencial generados por la evaporación.
+
+Este proceso no es pasivo, sino que está regulado biológicamente mediante la conductancia estomática^[La conductancia estomática $(g_s)$ es la medida de la velocidad de apertura de los estomas en las hojas, determinando el intercambio de vapor de agua y $CO_2$. Es un indicador clave del estado hídrico de la planta, ya que regula la transpiración y maximiza la fotosíntesis en respuesta a factores ambientales como luz, temperatura y humedad.], asociada a la apertura y cierre de los estomas. Depende de factores como:
+
+a. radiación solar.
+
+b. déficit de presión de vapor.
+
+c. disponibilidad de agua en el suelo.
+
+Cuando el contenido de humedad del suelo disminuye por debajo de un umbral crítico (agua fácilmente aprovechable), las plantas reducen la transpiración mediante el cierre estomático, lo que introduce un mecanismo de regulación en el balance hídrico. Este efecto se representa mediante coeficientes de estrés hídrico en modelos aplicados.
+
+**El componente atmósfera**
+
+La atmósfera constituye el sumidero final del sistema y es el principal motor de la evapotranspiración. La fuerza impulsora del proceso es el déficit de presión de vapor:
+
+$$
+e_s - e_a
+$$
+
+donde:
+
+- $e_s$ es la presión de vapor a saturación.
+
+- $e_a$ es la presión de vapor real del aire.
+
+Este déficit representa la capacidad de la atmósfera para absorber vapor de agua. El proceso requiere además energía, suministrada principalmente por la radiación neta ($R_n$), para vencer el calor latente de vaporización.
+
+El transporte de vapor hacia la atmósfera está influenciado por la turbulencia del aire y la velocidad del viento, que determinan la resistencia aerodinámica del sistema.
+
+**Integración del sistema: analogía de flujo y resistencia**
+
+Desde un enfoque técnico, el SPA puede modelarse mediante una analogía con la ley de Ohm, donde el flujo de agua es proporcional al gradiente de potencial e inversamente proporcional a las resistencias del sistema:
+
+$$
+V = \frac{\Delta \psi}{r_{suelo} + r_{raíz} + r_{xilema} + r_{estomática} + r_{aerodinámica}}
+$$
+
+Esta representación permite interpretar el movimiento del agua como un flujo controlado por resistencias en serie, facilitando su análisis en modelos hidrológicos y agrícolas.
+
+La formulación más completa de este enfoque se expresa en la ecuación de Penman–Monteith, que integra el balance de energía con el transporte de masa para estimar la evapotranspiración:
+
+$$
+ET_0 =
+\frac{
+0.408\,\Delta (R_n - G) + \gamma \frac{900}{T+273} u_2 (e_s - e_a)
+}{
+\Delta + \gamma (1 + 0.34 u_2)
+}
+$$
+
+donde:
+
+- $\Delta$ es la pendiente de la curva de presión de vapor,
+- $R_n$ es la radiación neta,
+- $G$ es el flujo de calor en el suelo,
+- $\gamma$ es la constante psicrométrica,
+- $u_2$ es la velocidad del viento a 2 m de altura.
+
+**Interpretación dentro del balance hídrico del suelo**
+
+La comprensión del SPA permite interpretar correctamente el balance hídrico del suelo, ya que:
+
+- el suelo define la capacidad de almacenamiento.
+- la planta regula la extracción de agua
+- la atmósfera impone la demanda evaporativa.
+
+En conjunto, estos tres componentes determinan la magnitud de la evapotranspiración real, la evolución del almacenamiento de humedad y la generación de excedentes. Por tanto, el SPAC constituye la base física que justifica las simplificaciones empleadas en los modelos de balance hídrico utilizados en ingeniería hidrológica.

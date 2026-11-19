@@ -1698,7 +1698,8 @@ $$
 Donde:
 
 • $S_2$: Pendiente media ponderada (adimensional o en m/m).  
-• $z_A$: Elevación en el extremo superior de la línea de compensación (m).  
+• $z_A$: Elevación en el extremo superior de la línea de compensación (m). Es la altura del vértice de un triangulo con área 
+equivalente al área bajo el perfil longitudinal del río.
 • $h_0$: Elevación del punto de salida o desembocadura (m).  
 • $L$: Longitud total del cauce principal medida a lo largo de su eje (m o km).
 
