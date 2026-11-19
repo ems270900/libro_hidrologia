@@ -1327,6 +1327,7 @@ library(dplyr)
 library(tibble)
 library(kableExtra)
 
+
 tabla_anual <- tribble(
   ~Año,  ~A,    ~B,    ~C,    ~D,    ~E,    ~`Patrón`,
   1970L, 1010,  1161,   780,   949,  1135,  1102.0,
@@ -3949,22 +3950,10 @@ Si faltan varios meses consecutivos, se aplica el mismo procedimiento en cadena:
 
    - Se simula el primero usando el último observado disponible.
 
-   - Luego ese simulado se usa como “anterior” para simular el siguiente, y así sucesivamente.
+   - Luego ese valor simulado se usa como “anterior” para simular el siguiente, y así sucesivamente.
 
-   - En imputación de faltantes, usualmente se reporta un estimado (p. ej., media de muchas simulaciones).
+   - En imputación de datos faltantes, usualmente se reporta un estimado.
    
-   - En tu script se usa un esquema de $M$ simulaciones (Monte Carlo) y se reporta:
-   
-   - Promedio imputado:
-    $$
-    \hat{Q}_t = \frac{1}{M}\sum_{m=1}^{M} Q_t^{(m)}
-    $$
-   - Incertidumbre (desv. estándar entre simulaciones):
-    $$
-    s_t = \sqrt{\frac{1}{M-1}\sum_{m=1}^{M}\left(Q_t^{(m)}-\hat{Q}_t\right)^2}
-    $$
-
-
 Aplicando este procedimiento y retomando el caso de la estación medidora de caudal 0922 Tapantí Arriba, se tienen lo siguientes valores de caudales observados e imputados.
 
 ```{r}
