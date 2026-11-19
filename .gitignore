@@ -33,3 +33,7 @@ photothumb.db
 
 # Imágenes originales sin recortar (respaldo fuera del repo)
 assets/img/Originals/
+
+# Salidas de herramientas/publicar.R
+/_publicar/
+/salidas/
