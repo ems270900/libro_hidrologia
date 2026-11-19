@@ -33,7 +33,7 @@ Desde el punto de vista ingenieril, el objetivo central del análisis estadísti
 
 Desde la hidrología y la ingeniería en general, se adopta mucho el enfoque de sistemas para analizar, describir y resolver problemas.
 
-```{r echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
+```{r warning=FALSE, message=FALSE, error=FALSE}
 #| label: fig-plotdiagrama
 #| fig-cap: "Diagrama de análisis de sistemas."
 # Instalar el paquete si no lo tienes

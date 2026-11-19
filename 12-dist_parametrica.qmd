@@ -1139,7 +1139,6 @@ Se dispone de un registro de $n=20$ caudales máximos instantáneos anuales $Q$ 
 ```{r}
 #| label: tbl-lp3-datos-elsalto
 #| tbl-cap: "Estación El Salto: caudal máximo instantáneo anual y transformación logarítmica base 10."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -1270,7 +1269,7 @@ $$
 
 A continuación se calcula $\bar{y}$, $s_y$, $G$ y, como ejemplo, se estima $Q_T$ para $T=50$ y $T=100$ años.
 
-```{r echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
+```{r warning=FALSE, message=FALSE, error=FALSE}
 #| label: tbl-lp3-resumen-elsalto
 #| tbl-cap: "Resumen numérico del ajuste LP3 (momentos en espacio log₁₀)."
 
@@ -1352,7 +1351,7 @@ res_T %>%
   row_spec(0, bold = TRUE)
 ```
 
-```{r echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
+```{r warning=FALSE, message=FALSE, error=FALSE}
 #| label: fig-lp3-elsalto
 #| fig-cap: "Gráfico de probabilidad (espacio log₁₀) con ajuste LP3 usando aproximación de factores de frecuencias."
 #| class: fig-border
@@ -1763,7 +1762,6 @@ donde $\bar{y}_n$ es la media reducida (tabla Gumbel).
 ```{r}
 #| label: tbl-tabla_gumbel55
 #| tbl-cap: "Tabla de parámetros de la distribución Gumbel. "
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -2097,7 +2095,6 @@ tabla_stats %>%
 ```{r}
 #| label: tbl-tabla_gumbel334
 #| tbl-cap: "Parámetros Gumbel por corrección de muestra finita (tabla para n=20)"
-#| echo: false
 #| message: false
 #| warning: false
 # ------------------------------------------------------------
@@ -2138,7 +2135,6 @@ tabla_param <- tibble(
 ```{r}
 #| label: tbl-tabla_gumbel33554
 #| tbl-cap: "Estimación de caudales por medio de factores de frecuenca"
-#| echo: false
 #| message: false
 #| warning: false
 library(tidyverse)
@@ -2196,7 +2192,7 @@ tbl_freq %>%
 ```
 
 
-```{r echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
+```{r warning=FALSE, message=FALSE, error=FALSE}
 #| label: fig-plot2656565
 #| fig-cap: "Gráfico Q (m³/s) vs Periodo de retorno años"
 #| class: fig-border
@@ -2900,7 +2896,7 @@ El objetivo es ajustar una Distribución Generalizada de Valor Extremo (GEV) med
 
 Los volúmenes de máxima precipitación anual registrados en la estación se muestran a continuación.
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
+```{r message=FALSE, warning=FALSE, error=FALSE}
 #| label: fig-datos_precip
 #| fig-cap: "Gráfica de precipitación máxima anual (mm)."
 #| fig-align: center
@@ -2948,7 +2944,6 @@ ggplot(datos, aes(x = Año, y = Precip)) +
 ```{r}
 #| label: tbl-precip_anual
 #| tbl-cap: "Serie de precipitación máxima anual."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -3040,7 +3035,6 @@ Se procede a realizar un análisis exploratorio (EDA) de la serie de precipitaci
 ```{r}
 #| label: tbl-EDA
 #| tbl-cap: "Análisis exploratorio de datos."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -3106,6 +3100,7 @@ outliers %>%
 Una vez realizado el EDA, se procede a realizar el ajuste de los datos a la distribución GEV. Debido a que la distribución GEV es compleja de analizar de manera manual, el ajuste se hace por medio del software estadístico R y el paquete `extRemes()`. 
 
 ```{r echo=TRUE}
+#| code-fold: false
 library(extRemes) # se carga el paquete dentro del ambiente.
 #___ Paso 1: Ajuste GEV por L-momentos (extRemes) ___#
 
@@ -3162,6 +3157,7 @@ df_ci %>%
 ```
 
 ```{r echo=TRUE}
+#| code-fold: false
 #| label: fig-plot200987
 #| fig-cap: "Gráfica de volúmenes de precipitación según periodo de retorno."
 #| class: fig-border
@@ -3224,7 +3220,6 @@ Los valores de caudales mínimo anuales registrados en la estación se muestran 
 ```{r}
 #| label: tbl-cauda-min
 #| tbl-cap: "Serie de caudales mínimos anuales."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -3270,7 +3265,7 @@ datos %>%
 ```
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
+```{r message=FALSE, warning=FALSE, error=FALSE}
 #| label: fig-datos_caudal_min
 #| fig-cap: "Gráfica de caudales mínimos registrados."
 #| fig-align: center
@@ -3300,7 +3295,6 @@ Se procede a realizar un análisis exploratorio (EDA) de la serie de caudales m�
 ```{r}
 #| label: tbl-EDA-minimos
 #| tbl-cap: "Análisis exploratorio de datos."
-#| echo: false
 #| message: false
 #| warning: false
 library(tidyverse)  
@@ -3368,6 +3362,7 @@ outliers %>%
 Al igual que el caso anterior, se procede a realizar el ajuste de los datos a la distribución GEV. El ajuste se hace por medio del software estadístico R y el paquete `extRemes()`.
 
 ```{r echo=TRUE}
+#| code-fold: false
 library(extRemes) # se carga el paquete dentro del ambiente.
 
 #___ Paso 1: Ajuste GEV por L-momentos (extRemes) ___#
@@ -3423,6 +3418,7 @@ df_ci %>%
 ```
 
 ```{r echo=TRUE}
+#| code-fold: false
 #| label: fig-plot55858
 #| fig-cap: "Gráfica de caudales mínimos según periodo de retorno."
 #| class: fig-border
@@ -3616,7 +3612,6 @@ Una vez se tiene la serie de precipitación diaria, se procede a realizar el an�
 ```{r}
 #| label: tbl-EDA-diaria
 #| tbl-cap: "Análisis exploratorio (EDA) de la serie diaria de precipitación."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -3761,6 +3756,7 @@ $$
 y debe ser aproximadamente lineal en $u$.
 
 ```{r echo=TRUE, warning=FALSE, message=FALSE}
+#| code-fold: false
 #| label: fig-plot20055449
 #| fig-cap: "Series de excesos para definición de umbral por el método Mean Residual Life Plot"
 #| class: fig-border
@@ -3792,6 +3788,7 @@ Para una secuencia de umbrales $u$, se ajusta una GP y se examina la estabilidad
 $\alpha(u)$ y $\kappa(u)$.
 
 ```{r echo=TRUE}
+#| code-fold: false
 #| label: fig-plot20540549
 #| fig-cap: "Gráfica de estabilidad del parámetro de forma según tamaño de umbral."
 #| class: fig-border
@@ -3829,6 +3826,7 @@ u = Q_p(X), \qquad p\in[0.95,0.99]
 $$
 
 ```{r echo=TRUE}
+#| code-fold: false
 u_emp <- quantile(datos$Precip, 0.95); u_emp
 ```
 
@@ -3840,6 +3838,7 @@ El modelo POT supone:
 - Ajuste GP y estabilidad del índice extremo (parámetro de forma).
 
 ```{r echo=TRUE}
+#| code-fold: false
 #___ Paquetes ___#
 library(tidyverse)
 library(ercv)
@@ -3880,7 +3879,6 @@ thr_sol <- as_tibble(thr$solution)
 ```{r}
 #| label: tbl-resultadosPOT
 #| tbl-cap: "Selección/validación estadística del umbral."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -4017,6 +4015,7 @@ ggplot(df_plot, aes(x = Fecha, y = Precip)) +
 Sea $Y = X-u \mid X>u$.
 
 ```{r echo=TRUE}
+#| code-fold: false
 excesos <- datos %>%
   filter(Precip > u) %>%
   pull(Precip) - u
@@ -4045,7 +4044,6 @@ $$
 ```{r}
 #| label: tbl-nievelesPOT
 #| tbl-cap: "Niveles de retorno ajustados por medio de POT."
-#| echo: false
 #| message: false
 #| warning: false
 #| 
@@ -4131,7 +4129,6 @@ donde $m$ es el número de parámetros estimados del modelo.
 ```{r}
 #| label: tbl-datoschicuadrado
 #| tbl-cap: "Valores de caudal máximo instantáneo (m<sup>3</sup>/s)"
-#| echo: false
 #| message: false
 #| warning: false
 # ------------------------------------------------------------
@@ -4226,7 +4223,6 @@ $$
 ```{r}
 #| label: tbl-ajuste_ejemplo_chi2
 #| tbl-cap: "Parámetros de ajuste."
-#| echo: false
 #| message: false
 #| warning: false
 gamma_euler <- 0.5772156649015329
@@ -4273,7 +4269,6 @@ $$
 ```{r}
 #| label: tbl-ajuste_ejemplo_chi3
 #| tbl-cap: "Estimación de ajuste por medio de χ²."
-#| echo: false
 #| message: false
 #| warning: false
 # ------------------------------------------------------------
@@ -4467,7 +4462,6 @@ Se requiere evaluar si un modelo probabilístico seleccionado describe adecuadam
 ```{r}
 #| label: tbl-datosSK
 #| tbl-cap: "Volúmenes de precipitación maxima anual."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -4984,7 +4978,6 @@ n <- length(x)
 ```{r}
 #| label: tbl-caudales_mensuales
 #| tbl-cap: "Serie de caudales medios mensuales (m<sup>3</sup>/s)."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -5011,7 +5004,6 @@ datos %>%
 #| fig-align: center
 #| out-width: 100%
 #| class: fig-border
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -5042,7 +5034,6 @@ Una vez se cuenta con la información, se procede a analizar el patrón o ciclo 
 #| fig-align: center
 #| out-width: 100%
 #| class: fig-border
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -5076,7 +5067,6 @@ Adicionalmente, se procede a realizar un análisis exploratorio de los informaci
 ```{r}
 #| label: tbl-eda_mensual
 #| tbl-cap: "Análisis exploratorio (EDA) de caudales medios mensuales."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -5157,6 +5147,7 @@ $$
 Un rechazo de $H_0$ no “invalida” el análisis estadístico e hidrológico, pero indica que la Normal no describe bien la muestra (frecuentemente por asimetría, colas pesadas o estacionalidad), y sugiere transformar la variable (p. ej. $\log X$), modelar por meses/estaciones, o considerar familias más flexibles.
 
 ```{r}
+#| code-fold: false
 #| echo: true
 #| message: false
 #| warning: false
@@ -5172,7 +5163,7 @@ decision <- ifelse(p_value < alpha, "Rechazar H0", "No rechazar H0")
 ```
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
+```{r message=FALSE, warning=FALSE, error=FALSE}
 #| label: tbl-AD_test
 #| tbl-cap: "Resultados de la prueba de Anderson-Darling."
 res_ad <- tibble(

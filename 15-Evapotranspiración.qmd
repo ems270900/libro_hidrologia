@@ -293,7 +293,6 @@ Se tiene la siguiente información de temperaturas medias mensuales registradas 
 ```{r}
 #| label: tbl-thorn1
 #| tbl-cap: "Información de temperaturas medias mensuales."
-#| echo: false
 #| message: false
 #| warning: false
 library(tibble)
@@ -347,7 +346,6 @@ Se calculan los 12 valores $i_j$ y se suman para obtener el índice anual $I$.
 ```{r}
 #| label: tbl-thorn2
 #| tbl-cap: "Valores de índice de calor mensual."
-#| echo: false
 #| message: false
 #| warning: false
 library(tidyverse)
@@ -695,7 +693,6 @@ En la práctica, $R_a$ puede obtenerse de:
 ```{r}
 #| label: tbl-ra-allen
 #| tbl-cap: "Tabla de Radiación solar extraterrestre en mm/día (Allen et al., 1998) (Original en MJ·m$^{-2}$·día$^{-1}$ ; 1 mm/día = 2,45 MJ·m$^{-2}$·día$^{-1}$)"
-#| echo: false
 #| message: false
 #| warning: false
 

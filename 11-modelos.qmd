@@ -449,7 +449,6 @@ A partir de la **serie de máximos anuales (AMS)** de caudales pico (ordenados d
 ```{r}
 #| label: tbl-caudales-log
 #| tbl-cap: "Serie de máximos anuales de caudal y caudal logarítmico."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -625,7 +624,6 @@ $$
 ```{r}
 #| label: tbl-plotpos-ams
 #| tbl-cap: "Periodos de retorno (años) por método de plotting positions (AMS, n=20)."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -679,7 +677,7 @@ ams_tbl %>%
 
 O visto de manera gráfica:
 
-```{r echo=FALSE, warning=FALSE, message=FALSE, error=FALSE}
+```{r warning=FALSE, message=FALSE, error=FALSE}
 #| label: fig-plot2009
 #| fig-cap: "Comparación de periodos de retorno por método de plotting positions (AMS)."
 #| class: fig-border

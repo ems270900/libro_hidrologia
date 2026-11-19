@@ -139,7 +139,6 @@ En el siguiente cuadro, se detallan las clases texturales del suelo según su co
 ```{r}
 #| label: tbl-KA
 #| tbl-cap: "Clases texturales de suelos, según el USDA."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -481,7 +480,6 @@ $$
 #| fig-cap: "Gráfica infiltración real vs potencial."
 #| fig-align: center
 #| out-width: 100%
-#| echo: false
 #| class: fig-border
 
 library(tidyverse)
@@ -649,7 +647,6 @@ $$
 #| fig-cap: "Gráfica infiltración real acumulada."
 #| fig-align: center
 #| out-width: 100%
-#| echo: false
 #| class: fig-border
 
 library(tidyverse)
@@ -730,7 +727,6 @@ En la siguiente tabla se muestra el resumen de resultados.
 ```{r}
 #| label: tbl-hort1
 #| tbl-cap: "Resumen de resultados"
-#| echo: false
 #| message: false
 #| warning: false
 library(dplyr)
@@ -891,7 +887,6 @@ $$
 #| fig-cap: "Gráfica infiltración real vs potencial (lluvia constante)."
 #| fig-align: center
 #| out-width: 100%
-#| echo: false
 #| class: fig-border
 
 library(tidyverse)
@@ -1111,7 +1106,6 @@ De esta forma, a partir de $t>t_p$ el cálculo de $F(t)$ se realiza integrando l
 #| fig-cap: "Gráfica infiltración real acumulada (lluvia constante)."
 #| fig-align: center
 #| out-width: 100%
-#| echo: false
 #| class: fig-border
 
 library(tidyverse)
@@ -1191,7 +1185,6 @@ ggplot(datos_F, aes(x = t_min, y = F_cm)) +
 ```{r}
 #| label: tbl-hort12
 #| tbl-cap: "Resumen de resultados (lluvia constante)."
-#| echo: false
 #| message: false
 #| warning: false
 
@@ -1361,7 +1354,6 @@ Para cada intervalo $i$, se registra:
 ```{r}
 #| label: tbl-DCH
 #| tbl-cap: "Cuadro para toma de datos de campo para la prueba de infiltración"
-#| echo: false
 #| message: false
 #| warning: false
 library(tibble)
@@ -1689,7 +1681,6 @@ $$
 ```{r}
 #| label: tbl-DCH3
 #| tbl-cap: "Resumen de resultados."
-#| echo: false
 #| message: false
 #| warning: false
 library(tibble)
@@ -1759,7 +1750,6 @@ tabla_resumen |>
 #| fig-cap: "Tasa de infiltración respecto al tiempo."
 #| fig-align: center
 #| out-width: 100%
-#| echo: false
 #| class: fig-border
 
 library(ggplot2)
@@ -2384,7 +2374,6 @@ $$
 ```{r}
 #| label: tbl-GA2
 #| tbl-cap: "Resumen de resultados."
-#| echo: false
 #| message: false
 #| warning: false
 library(tidyverse)
@@ -2475,7 +2464,6 @@ Se procede a estimar la curva de infiltración real vs potencial.
 #| fig-cap: "Gráfica infiltración real vs potencial."
 #| fig-align: center
 #| out-width: 100%
-#| echo: false
 #| class: fig-border
 
 library(tidyverse)
@@ -2546,7 +2534,6 @@ Finalmente, se estima la curva de infiltración acumulada.
 #| fig-cap: "Gráfica infiltración real acumulada."
 #| fig-align: center
 #| out-width: 100%
-#| echo: false
 #| class: fig-border
 
 library(tidyverse)
@@ -2753,7 +2740,6 @@ $$
 ```{r}
 #| label: tbl-GA3
 #| tbl-cap: "Resumen de resultados."
-#| echo: false
 #| message: false
 #| warning: false
 library(tidyverse)
@@ -2857,7 +2843,6 @@ Se procede a estimar la curva de infiltración real vs potencial.
 #| fig-cap: "Gráfica de infiltración real vs potencial."
 #| fig-align: center
 #| out-width: 100%
-#| echo: false
 #| class: fig-border
 library(tidyverse)
 library(dplyr)
@@ -2936,7 +2921,6 @@ Finalmente, se estima la curva de infiltración acumulada.
 #| fig-cap: "Gráfica infiltración real acumulada."
 #| fig-align: center
 #| out-width: 100%
-#| echo: false
 #| class: fig-border
 library(tidyverse)
 library(dplyr)

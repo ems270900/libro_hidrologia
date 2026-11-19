@@ -599,3 +599,11 @@ footer.footer .nav-footer-right {
 .cover-hidden {
   display: none;
 }
+
+/* ===== Código R plegable ===== */
+details.code-fold > summary {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--bs-primary, #2780e3);
+  cursor: pointer;
+}
