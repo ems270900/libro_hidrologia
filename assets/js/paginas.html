@@ -1,0 +1,126 @@
+<!--
+  Navegación por capítulos para el HTML de un solo archivo.
+  Muestra un capítulo a la vez, con enlaces de anterior y siguiente al final,
+  como el libro en varias páginas. Lo inserta herramientas/publicar.R.
+-->
+<style>
+  .pagina-oculta { display: none !important; }
+  .nav-capitulos {
+    display: flex; justify-content: space-between; gap: 1rem;
+    margin: 3rem 0 1rem; padding-top: 1rem; border-top: 1px solid #dee2e6;
+    font-size: 0.95rem;
+  }
+  .nav-capitulos a { text-decoration: none; max-width: 48%; }
+  .nav-capitulos .nav-sig { margin-left: auto; text-align: right; }
+  .nav-capitulos small { display: block; color: #6c757d; }
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var main = document.getElementById("quarto-document-content");
+  if (!main) return;
+  // Bloques de primer nivel que son (o envuelven, como la portada en <center>)
+  // una sección de capítulo
+  var secciones = Array.prototype.filter.call(main.children, function (el) {
+    return (el.tagName === "SECTION" && el.classList.contains("level1")) ||
+           (el.tagName !== "SECTION" && el.querySelector("section.level1"));
+  });
+  if (secciones.length < 2) return;
+
+  // Una página por capítulo; el título de una parte va con el capítulo que le sigue
+  var paginas = [], pendiente = [];
+  secciones.forEach(function (s) {
+    pendiente.push(s);
+    var esParte = s.classList.contains("parte");
+    if (!esParte) { paginas.push(pendiente); pendiente = []; }
+  });
+  if (pendiente.length) paginas.push(pendiente);
+
+  // La portada (bloque de título) va en la primera página y las notas al pie en la última
+  var portada = document.getElementById("title-block-header");
+  if (portada) paginas[0].unshift(portada);
+  var notas = main.querySelector("section.footnotes");
+  if (notas) paginas[paginas.length - 1].push(notas);
+
+  function idDe(p) {
+    var cap = p.filter(function (el) { return el.tagName === "SECTION" || el.querySelector("section.level1"); })[0];
+    if (cap && cap.tagName !== "SECTION") cap = cap.querySelector("section.level1");
+    return cap ? cap.id : "";
+  }
+  function titulo(p) {
+    var cap = p[p.length - 1];
+    if (cap.id === "title-block-header" || cap.classList.contains("footnotes")) cap = p[p.length - 2] || cap;
+    var h = cap.querySelector("h1");
+    return h ? h.textContent.trim() : "";
+  }
+
+  // Enlaces de anterior y siguiente al final de cada página
+  paginas.forEach(function (p, i) {
+    var nav = document.createElement("nav");
+    nav.className = "nav-capitulos";
+    if (i > 0) {
+      var a = document.createElement("a");
+      a.href = "#" + idDe(paginas[i - 1]);
+      a.innerHTML = "<small>&larr; Anterior</small>" + titulo(paginas[i - 1]);
+      nav.appendChild(a);
+    }
+    if (i < paginas.length - 1) {
+      var b = document.createElement("a");
+      b.href = "#" + idDe(paginas[i + 1]); b.className = "nav-sig";
+      b.innerHTML = "<small>Siguiente &rarr;</small>" + titulo(paginas[i + 1]);
+      nav.appendChild(b);
+    }
+    var ultimo = p[p.length - 1];
+    ultimo.parentNode.insertBefore(nav, ultimo.nextSibling);
+    p.push(nav);
+  });
+
+  var actual = -1;
+  function mostrar(i, destino) {
+    if (i !== actual) {
+      paginas.forEach(function (p, k) {
+        p.forEach(function (el) { el.classList.toggle("pagina-oculta", k !== i); });
+      });
+      actual = i;
+      window.dispatchEvent(new Event("resize"));   // recalcula el índice lateral
+    }
+    if (destino) destino.scrollIntoView();
+    else window.scrollTo(0, 0);
+  }
+  function paginaDe(el) {
+    for (var i = 0; i < paginas.length; i++) {
+      for (var k = 0; k < paginas[i].length; k++) {
+        if (paginas[i][k] === el || paginas[i][k].contains(el)) return i;
+      }
+    }
+    return -1;
+  }
+  function irAHash(hash) {
+    if (!hash || hash.length < 2) return false;
+    var el = document.getElementById(decodeURIComponent(hash.slice(1)));
+    if (!el) return false;
+    var i = paginaDe(el);
+    if (i < 0) return false;
+    mostrar(i, el);
+    return true;
+  }
+
+  // Cualquier enlace interno (índice, referencias cruzadas, citas) abre su
+  // capítulo antes de que el navegador salte al destino; así el botón Atrás
+  // del navegador también funciona.
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest("a");
+    if (!a) return;
+    var href = a.getAttribute("href");
+    if (href && href.charAt(0) === "#" && href.length > 1) {
+      var el = document.getElementById(decodeURIComponent(href.slice(1)));
+      var k2 = el ? paginaDe(el) : -1;
+      if (k2 >= 0 && k2 !== actual) mostrar(k2, el);
+    }
+  }, true);
+  window.addEventListener("hashchange", function () {
+    if (!irAHash(location.hash)) mostrar(0);
+  });
+
+  if (!irAHash(location.hash)) mostrar(0);
+});
+</script>

@@ -100,10 +100,13 @@ table.table {
 }
 */
 
-/* Justificación del texto */
+/* Justificación del texto, con división de palabras para que no queden
+   espacios grandes entre palabras en líneas cortas */
 p, li {
   text-align: justify;
   text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
 }
 
 /* Fuente tipo LaTeX (Computer Modern) */
@@ -111,10 +114,25 @@ body {
   font-family: "Latin Modern Roman", "Computer Modern Serif", "CMU Serif", serif;
 }
 
-/* Aumentar ligeramente el tamaño del texto */
+/* Tamaño del texto e interlineado */
 body {
-  font-size: 1.25rem;   /* prueba 1.0 si quieres aún más grande */
-  line-height: 1.55;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+p {
+  margin-bottom: 0.8rem;
+}
+
+/* Listas más compactas */
+li > p {
+  margin-bottom: 0.3rem;
+}
+
+/* Menos aire alrededor de las figuras */
+.quarto-figure {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .cover-author {

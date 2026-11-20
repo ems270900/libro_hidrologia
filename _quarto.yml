@@ -152,6 +152,11 @@ format:
     smooth-scroll: true
     css: assets/css/styles.css
     lightbox: true
+    # Ancho de las columnas: cuerpo más ancho y menos margen vacío
+    grid:
+      sidebar-width: 280px
+      body-width: 950px
+      margin-width: 220px
 
 execute:
   echo: true
