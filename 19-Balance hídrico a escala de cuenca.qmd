@@ -104,6 +104,7 @@ La razón por la cual $ETR$ puede ser menor que $ETP$ se explica mediante restri
 Desde el punto de vista operativo, existen dos enfoques principales para cuantificar $ETR$ en balances:
 
 ```{r}
+#| echo: false
 #| label: tbl-BH1
 #| tbl-cap: "Enfoques prinicipales para la estimacion de $ETR$."
 #| message: false
@@ -444,6 +445,7 @@ tabla_esquema |>
 En términos gráficos, resulta especialmente informativo representar en un mismo eje temporal la precipitación, la evapotranspiración real, la escorrentía y la evolución del almacenamiento del suelo. Este tipo de visualización permite identificar con claridad los períodos de recarga, agotamiento y excedente, y constituye una herramienta clave para la interpretación hidrológica y la toma de decisiones.
 
 ```{r}
+#| echo: false
 #| label: fig-bh-mensual
 #| fig-cap: "Balance hídrico mensual: precipitación efectiva (barras) y series de ETR, escorrentía equivalente y almacenamiento del suelo (líneas)."
 #| fig-align: center

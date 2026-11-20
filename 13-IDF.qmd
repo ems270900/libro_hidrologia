@@ -63,6 +63,7 @@ Las curvas IDF juntan las tres variables en una sola relación, $i = f(d, T)$, c
 La relación no es lineal. En escala logarítmica, sin embargo, las curvas de distintos periodos de retorno quedan casi rectas y paralelas, lo que facilita interpolar entre ellas. La @fig-idf_ggplot_turbo muestra una familia de curvas IDF con parámetros ilustrativos.
 
 ```{r}
+#| echo: false
 #| label: fig-idf_ggplot_turbo
 #| fig-cap: "Familia de curvas IDF con parámetros ilustrativos ($k = 1800$, $m = 0.18$, $c = 10$ min, $n = 0.72$)."
 #| fig-alt: "Siete curvas decrecientes de intensidad contra duración, una por periodo de retorno entre 2 y 200 años"
@@ -268,6 +269,7 @@ $$
 De cada año se toma el máximo de $h_d(t)$ para cada duración. Así se arma una **serie de máximos anuales** (AMS, por sus siglas en inglés) por duración, que es la base del análisis IDF clásico. La @fig-plot_idfbanda3 muestra la ventana de máxima lluvia para 10 y 45 min en una tormenta sintética registrada cada 5 min.
 
 ```{r}
+#| echo: false
 #| label: fig-plot_idfbanda3
 #| fig-cap: "Posición de la ventana de máxima lluvia para duraciones de 10 y 45 min en una tormenta sintética."
 #| fig-alt: "Dos paneles con la curva de lluvia acumulada y una franja sombreada donde la ventana acumula más lluvia"

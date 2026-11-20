@@ -86,6 +86,7 @@ El aire que respiramos es una mezcla de gases cuya masa total se estima en $5.8\
 Es importante destacar que el contenido de vapor de agua es extremadamente variable; mientras que en algunas zonas es casi nulo, en otras puede alcanzar hasta el 4 % del volumen. 
 
 ```{r}
+#| echo: false
 #| label: tbl-atmosfera
 #| tbl-cap: "Composición de la atmósfera."
 #| message: false
@@ -133,6 +134,7 @@ gases_atmosfera %>%
 
 
 ```{r}
+#| echo: false
 #| label: fig-atmosfera
 #| fig-cap: "Composición de la atmósfera"
 #| fig-align: center
