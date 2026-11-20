@@ -9,7 +9,7 @@ Revisión hecha con `GUIA_ESTILO.md`. El código R de los ejemplos se ejecutó c
 | Palabras (texto y código) | 12 067 | 7 552 |
 | Avisos de `revisar_estilo.sh` | 120 | 8 |
 | Citas bibliográficas | 13 | 26 |
-| Marcas `CITA PENDIENTE` o `VERIFICAR` | 0 | 1 |
+| Marcas `CITA PENDIENTE` o `VERIFICAR` | 0 | 0 |
 | Bloques de R | 25 | 14 |
 
 La reducción de palabras viene sobre todo de tres cambios: se quitaron secciones repetidas, los cuadros de estaciones pasaron de código R a cuadros de Markdown y los cálculos se dejaron de copiar a mano en el código.
@@ -39,7 +39,7 @@ Estos puntos cambian el contenido, no solo el estilo. Revísalos primero.
 | NRCS, distribuciones de tormenta | Se cita el capítulo 4 del NEH 630 (`nrcs2019neh630cap4`). |
 | FHWA HDS-2 y HEC-22, frase textual de ASCE, USBR (250 km²), SIECA y "estudios ASCE/USGS" | No se pudo confirmar que esas fuentes digan lo que el texto les atribuía. Se quitaron las atribuciones y se dejó el razonamiento técnico, que se sostiene solo. El límite de 250 km² se eliminó. |
 
-**Única cita pendiente:** el ejemplo de la banda de pluviógrafo dice venir de material de la Universidad de Salamanca. Necesito el enlace o el título exacto para agregar la referencia.
+**Universidad de Salamanca:** el ejemplo de la banda viene de la práctica "Construcción de un hietograma y de una curva I-D" del sitio de hidrología de la Universidad de Salamanca (hidrologia.usal.es), donde aparecen la lectura entre las 14 y las 15 h y el valor de 1.2 mm en 10 min. El PDF no muestra autor ni año; se atribuyó a F. Javier Sánchez San Román, autor de ese sitio. Las figuras de la banda llevan ahora "Fuente: adaptado de".
 
 Además, en el `.bib` los boletines `Rojas2011mecanicas` y `Rojas2011automaticas` están como tesis de maestría de la UCR, pero son publicaciones del IMN. En el PDF del boletín de estaciones automáticas no aparecen ni el autor ni el año, así que hay que confirmar los dos.
 
