@@ -6,10 +6,8 @@ suppress-bibliography: true
 
 ::: {.quote-block}
 "Olvidamos que el ciclo del agua y el ciclo de la vida son uno solo."\
-— *Jacques Cousteau*
+— Atribuida a *Jacques Cousteau*
 :::
-
-<!-- VERIFICAR: la cita se atribuye a Cousteau en muchas recopilaciones, pero no se ha encontrado la obra original. -->
 
 ## Qué es el ciclo hidrológico {#sec-ciclo-fundamentos}
 

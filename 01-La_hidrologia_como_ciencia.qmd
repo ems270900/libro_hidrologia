@@ -6,10 +6,8 @@ suppress-bibliography: true
 
 ::: {.quote-block}
 "El agua es la fuerza motriz de toda la naturaleza."\
-— *Leonardo da Vinci*
+— Atribuida a *Leonardo da Vinci*
 :::
-
-<!-- VERIFICAR: la frase circula atribuida a Leonardo da Vinci, pero no se encontró en sus cuadernos. Confirmar la fuente o cambiar el epígrafe. -->
 
 ## ¿Qué es la hidrología? {#sec-hidrologia-definicion}
 
@@ -68,7 +66,7 @@ Entender cómo se encadenan esos procesos es lo que permite modelar la respuesta
 
 ## Desarrollo histórico de la hidrología {#sec-hidrologia-historia}
 
-<!-- CITA PENDIENTE: fuente de la línea de tiempo. Revisar si coincide con la reseña histórica del capítulo 1 de @chow1988appliedhydrology o de @maidment1993handbook y citarla. -->
+La línea de tiempo reúne algunos hitos que marcaron el paso de la especulación a la hidrología cuantitativa. Cada fecha corresponde a la publicación original del método o de la ecuación, que se retoma en el capítulo donde se usa.
 
 ::: {.timeline}
 

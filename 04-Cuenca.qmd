@@ -27,12 +27,54 @@ Costa Rica se divide en 34 cuencas hidrográficas principales, que drenan hacia 
 
 ```{r}
 #| label: fig-cuencascr
-#| fig-cap: "Cuencas hidrográficas principales de Costa Rica. Fuente: @CTIEAgua_BoletinAgua_2021."
-#| fig-alt: "Mapa de Costa Rica dividido en las 34 cuencas hidrográficas principales"
+#| fig-cap: "Cuencas hidrográficas principales de Costa Rica. Los números corresponden al @tbl-cuencascr. Fuente: elaboración propia."
+#| fig-alt: "Mapa de Costa Rica en CRTM05 dividido en las 34 cuencas hidrográficas principales, cada una con su número, sobre el relieve sombreado"
 #| out-width: 100%
+#| fig-width: 8.5
+#| fig-height: 6.5
+
+source("herramientas/mapas_cr.R")
+capas <- leer_capas_cr()
+
+# Diez colores que se repiten; cuencas vecinas suelen quedar distintas
+paleta <- c("#4E79A7", "#F28E2B", "#E15759", "#76B7B2", "#59A14F",
+            "#EDC948", "#B07AA1", "#FF9DA7", "#9C755F", "#BAB0AC")
+cuencas <- capas$cuencas
+cuencas$grupo <- factor(cuencas$cuenca_no %% 10)
+etiquetas <- st_point_on_surface(cuencas)
+
+ggplot() +
+  capa_relieve(capas, alfa_max = 0.4) +
+  geom_sf(data = cuencas, aes(fill = grupo), colour = "white",
+          linewidth = 0.3, alpha = 0.55, show.legend = FALSE) +
+  scale_fill_manual(values = paleta) +
+  geom_sf_text(data = etiquetas, aes(label = cuenca_no),
+               family = FUENTE_MAPA, size = 2.8) +
+  contorno_cr(capas) +
+  marco_cr(capas)
+```
+
+```{r}
+#| label: tbl-cuencascr
+#| tbl-cap: "Cuencas hidrográficas principales de Costa Rica y su área."
 #| echo: false
 
-knitr::include_graphics("assets/img/cuencascr.png")
+library(kableExtra)
+
+lista <- sf::st_drop_geometry(capas$cuencas)
+lista <- lista[order(lista$cuenca_no), ]
+lista$area_km2 <- formatC(lista$area_ha / 100, format = "f", digits = 0,
+                          big.mark = " ")
+n_filas <- ceiling(nrow(lista) / 2)
+bloque <- function(i) lista[i, c("cuenca_no", "nombre", "area_km2")]
+mitad_1 <- bloque(1:n_filas)
+mitad_2 <- bloque((n_filas + 1):nrow(lista))
+mitad_2[nrow(mitad_2) + seq_len(n_filas - nrow(mitad_2)), ] <- NA
+cbind(mitad_1, mitad_2) %>%
+  kbl(format = "html", row.names = FALSE, na = "",
+      col.names = rep(c("N.°", "Cuenca", "Área (km²)"), 2),
+      align = rep(c("c", "l", "r"), 2)) %>%
+  kable_styling(full_width = FALSE, bootstrap_options = "condensed")
 ```
 
 Un problema frecuente es que los límites de distritos, cantones y provincias no coinciden con los de las cuencas. Varias municipalidades comparten un mismo río, pero cada una decide sobre su parte, sin coordinarse con las demás.
@@ -55,14 +97,63 @@ La divisoria sigue las crestas, cerros y lomas que separan el agua que escurre h
 
 ```{r}
 #| label: fig-divisoria
-#| fig-cap: "Trazado de la divisoria de aguas sobre curvas de nivel. Fuente: Mundo GIS (2025)."
-#| fig-alt: "Mapa de curvas de nivel con la divisoria de aguas trazada por las crestas"
+#| fig-cap: "Divisoria de aguas sobre un mapa de curvas de nivel. El terreno es sintético; la divisoria se obtuvo siguiendo, desde cada punto, la dirección de máxima pendiente y marcando los puntos cuyo recorrido llega al punto de control."
+#| fig-alt: "Curvas de nivel de un valle que drena hacia el sur, con la divisoria en rojo siguiendo las crestas y el punto de control en la parte baja"
 #| echo: false
+#| fig-width: 6
+#| fig-height: 6
 
-knitr::include_graphics("assets/img/divisoria.png")
+library(ggplot2)
+
+# Terreno sintético: un valle que drena al sur, cerrado por crestas
+z_terreno <- function(x, y) {
+  ancho <- 1.2 + 0.4 * pmin(y, 8.5)
+  200 + 30 * y + 160 * abs(sin(pi * (x - 6) / (2 * ancho))) +
+    250 * exp(-(y - 9.3 - 0.7 * sin(1.3 * x))^2 / 1.6) * exp(-(x - 6)^2 / 30) +
+    40 * exp(-((x - 3.2)^2 + (y - 6)^2) / 1.5) +
+    35 * exp(-((x - 8.8)^2 + (y - 4.5)^2) / 1.2)
+}
+n_malla <- 181
+malla <- expand.grid(x = seq(0, 12, length.out = n_malla),
+                     y = seq(0, 12, length.out = n_malla))
+malla$z <- z_terreno(malla$x, malla$y)
+
+# Cada punto sigue la máxima pendiente hasta cruzar la cota del punto de control
+y_control <- 1.5
+px <- malla$x
+py <- malla$y
+activo <- rep(TRUE, nrow(malla))
+drena <- rep(FALSE, nrow(malla))
+for (k in 1:3000) {
+  i <- which(activo)
+  if (length(i) == 0) break
+  gx <- (z_terreno(px[i] + 1e-3, py[i]) - z_terreno(px[i] - 1e-3, py[i])) / 2e-3
+  gy <- (z_terreno(px[i], py[i] + 1e-3) - z_terreno(px[i], py[i] - 1e-3)) / 2e-3
+  modulo <- sqrt(gx^2 + gy^2) + 1e-9
+  px[i] <- px[i] - 0.03 * gx / modulo
+  py[i] <- py[i] - 0.03 * gy / modulo
+  llego <- py[i] <= y_control
+  drena[i[llego]] <- abs(px[i[llego]] - 6) < 0.4
+  activo[i[llego | px[i] < 0 | px[i] > 12 | py[i] > 12]] <- FALSE
+}
+malla$cuenca <- as.numeric(drena & malla$y >= y_control)
+
+ggplot(malla, aes(x, y)) +
+  geom_contour(aes(z = z), binwidth = 40, colour = "grey60", linewidth = 0.3) +
+  geom_contour(aes(z = cuenca), breaks = 0.5, colour = "#B2182B", linewidth = 1.1) +
+  annotate("segment", x = 6, xend = 6, y = y_control, yend = 8.8,
+           colour = "#2166AC", linewidth = 0.9) +
+  annotate("point", x = 6, y = y_control, size = 3, colour = "black") +
+  annotate("text", x = 6.3, y = 1.0, label = "Punto de control",
+           family = "serif", hjust = 0) +
+  annotate("text", x = 9.6, y = 8.3, label = "Divisoria",
+           family = "serif", colour = "#B2182B", hjust = 0) +
+  annotate("text", x = 6.2, y = 5.2, label = "Cauce principal",
+           family = "serif", colour = "#2166AC", angle = 90) +
+  coord_equal(xlim = c(1.5, 11.5), ylim = c(0.5, 11), expand = FALSE) +
+  labs(x = "Distancia (km)", y = "Distancia (km)") +
+  theme_minimal(base_family = "serif", base_size = 12)
 ```
-
-<!-- CITA PENDIENTE: agregar "Mundo GIS (2025)" a references.bib con la URL de la figura. -->
 
 Hay dos divisorias (@fig-divisoriaserrano):
 
@@ -88,15 +179,13 @@ La delimitación se puede hacer a mano, sobre cartografía topográfica, o con u
 
 ```{r}
 #| label: fig-curvassnit
-#| fig-cap: "Información topográfica disponible para Costa Rica. Fuente: Sistema Nacional de Información Territorial (SNIT, 2025)."
+#| fig-cap: "Información topográfica disponible para Costa Rica. Fuente: @snit2025."
 #| fig-alt: "Mapa de Costa Rica con las zonas cubiertas por cada escala de información topográfica"
 #| out-width: 100%
 #| echo: false
 
 knitr::include_graphics("assets/img/curvas_snit.JPG")
 ```
-
-<!-- CITA PENDIENTE: agregar SNIT (2025) a references.bib. -->
 
 ### Delimitación manual {#sec-cuenca-delimitacion-manual}
 
@@ -305,18 +394,18 @@ $$ {#eq-cuenca-kc}
 
 donde $P$ es el perímetro de la cuenca (km) y $A$ es su área (km²). $K_c$ es adimensional.
 
-Como el círculo es la figura con el menor perímetro para un área dada, $K_c$ vale 1 para una cuenca circular y crece a medida que la cuenca se alarga o su contorno se vuelve más irregular. En una cuenca con $K_c$ cercano a 1 los afluentes llegan al punto de control casi al mismo tiempo, lo que favorece crecidas rápidas y con picos altos. En una cuenca alargada la escorrentía llega más repartida en el tiempo y es menos probable que una tormenta cubra toda la cuenca a la vez. El @tbl-compacidad da una clasificación usual.
+Como el círculo es la figura con el menor perímetro para un área dada, $K_c$ vale 1 para una cuenca circular y crece a medida que la cuenca se alarga o su contorno se vuelve más irregular. En una cuenca con $K_c$ cercano a 1 los afluentes llegan al punto de control casi al mismo tiempo, lo que favorece crecidas rápidas y con picos altos. En una cuenca alargada la escorrentía llega más repartida en el tiempo y es menos probable que una tormenta cubra toda la cuenca a la vez. Para leer un valor de $K_c$ conviene compararlo con el de figuras simples. En un rectángulo de lados $a$ y $b$, con $a = r\,b$, el área es $r\,b^2$ y el perímetro es $2b(r + 1)$, de modo que $K_c = (r + 1)/\sqrt{\pi r}$. El @tbl-compacidad da los valores para varias proporciones y propone una lectura de cada intervalo.
 
-| $K_c$ | Forma de la cuenca |
-|:---:|:---:|
-| 1.00 a 1.25 | Casi redonda a oval redonda |
-| 1.25 a 1.50 | Oval redonda a oval oblonga |
-| 1.50 a 1.75 | Oval oblonga a rectangular oblonga |
-| Más de 1.75 | Rectangular alargada |
+| Intervalo de $K_c$ | Figuras de referencia | Lectura |
+|:---:|:---|:---|
+| 1.00 a 1.15 | Círculo (1.00) y cuadrado (1.13) | Compacta |
+| 1.15 a 1.30 | Rectángulos 2:1 (1.20) y 3:1 (1.30) | Ligeramente alargada |
+| 1.30 a 1.60 | Rectángulo 4:1 (1.41) | Alargada |
+| Más de 1.60 | Rectángulos 6:1 (1.61) y 8:1 (1.80) | Muy alargada |
 
-: Clasificación de la forma de la cuenca según el coeficiente de compacidad. {#tbl-compacidad}
+: Coeficiente de compacidad de figuras de referencia y lectura propuesta en este libro. {#tbl-compacidad}
 
-<!-- CITA PENDIENTE: fuente de los rangos del cuadro de compacidad. -->
+Los intervalos del cuadro son una guía de interpretación construida con la geometría, no una norma. En una cuenca real el contorno es irregular, y eso por sí solo aumenta $K_c$; por eso el valor de una cuenca tiende a indicar una forma algo más alargada de la que tiene.
 
 ```{r}
 #| label: fig-factor_forma
@@ -334,7 +423,7 @@ $$
 K_c = 0.28 \times \frac{30}{\sqrt{50}} = 0.28 \times 4.24 = 1.19
 $$
 
-Según el @tbl-compacidad, la cuenca es casi redonda. Ante una tormenta que la cubra completa, los aportes de los afluentes tienden a llegar juntos al punto de control, y el hidrograma tendrá un pico marcado.
+Según el @tbl-compacidad, su $K_c$ es el de un rectángulo de proporción cercana a 2:1: la cuenca es compacta a ligeramente alargada. Ante una tormenta que la cubra completa, los aportes de los afluentes tienden a llegar juntos al punto de control, y el hidrograma tendrá un pico marcado.
 :::
 
 ### Factor de forma {#sec-cuenca-factor-forma}
@@ -351,15 +440,15 @@ La longitud axial es la distancia desde el punto de control hasta el punto más 
 
 Un $K_f$ alto indica una cuenca ancha y corta, con respuesta rápida y picos altos. Un $K_f$ bajo indica una cuenca alargada, en la que el agua recorre distancias mayores y la crecida se reparte en el tiempo (@tbl-factor-forma y @fig-fac_forma_kf).
 
-| $K_f$ | Forma de la cuenca | Respuesta típica |
-|:---:|:---:|:---:|
-| Más de 0.75 | Compacta, casi circular | Rápida, con picos altos |
-| 0.40 a 0.75 | Moderadamente alargada | Intermedia |
-| Menos de 0.40 | Alargada | Lenta, con picos bajos |
+Igual que con $K_c$, el valor se interpreta mejor frente a figuras simples. En un rectángulo de proporción $r{:}1$ medido a lo largo del lado mayor, $K_f = 1/r$. En un círculo medido a lo largo del diámetro, $K_f = \pi/4 = 0.79$.
 
-: Clasificación de la forma de la cuenca según el factor de forma. {#tbl-factor-forma}
+| Intervalo de $K_f$ | Figuras de referencia | Forma de la cuenca | Respuesta típica |
+|:---:|:---|:---|:---|
+| Más de 0.50 | Cuadrado (1.00) y círculo (0.79) | Compacta | Rápida, con picos altos |
+| 0.25 a 0.50 | Rectángulos 2:1 (0.50) y 3:1 (0.33) | Moderadamente alargada | Intermedia |
+| Menos de 0.25 | Rectángulos 4:1 (0.25) y 8:1 (0.13) | Alargada | Lenta, con picos bajos |
 
-<!-- CITA PENDIENTE: fuente de los rangos del cuadro del factor de forma. -->
+: Factor de forma de figuras de referencia y lectura propuesta en este libro. {#tbl-factor-forma}
 
 ```{r}
 #| label: fig-fac_forma_kf
@@ -377,7 +466,7 @@ $$
 K_f = \frac{120}{18^2} = \frac{120}{324} = 0.37
 $$
 
-Según el @tbl-factor-forma, la cuenca es alargada. La escorrentía de las cabeceras tarda bastante más en llegar al punto de control que la de la parte baja, así que el hidrograma será más tendido que el de una cuenca compacta de igual área.
+Según el @tbl-factor-forma, la cuenca es moderadamente alargada, parecida a un rectángulo casi 3 veces más largo que ancho. La escorrentía de las cabeceras tarda bastante más en llegar al punto de control que la de la parte baja, así que el hidrograma será más tendido que el de una cuenca compacta de igual área.
 :::
 
 ### Densidad de drenaje {#sec-cuenca-densidad}
@@ -404,9 +493,7 @@ La densidad de drenaje resume el efecto conjunto de la geología, el suelo, el c
 knitr::include_graphics("assets/img/drenaje.png")
 ```
 
-Los valores típicos van de unos 0.5 km/km² en cuencas mal drenadas a 2.5 km/km² o más en cuencas muy bien drenadas. En climas muy secos la densidad tiende a ser menor, porque hay menos agua para labrar cauces.
-
-<!-- CITA PENDIENTE: fuente del rango típico de 0.5 a 2.5 km/km². -->
+No hay un rango universal. Strahler [-@strahler1957quantitative] mostró que $D_d$ varía en más de dos órdenes de magnitud: en las tierras malas (*badlands*), sobre arcillas desnudas, encontró entre 200 y 900 millas de cauce por milla cuadrada, es decir, unos 120 a 560 km/km², mientras que en terrenos permeables y con buena cobertura vegetal los valores son de pocos kilómetros por kilómetro cuadrado o menos. Además, el valor depende de la escala del mapa con que se trazaron los cauces: un mapa más detallado muestra más cauces pequeños y da una $D_d$ mayor. Por eso $D_d$ sirve sobre todo para comparar cuencas medidas con la misma cartografía.
 
 ::: {.callout-warning title="Cuidado"}
 La densidad de drenaje depende de la escala del mapa. Un mapa o un MDE de baja resolución no muestra los cauces pequeños y suaviza las curvas de los ríos, así que subestima $\sum L_i$. Solo se comparan densidades medidas con la misma escala.
@@ -481,7 +568,7 @@ El patrón de drenaje es la forma que toma la red de cauces vista en un mapa (@f
 ```{r}
 #| label: fig-patrones
 #| fig-cap: "Patrones de drenaje."
-#| fig-alt: "Ocho esquemas de redes de drenaje: dendrítico, paralelo, enrejado, radial, centrípeto, rectangular, anular y distributario"
+#| fig-alt: "Nueve esquemas de redes de drenaje: dendrítico, paralelo, enrejado, radial, centrífugo, centrípeto, distributario, rectangular y anular"
 #| echo: false
 
 knitr::include_graphics("assets/img/patrones.png")
@@ -492,11 +579,10 @@ knitr::include_graphics("assets/img/patrones.png")
 - **Enrejado.** Cauces principales paralelos con afluentes que llegan casi en ángulo recto. Se forma sobre franjas alternas de rocas duras y blandas, como en terrenos plegados.
 - **Rectangular.** Cauces que cambian de dirección en ángulo recto, siguiendo un sistema de fracturas o fallas. Es menos regular que el enrejado.
 - **Radial.** Los cauces bajan en todas direcciones desde un punto alto, como en los conos volcánicos.
+- **Centrífugo.** Variante del radial en la que los cauces se abren desde una zona alta hacia un colector que la rodea en arco, como se ve en la figura.
 - **Centrípeto.** Los cauces convergen hacia un punto bajo central, como en cráteres, calderas y cuencas endorreicas, es decir, cuencas cuya salida es un lago o una laguna interior y no el mar.
 - **Anular.** Cauces principales en anillos concéntricos, con afluentes en ángulo recto. Se forma en domos o cuencas estructurales erosionados.
 - **Distributario.** El cauce se divide aguas abajo en varios brazos que se abren sobre una llanura, como en los abanicos aluviales y los deltas.
-
-<!-- VERIFICAR: que la lista coincida con los patrones de la figura patrones.png (la versión anterior mencionaba también un patrón "centrífugo"). -->
 
 ## Relieve {#sec-cuenca-relieve}
 
@@ -927,23 +1013,19 @@ donde $n$ es el número de intersecciones de las líneas de la cuadrícula con l
 
 La pendiente media es el promedio de las pendientes calculadas con las líneas horizontales y con las verticales de la cuadrícula: $S_m = (S_x + S_y)/2$. En su forma completa, Horton multiplicaba el resultado por $\sec\theta$, donde $\theta$ es el ángulo entre las líneas de la cuadrícula y las curvas de nivel; como ese ángulo varía mucho dentro de la cuenca, en la práctica se toma $\sec\theta = 1$ [@Aparicio1992].
 
-<!-- VERIFICAR: número de página del criterio de Horton en Aparicio (1992), capítulo 2. -->
+Para describir el terreno, en Costa Rica se usan las categorías de pendiente de la metodología oficial de capacidad de uso de las tierras [@mag2019capacidad], que se resumen en el @tbl-pendientes.
 
-Para describir el terreno se usan clases de pendiente como las del @tbl-pendientes.
-
-| Clase | Pendiente (%) | Descripción |
+| Categoría | Pendiente (%) | Relieve |
 |:---:|:---:|:---|
-| A | 0 a 4 | Plana a ligeramente inclinada |
-| B | 4 a 15 | Moderada a fuertemente inclinada |
-| C | 15 a 25 | Moderadamente empinada |
-| D | 25 a 50 | Empinada |
-| E | 50 a 75 | Muy empinada |
-| F | 75 a 100 | Extremadamente empinada |
-| G | Más de 100 | Abrupta |
+| a | 0 a 3 | Plano o casi plano |
+| b | 4 a 8 | Ligeramente ondulado |
+| c | 9 a 15 | Moderadamente ondulado |
+| d | 16 a 30 | Ondulado |
+| e | 31 a 55 | Fuertemente ondulado |
+| f | 56 a 75 | Escarpado |
+| g | Más de 75 | Fuertemente escarpado |
 
-: Clases de pendiente del terreno. {#tbl-pendientes}
-
-<!-- CITA PENDIENTE: fuente de las clases de pendiente (posiblemente la metodología de capacidad de uso de las tierras del MAG). -->
+: Categorías de pendiente según el relieve. Fuente: @mag2019capacidad. {#tbl-pendientes}
 
 ### Pendiente del cauce principal {#sec-cuenca-pendiente-cauce}
 
@@ -1090,15 +1172,13 @@ Los dos últimos suman la porosidad: $n = S_y + S_r$. Una arcilla puede tener un
 
 ```{r}
 #| label: fig-geologia
-#| fig-cap: "Mapa geológico de Costa Rica. Fuente: Sociedad Geológica de Costa Rica (2007)."
+#| fig-cap: "Mapa geológico de Costa Rica. Fuente: @denyer2007mapa."
 #| fig-alt: "Mapa de Costa Rica coloreado según las unidades geológicas"
 #| out-width: 100%
 #| echo: false
 
 knitr::include_graphics("assets/img/geo_cr.jpg")
 ```
-
-<!-- CITA PENDIENTE: agregar el mapa geológico de la Sociedad Geológica de Costa Rica (2007) a references.bib. -->
 
 ## Cobertura y uso del suelo {#sec-cuenca-cobertura}
 
@@ -1115,19 +1195,37 @@ La vegetación y el suelo regulan el agua de tres maneras:
 - **Infiltración.** Las raíces abren macroporos por los que el agua entra al suelo, y la cobertura amortigua el golpe de las gotas, que de otra forma sella la superficie.
 - **Evapotranspiración.** Las plantas toman agua del suelo y la devuelven a la atmósfera. Es una de las salidas principales del balance hídrico de la cuenca.
 
-<!-- CITA PENDIENTE: la versión anterior daba una intercepción de 10 % a 30 % de la lluvia en bosques. Conservar el dato solo con una fuente. -->
-
 ```{r}
 #| label: fig-cober
-#| fig-cap: "Cobertura del suelo de Costa Rica."
-#| fig-alt: "Mapa de Costa Rica coloreado según el tipo de cobertura del suelo"
+#| fig-cap: "Cobertura del suelo de Costa Rica según las capas oficiales del SNIT: bosque y cultivos de 2019, edificaciones de 2020 y pastos de 2022, en celdas de 300 m. En blanco quedan las zonas sin ninguna de esas coberturas, como cuerpos de agua y humedales. Fuente: elaboración propia con datos del SNIT [@snit2025]."
+#| fig-alt: "Mapa de Costa Rica en CRTM05 coloreado por cobertura: bosque arbóreo, manglar, pastos, cultivos y zonas urbanas"
 #| out-width: 100%
-#| echo: false
+#| fig-width: 8.5
+#| fig-height: 7
 
-knitr::include_graphics("assets/img/cober.png")
+source("herramientas/mapas_cr.R")
+capas <- leer_capas_cr()
+
+# Clases y colores de la cobertura (raster de 100 m, agregado a 300 m para dibujar)
+clases <- read.csv("datos/mapas/cobertura_clases.csv", fileEncoding = "UTF-8")
+cobertura <- terra::rast("datos/mapas/cobertura_snit_100m.tif")
+cobertura <- terra::aggregate(cobertura, fact = 3, fun = "modal", na.rm = TRUE)
+celdas <- terra::as.data.frame(cobertura, xy = TRUE, na.rm = TRUE)
+names(celdas)[3] <- "codigo"
+celdas$clase <- factor(clases$clase[match(celdas$codigo, clases$codigo)],
+                       levels = clases$clase)
+
+ggplot() +
+  geom_raster(data = celdas, aes(x = x, y = y, fill = clase)) +
+  capa_relieve(capas, alfa_max = 0.35) +
+  contorno_cr(capas) +
+  scale_fill_manual(values = setNames(clases$color_sugerido, clases$clase),
+                    name = "Cobertura") +
+  guides(fill = guide_legend(nrow = 2, byrow = TRUE)) +
+  marco_cr(capas)
 ```
 
-<!-- CITA PENDIENTE: la leyenda anterior atribuía este mapa a la Sociedad Geológica de Costa Rica (2007), lo que no parece correcto para un mapa de cobertura. Confirmar la fuente. -->
+Según esas capas, el bosque arbóreo ocupa unos 27 700 km², algo más de la mitad del país. Le siguen los pastos, con unos 13 600 km², y los cultivos, con unos 6100 km². Las zonas urbanas son menos del 2 % del territorio, pero concentran las superficies impermeables que más cambian la respuesta de una cuenca, como se ve en la sección siguiente.
 
 ## Cuencas urbanas {#sec-cuenca-urbana}
 

@@ -1,0 +1,6 @@
+"codigo","capa","codigo_snit","clase","color_qml","color_sugerido","celdas","area_km2"
+1,"Forestal","170102","Bosque arbóreo","#005204","#005204",2773030,27730.3
+2,"Forestal","170104","Manglar","#005204","#1B9E77",31310,313.1
+3,"Pastos","170103","Pastos","#B2DF8A","#B2DF8A",1357203,13572.03
+4,"Cultivos","170201","Cultivos","#FF7F00","#FF7F00",610643,6106.43
+5,"Urbano","1401xx-1402xx","Urbano / edificaciones","#3F3F3F","#3F3F3F",87202,872.02

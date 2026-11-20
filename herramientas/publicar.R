@@ -123,6 +123,10 @@ preparar_copia <- function() {
     if (e == "assets") next
     file.copy(e, PUB_DIR, recursive = TRUE, overwrite = TRUE)
   }
+  # Funciones que usan los capítulos (por ejemplo, los mapas de Costa Rica)
+  dir.create(file.path(PUB_DIR, "herramientas"), showWarnings = FALSE)
+  file.copy("herramientas/mapas_cr.R", file.path(PUB_DIR, "herramientas"),
+            overwrite = TRUE)
   # assets sin imágenes, que se tratan aparte
   dir.create(file.path(PUB_DIR, "assets", "img"), recursive = TRUE, showWarnings = FALSE)
   for (d in setdiff(list.files("assets"), "img")) {

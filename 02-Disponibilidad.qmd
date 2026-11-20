@@ -29,8 +29,6 @@ knitr::include_graphics("assets/img/imagen_usgs.png")
 
 Los océanos guardan cerca del 96.5 % del agua del planeta (@tbl-distribucion-agua). Del agua dulce, casi todo está en glaciares, casquetes polares y acuíferos. Los ríos, lagos y humedales tienen menos del **0.5 % del agua dulce**, y sin embargo son la fuente de la mayor parte del agua que se usa.
 
-<!-- VERIFICAR: los tiempos de residencia del cuadro (20 000 años para el agua subterránea, 17 días para los ríos) no coinciden con los que se dan más adelante en el texto (1400 a 10 000 años, 16 días). Confirmar en la fuente y unificar. -->
-
 ```{r}
 #| label: tbl-distribucion-agua
 #| tbl-cap: "Volumen, porcentaje y tiempo de residencia de los principales reservorios de agua en la Tierra."
@@ -230,10 +228,12 @@ La precipitación y el caudal se registran en intervalos que van de minutos a a�
 
 El **tiempo de residencia**, el tiempo medio que el agua pasa en un compartimento, cambia mucho entre componentes:
 
--   **Agua subterránea:** de unos 1400 a más de 10 000 años.
--   **Humedad del suelo:** del orden de 1 año.
--   **Ríos:** cerca de 16 días.
+-   **Océanos:** unos 2650 años.
+-   **Agua subterránea:** del orden de miles a decenas de miles de años (20 000 años en promedio, según el @tbl-distribucion-agua).
+-   **Ríos:** unas dos semanas y media (17 días).
 -   **Atmósfera:** unos 8 días.
+
+Son promedios globales: el agua de un acuífero somero puede renovarse en meses, y la de uno profundo, en decenas de miles de años. Otras compilaciones dan cifras algo distintas, según cómo se estimen los volúmenes y los flujos, pero el orden de magnitud es el mismo.
 
 En un modelo, el **intervalo de cálculo** $\Delta t$ debe ser lo bastante corto para captar la variación que importa, sin multiplicar sin necesidad los datos que hay que reunir ni el tiempo de cálculo. Para la operación de un embalse grande de abastecimiento basta un paso semanal o mensual. Para el caudal de diseño de un puente hacen falta pasos de minutos u horas.
 

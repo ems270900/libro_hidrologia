@@ -71,3 +71,15 @@ Observaciones del autor y verificación de fuentes:
 - **Curva hipsométrica.** Strahler (1957) nombra las etapas de desequilibrio (joven), equilibrio (madura) y monadnock. La figura hipso.png ya asigna la curva convexa a la juventud y la cóncava a la vejez, de modo que se quitó la marca VERIFICAR.
 - **Método de Horton y Taylor-Schwarz.** Las formas de las ecuaciones coinciden con las de Aparicio (1992, cap. 2), que ahora se cita junto con Taylor y Schwarz (1952). Se añadió la nota sobre $\sec\theta$ del criterio de Horton. Queda por confirmar el número de página.
 - **Citas pendientes que siguen abiertas.** No se encontró una fuente verificable para los rangos de $K_c$, las clases de $K_f$ (el texto de la UPS, Ecuador, trae un cuadro pero contradice su propio texto), el rango típico de $D_d$ ni las clases de pendiente. Se dejan marcadas en lugar de inventarlas. La figura de cobertura y el mapa geológico se resolverán al rehacer los mapas con las coberturas oficiales del SNIT.
+
+### Citas pendientes cerradas (2026-11-20)
+
+- **Rangos de $K_c$ y $K_f$.** No se encontró una fuente verificable para las clasificaciones usuales. Se reemplazaron por cuadros de figuras de referencia (círculo, cuadrado, rectángulos de 2:1 a 8:1) calculadas con las mismas ecuaciones, y por una lectura propuesta en el libro, presentada como guía y no como norma. Cambia la lectura de los ejemplos: $K_c = 1.19$ pasa de "casi redonda" a "compacta a ligeramente alargada", y $K_f = 0.37$ pasa de "alargada" a "moderadamente alargada".
+- **Densidad de drenaje.** Se quitó el rango de 0.5 a 2.5 km/km². Ahora el texto explica, con Strahler (1957), que $D_d$ varía en más de dos órdenes de magnitud y depende de la escala del mapa.
+- **Clases de pendiente.** El cuadro se reemplazó por las categorías oficiales del Decreto 41960-MAG-MINAE (2019), que derogó al 23214-MAG-MIRENEM. Cambian los límites de las clases.
+- **Divisoria (Mundo GIS).** La figura se reemplazó por una propia generada en R sobre un terreno sintético.
+- **SNIT y mapa geológico.** Se agregaron @snit2025 y @denyer2007mapa (Denyer y Alvarado, 2007, escala 1:400 000, Librería Francesa; datos tomados del propio mapa).
+- **Patrones de drenaje.** Se agregó el patrón centrífugo, que aparece en la figura.
+- **Intercepción.** El texto ya no da el porcentaje, así que se quitó la marca.
+- **Mapas de Costa Rica.** Las figuras de cuencas y de cobertura se rehicieron con `herramientas/mapas_cr.R` y las capas de `datos/mapas/` (SNIT), en el formato único del libro. Se agregó el cuadro de las 34 cuencas con su área.
+- **Queda abierta:** la fuente del MDE de la cuenca del río La Estrella (pregunta al autor).
