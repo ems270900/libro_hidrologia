@@ -1,0 +1,108 @@
+---
+title: "Título del capítulo en minúscula salvo la primera palabra"
+bibliography: references.bib
+suppress-bibliography: true
+---
+
+<!--
+Plantilla de capítulo. Ver GUIA_ESTILO.md.
+1. Copiar este archivo a la raíz con el nombre NN-tema_corto.qmd (sin espacios ni tildes).
+2. Agregarlo a la parte que corresponde en _quarto.yml.
+3. Borrar estos comentarios y los textos de ejemplo.
+-->
+
+::: {.quote-block}
+"Frase breve con fuente verificada (libro, discurso o artículo). Si no se puede verificar, quitar el epígrafe."\
+— *Autor*
+:::
+
+Párrafo de entrada, de tres a cinco oraciones. Dice qué problema de ingeniería resuelve el capítulo y por qué le importa a quien diseña o analiza: una obra, una decisión, un caso de Costa Rica. No empieza con "En este capítulo se abordará".
+
+## Concepto principal {#sec-tema-concepto}
+
+Se define el término la primera vez en **negrita**. Se explica el porqué antes que la ecuación.
+
+$$
+Q = C \, i \, A
+$$ {#eq-tema-ejemplo}
+
+donde $Q$ es el caudal pico (m³/s), $C$ es el coeficiente de escorrentía (adimensional), $i$ es la intensidad de diseño (m/s) y $A$ es el área de la cuenca (m²). Con $i$ en mm/h y $A$ en ha, la misma ecuación queda $Q = C\,i\,A/360$.
+
+Toda ecuación empírica o método con autor lleva su cita [@chow1988appliedhydrology].
+
+![Leyenda de una o dos oraciones que termina en punto. Fuente: adaptado de @chow1988appliedhydrology.](assets/img/capNN/nombre_figura.png){#fig-tema-esquema fig-alt="Descripción breve de lo que muestra la figura" width="80%"}
+
+Como se ve en la @fig-tema-esquema, …
+
+::: {.callout-tip title="En la práctica"}
+Valores usados en Costa Rica, normas aplicables o criterios de diseño, con su cita.
+:::
+
+::: {.callout-warning title="Cuidado"}
+El error más común al aplicar el método y cómo evitarlo.
+:::
+
+## Segundo concepto {#sec-tema-segundo}
+
+…
+
+::: {.callout-note title="Ejemplo: describir el caso en pocas palabras"}
+
+**Planteamiento.** Datos, qué se pide y en qué unidades. Si los datos son sintéticos, decirlo.
+
+**Pseudocódigo**
+
+1. Primer paso del método.
+2. Segundo paso.
+3. Tercer paso.
+
+```{r}
+#| label: fig-tema-ejemplo
+#| fig-cap: "Leyenda del gráfico que termina en punto."
+#| fig-alt: "Descripción breve del gráfico"
+#| code-fold: false
+
+library(tidyverse)
+
+# 1) Datos
+datos <- tibble(
+  anio = 2001:2005,
+  p_max = c(85.2, 110.4, 96.7, 132.0, 101.3)  # mm
+)
+
+# 2) Cálculo
+datos <- datos %>%
+  mutate(rango = rank(-p_max))
+
+# 3) Gráfico (sin título: ya está en fig-cap)
+ggplot(datos, aes(anio, p_max)) +
+  geom_col(fill = "#1C6BA0") +
+  labs(x = "Año", y = "Precipitación máxima diaria (mm)") +
+  theme_minimal()
+```
+
+```{r}
+#| label: tbl-tema-ejemplo
+#| tbl-cap: "Leyenda del cuadro, arriba."
+#| echo: false
+
+# Formato del cuadro: va oculto para que el código visible sea solo el cálculo
+library(kableExtra)
+datos %>%
+  kbl(col.names = c("Año", "Precipitación máxima (mm)", "Rango"),
+      align = "c") %>%
+  kable_styling(full_width = FALSE, bootstrap_options = c("hover", "condensed"))
+```
+
+**Interpretación.** Dos o tres oraciones sobre qué significa el resultado para el diseño o el análisis.
+
+:::
+
+## Ejercicios propuestos
+
+1. Ejercicio con datos y unidades, con respuesta numérica si es posible.
+2. …
+
+## Lecturas recomendadas
+
+- @chow1988appliedhydrology, capítulo N: por qué vale la pena leerlo.
