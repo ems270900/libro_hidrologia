@@ -82,4 +82,4 @@ Observaciones del autor y verificación de fuentes:
 - **Patrones de drenaje.** Se agregó el patrón centrífugo, que aparece en la figura.
 - **Intercepción.** El texto ya no da el porcentaje, así que se quitó la marca.
 - **Mapas de Costa Rica.** Las figuras de cuencas y de cobertura se rehicieron con `herramientas/mapas_cr.R` y las capas de `datos/mapas/` (SNIT), en el formato único del libro. Se agregó el cuadro de las 34 cuencas con su área.
-- **Queda abierta:** la fuente del MDE de la cuenca del río La Estrella (pregunta al autor).
+- **MDE de La Estrella y capa de cuencas:** el autor confirmó que ambos vienen del SNIT; se citan como @snit2025.

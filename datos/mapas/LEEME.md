@@ -5,7 +5,7 @@ Capas livianas que usa `herramientas/mapas_cr.R`. Todas están en CRTM05 (EPSG:5
 ## limites_cr.gpkg
 
 - **provincias** (8 registros): campos `PROVINCIA`, `PROV` y `tipo`. La fila con `PROVINCIA = "NA"` es el marco del recuadro de la Isla del Coco (`tipo = "marco_isla_coco"`); Puntarenas incluye la isla trasladada dentro del recuadro.
-- **cuencas** (34 registros): campos `cuenca_no`, `nombre` y `area_ha` (área del archivo original, sin recalcular).
+- **cuencas** (34 registros, capa del SNIT): campos `cuenca_no`, `nombre` y `area_ha` (área del archivo original, sin recalcular).
 - Proceso: `st_make_valid`, simplificación con tolerancia de 50 m (`preserveTopology = TRUE`) y `st_make_valid` de nuevo. Entre polígonos vecinos puede haber holguras o traslapes menores de 50 m, que no se ven a escala de página.
 
 ## cobertura_snit_100m.tif y cobertura_clases.csv
