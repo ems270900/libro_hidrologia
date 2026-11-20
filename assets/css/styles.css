@@ -651,3 +651,170 @@ a.video-enlace:hover {
   background: #c4302b;
   color: #fff;
 }
+
+/* === Tabla de contenidos: jerarquía de partes y capítulos === */
+
+/* Sin división de palabras ni texto justificado en la tabla de contenidos */
+#TOC, #TOC li, #TOC a, .sidebar li, .sidebar .sidebar-item-text {
+  hyphens: manual !important;
+  -webkit-hyphens: manual !important;
+  text-align: left !important;
+}
+
+#TOC #toc-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6c757d;
+  margin-bottom: 0.75rem;
+}
+
+#TOC > ul > li > a {
+  font-size: 0.9rem;
+  line-height: 1.3;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+}
+
+/* Partes: rótulo en versalitas, separado del bloque anterior */
+#TOC > ul > li.toc-parte {
+  margin-top: 1.1rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid #e5e7eb;
+}
+#TOC > ul > li.toc-parte > a {
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #10199e !important;
+  line-height: 1.35;
+}
+
+/* Capítulos: número en una columna fija y sangría francesa */
+#TOC > ul > li.toc-capitulo > a {
+  display: flex;
+  gap: 0.35rem;
+}
+#TOC > ul > li.toc-capitulo > a > .header-section-number {
+  flex: 0 0 1.6rem;
+  color: #6c757d;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Páginas preliminares (prefacio, introducción) en cursiva discreta */
+#TOC > ul > li.toc-preliminar > a {
+  font-style: italic;
+}
+
+/* Subsecciones de un capítulo */
+#TOC ul ul a {
+  font-size: 0.82rem;
+  color: #555 !important;
+}
+
+/* Versión web de varias páginas: rótulos de las partes */
+.sidebar .sidebar-section > .sidebar-item-container > a > .menu-text,
+.sidebar .sidebar-section > .sidebar-item-container > .sidebar-item-text {
+  font-size: 0.74rem !important;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #10199e !important;
+}
+
+/* === Portada === */
+
+.portada-titulo-oculto > h1 {
+  position: absolute !important;
+  width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+.portada { margin: 0.5rem 0 3rem; }
+.portada p { text-align: center; hyphens: manual; -webkit-hyphens: manual; }
+
+.portada-banda {
+  background: linear-gradient(135deg, #0b1f4d 0%, #10199e 55%, #1f6fb2 100%);
+  color: #ffffff;
+  border-radius: 10px 10px 0 0;
+  padding: 2.6rem 1.5rem 2.2rem;
+  text-align: center;
+}
+.portada-sobre {
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-bottom: 1.4rem !important;
+}
+.portada-titulo {
+  font-size: 2.6rem;
+  line-height: 1.12;
+  font-weight: 700;
+  margin-bottom: 0.9rem !important;
+}
+.portada-subtitulo {
+  font-size: 1.2rem;
+  font-style: italic;
+  opacity: 0.92;
+  margin-bottom: 1.6rem !important;
+}
+.portada-autor {
+  display: inline-block;
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  margin-bottom: 0 !important;
+}
+
+.portada-imagen { margin: 0; }
+.portada-imagen img {
+  display: block;
+  width: 100%;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+}
+.portada-imagen figcaption {
+  font-size: 0.75rem;
+  color: #6c757d;
+  text-align: right;
+  margin-top: 0.3rem;
+}
+
+.portada-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  margin: 2rem 0 1.5rem;
+}
+.portada-logos img { height: 64px; width: auto; }
+
+.portada-ficha {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  background: #f5f7fa;
+  border-top: 3px solid #10199e;
+  border-radius: 6px;
+  padding: 1.2rem 1.4rem;
+  font-size: 0.88rem;
+}
+.portada-ficha p { text-align: left; margin-bottom: 0.4rem; }
+.portada-ficha-titulo {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #10199e;
+}
+.portada-cc { height: 22px; vertical-align: middle; margin-right: 0.3rem; }
+
+@media (max-width: 700px) {
+  .portada-titulo { font-size: 1.9rem; }
+  .portada-ficha { grid-template-columns: 1fr; }
+  .portada-logos { gap: 1.5rem; }
+  .portada-logos img { height: 48px; }
+}

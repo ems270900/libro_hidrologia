@@ -26,6 +26,20 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   if (secciones.length < 2) return;
 
+  // Tabla de contenidos: distinguir partes, capítulos y páginas preliminares
+  var toc = document.getElementById("TOC");
+  if (toc) {
+    Array.prototype.forEach.call(toc.querySelectorAll(":scope > ul > li"), function (li) {
+      var a = li.querySelector(":scope > a");
+      if (!a) return;
+      var destino = document.getElementById(decodeURIComponent(a.getAttribute("href").slice(1)));
+      if (destino && destino.classList.contains("parte")) li.classList.add("toc-parte");
+      else if (a.querySelector(".header-section-number")) li.classList.add("toc-capitulo");
+      else li.classList.add("toc-preliminar");
+      if (destino && destino.closest(".portada-titulo-oculto, .portada, .custom-cover, center")) li.style.display = "none";
+    });
+  }
+
   // Una página por capítulo; el título de una parte va con el capítulo que le sigue
   var paginas = [], pendiente = [];
   secciones.forEach(function (s) {

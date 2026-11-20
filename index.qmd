@@ -1,67 +1,44 @@
---- 
+---
 numbered: false
 format:
   html:
     number-sections: false
   pdf:
     number-sections: false
---- 
+---
 
-<center>
-# Fundamentos de la Hidrología Aplicada a la Ingeniería Civil {.unnumbered}
-</center>
+# Hidrología Aplicada a la Ingeniería Civil {.unnumbered .portada-titulo-oculto}
 
-::: {.custom-cover} 
+::: {.portada}
 
-<div class="cover-logos" style="display: flex; justify-content: center; align-items: center;">
-  <img src="assets/img/logoeic.png" style="width: 200px; height: auto; margin-right: 250px;">
-  <img src="assets/img/logoucr.png" style="width: 150px; height: auto;">
+<style>#title-block-header { display: none; }</style>
+
+<div class="portada-banda">
+<p class="portada-sobre">Escuela de Ingeniería Civil · Universidad de Costa Rica</p>
+<p class="portada-titulo">Hidrología Aplicada<br>a la Ingeniería Civil</p>
+<p class="portada-subtitulo">Fundamentos, análisis estadístico y aplicaciones prácticas</p>
+<p class="portada-autor">Edwin Matarrita Segura</p>
 </div>
 
-<h2 class="cover-subtitle"> 
- Fundamentos, análisis estadístico y aplicaciones prácticas
-</h2> 
+<figure class="portada-imagen">
+<img src="assets/img/ciclo_h.png" alt="Ilustración del ciclo del agua con sus reservas y flujos, desde la atmósfera hasta el agua subterránea">
+<figcaption>Ilustración: Servicio Geológico de los Estados Unidos (USGS).</figcaption>
+</figure>
 
-<p class="cover-author"> 
- Ing. Edwin Matarrita Segura 
-</p> 
-
-<p class="cover-affiliation"> 
- Escuela de Ingeniería Civil – Universidad de Costa Rica 
-</p> 
-
-<div class="cover-hero"> 
-<img src="assets/img/ciclo_h.png" class="cover-image"> 
-</div> 
-
-
-<div class="cover-license">
-
-<img src="assets/img/by-nc-sa.png" style="height:45px; margin-top:20px;">
-
-<p style="margin-top:10px; font-size:0.95em;">
-Este libro se distribuye bajo la licencia 
-<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
-Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional
-</a>. El código R se distribuye bajo la
-<a href="https://github.com/ems270900/libro_hidrologia/blob/master/LICENSE-CODE">licencia MIT</a>
-y puede copiarse y reutilizarse libremente.
-</p>
-
+<div class="portada-logos">
+<img src="assets/img/logoucr.png" alt="Logotipo de la Universidad de Costa Rica">
+<img src="assets/img/logoeic.png" alt="Logotipo de la Escuela de Ingeniería Civil">
 </div>
 
-
-<div class="cover-citation">
-
-<p style="margin-top:20px; font-size:0.95em;">
-
-<b>Cite este libro como:</b>  
-Matarrita Segura, E. (2026).  
-<i>Hidrología aplicada a la ingeniería civil: fundamentos, análisis estadístico y aplicaciones prácticas</i>.  
-Escuela de Ingeniería Civil, Universidad de Costa Rica.
-
-</p>
-
+<div class="portada-ficha">
+<div>
+<p class="portada-ficha-titulo">Cómo citar</p>
+<p>Matarrita Segura, E. (2026). <i>Hidrología aplicada a la ingeniería civil: fundamentos, análisis estadístico y aplicaciones prácticas</i>. Escuela de Ingeniería Civil, Universidad de Costa Rica.</p>
+</div>
+<div>
+<p class="portada-ficha-titulo">Licencia</p>
+<p><img src="assets/img/by-nc-sa.png" alt="Licencia CC BY-NC-SA 4.0" class="portada-cc"> Texto bajo licencia <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">Creative Commons Atribución-NoComercial-CompartirIgual 4.0</a>. El código R está bajo licencia <a href="https://github.com/ems270900/libro_hidrologia/blob/master/LICENSE-CODE">MIT</a> y puede copiarse y reutilizarse libremente.</p>
+</div>
 </div>
 
 :::
