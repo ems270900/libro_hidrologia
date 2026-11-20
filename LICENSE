@@ -1,0 +1,26 @@
+Hidrología Aplicada a la Ingeniería Civil
+Copyright (c) 2026 Edwin Matarrita Segura
+
+Este repositorio usa dos licencias:
+
+1. Texto, figuras y demás contenido del libro
+   Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional
+   (CC BY-NC-SA 4.0).
+
+   Se permite copiar, redistribuir y adaptar el material en cualquier medio
+   o formato, siempre que:
+     - se dé crédito al autor, se enlace la licencia y se indiquen los cambios;
+     - no se use con fines comerciales;
+     - las obras derivadas se distribuyan bajo la misma licencia.
+
+   Resumen:      https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es
+   Texto legal:  https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.es
+
+   El texto legal enlazado es el que rige. Este resumen no lo sustituye.
+
+2. Código R (bloques de código del libro y scripts de `herramientas/`)
+   Licencia MIT. Ver el archivo LICENSE-CODE.
+
+Las imágenes, datos o materiales de terceros que se citan con su fuente
+conservan la licencia de su titular original y no quedan cubiertos por
+estas licencias.

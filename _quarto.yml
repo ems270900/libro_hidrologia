@@ -28,7 +28,10 @@ book:
 
   page-footer:
     left: |
-      Hidrología Aplicada a la Ingeniería Civil, Ing. Edwin Matarrita Segura.
+      © 2026 Ing. Edwin Matarrita Segura. Texto bajo licencia
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">CC BY-NC-SA 4.0</a>;
+      código R bajo licencia
+      <a href="https://github.com/ems270900/libro_hidrologia/blob/main/LICENSE-CODE">MIT</a>.
     right: |
       Este libro fue construido con <a href="https://quarto.org/">Quarto</a> y
       <a href="https://posit.co/download/rstudio-desktop/">RStudio</a>.
