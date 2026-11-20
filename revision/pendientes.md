@@ -21,4 +21,7 @@ Las referencias se buscarán y verificarán al escribirlo.
 
 ## Mapas de Costa Rica con formato único
 
-Rehacer todos los mapas de Costa Rica del libro con las coberturas oficiales del SNIT y el formato de los scripts de referencia del autor (CRTM05, EPSG:5367).
+Rehacer todos los mapas de Costa Rica del libro con las coberturas oficiales del SNIT y el formato de los scripts de referencia del autor (CRTM05, EPSG:5367), usando `herramientas/mapas_cr.R`.
+
+- Hecho (capítulo 4): cuencas hidrográficas y cobertura del suelo.
+- Por hacer: mapas de los capítulos siguientes cuando se revisen (por ejemplo, las estaciones de la cuenca del río Grande de Térraba en el capítulo 13, que necesita las coordenadas de las estaciones), y los mapas de isoyetas y regiones del capítulo 2 si se consiguen los datos.
