@@ -102,9 +102,7 @@ Los pluviógrafos mecánicos registraban la lluvia acumulada como una curva sobr
 
 ::: {.callout-note title="Ejemplo: hietograma y curva intensidad-duración a partir de una banda de pluviógrafo"}
 
-<!-- CITA PENDIENTE: el ejemplo se tomó de material de la Universidad de Salamanca (2025). Falta la entrada en references.bib. -->
-
-**Planteamiento.** A partir de la banda de pluviógrafo de la @fig-idf1, estime el hietograma con intervalos de 1 h y la curva intensidad-duración del evento.
+**Planteamiento.** El ejemplo está adaptado de una práctica de hidrología superficial de la Universidad de Salamanca [@sanchez_banda_pluviografo]. A partir de la banda de pluviógrafo de la @fig-idf1, estime el hietograma con intervalos de 1 h y la curva intensidad-duración del evento.
 
 **Pseudocódigo**
 
@@ -116,7 +114,7 @@ Los pluviógrafos mecánicos registraban la lluvia acumulada como una curva sobr
 
 ```{r}
 #| label: fig-idf1
-#| fig-cap: "Lectura de la lluvia acumulada al final de cada hora en la banda de pluviógrafo."
+#| fig-cap: "Lectura de la lluvia acumulada al final de cada hora en la banda de pluviógrafo. Fuente: adaptado de @sanchez_banda_pluviografo."
 #| fig-alt: "Banda de pluviógrafo con la curva de lluvia acumulada entre las 11 y las 19 horas"
 #| echo: false
 
@@ -174,7 +172,7 @@ Para la curva intensidad-duración se divide la banda en ventanas de 10, 20, 30,
 
 ```{r}
 #| label: fig-idf2
-#| fig-cap: "Lectura de la lluvia máxima en la banda para cada duración."
+#| fig-cap: "Lectura de la lluvia máxima en la banda para cada duración. Fuente: adaptado de @sanchez_banda_pluviografo."
 #| fig-alt: "Banda de pluviógrafo con los tramos de mayor pendiente marcados para cada duración"
 #| echo: false
 
