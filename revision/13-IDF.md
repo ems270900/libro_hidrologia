@@ -41,7 +41,7 @@ Estos puntos cambian el contenido, no solo el estilo. Revísalos primero.
 
 **Universidad de Salamanca:** el ejemplo de la banda viene de la práctica "Construcción de un hietograma y de una curva I-D" del sitio de hidrología de la Universidad de Salamanca (hidrologia.usal.es), donde aparecen la lectura entre las 14 y las 15 h y el valor de 1.2 mm en 10 min. El PDF no muestra autor ni año; se atribuyó a F. Javier Sánchez San Román, autor de ese sitio. Las figuras de la banda llevan ahora "Fuente: adaptado de".
 
-Además, en el `.bib` los boletines `Rojas2011mecanicas` y `Rojas2011automaticas` están como tesis de maestría de la UCR, pero son publicaciones del IMN. En el PDF del boletín de estaciones automáticas no aparecen ni el autor ni el año, así que hay que confirmar los dos.
+Además, en el `.bib` los boletines `Rojas2011mecanicas` y `Rojas2011automaticas` estaban como tesis de maestría de la UCR de "Rojas (2011)". Edwin confirmó (2026-11-20) que el autor es el IMN. Ninguno de los dos PDF trae año de publicación: el de estaciones mecánicas usa datos hasta 2010 y los PDF se generaron en 2014. Quedaron como informes técnicos del IMN sin fecha (s. f.). Las claves no cambiaron.
 
 ## Cambios de estilo
 
