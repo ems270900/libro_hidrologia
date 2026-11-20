@@ -1020,19 +1020,41 @@ knitr::include_graphics("assets/img/ambiental.jpg")
 
 ## La red de estaciones de Costa Rica {#sec-fuentes-red-cr}
 
-En Costa Rica las estaciones meteorológicas e hidrológicas las operan sobre todo el Instituto Meteorológico Nacional (IMN) y el Instituto Costarricense de Electricidad (ICE), además de universidades y otras instituciones (@fig-cr_estaciones). Miden precipitación, temperatura, humedad, viento, radiación, niveles y caudales. Con esos datos se pronostica el tiempo, se emiten alertas, se operan los embalses y se diseñan las obras.
+En Costa Rica las estaciones meteorológicas e hidrológicas las operan sobre todo el Instituto Meteorológico Nacional (IMN) y el Instituto Costarricense de Electricidad (ICE), además del Servicio Nacional de Aguas Subterráneas, Riego y Avenamiento (SENARA), el Instituto Costarricense de Acueductos y Alcantarillados (AyA), universidades y empresas privadas. Miden precipitación, temperatura, humedad, viento, radiación, niveles y caudales. Con esos datos se pronostica el tiempo, se emiten alertas, se operan los embalses y se diseñan las obras.
+
+La @fig-cr_estaciones muestra las 1265 estaciones climatológicas de un inventario recopilado por la Universidad de Costa Rica [@ucr2024estaciones]. De ellas, 552 seguían activas. El IMN y el ICE operan casi tres de cada cuatro. Las inactivas también cuentan: sus registros históricos sirven para el análisis de frecuencia y para rellenar series de estaciones vecinas.
 
 ```{r}
 #| label: fig-cr_estaciones
-#| fig-cap: "Estaciones meteorológicas del IMN y del ICE en Costa Rica. Fuente: @IMN_CostaRica."
-#| fig-alt: "Mapa de relieve de Costa Rica con puntos rojos para las estaciones del ICE y azules para las del IMN, concentradas en el centro del país"
+#| fig-cap: "Estaciones climatológicas de Costa Rica según su operador y su estado. Fuente: elaboración propia con datos de @ucr2024estaciones."
+#| fig-alt: "Mapa de Costa Rica en CRTM05 con 1265 estaciones como puntos de colores por operador, llenos si están activas y vacíos si están inactivas, más densas en el centro del país"
 #| echo: false
-#| out-width: 70%
+#| out-width: 85%
+#| fig-width: 8.5
+#| fig-height: 7
 
-knitr::include_graphics("assets/img/CR_IMN.jpg")
+source("herramientas/mapas_cr.R")
+capas <- leer_capas_cr()
+
+# Inventario de estaciones (datos/mapas/LEEME.md); las inactivas se dibujan primero
+estaciones <- st_read("datos/mapas/estaciones_cr.gpkg", quiet = TRUE)
+estaciones$grupo <- factor(estaciones$grupo, levels = c("IMN", "ICE", "SENARA", "AyA", "Otros"))
+estaciones$estado <- factor(estaciones$estado, levels = c("Activa", "Inactiva"))
+estaciones <- estaciones[order(estaciones$estado, decreasing = TRUE), ]
+
+ggplot() +
+  capa_relieve(capas, alfa_max = 0.35) +
+  contorno_cr(capas) +
+  geom_sf(data = estaciones, aes(colour = grupo, shape = estado), size = 1.3, stroke = 0.45) +
+  scale_colour_manual(values = c(IMN = "#1C6BA0", ICE = "#D55E00", SENARA = "#009E73",
+                                 AyA = "#CC79A7", Otros = "grey35"), name = "Operador") +
+  scale_shape_manual(values = c(Activa = 16, Inactiva = 1), name = "Estado") +
+  guides(colour = guide_legend(override.aes = list(size = 2.5)),
+         shape = guide_legend(override.aes = list(size = 2.5))) +
+  marco_cr(capas)
 ```
 
-La principal limitación para el análisis hidrológico es que la lluvia se mide en puntos. En un país con montañas altas, pendientes fuertes y lluvias convectivas y orográficas, la lluvia cambia mucho en pocos kilómetros, y una estación no representa a toda una cuenca. Además, como se ve en la @fig-cr_estaciones, las estaciones se concentran en el centro del país y escasean en otras zonas.
+La principal limitación para el análisis hidrológico es que la lluvia se mide en puntos. En un país con montañas altas, pendientes fuertes y lluvias convectivas y orográficas, la lluvia cambia mucho en pocos kilómetros, y una estación no representa a toda una cuenca. Además, como se ve en la @fig-cr_estaciones, las estaciones se concentran en el centro del país y son escasas en zonas como las llanuras del norte y la península de Osa.
 
 Por eso la lluvia de una cuenca se estima con métodos que pasan de los puntos al área: polígonos de Thiessen, isoyetas, interpolación geoestadística, regresiones con la elevación y la combinación con radar y satélites (@fig-espacial). Cada método agrega supuestos propios, y el error de la estimación crece donde hay pocas estaciones. Estos métodos se tratan en el capítulo de precipitación.
 

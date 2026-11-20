@@ -47,5 +47,5 @@ Algunas figuras citan su fuente en texto plano porque es un sitio web sin autor 
 
 ## Pendiente para el autor
 
-- La @fig-cr_estaciones no sigue el formato de mapas del libro. Si hay un listado con coordenadas de las estaciones del IMN y del ICE, se puede rehacer con `herramientas/mapas_cr.R`.
+- Hecho: la @fig-cr_estaciones se rehízo con `herramientas/mapas_cr.R` y el inventario de 1265 estaciones del visor de la UCR (`datos/mapas/estaciones_cr.gpkg`).
 - La etiqueta `fig-aforo` existía en los capítulos 2 y 5; la del capítulo 5 pasó a `fig-aforo-seccion` (no se citaba en ningún otro lado).

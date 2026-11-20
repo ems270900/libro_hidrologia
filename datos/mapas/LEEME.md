@@ -31,6 +31,14 @@ Método:
 
 `cobertura_clases.csv` trae el código, la capa, el código SNIT, el nombre, el color del estilo oficial (`.qml`), el color usado en el libro, el número de celdas y el área en km².
 
+## estaciones_cr.gpkg
+
+Capa **estaciones** (1265 puntos) con el inventario de estaciones climatológicas del visor de la Universidad de Costa Rica "Ubicación de estaciones meteorológicas" (ArcGIS Online, servicio `Estaciones_Climatológicas_v3_WFL1`), descargada el 2026-11-20 en CRTM05.
+
+- Campos: `cod_estacion`, `nombre`, `operador` (como viene en el servicio), `grupo` (IMN, incluidas las operadas en conjunto con el IMN; ICE; SENARA; AyA, que incluye SNAA; Otros), `estado` (Activa o Inactiva), `tipo`, `elevacion_m`, `provincia`, `cuenca`, `ubicacion` (certeza de la ubicación según el servicio) e `isla_coco_trasladada`.
+- Las tres estaciones de la Isla del Coco se trasladaron al recuadro con el mismo desplazamiento que la cobertura.
+- No se copiaron los campos de contacto ni de edición del servicio.
+
 ## hillshade_400m.tif
 
 Relieve sombreado de 10 m agregado por media a 400 m. Se usa solo como fondo visual.
