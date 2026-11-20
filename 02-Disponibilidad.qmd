@@ -1,38 +1,34 @@
 ---
-title: "La disponibilidad del Recurso Hídrico"
+title: "La disponibilidad del recurso hídrico"
 bibliography: references.bib
 suppress-bibliography: true
 ---
 
 ::: quote-block
-“Nunca sabremos el valor del agua hasta que el pozo esté seco.”\
-— *Thomas Fuller (1608-1661)*
+"Nunca sabremos el valor del agua hasta que el pozo esté seco."\
+— *Thomas Fuller, Gnomologia (1732)*
 :::
 
-### Importancia del agua y su función en la Tierra
+## El agua en la Tierra {#sec-disponibilidad-hidrosfera}
 
-El agua es un componente esencial de la vida y desempeña un papel crucial en el funcionamiento de los sistemas naturales y antrópicos. Regula el clima, participa en los ciclos biogeoquímicos, permite el transporte de sedimentos, nutrientes y energía, y controla la estructura y distribución de los ecosistemas.
+El agua regula el clima, participa en los ciclos biogeoquímicos, transporta sedimentos, nutrientes y energía, y condiciona dónde y cómo se desarrollan los ecosistemas y las actividades humanas.
 
-La totalidad del agua contenida en la atmósfera, el suelo, los océanos y la corteza terrestre constituye la hidrósfera. De este volumen, <span class="firebrick"><strong>únicamente alrededor del 2.5 % corresponde a agua dulce</strong></span>, y tan solo una fracción mínima se encuentra disponible para su aprovechamiento directo.
-
+Toda el agua de la atmósfera, el suelo, los océanos y la corteza terrestre forma la **hidrosfera** (@fig-hidrosfera). De ese volumen, **solo cerca del 2.5 % es agua dulce**, y apenas una fracción muy pequeña de ella se puede aprovechar directamente.
 
 ```{r}
 #| label: fig-hidrosfera
-#| fig-cap: "Esquema general de la hidrósfera y principales reservorios de agua.<br><span style='font-size:0.8em;'>Fuente: [@usgsHydrosphere]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Principales reservorios de agua de la hidrosfera. Fuente: @usgsHydrosphere."
+#| fig-alt: "Esquema con la proporción de agua salada, agua dulce y sus reservorios principales"
 #| echo: false
-#| class: fig-border
 
 knitr::include_graphics("assets/img/imagen_usgs.png")
-
 ```
 
-## Distribución global del agua
+## Distribución global del agua {#sec-disponibilidad-distribucion}
 
-La mayor parte del agua del planeta se encuentra almacenada en los océanos (≈96.5 %). El agua dulce, aunque esencial para los ecosistemas terrestres y para las actividades humanas, representa una fracción muy reducida del total.
+Los océanos guardan cerca del 96.5 % del agua del planeta (@tbl-distribucion-agua). Del agua dulce, casi todo está en glaciares, casquetes polares y acuíferos. Los ríos, lagos y humedales tienen menos del **0.5 % del agua dulce**, y sin embargo son la fuente de la mayor parte del agua que se usa.
 
-Dentro del agua dulce, los principales reservorios corresponden a glaciares, casquetes polares y aguas subterráneas profundas; mientras que los cuerpos de agua superficial (ríos, lagos y humedales) corresponden a menos del **0.5 % del agua dulce total**.
+<!-- VERIFICAR: los tiempos de residencia del cuadro (20 000 años para el agua subterránea, 17 días para los ríos) no coinciden con los que se dan más adelante en el texto (1400 a 10 000 años, 16 días). Confirmar en la fuente y unificar. -->
 
 ```{r}
 #| label: tbl-distribucion-agua
@@ -47,19 +43,19 @@ library(tibble)
 
 tabla_agua <- tribble(
   ~`Fuente de agua`, ~`Volumen`, ~`Porcentaje del total`, ~`Porcentaje del agua dulce`, ~`Tiempo de residencia (años)`,
-  "Aguas superficiales",        "47.971.710",        3.5,    NA,    "Todas las aguas superficiales: 4.0<br>0.05 (17 días)",
-  "Lagos (dulces)",             "91.000",            0.007,  0.26,  "Todas las aguas superficiales: 4.0<br>0.05 (17 días)",
-  "Lagos (salobres)",           "85.400",            0.006,  NA,    "Todas las aguas superficiales: 4.0<br>0.05 (17 días)",
-  "Ríos",                       "2.120",             0.0002, 0.006, "Todas las aguas superficiales: 4.0<br>0.05 (17 días)",
-  "Pantanos",                   "11.470",            0.0008, 0.03,  "Todas las aguas superficiales: 4.0<br>0.05 (17 días)",
-  "Humedad del suelo",          "16.500",            0.0012, 0.05,  "Todas las aguas subterráneas: 20.000",
-  "Agua subterránea dulce*",    "10.530.000*",       0.76,   30.1,  "Todas las aguas subterráneas: 20.000",
-  "Agua subterránea salobre",   "12.870.000",        0.93,   NA,    "Todas las aguas subterráneas: 20.000",
-  "Agua biológica",             "1.120",             0.0001, 0.003, "",
-  "Hielo polar y glaciares",    "24.364.100",        1.76,   69.6,  "",
-  "Atmósfera",                  "12.900",            0.001,  0.04,  "0.02 (8 días)",
-  "Océanos",                    "1.338.000.000",     96.5,   NA,    "2.650",
-  "Total",                      "1.385.984.610",     100.0,  100.0, ""
+  "Agua en los continentes (total)", "47 971 710",   3.5,    NA,    "Todas las aguas superficiales: 4.0<br>0.05 (17 días)",
+  "Lagos (dulces)",             "91 000",            0.007,  0.26,  "Todas las aguas superficiales: 4.0<br>0.05 (17 días)",
+  "Lagos (salobres)",           "85 400",            0.006,  NA,    "Todas las aguas superficiales: 4.0<br>0.05 (17 días)",
+  "Ríos",                       "2 120",             0.0002, 0.006, "Todas las aguas superficiales: 4.0<br>0.05 (17 días)",
+  "Pantanos",                   "11 470",            0.0008, 0.03,  "Todas las aguas superficiales: 4.0<br>0.05 (17 días)",
+  "Humedad del suelo",          "16 500",            0.0012, 0.05,  "Todas las aguas subterráneas: 20 000",
+  "Agua subterránea dulce*",    "10 530 000*",       0.76,   30.1,  "Todas las aguas subterráneas: 20 000",
+  "Agua subterránea salobre",   "12 870 000",        0.93,   NA,    "Todas las aguas subterráneas: 20 000",
+  "Agua biológica",             "1 120",             0.0001, 0.003, "",
+  "Hielo polar y glaciares",    "24 364 100",        1.76,   69.6,  "",
+  "Atmósfera",                  "12 900",            0.001,  0.04,  "0.02 (8 días)",
+  "Océanos",                    "1 338 000 000",     96.5,   NA,    "2 650",
+  "Total",                      "1 385 984 610",     100.0,  100.0, ""
 )
 
 tabla_agua %>%
@@ -75,8 +71,7 @@ tabla_agua %>%
       "Porcentaje del total",
       "Porcentaje del agua dulce",
       "Tiempo de residencia (años)"
-    ),
-    caption = "Distribución del agua en la Tierra: volúmenes, porcentajes y tiempos de residencia."
+    )
   ) %>%
   kable_classic(html_font = "Latin Modern Roman") %>%
   kable_styling(
@@ -96,53 +91,56 @@ tabla_agua %>%
 
 ```
 
-[**Fuente:** @maidment1993handbook]{style="font-size: 0.8em;"}
+Fuente: @maidment1993handbook.
 
 ## Disponibilidad efectiva del recurso hídrico
 
-La disponibilidad del agua no depende únicamente del volumen total almacenado en la hidrósfera, sino también de su accesibilidad física, calidad, variabilidad temporal y de las capacidades técnicas, institucionales y económicas de cada región para captarla, almacenarla y distribuirla.
+Que haya agua no significa que se pueda usar. La disponibilidad depende también de dónde está, de su calidad, de cómo varía en el tiempo y de la capacidad técnica, institucional y económica de cada región para captarla, almacenarla y distribuirla.
 
-En términos hidrológicos, la disponibilidad se entiende como la porción del recurso que puede ser aprovechada de manera sostenible considerando:
+En hidrología, la **disponibilidad** es la parte del recurso que se puede aprovechar de forma sostenible. Para estimarla se considera:
 
 -   la oferta natural (precipitación, escorrentía, almacenamiento superficial y subterráneo),
 -   la demanda (doméstica, agrícola, industrial y ambiental),
 -   las limitaciones hidrogeológicas (permeabilidad, gradientes, recarga),
 -   y las restricciones ecológicas, como los caudales ambientales necesarios para mantener los ecosistemas acuáticos.
 
-Esta perspectiva explica por qué, pese a la existencia de agua suficiente a escala planetaria, millones de personas experimentan estrés hídrico cada año.
+Por eso, aunque a escala planetaria hay agua suficiente, millones de personas sufren estrés hídrico cada año.
 
-## Variabilidad espacial del recurso hídrico
+## Variabilidad espacial del recurso hídrico {#sec-disponibilidad-espacial}
 
-La distribución del agua dulce accesible varía de forma significativa entre regiones. Esta heterogeneidad está controlada por patrones climáticos de gran escala, la presencia de cadenas montañosas, las corrientes oceánicas y la dinámica estacional de la precipitación.
-
-En términos generales se distinguen tres grandes patrones espaciales:
+El agua dulce accesible cambia mucho de una región a otra. Las diferencias las controlan la circulación atmosférica de gran escala, las cordilleras, las corrientes oceánicas y la estacionalidad de la lluvia. A escala mundial se distinguen tres tipos de regiones:
 
 -   Regiones húmedas y tropicales, con alta precipitación anual y recarga abundante (por ejemplo, cuencas amazónica, congoleña y del sudeste asiático).
 -   Regiones semiáridas, donde la precipitación es estacional o limitada (por ejemplo, cuencas del Mediterráneo, sur de África y parte de Centroamérica).
 -   Regiones áridas, donde la evaporación supera ampliamente la precipitación (por ejemplo, norte de África, Medio Oriente y Australia central).
 
-La heterogeneidad climática y fisiográfica determina la disponibilidad natural de agua en las cuencas y condiciona el desarrollo humano, la agricultura, la industria y los ecosistemas.
+A escala de país y de cuenca, la disponibilidad varía por cuatro razones principales:
+
+- **Clima regional.** En Centroamérica, la Zona de Convergencia Intertropical y los vientos alisios generan contrastes entre el Caribe, húmedo todo el año, y el Pacífico Norte, con una estación seca marcada.
+- **Relieve.** Las cordilleras producen lluvia orográfica en barlovento y condiciones más secas en sotavento, como ocurre entre las vertientes Caribe y Pacífica de Costa Rica.
+- **Cercanía a grandes cuerpos de agua.** Las zonas cercanas al océano, a grandes lagos o a embalses tienen más humedad disponible que las zonas continentales alejadas.
+- **Geología.** Los acuíferos en formaciones volcánicas o aluviales permeables almacenan mucha agua. Las rocas poco permeables limitan la infiltración y el almacenamiento subterráneo.
+
+Por eso dos cuencas vecinas pueden comportarse muy distinto.
 
 ## Conceptos operativos: recurso, disponibilidad y accesibilidad
 
-En el análisis hidrológico aplicado es indispensable diferenciar entre conceptos que suelen emplearse como sinónimos, pero que representan realidades distintas desde el punto de vista técnico y de gestión:
+Tres términos se usan a menudo como sinónimos, pero no lo son:
 
--   <u>Disponibilidad hídrica:</u> fracción del recurso que puede ser utilizada de forma efectiva dentro de un horizonte espacial y temporal definido, considerando su renovación natural y las restricciones físicas del sistema.
--   <u>Recurso hídrico:</u> volumen total de agua presente en un sistema natural o artificial, independientemente de su uso o accesibilidad (océanos, glaciares, acuíferos, lagos, ríos, embalses).
--   <u>Accesibilidad:</u> condición que limita o habilita la disponibilidad en función de infraestructura, tecnología, costos económicos, marco legal e institucional. 
+-   **Recurso hídrico:** todo el volumen de agua de un sistema natural o artificial, se pueda usar o no (océanos, glaciares, acuíferos, lagos, ríos, embalses).
+-   **Disponibilidad hídrica:** la parte del recurso que se puede usar en un lugar y un periodo dados, considerando su renovación natural y las restricciones físicas del sistema.
+-   **Accesibilidad:** las condiciones de infraestructura, tecnología, costo y marco legal e institucional que permiten o impiden usar el agua disponible.
 
 
-Esta distinción permite explicar por qué regiones con abundantes recursos hídricos pueden enfrentar problemas de abastecimiento, mientras que otras con recursos limitados logran cubrir sus demandas mediante una gestión eficiente.
+Con esta distinción se entiende por qué regiones con mucha agua pueden tener problemas de abastecimiento, mientras otras con poca logran cubrir su demanda gracias a una buena gestión.
 
-Tal es el caso de la región Pacífico Norte de Costa Rica, la cual se caracteriza por una marcada estacionalidad hidrológica. En esta región se presentan periodos prolongados de escasa precipitación durante la estación seca, contrastados con una elevada disponibilidad natural de agua durante la estación lluviosa. Sin embargo, pese a la abundancia relativa del recurso en ciertos meses del año, la accesibilidad al agua es limitada, debido a la concentración temporal de las lluvias, la insuficiente capacidad de almacenamiento y regulación, así como a restricciones de infraestructura y gestión. Esta combinación explica la ocurrencia recurrente de situaciones de escasez hídrica, aun en contextos donde el volumen total de agua no es necesariamente bajo.
+El Pacífico Norte de Costa Rica es un ejemplo. En la estación lluviosa los ríos llevan mucha agua, pero en la seca pasan meses casi sin lluvia (@fig-marimba). Como la lluvia se concentra en pocos meses y hay poca capacidad de almacenamiento y regulación, el agua de la estación lluviosa no se puede guardar para la seca. El resultado es escasez recurrente, aunque el volumen anual de agua no sea bajo.
 
 ```{r}
 #| label: fig-marimba
-#| fig-cap: "Estacionalidad del río Abangares, Guanacaste.<br><span style='font-size:0.8em;'>Fuente: [@CIEDES_UCR]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Estacionalidad del río Abangares, Guanacaste. Fuente: @CIEDES_UCR."
+#| fig-alt: "Fotografía del cauce del río Abangares en estación seca y lluviosa"
 #| echo: false
-#| class: fig-border
 
 knitr::include_graphics("assets/img/marimba.jpg")
 
@@ -150,21 +148,19 @@ knitr::include_graphics("assets/img/marimba.jpg")
 
 ## Escalas espaciales y temporales de la disponibilidad
 
-La disponibilidad del agua depende de manera crítica de la escala de análisis adoptada:
+La respuesta a cuánta agua hay depende de la escala a la que se pregunte:
 
--   <u>Escala global:</u> permite identificar la distribución general del agua y los grandes contrastes planetarios.
--   <u>Escala regional o nacional:</u> integra factores climáticos, fisiográficos y de gestión.
--   <u>Escala de cuenca hidrográfica:</u> constituye la escala fundamental para la ingeniería civil, ya que en ella se concentran los procesos hidrológicos relevantes para el diseño y la planificación.
--   <u>Escala temporal:</u> la disponibilidad puede evaluarse a nivel anual, estacional, mensual o incluso diario, dependiendo del objetivo del estudio.
+-   **Escala global:** muestra la distribución general del agua y los grandes contrastes del planeta (@fig-sequia).
+-   **Escala regional o nacional:** combina el clima, la fisiografía y la gestión.
+-   **Escala de cuenca:** es la escala de trabajo de la ingeniería civil, porque en ella ocurren los procesos que importan para el diseño y la planificación.
+-   **Escala temporal:** la disponibilidad se puede evaluar por año, estación, mes o día, según el objetivo del estudio.
 
 
 ```{r}
 #| label: fig-sequia
-#| fig-cap: "Sequía normalizada en América Latina y el Caribe.<br><span style='font-size:0.8em;'>Fuente: [@UNESCO_AtlasSequia2018]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Sequía normalizada en América Latina y el Caribe. Fuente: @UNESCO_AtlasSequia2018."
+#| fig-alt: "Mapa del índice de sequía normalizado en América Latina y el Caribe"
 #| echo: false
-#| class: fig-border
 
 knitr::include_graphics("assets/img/sequia.jpg")
 
@@ -172,182 +168,142 @@ knitr::include_graphics("assets/img/sequia.jpg")
 
 ### Escalas temporales de la disponibilidad
 
-Las series de tiempo hidrológicas, tales como la precipitación y el caudal, suelen observarse y registrarse en intervalos que van desde segundos, minutos u horas hasta días, semanas, meses, estaciones o años. La relevancia de cada componente del ciclo hidrológico está estrechamente ligada a la escala temporal considerada, la cual resulta crítica al momento de simular el ciclo completo o alguno de sus procesos individuales.
+La precipitación y el caudal se registran en intervalos que van de minutos a años. Qué procesos del ciclo hidrológico importan depende de la escala temporal del análisis, y eso se nota sobre todo al elegir qué simular.
 
-Los tiempos de residencia del agua varían de manera significativa según el componente del sistema hidrológico:
+El **tiempo de residencia**, el tiempo medio que el agua pasa en un compartimento, cambia mucho entre componentes:
 
--   <u>Agua subterránea</u>: puede permanecer almacenada durante periodos muy prolongados, que van desde aproximadamente 1 400 hasta más de 10 000 años.
--   <u>Humedad del suelo:</u> presenta tiempos de residencia típicamente del orden de 1 año.
--   <u>Red de cauces:</u> el agua que circula en los ríos tiene un tiempo de residencia promedio cercano a 16 días.
--   <u>Atmósfera:</u> el tiempo de residencia es relativamente corto, del orden de 8 días o aproximadamente una semana.
+-   **Agua subterránea:** de unos 1400 a más de 10 000 años.
+-   **Humedad del suelo:** del orden de 1 año.
+-   **Ríos:** cerca de 16 días.
+-   **Atmósfera:** unos 8 días.
 
-En la modelación hidrológica, la selección del **intervalo de tiempo de cálculo ($\Delta t$)** debe ser lo suficientemente pequeño para capturar la variabilidad relevante de los procesos, pero sin generar una carga excesiva en la recopilación de datos ni en el esfuerzo computacional. Por ejemplo, las predicciones de caudal para grandes embalses de abastecimiento de agua pueden realizarse adecuadamente utilizando intervalos semanales o mensuales, mientras que otros estudios para diseño de puentes requieren resoluciones temporales mucho más finas.
+En un modelo, el **intervalo de cálculo** $\Delta t$ debe ser lo bastante corto para captar la variación que importa, sin multiplicar sin necesidad los datos que hay que reunir ni el tiempo de cálculo. Para la operación de un embalse grande de abastecimiento basta un paso semanal o mensual. Para el caudal de diseño de un puente hacen falta pasos de minutos u horas.
 
 ### Escalas espaciales de la disponibilidad
 
-Las escalas espaciales relevantes en la investigación hidrológica incluyen, entre otras:
-
--   la ladera,
--   la cuenca hidrográfica,
--   la región,
--   el continente,
--   y la escala global.
-
-Los Sistemas de Información Geográfica (SIG) constituyen herramientas fundamentales para el almacenamiento, análisis y manipulación de información espacial asociada a estas escalas.
+Las escalas espaciales van de la ladera a la cuenca, la región, el continente y el planeta. Los sistemas de información geográfica (SIG) son la forma habitual de almacenar y analizar la información espacial en todas ellas (@fig-qgis_hidro).
 
 ```{r}
 #| label: fig-qgis_hidro
-#| fig-cap: "Uso de SIG en hidrología.<br><span style='font-size:0.8em;'>Fuente: [@QGIS_Development_Team_2024]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Uso de SIG en hidrología. Fuente: @QGIS_Development_Team_2024."
+#| fig-alt: "Captura de un proyecto de QGIS con capas hidrológicas de una cuenca"
 #| echo: false
-#| class: fig-border
 
 knitr::include_graphics("assets/img/qgis.jpg")
 
 ```
 
-A escala global, los sistemas de observación satelital proporcionan cobertura continua y de amplia extensión, con resoluciones espaciales típicamente del orden de algunos kilómetros para sensores en el visible e infrarrojo, y de decenas de kilómetros para sensores de microondas pasivas. En la modelación hidrológica, la resolución espacial adoptada determina el grado de variabilidad que se incorpora explícitamente en el modelo.
+A escala global, los satélites dan cobertura continua (@fig-ospo). Su resolución es de unos pocos kilómetros para los sensores visibles e infrarrojos y de decenas de kilómetros para los de microondas pasivas. En un modelo, la resolución espacial define cuánta de la variación del terreno y de la lluvia se representa explícitamente.
 
 ```{r}
 #| label: fig-ospo
-#| fig-cap: "Observación satelital de la precipitación.<br><span style='font-size:0.8em;'>Fuente: [@NOAA_OSPO]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Observación satelital de la precipitación. Fuente: @NOAA_OSPO."
+#| fig-alt: "Mapa satelital de estimación de precipitación"
 #| echo: false
-#| class: fig-border
 
 knitr::include_graphics("assets/img/ospo.jpg")
 
 ```
 
-Los requisitos de datos para lograr una predicción confiable aumentan conforme disminuyen las escalas espacial y temporal. A escalas pequeñas, la <span class="firebrick"><strong>heterogeneidad</strong></span> y la <span class="firebrick"><strong>complejidad</strong></span> de los procesos hidrológicos son mucho más marcadas, lo que demanda un volumen considerablemente mayor de información para su adecuada representación. En contraste, a escalas espaciales mayores (escala sinóptica^[La escala sinóptica se refiere a fenómenos atmosféricos de gran extensión espacial (del orden de cientos a miles de kilómetros) y con duraciones típicas de varios días, como frentes, ciclones y sistemas de alta y baja presión.]), dicha heterogeneidad tiende a integrarse y promediarse, lo cual simplifica la respuesta hidrológica del sistema.
+Cuanto más pequeñas son las escalas de espacio y tiempo, más datos hacen falta para predecir bien. A escalas pequeñas, la **heterogeneidad** y la **complejidad** de los procesos son mayores. A escalas grandes, como la escala sinóptica^[Fenómenos atmosféricos de cientos a miles de kilómetros y de varios días de duración, como frentes, ciclones y sistemas de alta y baja presión.], esa heterogeneidad se promedia y la respuesta del sistema se simplifica.
 
 ### Desafíos en la medición y predicción de la disponibilidad
 
-Uno de los principales desafíos en la determinación de la disponibilidad del recurso hídrico, radica en que los procesos hidrológicos ocurren a escalas espaciales y temporales que no siempre coinciden con las escalas de medición u observación. Esto dificulta, por ejemplo, la extrapolación de una medición puntual, como por ejemplo, la precipitación registrada en un pluviómetro a toda el área de una cuenca hidrográfica.
+Los procesos hidrológicos ocurren a escalas que no siempre coinciden con las de medición. Un pluviómetro mide la lluvia en un punto, pero el diseño necesita la lluvia sobre toda la cuenca. Pasar de una a otra exige interpolar, por ejemplo con isoyetas (@fig-isoyeta).
 
 ```{r}
 #| label: fig-isoyeta
-#| fig-cap: "Mapa de isoyetas.<br><span style='font-size:0.8em;'>Fuente: [@IMN_CostaRica]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Mapa de isoyetas. Fuente: @IMN_CostaRica."
+#| fig-alt: "Mapa de Costa Rica con curvas de igual precipitación anual"
 #| echo: false
-#| class: fig-border
 
 knitr::include_graphics("assets/img/isoyetas.jpg")
 
 ```
 
-Para enfrentar la escasez de datos, se emplea con frecuencia una estrategia jerárquica de adquisición de información, en la cual los conjuntos de datos globales proporcionan información generalizada a bajo costo, mientras que los datos de alta resolución a escala local requieren campañas de medición específicas y presentan costos significativamente mayores.
+Ante la falta de datos se suele trabajar por niveles. Los conjuntos de datos globales dan información general a bajo costo. Los datos locales de alta resolución, como los aforos (@fig-aforo), requieren campañas de medición específicas y cuestan mucho más.
 
 ```{r}
 #| label: fig-aforo
-#| fig-cap: "Aforo de caudales.<br><span style='font-size:0.8em;'>Fuente: [@CIEDES_UCR]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Aforo de caudales. Fuente: @CIEDES_UCR."
+#| fig-alt: "Fotografía de un aforo de caudal en un río"
 #| echo: false
-#| class: fig-border
 
 knitr::include_graphics("assets/img/afoto.jpg")
 
 ```
 
-En este contexto, la regionalización hidrológica surge como un enfoque multiescala que permite identificar unidades hidrológicas similares y estimar la respuesta hidrológica en cuencas sin mediciones directas, apoyándose en información disponible de cuencas análogas. 
+La **regionalización hidrológica** une los dos niveles: agrupa cuencas con comportamiento parecido (@fig-region) y estima la respuesta de las cuencas sin mediciones a partir de las que sí tienen.
 
 ```{r}
 #| label: fig-region
-#| fig-cap: "Regiones hidrológicas homogéneas.<br><span style='font-size:0.8em;'>Fuente: [@USACE_IWR]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Regiones hidrológicas homogéneas. Fuente: @USACE_IWR."
+#| fig-alt: "Mapa de regiones hidrológicas homogéneas"
 #| echo: false
-#| class: fig-border
 
 knitr::include_graphics("assets/img/region.jpg")
 
 ```
 
-En esencia, la escala actúa como un lente en hidrología: una visión amplia, correspondiente a escalas globales o anuales, ofrece promedios simples y suavizados; mientras que una visión cercana, asociada a escalas locales o de alta resolución temporal, se asocia a la compleja y altamente variable disponibilidad del agua.
+La escala funciona como un lente. Vista de lejos, a escala global o anual, la disponibilidad se ve como un promedio suave. Vista de cerca, a escala local o diaria, aparece toda su variabilidad.
 
 ## Disponibilidad y calidad del agua
 
-La disponibilidad efectiva del recurso hídrico no depende únicamente de la cantidad de agua, sino también de su **calidad**. En muchos sistemas, la presencia de contaminantes físicos, químicos o biológicos limita el uso del agua para determinados fines.
-
-Entre los factores más relevantes se incluyen:
+La disponibilidad también depende de la **calidad**. Un agua contaminada no sirve para ciertos usos aunque haya mucha. Los factores que más limitan son:
 
 -   salinidad y mineralización,
 -   presencia de contaminantes orgánicos o metales pesados,
 -   carga de sedimentos,
 -   temperatura del agua.
 
-Estas restricciones reducen la fracción del recurso que puede considerarse disponible para consumo humano, riego, industria o preservación ambiental, incluso en regiones con abundancia hídrica.
-
-## Variabilidad espacial del recurso hídrico
-
-La disponibilidad del agua presenta una marcada heterogeneidad espacial, controlada por:
-
-
-- <u>Patrones climáticos regionales</u>, por ejemplo, la influencia de la Zona de Convergencia Intertropical en Centroamérica, que genera contrastes significativos entre regiones húmedas del Caribe y regiones más secas del Pacífico Norte.
-- <u>Relieve y orografía</u>, como la presencia de cordilleras que inducen lluvias orográficas en las laderas de barlovento y condiciones más secas en sotavento, tal como ocurre en la vertiente Caribe y Pacífica de Costa Rica.
-
-- <u>Cercanía a cuerpos de agua mayores</u>, donde regiones próximas a océanos, grandes lagos o embalses presentan mayor disponibilidad potencial de humedad y, en algunos casos, una regulación natural del recurso, en comparación con zonas continentales alejadas.
-
-- <u>Características geológicas e hidrogeológicas</u>, tales como la presencia de acuíferos de alta permeabilidad en formaciones volcánicas o aluviales, frente a zonas con rocas poco permeables que limitan la infiltración y el almacenamiento subterráneo.
-
-Como resultado, cuencas vecinas pueden exhibir comportamientos hidrológicos muy distintos.
+Estas restricciones reducen el agua disponible para consumo humano, riego, industria o conservación, aun en regiones con mucha agua.
 
 ## Variabilidad temporal y confiabilidad del recurso
 
-Desde el punto de vista de la gestión y el diseño, la disponibilidad debe analizarse considerando su variabilidad temporal:
+Para la gestión y el diseño, la disponibilidad se analiza junto con su variabilidad en el tiempo:
 
--   **Estacionalidad:** concentración de la precipitación en pocos meses del año.
+-   **Estacionalidad:** la lluvia se concentra en pocos meses del año (@fig-estacionalidad).
 
 ```{r}
 #| label: fig-estacionalidad
-#| fig-cap: "Estacionalidad de Costa Rica.<br><span style='font-size:0.8em;'>Fuente: [@UCR_Fisica]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Estacionalidad de Costa Rica. Fuente: @UCR_Fisica."
+#| fig-alt: "Mapa de la estacionalidad de la lluvia en Costa Rica"
 #| echo: false
-#| class: fig-border
 
 knitr::include_graphics("assets/img/estacionalidad.jpg")
 
 ```
 
--   **Eventos extremos:** sequías meteorológicas e hidrológicas.
+-   **Eventos extremos:** sequías, y en el otro extremo tormentas y huracanes como Otto en 2016 (@fig-otto).
 
 ```{r}
 #| label: fig-otto
-#| fig-cap: "Impacto del huracán Otto en Costa Rica.<br><span style='font-size:0.8em;'>Fuente: [@NOAA_OSPO]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Impacto del huracán Otto en Costa Rica. Fuente: @NOAA_OSPO."
+#| fig-alt: "Imagen satelital del huracán Otto sobre Centroamérica"
 #| echo: false
-#| class: fig-border
 
 knitr::include_graphics("assets/img/otto_NOAA.png")
 
 ```
 
--   **Persistencia temporal:** ocurrencia de varios años consecutivos con déficit o superávit hídrico.
+-   **Persistencia:** varios años seguidos con déficit o con exceso de agua, como los asociados a El Niño-Oscilación del Sur (@fig-enos).
 
 ```{r}
 #| label: fig-enos
-#| fig-cap: "El Niño-Oscilación del Sur.<br><span style='font-size:0.8em;'>Fuente: [@NOAA_PSL]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "El Niño-Oscilación del Sur. Fuente: @NOAA_PSL."
+#| fig-alt: "Gráfico de anomalías de temperatura del Pacífico asociadas a El Niño-Oscilación del Sur"
 #| echo: false
-#| class: fig-border
 
 knitr::include_graphics("assets/img/enos_noaa.png")
 
 ```
 
-Estas características determinan la confiabilidad del recurso, entendida como la capacidad de satisfacer una demanda específica a lo largo del tiempo, concepto fundamental para la planificación de infraestructuras hidráulicas.
+Estas características definen la **confiabilidad** del recurso, es decir, la probabilidad de satisfacer una demanda dada a lo largo del tiempo. Es el concepto con el que se dimensionan los embalses y las captaciones.
 
 
 ## Implicaciones para la ingeniería civil
 
-La correcta evaluación de la disponibilidad hídrica es esencial para:
+La evaluación de la disponibilidad hídrica es la base de:
 
 -   el diseño de sistemas de abastecimiento de agua potable,
 -   la planificación de sistemas de riego,
@@ -355,15 +311,7 @@ La correcta evaluación de la disponibilidad hídrica es esencial para:
 -   la evaluación de proyectos hidroeléctricos,
 -   la mitigación del riesgo asociado a sequías.
 
-Una interpretación inadecuada de la disponibilidad puede conducir a diseños sobredimensionados o subdimensionados, fallas operativas y conflictos en el uso del recurso.
+Si se estima mal, el resultado son obras sobredimensionadas o insuficientes, fallas de operación y conflictos por el uso del agua.
 
-<div style="text-align:center; margin:1.5em 0;">
-<iframe width="560" height="315"
-src="https://www.youtube.com/embed/80ouyucpxHE"
-title="YouTube video player"
-frameborder="0"
-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-allowfullscreen>
-</iframe>
-</div>
+{{< video https://www.youtube.com/embed/80ouyucpxHE >}}
 
