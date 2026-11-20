@@ -13,6 +13,9 @@
 library(sf)
 library(ggplot2)
 
+# Sin barra de progreso de terra: si no, aparece como texto en el libro
+terra::terraOptions(progress = 0)
+
 DIR_MAPAS <- "datos/mapas"
 CRS_CR <- 5367L
 FUENTE_MAPA <- "serif"

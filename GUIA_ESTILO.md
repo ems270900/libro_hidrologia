@@ -319,7 +319,7 @@ Cada ejemplo resuelto con R sigue este orden dentro del recuadro de Ejemplo:
   ```
   ````
 
-  Desde el PR #2 el código se muestra plegado, con botón para copiar. Los ejemplos centrales del capítulo pueden ir abiertos con `#| code-fold: false`. Los bloques que solo insertan imágenes o arman cuadros de texto llevan `#| echo: false`.
+  Desde el PR #2 el código se muestra plegado, con botón para copiar. Los ejemplos centrales del capítulo pueden ir abiertos con `#| code-fold: false`. Los bloques que están fuera de un ejemplo y solo generan una figura, un mapa o un cuadro llevan `#| echo: false`: el código no se muestra, ni siquiera plegado, para no cortar el texto. Solo se ve el código de los ejemplos.
 
 - No se usan `warning = FALSE` ni `message = FALSE` en cada bloque: ya están en `_quarto.yml`.
 - No se llama `c`, `t`, `T` ni `F` a una variable, porque tapan funciones o constantes de R.
