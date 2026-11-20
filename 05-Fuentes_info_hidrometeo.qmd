@@ -1056,7 +1056,79 @@ ggplot() +
 
 La principal limitación para el análisis hidrológico es que la lluvia se mide en puntos. En un país con montañas altas, pendientes fuertes y lluvias convectivas y orográficas, la lluvia cambia mucho en pocos kilómetros, y una estación no representa a toda una cuenca. Además, como se ve en la @fig-cr_estaciones, las estaciones se concentran en el centro del país y son escasas en zonas como las llanuras del norte y la península de Osa.
 
-Por eso la lluvia de una cuenca se estima con métodos que pasan de los puntos al área: polígonos de Thiessen, isoyetas, interpolación geoestadística, regresiones con la elevación y la combinación con radar y satélites (@fig-espacial). Cada método agrega supuestos propios, y el error de la estimación crece donde hay pocas estaciones. Estos métodos se tratan en el capítulo de precipitación.
+### De la medición puntual a la lluvia sobre la cuenca {#sec-fuentes-puntos-area}
+
+Los modelos de escorrentía y los balances hídricos necesitan la **precipitación media sobre la cuenca**, una lámina que representa toda el área. Para obtenerla a partir de las estaciones hay varios métodos, que se diferencian en cuánta información usan además de la lluvia medida (@tbl-puntos-area). Aquí se presentan sus ideas; los cálculos detallados se hacen en el capítulo de precipitación.
+
+**Promedio aritmético.** Se promedian las estaciones que están dentro de la cuenca. Solo sirve si las estaciones están repartidas de manera uniforme y el relieve es suave, algo poco común en Costa Rica.
+
+**Polígonos de Thiessen.** Cada punto de la cuenca se asigna a la estación más cercana. Así la cuenca queda dividida en polígonos, uno por estación, y cada estación pesa según el área de su polígono [@thiessen1911precipitation]:
+
+$$
+\bar{P} = \frac{\sum_{i=1}^{n} A_i\,P_i}{A}
+$$ {#eq-fuentes-thiessen}
+
+donde $\bar{P}$ es la precipitación media de la cuenca (mm), $P_i$ es la precipitación de la estación $i$ (mm), $A_i$ es el área de su polígono dentro de la cuenca (km²), $A$ es el área de la cuenca (km²) y $n$ es el número de estaciones. Las estaciones cercanas a la divisoria, aunque estén fuera, también cuentan si su polígono entra en la cuenca.
+
+La @fig-thiessen-parrita muestra los polígonos para la cuenca del río Parrita, de 1273 km², con las estaciones activas del inventario de la @fig-cr_estaciones. Son 24 estaciones dentro de la cuenca, pero 40 tienen polígono en ella. La estación con más peso representa el 12 % del área, y la mitad de las estaciones pesan menos del 2 % cada una. Una estación aislada en el oeste de la cuenca pesa tanto como varias del sector alto, donde la red es más densa.
+
+```{r}
+#| label: fig-thiessen-parrita
+#| fig-cap: "Polígonos de Thiessen de la cuenca del río Parrita con las estaciones activas del inventario. Fuente: elaboración propia con datos de @snit2025 y @ucr2024estaciones."
+#| fig-alt: "Mapa de la cuenca del río Parrita dividida en 40 polígonos de Thiessen en tonos de azul según su peso, con las estaciones como puntos anaranjados dentro y alrededor de la cuenca"
+#| echo: false
+#| out-width: 80%
+#| fig-width: 8
+#| fig-height: 6
+
+source("herramientas/mapas_cr.R")
+capas <- leer_capas_cr()
+
+# Cuenca del río Parrita y estaciones activas a menos de 10 km de ella
+cuenca <- capas$cuencas[capas$cuencas$nombre == "Parrita", ]
+estaciones <- st_read("datos/mapas/estaciones_cr.gpkg", quiet = TRUE)
+cercanas <- estaciones[estaciones$estado == "Activa" &
+                         lengths(st_intersects(estaciones, st_buffer(cuenca, 10000))) > 0, ]
+
+# Polígonos de Thiessen recortados a la cuenca y su peso en el área
+voronoi <- st_collection_extract(st_voronoi(st_union(cercanas),
+                                            envelope = st_geometry(st_buffer(cuenca, 30000))))
+poligonos <- st_intersection(st_sf(geometry = voronoi, crs = 5367), st_geometry(cuenca))
+poligonos$peso <- as.numeric(st_area(poligonos)) / sum(as.numeric(st_area(poligonos)))
+
+formato_eje <- scales::label_number(accuracy = 1, big.mark = " ")
+caja <- st_bbox(st_buffer(cuenca, 4000))
+
+ggplot() +
+  geom_sf(data = poligonos, aes(fill = 100 * peso), colour = "white", linewidth = 0.5) +
+  scale_fill_gradient(low = "#DCEAF5", high = "#1C6BA0", name = "Peso del polígono (%)") +
+  geom_sf(data = cuenca, fill = NA, colour = COLOR_CONTORNO, linewidth = 0.7) +
+  geom_sf(data = cercanas, shape = 21, fill = "#D55E00", colour = "white",
+          size = 2.2, stroke = 0.6) +
+  coord_sf(crs = st_crs(CRS_CR), datum = st_crs(CRS_CR),
+           xlim = caja[c(1, 3)], ylim = caja[c(2, 4)], expand = FALSE) +
+  scale_x_continuous(breaks = seq(400000, 600000, by = 20000), labels = formato_eje) +
+  scale_y_continuous(breaks = seq(1000000, 1200000, by = 20000), labels = formato_eje) +
+  labs(x = "Este CRTM05 (m)", y = "Norte CRTM05 (m)") +
+  tema_mapa_cr() +
+  ggspatial::annotation_scale(location = "bl", text_family = FUENTE_MAPA) +
+  ggspatial::annotation_north_arrow(
+    location = "tr", which_north = "true",
+    style = ggspatial::north_arrow_fancy_orienteering(text_family = FUENTE_MAPA),
+    height = grid::unit(0.9, "cm"), width = grid::unit(0.9, "cm"))
+```
+
+**Isoyetas.** Se trazan líneas de igual precipitación entre las estaciones y se calcula el área entre cada par de isoyetas. La lluvia media es el promedio de las láminas ponderado por esas áreas. Quien traza las isoyetas puede usar lo que sabe del relieve, por ejemplo que llueve más en las laderas de barlovento, así que con un buen criterio es el método más fiel de los manuales. A cambio, depende de la persona que lo hace.
+
+**Inverso de la distancia.** La lluvia en cada celda de una malla se estima como un promedio de las estaciones, con pesos que bajan con la distancia [@shepard1968two]:
+
+$$
+P(x) = \frac{\sum_{i=1}^{n} w_i\,P_i}{\sum_{i=1}^{n} w_i}, \qquad w_i = \frac{1}{d_i^{\,p}}
+$$ {#eq-fuentes-idw}
+
+donde $P(x)$ es la precipitación estimada en el punto $x$ (mm), $P_i$ es la precipitación de la estación $i$ (mm), $d_i$ es la distancia del punto a la estación (km) y $p$ es un exponente que suele valer 2. Después se promedian las celdas que caen en la cuenca. Es fácil de programar, pero no considera el relieve y forma "ojos de buey" alrededor de cada estación.
+
+**Kriging y otros métodos geoestadísticos.** También ponderan las estaciones, pero los pesos salen del **variograma**, una función que mide cómo cambia la diferencia de lluvia entre dos estaciones con la distancia que las separa (@fig-espacial). Además de la estimación, dan su varianza, es decir, un mapa de la incertidumbre. Sus variantes permiten agregar la elevación u otras variables auxiliares; en regiones montañosas así se obtienen errores menores que con Thiessen o con el inverso de la distancia [@goovaerts2000geostatistical].
 
 ```{r}
 #| label: fig-espacial
@@ -1068,4 +1140,24 @@ Por eso la lluvia de una cuenca se estima con métodos que pasan de los puntos a
 knitr::include_graphics("assets/img/espacial.png")
 ```
 
-En Costa Rica, la cantidad de estaciones y la continuidad de sus registros limitan lo que se puede concluir en un estudio. Antes de usar una serie hay que saber qué instrumento la midió, cuántos huecos tiene y si la estación cambió de sitio. El control de calidad y el relleno de registros se tratan en el capítulo 8.
+**Regresión con la elevación.** En países montañosos la lluvia anual suele cambiar con la altitud y con la vertiente. Una regresión entre la lluvia de las estaciones y la elevación, aplicada a un modelo de elevación digital, da un mapa que sigue el relieve aun donde no hay estaciones. Los residuos de la regresión se pueden interpolar después con kriging.
+
+**Radar y satélites.** Dan la forma del campo de lluvia, pero con sesgos. Lo usual es corregirlos con las estaciones, como hace CHIRPS [@CHIRPS]. Son la única fuente en cuencas sin estaciones, y ahí conviene compararlos con la estación más cercana antes de usarlos.
+
+| Método | Qué usa además de la lluvia medida | Ventaja | Limitación |
+|:--|:--|:--|:--|
+| Promedio aritmético | Nada | Inmediato | Sesgado si las estaciones no están repartidas |
+| Polígonos de Thiessen | Posición de las estaciones | Objetivo y fácil de repetir | Ignora el relieve; cambia si falta una estación |
+| Isoyetas | Criterio de quien las traza | Puede seguir el relieve | Subjetivo |
+| Inverso de la distancia | Distancias | Fácil de programar | Ignora el relieve; forma "ojos de buey" |
+| Kriging | Variograma y, si se quiere, elevación | Da la incertidumbre | Necesita muchas estaciones para el variograma |
+| Regresión con la elevación | Modelo de elevación digital | Sigue el relieve | Requiere una relación clara lluvia-altitud |
+| Radar y satélite | Imágenes | Cubren toda el área | Sesgos; hay que corregirlos con estaciones |
+
+: Métodos para estimar la precipitación media de una cuenca a partir de las estaciones. {#tbl-puntos-area}
+
+::: {.callout-warning title="Cuidado"}
+Ningún método corrige una red mal distribuida. Si la parte alta de la cuenca, donde suele llover más, no tiene estaciones, todos los métodos subestiman la lluvia media, cada uno a su manera. Antes de elegir el método conviene mirar el mapa de estaciones, como en la @fig-thiessen-parrita, y ver qué parte de la cuenca queda representada por estaciones lejanas.
+:::
+
+Antes de usar una serie también hay que saber qué instrumento la midió, cuántos huecos tiene y si la estación cambió de sitio. El control de calidad y el relleno de registros se tratan en el capítulo 8.
