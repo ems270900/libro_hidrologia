@@ -31,3 +31,9 @@ Revisión hecha con `GUIA_ESTILO.md`. El capítulo se renderizó sin avisos.
 - Leyendas de las 11 figuras al formato `Fuente: @clave.`, con `fig-alt`. Se quitaron `fig-align`, `out-width` y `class: fig-border`, que repetían la configuración global.
 - El video de YouTube pasó del `<iframe>` al código corto `{{< video >}}` de Quarto.
 - Secciones con etiqueta `{#sec-disponibilidad-…}`.
+
+## Segunda pasada (2026-11-20)
+
+- Nuevo ejemplo con R: qué porcentaje del agua dulce está en lagos, ríos y pantanos (0.3 %) y qué lámina formaría el agua de los ríos repartida sobre los continentes (14 mm). Usa los volúmenes del cuadro de distribución del agua.
+- La sección de confiabilidad enlaza al ejemplo de operación de un embalse del capítulo 3.
+- Títulos de sección más cortos y con etiqueta (`{#sec-disponibilidad-…}`).

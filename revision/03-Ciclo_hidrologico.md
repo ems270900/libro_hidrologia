@@ -37,3 +37,7 @@ Revisión hecha con `GUIA_ESTILO.md`. El código R del cuadro se ejecutó y el c
 - `firebrick` y `<u>` pasaron a negrita.
 - Leyendas al formato `Fuente: @clave.` (antes "Tomado de:"), con `fig-alt`.
 - Secciones con etiqueta `{#sec-ciclo-…}`. Las etiquetas de figuras y cuadros no cambiaron.
+
+## Segunda pasada (2026-11-20)
+
+- Nuevo ejemplo con R: operación mensual de un embalse pequeño durante dos años con la ecuación de almacenamiento. Calcula volumen, vertidos, déficit y confiabilidad (95.8 %), con gráfico. Los datos son ilustrativos y así se dice en el planteamiento.

@@ -93,7 +93,52 @@ tabla_agua %>%
 
 Fuente: @maidment1993handbook.
 
-## Disponibilidad efectiva del recurso hídrico
+::: {.callout-note title="Ejemplo: cuánta agua dulce está en ríos y lagos"}
+Con los volúmenes del @tbl-distribucion-agua, calcule qué porcentaje del agua dulce está en lagos de agua dulce, ríos y pantanos, y qué lámina de agua formaría el volumen de los ríos si se repartiera sobre todos los continentes, que suman unos 149 millones de km².
+
+**Pseudocódigo**
+
+1. Escribir el volumen de cada reservorio de agua dulce.
+2. Sumar el total de agua dulce.
+3. Calcular el porcentaje del agua superficial (lagos dulces, ríos y pantanos).
+4. Dividir el volumen de los ríos entre el área de los continentes y pasar a milímetros.
+
+```{r}
+#| label: ej-disponibilidad-agua-dulce
+#| code-fold: false
+
+library(tidyverse)
+
+# 1) Volumen de los reservorios de agua dulce (km³)
+agua_dulce <- tibble(
+  reservorio = c("Lagos dulces", "Ríos", "Pantanos", "Humedad del suelo",
+                 "Agua subterránea dulce", "Agua biológica",
+                 "Hielo polar y glaciares", "Atmósfera"),
+  volumen_km3 = c(91000, 2120, 11470, 16500, 10530000, 1120, 24364100, 12900)
+)
+
+# 2) Total de agua dulce
+total_dulce <- sum(agua_dulce$volumen_km3)
+
+# 3) Porcentaje en lagos, ríos y pantanos
+superficial <- agua_dulce %>%
+  filter(reservorio %in% c("Lagos dulces", "Ríos", "Pantanos")) %>%
+  summarise(volumen_km3 = sum(volumen_km3)) %>%
+  pull(volumen_km3)
+porcentaje_superficial <- 100 * superficial / total_dulce
+
+# 4) Lámina de los ríos sobre los continentes (km³ / km² = km; × 1e6 = mm)
+lamina_rios_mm <- 2120 / 149e6 * 1e6
+
+round(c(total_dulce_km3 = total_dulce,
+        porcentaje_superficial = porcentaje_superficial,
+        lamina_rios_mm = lamina_rios_mm), 2)
+```
+
+**Interpretación.** De unos 35 millones de km³ de agua dulce, apenas el 0.3 % está en lagos, ríos y pantanos, que son las fuentes de donde se toma la mayor parte del agua que se usa. El agua de todos los ríos del mundo, repartida sobre los continentes, formaría una lámina de solo 14 mm. Los ríos pueden abastecer tanto porque su agua se renueva continuamente con la lluvia, no porque guarden mucha.
+:::
+
+## Disponibilidad efectiva del recurso hídrico {#sec-disponibilidad-efectiva}
 
 Que haya agua no significa que se pueda usar. La disponibilidad depende también de dónde está, de su calidad, de cómo varía en el tiempo y de la capacidad técnica, institucional y económica de cada región para captarla, almacenarla y distribuirla.
 
@@ -123,7 +168,7 @@ A escala de país y de cuenca, la disponibilidad varía por cuatro razones princ
 
 Por eso dos cuencas vecinas pueden comportarse muy distinto.
 
-## Conceptos operativos: recurso, disponibilidad y accesibilidad
+## Recurso, disponibilidad y accesibilidad {#sec-disponibilidad-conceptos}
 
 Tres términos se usan a menudo como sinónimos, pero no lo son:
 
@@ -146,7 +191,7 @@ knitr::include_graphics("assets/img/marimba.jpg")
 
 ```
 
-## Escalas espaciales y temporales de la disponibilidad
+## Escalas de análisis {#sec-disponibilidad-escalas}
 
 La respuesta a cuánta agua hay depende de la escala a la que se pregunte:
 
@@ -166,7 +211,7 @@ knitr::include_graphics("assets/img/sequia.jpg")
 
 ```
 
-### Escalas temporales de la disponibilidad
+### Escalas temporales {#sec-disponibilidad-escalas-tiempo}
 
 La precipitación y el caudal se registran en intervalos que van de minutos a años. Qué procesos del ciclo hidrológico importan depende de la escala temporal del análisis, y eso se nota sobre todo al elegir qué simular.
 
@@ -179,7 +224,7 @@ El **tiempo de residencia**, el tiempo medio que el agua pasa en un compartiment
 
 En un modelo, el **intervalo de cálculo** $\Delta t$ debe ser lo bastante corto para captar la variación que importa, sin multiplicar sin necesidad los datos que hay que reunir ni el tiempo de cálculo. Para la operación de un embalse grande de abastecimiento basta un paso semanal o mensual. Para el caudal de diseño de un puente hacen falta pasos de minutos u horas.
 
-### Escalas espaciales de la disponibilidad
+### Escalas espaciales {#sec-disponibilidad-escalas-espacio}
 
 Las escalas espaciales van de la ladera a la cuenca, la región, el continente y el planeta. Los sistemas de información geográfica (SIG) son la forma habitual de almacenar y analizar la información espacial en todas ellas (@fig-qgis_hidro).
 
@@ -207,7 +252,7 @@ knitr::include_graphics("assets/img/ospo.jpg")
 
 Cuanto más pequeñas son las escalas de espacio y tiempo, más datos hacen falta para predecir bien. A escalas pequeñas, la **heterogeneidad** y la **complejidad** de los procesos son mayores. A escalas grandes, como la escala sinóptica^[Fenómenos atmosféricos de cientos a miles de kilómetros y de varios días de duración, como frentes, ciclones y sistemas de alta y baja presión.], esa heterogeneidad se promedia y la respuesta del sistema se simplifica.
 
-### Desafíos en la medición y predicción de la disponibilidad
+### Dificultades de medición {#sec-disponibilidad-medicion}
 
 Los procesos hidrológicos ocurren a escalas que no siempre coinciden con las de medición. Un pluviómetro mide la lluvia en un punto, pero el diseño necesita la lluvia sobre toda la cuenca. Pasar de una a otra exige interpolar, por ejemplo con isoyetas (@fig-isoyeta).
 
@@ -247,7 +292,7 @@ knitr::include_graphics("assets/img/region.jpg")
 
 La escala funciona como un lente. Vista de lejos, a escala global o anual, la disponibilidad se ve como un promedio suave. Vista de cerca, a escala local o diaria, aparece toda su variabilidad.
 
-## Disponibilidad y calidad del agua
+## Disponibilidad y calidad del agua {#sec-disponibilidad-calidad}
 
 La disponibilidad también depende de la **calidad**. Un agua contaminada no sirve para ciertos usos aunque haya mucha. Los factores que más limitan son:
 
@@ -258,7 +303,7 @@ La disponibilidad también depende de la **calidad**. Un agua contaminada no sir
 
 Estas restricciones reducen el agua disponible para consumo humano, riego, industria o conservación, aun en regiones con mucha agua.
 
-## Variabilidad temporal y confiabilidad del recurso
+## Variabilidad temporal y confiabilidad {#sec-disponibilidad-confiabilidad}
 
 Para la gestión y el diseño, la disponibilidad se analiza junto con su variabilidad en el tiempo:
 
@@ -298,10 +343,10 @@ knitr::include_graphics("assets/img/enos_noaa.png")
 
 ```
 
-Estas características definen la **confiabilidad** del recurso, es decir, la probabilidad de satisfacer una demanda dada a lo largo del tiempo. Es el concepto con el que se dimensionan los embalses y las captaciones.
+Estas características definen la **confiabilidad** del recurso, es decir, la probabilidad de satisfacer una demanda dada a lo largo del tiempo. Es el concepto con el que se dimensionan los embalses y las captaciones. En el capítulo siguiente hay un ejemplo de cálculo con la operación mensual de un embalse (@fig-ciclo-embalse).
 
 
-## Implicaciones para la ingeniería civil
+## Implicaciones para la ingeniería civil {#sec-disponibilidad-ingenieria}
 
 La evaluación de la disponibilidad hídrica es la base de:
 

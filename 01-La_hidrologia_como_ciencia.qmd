@@ -5,7 +5,7 @@ suppress-bibliography: true
 ---
 
 ::: {.quote-block}
-“El agua es la fuerza motriz de toda la naturaleza.”  
+"El agua es la fuerza motriz de toda la naturaleza."\
 — *Leonardo da Vinci*
 :::
 
@@ -16,6 +16,8 @@ suppress-bibliography: true
 La **hidrología** es la ciencia que estudia el agua de la Tierra: dónde está, cómo circula, cómo se distribuye y cómo interactúa con el ambiente y con las actividades humanas. En términos más operativos, la hidrología convierte los fenómenos del agua en cantidades que se pueden medir y analizar con métodos físicos, empíricos o estadísticos.
 
 En ingeniería interesa sobre todo la **hidrología aplicada**, que usa ese conocimiento para diseñar obras, gestionar el recurso hídrico, prever eventos extremos y ordenar el territorio. Con el tiempo pasó de reglas empíricas a métodos que combinan física, estadística, modelación numérica y análisis de datos. Ese cambio mejoró la capacidad de predecir caudales de crecida, caudales ambientales, recarga de acuíferos y otras variables de diseño.
+
+En la práctica, casi todo estudio hidrológico responde a una de tres preguntas sobre un sitio: cuánta agua hay en promedio, cuánta puede llegar en una crecida y cuánta puede faltar en una sequía. La primera sirve para planificar abastecimientos, riego y generación eléctrica. La segunda, para dimensionar puentes, alcantarillas, drenajes y diques. La tercera, para dimensionar embalses y prever restricciones de uso.
 
 Es una disciplina compartida. En un mismo estudio pueden trabajar profesionales de ingeniería, geografía, geología, meteorología, ciencias ambientales y ciencias sociales.
 
@@ -50,7 +52,7 @@ Del estudio hidrológico salen los datos que esas obras necesitan para diseñars
 knitr::include_graphics("assets/img/DRAT.jpg")
 ```
 
-## Relación con el ciclo hidrológico
+## Relación con el ciclo hidrológico {#sec-hidrologia-ciclo}
 
 El **ciclo hidrológico** es el movimiento continuo del agua en la Tierra y es la base de cualquier análisis hidrológico. Sus procesos principales son:
 
@@ -62,11 +64,11 @@ El **ciclo hidrológico** es el movimiento continuo del agua en la Tierra y es l
 - flujo subterráneo;
 - retorno al océano.
 
-Entender cómo se encadenan esos procesos es lo que permite modelar la respuesta de una cuenca ante una tormenta, un cambio en el uso del suelo o una variación del clima. El ciclo se estudia en detalle en el capítulo del ciclo hidrológico.
+Entender cómo se encadenan esos procesos es lo que permite modelar la respuesta de una cuenca ante una tormenta, un cambio en el uso del suelo o una variación del clima. El ciclo se estudia en detalle a partir de la @sec-ciclo-fundamentos.
 
 ## Desarrollo histórico de la hidrología {#sec-hidrologia-historia}
 
-<!-- CITA PENDIENTE: fuente de la línea de tiempo (por ejemplo, la reseña histórica de un libro de texto). -->
+<!-- CITA PENDIENTE: fuente de la línea de tiempo. Revisar si coincide con la reseña histórica del capítulo 1 de @chow1988appliedhydrology o de @maidment1993handbook y citarla. -->
 
 ::: {.timeline}
 
@@ -97,7 +99,7 @@ Entender cómo se encadenan esos procesos es lo que permite modelar la respuesta
 - **Ecuación Darcy–Weisbach (1845):** flujo en tuberías.
 - **Método racional (Mulvaney, 1850):** cálculo de caudales de escorrentía a partir de la precipitación.
 - **Ecuación de Darcy (1856):** flujo en medios porosos saturados.
-- Pronósticos del tiempo basados en barómetros de Fitzroy (década de 1850).
+- Primeros pronósticos del tiempo publicados, de Robert FitzRoy en Inglaterra (1861).
 - Construcción del alcantarillado de Londres (Bazalgette, 1875) como hito de la ingeniería sanitaria.
 - **Ecuación de Manning (1891):** descripción del flujo en canales abiertos.
 :::
@@ -133,10 +135,7 @@ Surgen además:
 
 :::
 
-
-
-
-## Hidrología y estadística
+## Hidrología y estadística {#sec-hidrologia-estadistica}
 
 La lluvia y el caudal de un año no se repiten al siguiente. Por esa variabilidad, la estadística es una herramienta de trabajo diaria en hidrología. Se usa para:
 
@@ -148,7 +147,7 @@ La lluvia y el caudal de un año no se repiten al siguiente. Por esa variabilida
 
 Con R, ajustar varias distribuciones a una serie de máximos anuales y compararlas con pruebas de bondad de ajuste toma unos segundos. A mano, ese mismo análisis tomaba días y por eso casi nunca se hacía completo. Este libro usa R en los ejemplos por esa razón.
 
-## Un caso aplicado: las inundaciones
+## Un caso aplicado: las inundaciones {#sec-hidrologia-inundaciones}
 
 Las inundaciones son el fenómeno hidrológico con más consecuencias para la planificación y la gestión del riesgo. Para reducir pérdidas hay que saber qué las causa, qué tan grandes pueden ser y con qué frecuencia ocurren. Esas preguntas se responden con los métodos de este libro: análisis de frecuencia de lluvias y caudales, modelos de lluvia-escorrentía y modelos hidráulicos como el de la @fig-inundacion.
 
@@ -161,7 +160,7 @@ Las inundaciones son el fenómeno hidrológico con más consecuencias para la pl
 knitr::include_graphics("assets/img/hec_ras.png")
 ```
 
-## Hidrología en Costa Rica
+## Hidrología en Costa Rica {#sec-hidrologia-costa-rica}
 
 En Costa Rica, la medición, la investigación y la gestión del agua están repartidas entre instituciones públicas, universidades, empresas privadas y organismos internacionales.
 

@@ -33,3 +33,10 @@ El capítulo crece un poco porque se juntaron secciones de una sola línea ("Enf
 - Listas con minúscula inicial y punto y coma, como pide la guía.
 - Se quitaron muletillas ("fundamental", "permite", "constituye un pilar") y frases de cierre sin contenido.
 - Leyendas al formato `Fuente: @clave.`, con `fig-alt`, sin `<br>` ni `<span>`.
+
+## Segunda pasada (2026-11-20)
+
+- Se agregaron las tres preguntas que responde casi todo estudio hidrológico (cuánta agua hay, cuánta llega en una crecida, cuánta falta en una sequía) y para qué sirve cada una.
+- **Corrección:** los primeros pronósticos del tiempo de FitzRoy fueron en 1861, no en la década de 1850.
+- La nota de cita pendiente de la línea de tiempo ahora sugiere dónde buscar (capítulo 1 de Chow et al., 1988, o de Maidment, 1993).
+- Todas las secciones tienen etiqueta y la referencia al ciclo hidrológico enlaza a su sección.
