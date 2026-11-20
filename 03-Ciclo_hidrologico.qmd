@@ -130,6 +130,71 @@ En ese sentido, todo análisis hidrológico aplicado es un balance hídrico. Alg
 
 - **Evaluación de aguas subterráneas.** El balance distingue la explotación sostenible de un acuífero de la sobreexplotación de sus reservas. Se apoya en la ley de Darcy y en las pruebas de bombeo.
 
+::: {.callout-note title="Ejemplo: operación mensual de un embalse pequeño"}
+Un embalse de 6 hm³ de capacidad abastece una demanda constante de 1.5 hm³ por mes. Al inicio de enero tiene 4 hm³. Los volúmenes que entran cada mes durante dos años son los del código (datos ilustrativos, de una cuenca con estación seca de enero a abril). Calcule el volumen almacenado al final de cada mes con la @eq-ciclo-embalse, el agua que se vierte cuando el embalse se llena y la demanda que no se puede atender. Para simplificar, se desprecia la evaporación del embalse.
+
+**Pseudocódigo**
+
+1. Escribir las entradas mensuales, la capacidad, la demanda y el volumen inicial.
+2. Para cada mes, sumar al volumen anterior la entrada y restar la demanda.
+3. Si el resultado supera la capacidad, el exceso se vierte. Si es negativo, la diferencia es demanda no atendida y el embalse queda vacío.
+4. Calcular la confiabilidad: el porcentaje de meses en que se atendió toda la demanda.
+
+```{r}
+#| label: ej-ciclo-embalse
+#| code-fold: false
+
+library(tidyverse)
+
+# 1) Datos (volúmenes en hm³)
+capacidad <- 6
+demanda <- 1.5
+volumen_inicial <- 4
+entradas <- c(0.6, 0.4, 0.3, 0.5, 1.8, 2.6, 2.0, 2.4, 3.5, 4.0, 2.8, 1.2,
+              0.5, 0.3, 0.2, 0.3, 1.2, 2.2, 1.8, 2.1, 3.2, 3.8, 2.5, 1.0)
+
+# 2) y 3) Balance mes a mes
+n_meses <- length(entradas)
+volumen <- vertido <- deficit <- numeric(n_meses)
+anterior <- volumen_inicial
+for (k in seq_len(n_meses)) {
+  disponible <- anterior + entradas[k] - demanda
+  vertido[k] <- max(disponible - capacidad, 0)
+  deficit[k] <- max(-disponible, 0)
+  volumen[k] <- min(max(disponible, 0), capacidad)
+  anterior <- volumen[k]
+}
+
+embalse <- tibble(mes = 1:n_meses, entrada = entradas,
+                  volumen, vertido, deficit)
+
+# 4) Confiabilidad (% de meses sin déficit)
+confiabilidad <- 100 * mean(embalse$deficit == 0)
+
+embalse %>% summarise(vertido_total = sum(vertido),
+                      deficit_total = sum(deficit),
+                      meses_con_deficit = sum(deficit > 0),
+                      confiabilidad = confiabilidad)
+```
+
+```{r}
+#| label: fig-ciclo-embalse
+#| fig-cap: "Volumen almacenado en el embalse del ejemplo durante dos años."
+#| fig-alt: "Línea del volumen almacenado que llega a cero en abril del primer año, alcanza la capacidad en octubre y vuelve a bajar en la estación seca del segundo año sin vaciarse"
+#| code-fold: false
+
+ggplot(embalse, aes(x = mes, y = volumen)) +
+  geom_hline(yintercept = capacidad, linetype = "dashed") +
+  geom_line(linewidth = 1, color = "steelblue") +
+  geom_point(color = "steelblue") +
+  scale_x_continuous(breaks = seq(1, 24, 2)) +
+  labs(x = "Mes", y = "Volumen almacenado (hm³)") +
+  theme_minimal()
+```
+
+**Interpretación.** El embalse empieza el primer año con 4 hm³, que no alcanzan para la estación seca: en abril se vacía y faltan 0.2 hm³. En la estación lluviosa se llena y vierte 2.6 hm³ que no se pueden guardar. Como empieza lleno el segundo año, pasa la estación seca sin déficit, aunque ese año entra menos agua. Se atendió toda la demanda en 23 de los 24 meses, una confiabilidad de `r round(confiabilidad, 1)` %. El resultado depende mucho del volumen inicial y de la capacidad: con un embalse más grande se aprovecharía el agua vertida. Este mismo cálculo, con series de muchos años y la evaporación del embalse, es la base del diseño de embalses de regulación.
+:::
+
 ## El balance en la planificación {#sec-ciclo-planificacion}
 
 Con el balance hídrico se cuantifica la disponibilidad real de agua, su variación en el espacio y el tiempo y la confiabilidad con que puede atender una demanda. Esa información es la base para planificar obras hidráulicas, gestionar los recursos hídricos de una cuenca y adaptarse a la variabilidad y al cambio climático. El diagrama de Rippl (@fig-rippl), que acumula entradas y demandas en el tiempo, es un ejemplo clásico: con él se estima el volumen de embalse necesario para atender una demanda.
