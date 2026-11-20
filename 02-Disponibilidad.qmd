@@ -19,8 +19,8 @@ Toda el agua de la atmósfera, el suelo, los océanos y la corteza terrestre for
 #| label: fig-hidrosfera
 #| fig-cap: "Principales reservorios de agua de la hidrosfera. Fuente: @usgsHydrosphere."
 #| fig-alt: "Esquema con la proporción de agua salada, agua dulce y sus reservorios principales"
-#| out-width: 100%
 #| echo: false
+#| out-width: 80%
 
 knitr::include_graphics("assets/img/imagen_usgs.png")
 ```
@@ -95,7 +95,7 @@ Fuente: @maidment1993handbook.
 ::: {.callout-note title="Ejemplo: cuánta agua dulce está en ríos y lagos"}
 Con los volúmenes del @tbl-distribucion-agua, calcule qué porcentaje del agua dulce está en lagos de agua dulce, ríos y pantanos, y qué lámina de agua formaría el volumen de los ríos si se repartiera sobre todos los continentes, que suman unos 149 millones de km².
 
-**Resolución a mano**
+**Solución:**
 
 1. Total de agua dulce. Se suman los ocho reservorios del cuadro: $91\,000 + 2120 + 11\,470 + 16\,500 + 10\,530\,000 + 1120 + 24\,364\,100 + 12\,900 = 35\,029\,210$ km³.
 2. Agua dulce superficial. Lagos dulces, ríos y pantanos suman $91\,000 + 2120 + 11\,470 = 104\,590$ km³.
@@ -196,6 +196,7 @@ El Pacífico Norte de Costa Rica es un ejemplo. En la estación lluviosa los rí
 #| fig-cap: "Estacionalidad del río Abangares, Guanacaste. Fuente: @CIEDES_UCR."
 #| fig-alt: "Fotografía del cauce del río Abangares en estación seca y lluviosa"
 #| echo: false
+#| out-width: 55%
 
 knitr::include_graphics("assets/img/marimba.jpg")
 
@@ -215,8 +216,8 @@ La respuesta a cuánta agua hay depende de la escala a la que se pregunte:
 #| label: fig-sequia
 #| fig-cap: "Sequía normalizada en América Latina y el Caribe. Fuente: @UNESCO_AtlasSequia2018."
 #| fig-alt: "Mapa del índice de sequía normalizado en América Latina y el Caribe"
-#| out-width: 100%
 #| echo: false
+#| out-width: 45%
 
 knitr::include_graphics("assets/img/sequia.jpg")
 
@@ -246,6 +247,7 @@ Las escalas espaciales van de la ladera a la cuenca, la región, el continente y
 #| fig-cap: "Uso de SIG en hidrología. Fuente: @QGIS_Development_Team_2024."
 #| fig-alt: "Captura de un proyecto de QGIS con capas hidrológicas de una cuenca"
 #| echo: false
+#| out-width: 100%
 
 knitr::include_graphics("assets/img/qgis.jpg")
 
@@ -258,6 +260,7 @@ A escala global, los satélites dan cobertura continua (@fig-ospo). Su resoluci�
 #| fig-cap: "Observación satelital de la precipitación. Fuente: @NOAA_OSPO."
 #| fig-alt: "Mapa satelital de estimación de precipitación"
 #| echo: false
+#| out-width: 100%
 
 knitr::include_graphics("assets/img/ospo.jpg")
 
@@ -273,8 +276,8 @@ Los procesos hidrológicos ocurren a escalas que no siempre coinciden con las de
 #| label: fig-isoyeta
 #| fig-cap: "Mapa de isoyetas. Fuente: @IMN_CostaRica."
 #| fig-alt: "Mapa de Costa Rica con curvas de igual precipitación anual"
-#| out-width: 100%
 #| echo: false
+#| out-width: 85%
 
 knitr::include_graphics("assets/img/isoyetas.jpg")
 
@@ -287,6 +290,7 @@ Ante la falta de datos se suele trabajar por niveles. Los conjuntos de datos glo
 #| fig-cap: "Aforo de caudales. Fuente: @CIEDES_UCR."
 #| fig-alt: "Fotografía de un aforo de caudal en un río"
 #| echo: false
+#| out-width: 70%
 
 knitr::include_graphics("assets/img/afoto.jpg")
 
@@ -298,8 +302,8 @@ La **regionalización hidrológica** une los dos niveles: agrupa cuencas con com
 #| label: fig-region
 #| fig-cap: "Regiones hidrológicas homogéneas. Fuente: @USACE_IWR."
 #| fig-alt: "Mapa de regiones hidrológicas homogéneas"
-#| out-width: 100%
 #| echo: false
+#| out-width: 85%
 
 knitr::include_graphics("assets/img/region.jpg")
 
@@ -328,8 +332,8 @@ Para la gestión y el diseño, la disponibilidad se analiza junto con su variabi
 #| label: fig-estacionalidad
 #| fig-cap: "Estacionalidad de Costa Rica. Fuente: @UCR_Fisica."
 #| fig-alt: "Mapa de la estacionalidad de la lluvia en Costa Rica"
-#| out-width: 100%
 #| echo: false
+#| out-width: 100%
 
 knitr::include_graphics("assets/img/estacionalidad.jpg")
 
@@ -342,6 +346,7 @@ knitr::include_graphics("assets/img/estacionalidad.jpg")
 #| fig-cap: "Impacto del huracán Otto en Costa Rica. Fuente: @NOAA_OSPO."
 #| fig-alt: "Imagen satelital del huracán Otto sobre Centroamérica"
 #| echo: false
+#| out-width: 100%
 
 knitr::include_graphics("assets/img/otto_NOAA.png")
 
@@ -354,6 +359,7 @@ knitr::include_graphics("assets/img/otto_NOAA.png")
 #| fig-cap: "El Niño-Oscilación del Sur. Fuente: @NOAA_PSL."
 #| fig-alt: "Gráfico de anomalías de temperatura del Pacífico asociadas a El Niño-Oscilación del Sur"
 #| echo: false
+#| out-width: 70%
 
 knitr::include_graphics("assets/img/enos_noaa.png")
 

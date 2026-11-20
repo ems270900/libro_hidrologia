@@ -23,13 +23,13 @@ En el capítulo anterior se vio que el ciclo hidrológico se cuantifica como un 
 
 La cuenca es también la unidad natural para planificar y gestionar el agua. Dentro de sus límites se relacionan la precipitación, la escorrentía, la infiltración y la evapotranspiración, y ahí se pueden evaluar la disponibilidad de agua, los conflictos entre usos y el efecto de las obras y de los cambios en el uso del suelo.
 
-Costa Rica se divide en 34 cuencas hidrográficas principales, que drenan hacia la vertiente del Pacífico o hacia la del Caribe (@fig-cuencascr). Sobre ellas se planifica el abastecimiento de agua potable, la generación hidroeléctrica, el riego y la gestión del riesgo por inundaciones y sequías.
+Costa Rica se divide en 34 cuencas hidrográficas principales, que drenan hacia la vertiente del Pacífico o hacia la del Caribe (@fig-cuencascr y @tbl-cuencascr). Sobre ellas se planifica el abastecimiento de agua potable, la generación hidroeléctrica, el riego y la gestión del riesgo por inundaciones y sequías.
 
 ```{r}
 #| label: fig-cuencascr
-#| fig-cap: "Cuencas hidrográficas principales de Costa Rica. Los números corresponden al @tbl-cuencascr. Fuente: elaboración propia con datos del SNIT [@snit2025]."
+#| fig-cap: "Cuencas hidrográficas principales de Costa Rica. Fuente: elaboración propia con datos del SNIT [@snit2025]."
 #| fig-alt: "Mapa de Costa Rica en CRTM05 dividido en las 34 cuencas hidrográficas principales, cada una con su número, sobre el relieve sombreado"
-#| out-width: 100%
+#| out-width: 85%
 #| fig-width: 8.5
 #| fig-height: 6.5
 
@@ -85,74 +85,24 @@ La quebrada Seca, en Heredia, es un ejemplo (@fig-quebradaseca). El crecimiento 
 #| label: fig-quebradaseca
 #| fig-cap: "Cuenca de la quebrada Seca y el río Burío, Heredia. Fuente: @MasísCampos2020_BurioQuebradaSeca."
 #| fig-alt: "Mapa de la cuenca de la quebrada Seca y el río Burío con la mancha urbana"
-#| out-width: 100%
 #| echo: false
+#| out-width: 85%
 
 knitr::include_graphics("assets/img/quebrada_seca.jpg")
 ```
 
 ## La divisoria de aguas {#sec-cuenca-divisoria}
 
-La divisoria sigue las crestas, cerros y lomas que separan el agua que escurre hacia el punto de control de la que escurre hacia otras cuencas. Sobre un mapa topográfico se traza uniendo los puntos más altos y cortando las curvas de nivel en ángulo recto, porque el agua baja siguiendo la máxima pendiente (@fig-divisoria).
+La divisoria sigue las crestas, cerros y lomas que separan el agua que escurre hacia el punto de control de la que escurre hacia otras cuencas (@fig-divisoria). Sobre un mapa topográfico se traza uniendo los puntos más altos y cortando las curvas de nivel en ángulo recto, porque el agua baja siguiendo la máxima pendiente.
 
 ```{r}
 #| label: fig-divisoria
-#| fig-cap: "Divisoria de aguas sobre un mapa de curvas de nivel. El terreno es sintético; la divisoria se obtuvo siguiendo, desde cada punto, la dirección de máxima pendiente y marcando los puntos cuyo recorrido llega al punto de control."
-#| fig-alt: "Curvas de nivel de un valle que drena hacia el sur, con la divisoria en rojo siguiendo las crestas y el punto de control en la parte baja"
+#| fig-cap: "Divisoria de aguas y corriente principal de una cuenca. Fuente: Mundo GIS (2025)."
+#| fig-alt: "Bloque de terreno con la divisoria de aguas marcada en rojo sobre las crestas y la red de cauces que drena hacia la corriente principal"
 #| echo: false
-#| fig-width: 6
-#| fig-height: 6
+#| out-width: 60%
 
-library(ggplot2)
-
-# Terreno sintético: un valle que drena al sur, cerrado por crestas
-z_terreno <- function(x, y) {
-  ancho <- 1.2 + 0.4 * pmin(y, 8.5)
-  200 + 30 * y + 160 * abs(sin(pi * (x - 6) / (2 * ancho))) +
-    250 * exp(-(y - 9.3 - 0.7 * sin(1.3 * x))^2 / 1.6) * exp(-(x - 6)^2 / 30) +
-    40 * exp(-((x - 3.2)^2 + (y - 6)^2) / 1.5) +
-    35 * exp(-((x - 8.8)^2 + (y - 4.5)^2) / 1.2)
-}
-n_malla <- 181
-malla <- expand.grid(x = seq(0, 12, length.out = n_malla),
-                     y = seq(0, 12, length.out = n_malla))
-malla$z <- z_terreno(malla$x, malla$y)
-
-# Cada punto sigue la máxima pendiente hasta cruzar la cota del punto de control
-y_control <- 1.5
-px <- malla$x
-py <- malla$y
-activo <- rep(TRUE, nrow(malla))
-drena <- rep(FALSE, nrow(malla))
-for (k in 1:3000) {
-  i <- which(activo)
-  if (length(i) == 0) break
-  gx <- (z_terreno(px[i] + 1e-3, py[i]) - z_terreno(px[i] - 1e-3, py[i])) / 2e-3
-  gy <- (z_terreno(px[i], py[i] + 1e-3) - z_terreno(px[i], py[i] - 1e-3)) / 2e-3
-  modulo <- sqrt(gx^2 + gy^2) + 1e-9
-  px[i] <- px[i] - 0.03 * gx / modulo
-  py[i] <- py[i] - 0.03 * gy / modulo
-  llego <- py[i] <= y_control
-  drena[i[llego]] <- abs(px[i[llego]] - 6) < 0.4
-  activo[i[llego | px[i] < 0 | px[i] > 12 | py[i] > 12]] <- FALSE
-}
-malla$cuenca <- as.numeric(drena & malla$y >= y_control)
-
-ggplot(malla, aes(x, y)) +
-  geom_contour(aes(z = z), binwidth = 40, colour = "grey60", linewidth = 0.3) +
-  geom_contour(aes(z = cuenca), breaks = 0.5, colour = "#B2182B", linewidth = 1.1) +
-  annotate("segment", x = 6, xend = 6, y = y_control, yend = 8.8,
-           colour = "#2166AC", linewidth = 0.9) +
-  annotate("point", x = 6, y = y_control, size = 3, colour = "black") +
-  annotate("text", x = 6.3, y = 1.0, label = "Punto de control",
-           family = "serif", hjust = 0) +
-  annotate("text", x = 9.6, y = 8.3, label = "Divisoria",
-           family = "serif", colour = "#B2182B", hjust = 0) +
-  annotate("text", x = 6.2, y = 5.2, label = "Cauce principal",
-           family = "serif", colour = "#2166AC", angle = 90) +
-  coord_equal(xlim = c(1.5, 11.5), ylim = c(0.5, 11), expand = FALSE) +
-  labs(x = "Distancia (km)", y = "Distancia (km)") +
-  theme_minimal(base_family = "serif", base_size = 12)
+knitr::include_graphics("assets/img/divisoria.png")
 ```
 
 Hay dos divisorias (@fig-divisoriaserrano):
@@ -164,9 +114,10 @@ Las dos no siempre coinciden, porque el agua subterránea sigue la geología y e
 
 ```{r}
 #| label: fig-divisoriaserrano
-#| fig-cap: "Corte transversal de una cuenca con las divisorias topográfica y freática. Fuente: @SerranoPacheco_IC0808_Hidrologia."
+#| fig-cap: "Divisorias topográfica y freática. Fuente: @SerranoPacheco_IC0808_Hidrologia."
 #| fig-alt: "Corte del terreno con dos cuencas vecinas, el nivel freático y las dos divisorias desplazadas"
 #| echo: false
+#| out-width: 100%
 
 knitr::include_graphics("assets/img/divisoria_serrano.jpg")
 ```
@@ -181,8 +132,8 @@ La delimitación se puede hacer a mano, sobre cartografía topográfica, o con u
 #| label: fig-curvassnit
 #| fig-cap: "Información topográfica disponible para Costa Rica. Fuente: @snit2025."
 #| fig-alt: "Mapa de Costa Rica con las zonas cubiertas por cada escala de información topográfica"
-#| out-width: 100%
 #| echo: false
+#| out-width: 50%
 
 knitr::include_graphics("assets/img/curvas_snit.JPG")
 ```
@@ -201,6 +152,7 @@ La delimitación sobre mapas de curvas de nivel sigue siendo útil para estudios
 #| fig-cap: "Delimitación manual de una cuenca sobre curvas de nivel. Fuente: @SerranoPacheco_IC0808_Hidrologia."
 #| fig-alt: "Mapa de curvas de nivel con la red de drenaje y la divisoria trazada a mano"
 #| echo: false
+#| out-width: 35%
 
 knitr::include_graphics("assets/img/delim.png")
 ```
@@ -219,8 +171,8 @@ Con un MDE, el SIG delimita la cuenca en cinco pasos (@fig-delim_auto):
 #| label: fig-delim_auto
 #| fig-cap: "Pasos de la delimitación de una cuenca con SIG. Fuente: @Islam2020_MicroWatershed_Bangladesh."
 #| fig-alt: "Secuencia de mapas: modelo de elevación, dirección de flujo, acumulación de flujo y cuenca delimitada"
-#| out-width: 100%
 #| echo: false
+#| out-width: 60%
 
 knitr::include_graphics("assets/img/delim_pasos.png")
 ```
@@ -257,6 +209,7 @@ El orden de los cauces describe la jerarquía de la red de drenaje. El sistema m
 #| fig-cap: "Orden de los cauces según Strahler."
 #| fig-alt: "Red de drenaje con cada tramo numerado según su orden, de 1 en las cabeceras a 4 en la salida"
 #| echo: false
+#| out-width: 75%
 
 knitr::include_graphics("assets/img/num_orden.png")
 ```
@@ -279,7 +232,7 @@ Se calcula para cada par de órdenes y se resume con el promedio. Strahler [-@st
 
 En una cuenca de orden 6 se contaron los cauces de cada orden sobre un mapa a escala 1:50 000: 1554 de orden 1, 328 de orden 2, 73 de orden 3, 12 de orden 4, 3 de orden 5 y 1 de orden 6. Calcule la razón de bifurcación de cada par de órdenes y la razón media.
 
-**Resolución a mano**
+**Solución:**
 
 1. Razón de cada par de órdenes:
    - orden 1 a 2: $1554/328 = 4.74$;
@@ -361,6 +314,7 @@ El **área de drenaje** $A$ es la proyección horizontal de la superficie encerr
 #| fig-cap: "El área de la cuenca se mide en la proyección horizontal."
 #| fig-alt: "Esquema de una cuenca sobre el relieve y su proyección sobre un plano horizontal"
 #| echo: false
+#| out-width: 70%
 
 knitr::include_graphics("assets/img/pro_cuenca.png")
 ```
@@ -380,6 +334,7 @@ La **longitud del cauce principal** $L$ se mide a lo largo del cauce, con todas 
 #| fig-cap: "Longitud del cauce principal."
 #| fig-alt: "Cuenca con el cauce principal resaltado desde la salida hasta la divisoria"
 #| echo: false
+#| out-width: 85%
 
 knitr::include_graphics("assets/img/LCP.png")
 ```
@@ -412,6 +367,7 @@ Los intervalos del cuadro son una guía de interpretación construida con la geo
 #| fig-cap: "Formas de cuenca y su índice de Gravelius. Fuente: @Guizani2022_DebrecenWaterBalance."
 #| fig-alt: "Siluetas de cuencas, de redonda a alargada, con el valor de Kc de cada una"
 #| echo: false
+#| out-width: 95%
 
 knitr::include_graphics("assets/img/forma.png")
 ```
@@ -455,6 +411,7 @@ Igual que con $K_c$, el valor se interpreta mejor frente a figuras simples. En u
 #| fig-cap: "Forma de la cuenca según su factor de forma."
 #| fig-alt: "Dos cuencas, una compacta y otra alargada, con su factor de forma"
 #| echo: false
+#| out-width: 80%
 
 knitr::include_graphics("assets/img/factor_forma.png")
 ```
@@ -489,6 +446,7 @@ La densidad de drenaje resume el efecto conjunto de la geología, el suelo, el c
 #| fig-cap: "Densidad de drenaje y respuesta de la cuenca."
 #| fig-alt: "Dos cuencas, una con red densa y otra con red escasa, y sus hidrogramas"
 #| echo: false
+#| out-width: 65%
 
 knitr::include_graphics("assets/img/drenaje.png")
 ```
@@ -523,9 +481,10 @@ Un cauce recto tiene $S = 1$. Cuanto más curvo, mayor es $S$ (@fig-sinuosidad).
 
 ```{r}
 #| label: fig-sinuosidad
-#| fig-cap: "Sinuosidad de un cauce: longitud por el cauce contra longitud en línea recta."
+#| fig-cap: "Sinuosidad de un cauce."
 #| fig-alt: "Tramo de río curvo con la longitud medida por el cauce y la línea recta entre sus extremos"
 #| echo: false
+#| out-width: 70%
 
 knitr::include_graphics("assets/img/sinuosidad.png")
 ```
@@ -553,6 +512,7 @@ Según su forma en planta, los cauces naturales se agrupan en tres tipos (@fig-a
 #| fig-cap: "Patrones de cauce en planta: recto, meándrico y trenzado. Fuente: @Charlton2008."
 #| fig-alt: "Tres esquemas de cauce visto en planta: recto, meándrico y trenzado"
 #| echo: false
+#| out-width: 70%
 
 knitr::include_graphics("assets/img/alineamiento.jpg")
 ```
@@ -570,6 +530,7 @@ El patrón de drenaje es la forma que toma la red de cauces vista en un mapa (@f
 #| fig-cap: "Patrones de drenaje."
 #| fig-alt: "Nueve esquemas de redes de drenaje: dendrítico, paralelo, enrejado, radial, centrífugo, centrípeto, distributario, rectangular y anular"
 #| echo: false
+#| out-width: 70%
 
 knitr::include_graphics("assets/img/patrones.png")
 ```
@@ -599,10 +560,10 @@ La distribución de las elevaciones se resume con cuatro valores:
 
 ```{r}
 #| label: fig-DEM
-#| fig-cap: "Modelo digital de elevación de la cuenca del río La Estrella. Fuente: elaboración propia con datos del SNIT [@snit2025]."
+#| fig-cap: "Modelo digital de elevación de la cuenca del río La Estrella. Fuente: @snit2025."
 #| fig-alt: "Mapa de la cuenca del río La Estrella coloreado según la elevación"
-#| out-width: 100%
 #| echo: false
+#| out-width: 90%
 
 knitr::include_graphics("assets/img/DEM.png")
 ```
@@ -664,7 +625,7 @@ De una cuenca de 52.9 km² se conoce el área que queda por debajo de cada cota.
 
 Construya el histograma de elevaciones con intervalos de 200 m.
 
-**Resolución a mano**
+**Solución:**
 
 1. Área de cada intervalo: se resta cada área acumulada de la siguiente.
    - menos de 200 m: 5.2 km²;
@@ -733,6 +694,7 @@ La **curva hipsométrica** muestra, para cada elevación, qué porcentaje del á
 #| fig-cap: "Curva hipsométrica de una cuenca."
 #| fig-alt: "Curva decreciente de elevación contra porcentaje de área por encima de cada cota"
 #| echo: false
+#| out-width: 100%
 
 knitr::include_graphics("assets/img/hipso2.png")
 ```
@@ -749,8 +711,8 @@ Para construirla:
 #| label: fig-hipso3
 #| fig-cap: "Franja de la cuenca comprendida entre dos curvas de nivel."
 #| fig-alt: "Mapa de una cuenca con una franja sombreada entre dos curvas de nivel"
-#| out-width: 60%
 #| echo: false
+#| out-width: 40%
 
 knitr::include_graphics("assets/img/hipso3.png")
 ```
@@ -766,6 +728,7 @@ Strahler [-@strahler1952hypsometric; -@strahler1957quantitative] relacionó la f
 #| fig-cap: "Forma de la curva hipsométrica según la etapa de erosión de la cuenca."
 #| fig-alt: "Tres curvas hipsométricas: convexa para una cuenca joven, en S para una madura y cóncava para una vieja"
 #| echo: false
+#| out-width: 50%
 
 knitr::include_graphics("assets/img/hipso.png")
 ```
@@ -779,7 +742,7 @@ Una cuenca va de 500 a 900 m s. n. m. Se midió el área de cada franja de 50 m:
 
 Construya la curva hipsométrica y calcule la elevación mediana.
 
-**Resolución a mano**
+**Solución:**
 
 1. Área total: $2.40 + 4.10 + 6.80 + 9.30 + 11.20 + 8.70 + 5.50 + 3.00 = 51.0$ km².
 2. Área por encima de cada cota: se acumulan las franjas desde arriba.
@@ -872,6 +835,7 @@ donde $A$ es el área de la cuenca (km²), $K_c$ es el coeficiente de compacidad
 #| fig-cap: "Rectángulo equivalente de una cuenca."
 #| fig-alt: "Cuenca irregular junto a un rectángulo de igual área con las curvas de nivel como rectas paralelas"
 #| echo: false
+#| out-width: 90%
 
 knitr::include_graphics("assets/img/rec_equi.png")
 ```
@@ -879,7 +843,7 @@ knitr::include_graphics("assets/img/rec_equi.png")
 ::: {.callout-note title="Ejemplo: rectángulo equivalente"}
 Una cuenca tiene un área de 180 km² y un perímetro de 62 km. Calcule los lados de su rectángulo equivalente.
 
-**Resolución a mano**
+**Solución:**
 
 1. Coeficiente de compacidad: $K_c = 0.28 \times 62/\sqrt{180} = 0.28 \times 62/13.42 = 1.294$.
 2. Término de la raíz: $1.12/K_c = 1.12/1.294 = 0.866$; al cuadrado, 0.749; y $\sqrt{1 - 0.749} = 0.501$.
@@ -939,7 +903,7 @@ Una cuenca de 60 km² va de 500 a 1000 m s. n. m. y su rectángulo equivalente t
 
 Calcule el índice de pendiente.
 
-**Resolución a mano**
+**Solución:**
 
 Cada franja tiene un desnivel de 100 m = 0.1 km, en las mismas unidades que $L$.
 
@@ -1044,6 +1008,7 @@ Es fácil de calcular, pero ignora la forma del perfil: dos ríos con los mismos
 #| fig-cap: "Pendiente media del cauce principal, S1."
 #| fig-alt: "Perfil longitudinal de un río con una recta que une sus dos extremos"
 #| echo: false
+#| out-width: 100%
 
 knitr::include_graphics("assets/img/s1.jpg")
 ```
@@ -1061,6 +1026,7 @@ donde $z_A$ es la elevación del extremo superior de esa recta (m), $h_{min}$ es
 #| fig-cap: "Pendiente compensada del cauce principal, S2. Fuente: @Porras2025."
 #| fig-alt: "Perfil de un río con una recta desde la salida que deja igual área por encima y por debajo"
 #| echo: false
+#| out-width: 80%
 
 knitr::include_graphics("assets/img/s2.png")
 ```
@@ -1081,9 +1047,10 @@ $S_3$ da más peso a los tramos planos, que son los que más retrasan el agua, y
 
 ```{r}
 #| label: fig-s3
-#| fig-cap: "Pendiente de Taylor y Schwarz, S3: el perfil se divide en tramos de pendiente uniforme. Fuente: @Porras2025."
+#| fig-cap: "Pendiente de Taylor y Schwarz, S3. Fuente: @Porras2025."
 #| fig-alt: "Perfil de un río dividido en tramos, cada uno con su pendiente"
 #| echo: false
+#| out-width: 80%
 
 knitr::include_graphics("assets/img/s3.png")
 ```
@@ -1091,7 +1058,7 @@ knitr::include_graphics("assets/img/s3.png")
 ::: {.callout-note title="Ejemplo: pendiente de Taylor y Schwarz"}
 Un cauce de 2000 m se dividió en cinco tramos de 400 m con desniveles de 8, 10, 12, 15 y 20 m, del tramo más bajo al más alto. Calcule $S_1$ y $S_3$.
 
-**Resolución a mano**
+**Solución:**
 
 1. Pendiente de cada tramo, $S_i = \Delta h_i / 400$: 0.0200, 0.0250, 0.0300, 0.0375 y 0.0500.
 2. Pendiente media: $S_1 = (8 + 10 + 12 + 15 + 20)/2000 = 65/2000 = 0.0325$.
@@ -1172,8 +1139,8 @@ Los dos últimos suman la porosidad: $n = S_y + S_r$. Una arcilla puede tener un
 #| label: fig-geologia
 #| fig-cap: "Mapa geológico de Costa Rica. Fuente: @denyer2007mapa."
 #| fig-alt: "Mapa de Costa Rica coloreado según las unidades geológicas"
-#| out-width: 100%
 #| echo: false
+#| out-width: 85%
 
 knitr::include_graphics("assets/img/geo_cr.jpg")
 ```
@@ -1195,9 +1162,9 @@ La vegetación y el suelo regulan el agua de tres maneras:
 
 ```{r}
 #| label: fig-cober
-#| fig-cap: "Cobertura del suelo de Costa Rica según las capas oficiales del SNIT: bosque y cultivos de 2019, edificaciones de 2020 y pastos de 2022, en celdas de 300 m. En blanco quedan las zonas sin ninguna de esas coberturas, como cuerpos de agua y humedales. Fuente: elaboración propia con datos del SNIT [@snit2025]."
+#| fig-cap: "Cobertura del suelo de Costa Rica. Fuente: elaboración propia con datos del SNIT [@snit2025]."
 #| fig-alt: "Mapa de Costa Rica en CRTM05 coloreado por cobertura: bosque arbóreo, manglar, pastos, cultivos y zonas urbanas"
-#| out-width: 100%
+#| out-width: 85%
 #| fig-width: 8.5
 #| fig-height: 7
 
@@ -1223,7 +1190,7 @@ ggplot() +
   marco_cr(capas)
 ```
 
-Según esas capas, el bosque arbóreo ocupa unos 27 700 km², algo más de la mitad del país. Le siguen los pastos, con unos 13 600 km², y los cultivos, con unos 6100 km². Las zonas urbanas son menos del 2 % del territorio, pero concentran las superficies impermeables que más cambian la respuesta de una cuenca, como se ve en la sección siguiente.
+El mapa se construyó con las capas oficiales de cobertura del SNIT: bosque y cultivos de 2019, edificaciones de 2020 y pastos de 2022. En blanco quedan las zonas que no tienen ninguna de esas coberturas, como los cuerpos de agua y los humedales. Según esas capas, el bosque arbóreo ocupa unos 27 700 km², algo más de la mitad del país. Le siguen los pastos, con unos 13 600 km², y los cultivos, con unos 6100 km². Las zonas urbanas son menos del 2 % del territorio, pero concentran las superficies impermeables que más cambian la respuesta de una cuenca, como se ve en la sección siguiente.
 
 ## Cuencas urbanas {#sec-cuenca-urbana}
 
@@ -1237,8 +1204,8 @@ Además, en una ciudad la divisoria ya no la define solo la topografía (@fig-ur
 #| label: fig-urbana2
 #| fig-cap: "Cuenca natural y cuenca urbana sobre una misma zona. Imagen de Google Earth Engine (2025)."
 #| fig-alt: "Imagen satelital con dos límites de cuenca superpuestos, el topográfico y el que define el sistema pluvial"
-#| out-width: 100%
 #| echo: false
+#| out-width: 80%
 
 knitr::include_graphics("assets/img/urbana2.jpg")
 ```
@@ -1248,6 +1215,7 @@ knitr::include_graphics("assets/img/urbana2.jpg")
 #| fig-cap: "Delimitación de una cuenca natural y de una cuenca urbana."
 #| fig-alt: "Esquema comparativo de la divisoria topográfica y la divisoria definida por calles y tuberías"
 #| echo: false
+#| out-width: 85%
 
 knitr::include_graphics("assets/img/urbana.png")
 ```

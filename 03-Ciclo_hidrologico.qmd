@@ -23,8 +23,8 @@ Al llegar al suelo, el agua sigue varios caminos. Una parte la intercepta la veg
 #| label: fig-balance
 #| fig-cap: "Ciclo hidrológico. Fuente: @usgsHydrosphere."
 #| fig-alt: "Esquema del ciclo del agua con evaporación, precipitación, escorrentía, infiltración y flujo subterráneo"
-#| out-width: 100%
 #| echo: false
+#| out-width: 70%
 
 knitr::include_graphics("assets/img/wb.jpg")
 ```
@@ -35,8 +35,8 @@ La @fig-cantidad muestra el ciclo a escala global, con los volúmenes anuales es
 #| label: fig-cantidad
 #| fig-cap: "Ciclo hidrológico global y volúmenes anuales de cada flujo. Fuente: @Bob2025."
 #| fig-alt: "Esquema del ciclo hidrológico global con flechas y volúmenes anuales de evaporación, precipitación y escorrentía"
-#| out-width: 100%
 #| echo: false
+#| out-width: 60%
 
 knitr::include_graphics("assets/img/cantidad_agua.jpg")
 
@@ -51,6 +51,7 @@ Para cuantificar el ciclo, se representa como un **sistema hidrológico**: un vo
 #| fig-cap: "Balance hídrico simplificado. Fuente: @SerranoPacheco_IC0808_Hidrologia."
 #| fig-alt: "Esquema de una cuenca con las entradas, salidas y almacenamientos de agua"
 #| echo: false
+#| out-width: 95%
 
 knitr::include_graphics("assets/img/bhs.png")
 
@@ -75,6 +76,7 @@ El análisis hidrológico parte de la **conservación de la masa**: el agua no s
 #| fig-cap: "Ciclo del agua a escala de cuenca. Fuente: @Bob2025."
 #| fig-alt: "Esquema de una cuenca con los almacenamientos superficial, del suelo y subterráneo y los flujos entre ellos"
 #| echo: false
+#| out-width: 80%
 
 knitr::include_graphics("assets/img/storage.png")
 
@@ -133,7 +135,7 @@ En ese sentido, todo análisis hidrológico aplicado es un balance hídrico. Alg
 ::: {.callout-note title="Ejemplo: operación mensual de un embalse pequeño"}
 Un embalse de 6 hm³ de capacidad abastece una demanda constante de 1.5 hm³ por mes. Al inicio de enero tiene 4 hm³. Los volúmenes que entran cada mes durante dos años son los del código (datos ilustrativos, de una cuenca con estación seca de enero a abril). Calcule el volumen almacenado al final de cada mes con la @eq-ciclo-embalse, el agua que se vierte cuando el embalse se llena y la demanda que no se puede atender. Para simplificar, se desprecia la evaporación del embalse.
 
-**Resolución a mano**
+**Solución:**
 
 Se aplica la @eq-ciclo-embalse mes a mes: volumen final = volumen inicial + entrada − demanda. Luego se revisan los dos límites: si el resultado pasa de 6 hm³ se vierte el exceso, y si es negativo falta agua y el embalse queda en 0. El @tbl-embalse-mano muestra el primer año; el segundo se resuelve igual.
 
@@ -227,6 +229,7 @@ Con el balance hídrico se cuantifica la disponibilidad real de agua, su variaci
 #| fig-cap: "Diagrama de Rippl. Fuente: @Bob2025."
 #| fig-alt: "Curva de volumen acumulado de entradas comparada con la recta de demanda acumulada"
 #| echo: false
+#| out-width: 55%
 
 knitr::include_graphics("assets/img/rippl.jpg")
 

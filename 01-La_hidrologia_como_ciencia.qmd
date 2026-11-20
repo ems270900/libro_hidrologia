@@ -46,6 +46,7 @@ Del estudio hidrológico salen los datos que esas obras necesitan para diseñars
 #| fig-cap: "Proyecto hidroeléctrico Reventazón. Fuente: @ICE_CostaRica."
 #| fig-alt: "Presa del proyecto hidroeléctrico Reventazón en Costa Rica"
 #| echo: false
+#| out-width: 85%
 
 knitr::include_graphics("assets/img/DRAT.jpg")
 ```
@@ -154,6 +155,7 @@ Las inundaciones son el fenómeno hidrológico con más consecuencias para la pl
 #| fig-cap: "Modelación de una inundación con HEC-RAS. Fuente: @USACE_HECRAS."
 #| fig-alt: "Mapa de manchas de inundación generado con el programa HEC-RAS"
 #| echo: false
+#| out-width: 60%
 
 knitr::include_graphics("assets/img/hec_ras.png")
 ```
