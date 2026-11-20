@@ -158,6 +158,14 @@ format:
       body-width: 950px
       margin-width: 220px
 
+# Figuras centradas y al 75 % del ancho del texto. Los mapas y diagramas con
+# mucho detalle llevan `#| out-width: 100%` en su bloque. Con clic sobre
+# cualquier figura se ve ampliada (lightbox).
+knitr:
+  opts_chunk:
+    out.width: "75%"
+    fig.align: "center"
+
 execute:
   echo: true
   warning: false

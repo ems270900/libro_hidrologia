@@ -25,6 +25,7 @@ Al llegar al suelo, el agua sigue varios caminos. Una parte la intercepta la veg
 #| label: fig-balance
 #| fig-cap: "Ciclo hidrológico. Fuente: @usgsHydrosphere."
 #| fig-alt: "Esquema del ciclo del agua con evaporación, precipitación, escorrentía, infiltración y flujo subterráneo"
+#| out-width: 100%
 #| echo: false
 
 knitr::include_graphics("assets/img/wb.jpg")
@@ -36,6 +37,7 @@ La @fig-cantidad muestra el ciclo a escala global, con los volúmenes anuales es
 #| label: fig-cantidad
 #| fig-cap: "Ciclo hidrológico global y volúmenes anuales de cada flujo. Fuente: @Bob2025."
 #| fig-alt: "Esquema del ciclo hidrológico global con flechas y volúmenes anuales de evaporación, precipitación y escorrentía"
+#| out-width: 100%
 #| echo: false
 
 knitr::include_graphics("assets/img/cantidad_agua.jpg")
@@ -132,6 +134,29 @@ En ese sentido, todo análisis hidrológico aplicado es un balance hídrico. Alg
 
 ::: {.callout-note title="Ejemplo: operación mensual de un embalse pequeño"}
 Un embalse de 6 hm³ de capacidad abastece una demanda constante de 1.5 hm³ por mes. Al inicio de enero tiene 4 hm³. Los volúmenes que entran cada mes durante dos años son los del código (datos ilustrativos, de una cuenca con estación seca de enero a abril). Calcule el volumen almacenado al final de cada mes con la @eq-ciclo-embalse, el agua que se vierte cuando el embalse se llena y la demanda que no se puede atender. Para simplificar, se desprecia la evaporación del embalse.
+
+**Resolución a mano**
+
+Se aplica la @eq-ciclo-embalse mes a mes: volumen final = volumen inicial + entrada − demanda. Luego se revisan los dos límites: si el resultado pasa de 6 hm³ se vierte el exceso, y si es negativo falta agua y el embalse queda en 0. El @tbl-embalse-mano muestra el primer año; el segundo se resuelve igual.
+
+| Mes | Volumen inicial | Entrada | Inicial + entrada − 1.5 | Vertido | Déficit | Volumen final |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 1 | 4.0 | 0.6 | 3.1 | 0 | 0 | 3.1 |
+| 2 | 3.1 | 0.4 | 2.0 | 0 | 0 | 2.0 |
+| 3 | 2.0 | 0.3 | 0.8 | 0 | 0 | 0.8 |
+| 4 | 0.8 | 0.5 | −0.2 | 0 | 0.2 | 0 |
+| 5 | 0 | 1.8 | 0.3 | 0 | 0 | 0.3 |
+| 6 | 0.3 | 2.6 | 1.4 | 0 | 0 | 1.4 |
+| 7 | 1.4 | 2.0 | 1.9 | 0 | 0 | 1.9 |
+| 8 | 1.9 | 2.4 | 2.8 | 0 | 0 | 2.8 |
+| 9 | 2.8 | 3.5 | 4.8 | 0 | 0 | 4.8 |
+| 10 | 4.8 | 4.0 | 7.3 | 1.3 | 0 | 6.0 |
+| 11 | 6.0 | 2.8 | 7.3 | 1.3 | 0 | 6.0 |
+| 12 | 6.0 | 1.2 | 5.7 | 0 | 0 | 5.7 |
+
+: Balance del embalse durante el primer año, en hm³. {#tbl-embalse-mano}
+
+En abril el embalse no alcanza a cubrir la demanda y faltan 0.2 hm³. En octubre y noviembre se llena y vierte 1.3 hm³ cada mes. La confiabilidad es el número de meses sin déficit entre el total de meses; con los 24 meses del código se obtiene el valor que se muestra abajo.
 
 **Pseudocódigo**
 

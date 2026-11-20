@@ -290,10 +290,11 @@ En el libro el código es parte del contenido. El lector debe poder copiarlo, pe
 Cada ejemplo resuelto con R sigue este orden dentro del recuadro de Ejemplo:
 
 1. **Planteamiento**: los datos, qué se pide y en qué unidades.
-2. **Pseudocódigo**: los pasos del método en lenguaje natural, como lista numerada. Es lo que el estudiante debería poder hacer con calculadora o en otra herramienta.
-3. **Código R**: uno o más bloques visibles con el cálculo.
-4. **Resultado**: el cuadro o el gráfico (el bloque de formato va oculto).
-5. **Interpretación**: dos o tres oraciones sobre qué significa el número para el diseño o el análisis. Un ejemplo no termina en el gráfico.
+2. **Resolución a mano**: el cálculo paso a paso con los números, como se haría con calculadora, para quien todavía no usa R. Cuando hay muchas filas, un cuadro con los cálculos intermedios; cuando el método se repite (por ejemplo, 24 meses), basta con resolver una parte y decir que el resto sigue igual. Complementa al código, no lo reemplaza, y sus resultados deben coincidir con los del código.
+3. **Pseudocódigo**: los pasos del método en lenguaje natural, como lista numerada.
+4. **Código R**: uno o más bloques visibles con el cálculo.
+5. **Resultado**: el cuadro o el gráfico (el bloque de formato va oculto).
+6. **Interpretación**: dos o tres oraciones sobre qué significa el número para el diseño o el análisis. Un ejemplo no termina en el gráfico.
 
 ### Reglas para el código
 
