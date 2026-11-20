@@ -398,7 +398,6 @@ Para revisar un capítulo existente o cerrar uno nuevo:
 
 Estas decisiones son del autor y cambian algunas reglas cuando se tomen:
 
-- **Licencia** del texto y del código.
 - **Formato de salida**: solo web, o también PDF impreso. Si hay PDF, se revisan los cuadros con `scroll_box()`, el HTML incrustado y el ancho de las figuras.
 - **Plazo** de la revisión y de los capítulos nuevos.
 - **Bibliografía al final**: hoy `99-Referencias.qmd` usa `nocite: @*`, que lista todo el `.bib` aunque no se cite. Cuando las citas estén completas conviene quitarlo para que solo aparezca lo citado.

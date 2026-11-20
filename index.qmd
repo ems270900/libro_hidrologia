@@ -43,7 +43,9 @@ format:
 Este libro se distribuye bajo la licencia 
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
 Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional
-</a>.
+</a>. El código R se distribuye bajo la
+<a href="https://github.com/ems270900/libro_hidrologia/blob/master/LICENSE-CODE">licencia MIT</a>
+y puede copiarse y reutilizarse libremente.
 </p>
 
 </div>
