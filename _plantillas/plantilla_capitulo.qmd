@@ -50,6 +50,11 @@ El error más común al aplicar el método y cómo evitarlo.
 
 **Planteamiento.** Datos, qué se pide y en qué unidades. Si los datos son sintéticos, decirlo.
 
+**Resolución a mano**
+
+1. Primer paso con los números del planteamiento.
+2. Segundo paso.
+
 **Pseudocódigo**
 
 1. Primer paso del método.

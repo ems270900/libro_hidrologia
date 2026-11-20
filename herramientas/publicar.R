@@ -229,8 +229,16 @@ unir_capitulos <- function(cfg) {
     if (!is.null(p$yaml$title)) {
       salida <- c(salida, "", paste0("# ", p$yaml$title), "")
     }
-    # Los videos (iframes) se dejan como enlace externo; no se pueden incrustar
-    cuerpo <- gsub("<iframe ", "<iframe data-external=\"1\" ", cuerpo, fixed = TRUE)
+    # Los videos de YouTube no se reproducen dentro de un archivo abierto desde
+    # el disco (file://): YouTube muestra el "Error 153". Se reemplazan por un
+    # enlace que abre el video en el navegador.
+    txt <- paste(cuerpo, collapse = "\n")
+    enlace <- "[\u25B6 Ver el video en YouTube](https://www.youtube.com/watch?v=\\1){.video-enlace}"
+    txt <- gsub("<iframe[^>]*?src=\"https://www\\.youtube\\.com/embed/([A-Za-z0-9_-]+)\"[^>]*>\\s*</iframe>",
+                enlace, txt, perl = TRUE)
+    txt <- gsub("\\{\\{< video https://www\\.youtube\\.com/embed/([A-Za-z0-9_-]+) >\\}\\}",
+                enlace, txt, perl = TRUE)
+    cuerpo <- strsplit(txt, "\n", fixed = TRUE)[[1]]
     salida <- c(salida, cuerpo, "")
   }
   salida
@@ -254,7 +262,7 @@ libro_un_archivo <- function(preparar = TRUE) {
     # Numeración por capítulo (Figura 13.2), como en el libro de varias páginas
     crossref = c(cfg$crossref, list(chapters = TRUE)),
     format   = list(html = c(
-      html_cfg[setdiff(names(html_cfg), c("lightbox"))],
+      html_cfg,
       list(`embed-resources` = TRUE, `toc-location` = "left", `toc-expand` = 1L,
            # Un capítulo por pantalla, con enlaces de anterior y siguiente
            `include-after-body` = "assets/js/paginas.html",

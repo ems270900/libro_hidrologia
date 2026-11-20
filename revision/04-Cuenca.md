@@ -61,3 +61,13 @@ Estos puntos cambian el contenido. Revísalos primero.
 - Los ejemplos calculan; ya no hay resultados escritos a mano dentro de `tribble()`.
 - Nombres sin tildes ni comillas invertidas (`n_cauces`, `area_km2`, `cota_mediana`).
 - Los cuadros de clasificación son cuadros de Markdown, no código R.
+
+## Segunda pasada (2026-11-20)
+
+Observaciones del autor y verificación de fuentes:
+
+- **Punto 11 (thalweg).** Se conserva el término *thalweg* por pedido del autor, ahora definido como la línea que une los puntos más profundos del cauce, y $L$ se mide a lo largo de él.
+- **Razón de bifurcación.** La frase "entre 3 y 5" no aparece en Strahler (1957). Se reemplazó por lo que el artículo sí reporta: 4.0 a 5.1 entre los órdenes 1 y 2, y 2.8 a 4.9 entre los órdenes 2 y 3.
+- **Curva hipsométrica.** Strahler (1957) nombra las etapas de desequilibrio (joven), equilibrio (madura) y monadnock. La figura hipso.png ya asigna la curva convexa a la juventud y la cóncava a la vejez, de modo que se quitó la marca VERIFICAR.
+- **Método de Horton y Taylor-Schwarz.** Las formas de las ecuaciones coinciden con las de Aparicio (1992, cap. 2), que ahora se cita junto con Taylor y Schwarz (1952). Se añadió la nota sobre $\sec\theta$ del criterio de Horton. Queda por confirmar el número de página.
+- **Citas pendientes que siguen abiertas.** No se encontró una fuente verificable para los rangos de $K_c$, las clases de $K_f$ (el texto de la UPS, Ecuador, trae un cuadro pero contradice su propio texto), el rango típico de $D_d$ ni las clases de pendiente. Se dejan marcadas en lugar de inventarlas. La figura de cobertura y el mapa geológico se resolverán al rehacer los mapas con las coberturas oficiales del SNIT.

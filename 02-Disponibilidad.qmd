@@ -19,6 +19,7 @@ Toda el agua de la atmósfera, el suelo, los océanos y la corteza terrestre for
 #| label: fig-hidrosfera
 #| fig-cap: "Principales reservorios de agua de la hidrosfera. Fuente: @usgsHydrosphere."
 #| fig-alt: "Esquema con la proporción de agua salada, agua dulce y sus reservorios principales"
+#| out-width: 100%
 #| echo: false
 
 knitr::include_graphics("assets/img/imagen_usgs.png")
@@ -95,6 +96,17 @@ Fuente: @maidment1993handbook.
 
 ::: {.callout-note title="Ejemplo: cuánta agua dulce está en ríos y lagos"}
 Con los volúmenes del @tbl-distribucion-agua, calcule qué porcentaje del agua dulce está en lagos de agua dulce, ríos y pantanos, y qué lámina de agua formaría el volumen de los ríos si se repartiera sobre todos los continentes, que suman unos 149 millones de km².
+
+**Resolución a mano**
+
+1. Total de agua dulce. Se suman los ocho reservorios del cuadro: $91\,000 + 2120 + 11\,470 + 16\,500 + 10\,530\,000 + 1120 + 24\,364\,100 + 12\,900 = 35\,029\,210$ km³.
+2. Agua dulce superficial. Lagos dulces, ríos y pantanos suman $91\,000 + 2120 + 11\,470 = 104\,590$ km³.
+3. Porcentaje: $\dfrac{104\,590}{35\,029\,210} \times 100 = 0.30\ \%$.
+4. Lámina de los ríos. Se divide el volumen entre el área de los continentes y se pasa a milímetros (1 km = $10^6$ mm):
+
+$$
+h = \frac{2120\ \text{km}^3}{149 \times 10^6\ \text{km}^2} = 1.42 \times 10^{-5}\ \text{km} = 14\ \text{mm}
+$$
 
 **Pseudocódigo**
 
@@ -205,6 +217,7 @@ La respuesta a cuánta agua hay depende de la escala a la que se pregunte:
 #| label: fig-sequia
 #| fig-cap: "Sequía normalizada en América Latina y el Caribe. Fuente: @UNESCO_AtlasSequia2018."
 #| fig-alt: "Mapa del índice de sequía normalizado en América Latina y el Caribe"
+#| out-width: 100%
 #| echo: false
 
 knitr::include_graphics("assets/img/sequia.jpg")
@@ -260,6 +273,7 @@ Los procesos hidrológicos ocurren a escalas que no siempre coinciden con las de
 #| label: fig-isoyeta
 #| fig-cap: "Mapa de isoyetas. Fuente: @IMN_CostaRica."
 #| fig-alt: "Mapa de Costa Rica con curvas de igual precipitación anual"
+#| out-width: 100%
 #| echo: false
 
 knitr::include_graphics("assets/img/isoyetas.jpg")
@@ -284,6 +298,7 @@ La **regionalización hidrológica** une los dos niveles: agrupa cuencas con com
 #| label: fig-region
 #| fig-cap: "Regiones hidrológicas homogéneas. Fuente: @USACE_IWR."
 #| fig-alt: "Mapa de regiones hidrológicas homogéneas"
+#| out-width: 100%
 #| echo: false
 
 knitr::include_graphics("assets/img/region.jpg")
@@ -313,6 +328,7 @@ Para la gestión y el diseño, la disponibilidad se analiza junto con su variabi
 #| label: fig-estacionalidad
 #| fig-cap: "Estacionalidad de Costa Rica. Fuente: @UCR_Fisica."
 #| fig-alt: "Mapa de la estacionalidad de la lluvia en Costa Rica"
+#| out-width: 100%
 #| echo: false
 
 knitr::include_graphics("assets/img/estacionalidad.jpg")

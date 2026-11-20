@@ -625,3 +625,29 @@ details.code-fold > summary {
   color: var(--bs-primary, #2780e3);
   cursor: pointer;
 }
+
+/* Cuadros: ancho según el contenido y centrados, sin barra de desplazamiento
+   cuando caben en la página. Los cuadros anchos siguen pudiendo desplazarse. */
+.quarto-float-tbl table.table,
+table.table.lightable-classic {
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Enlace a videos en el HTML de un archivo (YouTube no se reproduce desde el disco) */
+a.video-enlace {
+  display: inline-block;
+  margin: 0.5rem 0 1rem;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid #c4302b;
+  border-radius: 6px;
+  color: #c4302b;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+a.video-enlace:hover {
+  background: #c4302b;
+  color: #fff;
+}

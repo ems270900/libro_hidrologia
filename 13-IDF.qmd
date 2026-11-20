@@ -789,6 +789,7 @@ En Costa Rica no hay un repositorio único con curvas IDF actualizadas para toda
 #| label: fig-IMN_mecanicas
 #| fig-cap: "Ubicación de las estaciones mecánicas del boletín de curvas IDF del IMN. Fuente: @Rojas2011mecanicas."
 #| fig-alt: "Mapa de Costa Rica con la ubicación de 15 estaciones meteorológicas mecánicas"
+#| out-width: 100%
 #| echo: false
 
 knitr::include_graphics("assets/img/imn_mecanicas.png")
@@ -875,6 +876,7 @@ Los análisis de Vahrson para estaciones pluviográficas de Limón, Liberia, Pun
 #| label: fig-estaciones_efra
 #| fig-cap: "Estaciones pluviográficas con curvas IDF en la cuenca del río Grande de Térraba. Fuente: @Garcia2015Terraba."
 #| fig-alt: "Mapa de la cuenca del río Grande de Térraba con la ubicación de 20 estaciones pluviográficas"
+#| out-width: 100%
 #| echo: false
 
 knitr::include_graphics("assets/img/efra.png")
