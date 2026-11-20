@@ -137,6 +137,7 @@ La textura describe la proporción relativa de arena, limo y arcilla. Su influen
 En el siguiente cuadro, se detallan las clases texturales del suelo según su contenido porcentual de arena, limo y arcilla.
 
 ```{r}
+#| echo: false
 #| label: tbl-KA
 #| tbl-cap: "Clases texturales de suelos, según el USDA."
 #| message: false
@@ -368,6 +369,7 @@ En general, los suelos con cobertura vegetal densa presentan mayores valores de 
 A continuación se presentan valores típicos de referencia utilizados en la práctica ingenieril:
 
 ```{r}
+#| echo: false
 library(kableExtra)
 
 datos_horton <- data.frame(
@@ -1352,6 +1354,7 @@ Para cada intervalo $i$, se registra:
 - la diferencia $\Delta F_i = L_i - L_f$.
 
 ```{r}
+#| echo: false
 #| label: tbl-DCH
 #| tbl-cap: "Cuadro para toma de datos de campo para la prueba de infiltración"
 #| message: false

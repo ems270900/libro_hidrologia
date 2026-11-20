@@ -4283,6 +4283,7 @@ knitr::include_graphics("assets/img/Rplot4.png")
 Debido a que el Método Estocástico de Thomas–Fiering es un método complejo, no es sencillo su implementación en plataformas como Excel, LibreOffice, etc. por lo tanto se adjunta un ejemplo de scrtip de R, qe puede ser usado como base para la simulación de caudales.
 
 ```{r echo=TRUE, eval=FALSE}
+#| echo: false
 # Paquetes
 library(tidyverse)
 library(readxl)

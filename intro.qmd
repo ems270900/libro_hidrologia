@@ -40,7 +40,7 @@ Cada ejemplo resuelto sigue el mismo orden:
 1. el planteamiento, con los datos y lo que se pide;
 2. la **solución**, desarrollada a mano paso a paso;
 3. el **pseudocódigo**, que resume el método en pasos que se pueden programar en cualquier herramienta;
-4. el código R, plegado bajo el botón "Código", listo para copiar y ejecutar;
+4. el código R, listo para copiar y ejecutar;
 5. el resultado y su interpretación para el diseño o el análisis.
 
 El texto usa además recuadros con cuatro funciones: **Ejemplo**, para los problemas resueltos; **En la práctica**, para criterios de uso profesional; **Cuidado**, para errores frecuentes, y **Para profundizar**, para material que se puede saltar en una primera lectura.

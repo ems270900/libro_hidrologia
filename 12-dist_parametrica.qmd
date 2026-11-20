@@ -82,6 +82,7 @@ En términos hidrológicos, esto explica por qué muchas variables agregadas pre
 Este principio justifica el uso de la distribución normal como modelo aproximado para variables hidrológicas de **larga escala temporal**, aun cuando los procesos elementales no sean normales.
 
 ```{r message=FALSE, warning=FALSE, error=FALSE}
+#| echo: false
 #| label: fig-plot12400
 #| fig-cap: "Teorema de Límite Central"
 #| class: fig-border

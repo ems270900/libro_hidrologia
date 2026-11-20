@@ -45,6 +45,7 @@ Un registro hidrológico puede considerarse una muestra aleatoria cuando cada ev
 
 
 ```{r message=FALSE, warning=FALSE, error=FALSE}
+#| echo: false
 #| label: fig-plot130
 #| fig-cap: "Población completa vs muestra observada"
 #| class: fig-border

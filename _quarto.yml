@@ -134,17 +134,13 @@ format:
     toc: true
     toc-depth: 3
     number-sections: true
-    # Código R: visible, plegado por defecto y con botón de copiar.
-    # Los bloques que solo insertan imágenes o arman tablas de texto
-    # llevan `#| echo: false` en el propio bloque.
-    code-fold: true
-    code-summary: "Ver código R"
+    # Código R: solo se ve el de los ejemplos, abierto y con botón de copiar.
+    # Nunca plegado ("Ver código"). Los bloques que solo generan figuras,
+    # mapas o cuadros llevan `#| echo: false` en el propio bloque.
+    code-fold: false
     code-copy: true
     code-line-numbers: false
-    code-tools:
-      source: false
-      toggle: true
-      caption: "Código"
+    code-tools: false
     fig-cap-location: bottom
     tbl-cap-location: top
     link-external-newwindow: true

@@ -691,6 +691,7 @@ En la práctica, $R_a$ puede obtenerse de:
 - Tablas estandarizadas por mes y latitud (FAO-56).
 
 ```{r}
+#| echo: false
 #| label: tbl-ra-allen
 #| tbl-cap: "Tabla de Radiación solar extraterrestre en mm/día (Allen et al., 1998) (Original en MJ·m$^{-2}$·día$^{-1}$ ; 1 mm/día = 2,45 MJ·m$^{-2}$·día$^{-1}$)"
 #| message: false
