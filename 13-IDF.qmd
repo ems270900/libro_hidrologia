@@ -375,7 +375,7 @@ Los parámetros solo valen en las unidades en que se ajustaron. Si $d$ está en 
 
 Hay varias ecuaciones históricas que son casos particulares de la @eq-idf-general. Todas se ajustan para un periodo de retorno fijo.
 
-<!-- CITA PENDIENTE: referencias originales de Talbot, Sherman y de la forma potencial. -->
+@koutsoyiannis1998idf muestran que todas estas formas son casos particulares de una estructura general con una función de $T$ en el numerador y una función de $d$ en el denominador.
 
 1. **Talbot** (hiperbólica):
    $$
@@ -389,7 +389,7 @@ Hay varias ecuaciones históricas que son casos particulares de la @eq-idf-gener
    $$
    con $a > 0$ y $b > 0$. En escala log-log es una recta, por lo que se ajusta bien en los rangos de duración donde la curva observada también lo es, por lo general duraciones medias y largas.
 
-3. **Sherman** (potencial con desplazamiento):
+3. **Sherman** [@sherman1931frequency] (potencial con desplazamiento):
    $$
    i(d) = \frac{a}{(d+b)^{e}}
    $$
@@ -656,150 +656,76 @@ donde $\Delta P_1$ es el bloque más grande, $\Delta P_2$ el segundo, y así suc
 
 ### Limitaciones
 
-El MBA es adecuado para obras menores de drenaje urbano, como alcantarillas, cunetas y tragantes, donde lo que importa es el caudal pico. <!-- CITA PENDIENTE: FHWA, Hydraulic Design Series No. 2 (HDS-2) y Hydraulic Engineering Circular No. 22 (HEC-22). --> Fuera de ese uso tiene limitaciones que conviene conocer:
+El MBA es adecuado para obras menores de drenaje urbano, como alcantarillas, cunetas y tragantes, donde lo que importa es el caudal pico. Fuera de ese uso tiene limitaciones que conviene conocer:
 
-- **No representa una tormenta real.** El orden de los bloques es artificial: no reproduce cómo se forma, madura y se disipa una tormenta [@ASCE1996_HydrologyHandbook]. <!-- VERIFICAR: la versión anterior citaba una frase textual del manual de la ASCE que no se pudo confirmar. Si se quiere citar textualmente, agregar la página. -->
-- **Combina extremos de tormentas distintas.** Cada punto de la curva IDF sale de una serie de máximos anuales propia: el máximo de 10 min de un año y el de 60 min pueden venir de tormentas diferentes. El MBA mete todos esos máximos, cada uno con periodo de retorno $T$, dentro de una sola tormenta. Esa tormenta es más rara que $T$ y su lámina total tiende a ser mayor que la de las tormentas observadas. Por eso el NRCS prefiere sus distribuciones temporales de tormenta (tipos I, IA, II y III), obtenidas de registros, aunque esas distribuciones tienen sus propias limitaciones [@USDA_NRCS_630]. <!-- VERIFICAR: confirmar la sección del NEH 630 que trata este punto. -->
-- **No sirve para cuencas grandes.** Se pensó para tormentas de menos de 24 h y cuencas pequeñas. En cuencas grandes pesan más el almacenamiento en los cauces, la variación espacial de la lluvia y la duración total del evento que la forma del hietograma en un punto. <!-- CITA PENDIENTE: la versión anterior atribuía al USBR (1989) un límite de unos 250 km². Confirmar en la fuente antes de dar el número. --> En esos casos conviene usar tormentas históricas representativas o modelación continua.
-- **No tiene calibración regional.** En el trópico predominan tormentas convectivas cortas y asimétricas, que el MBA no reproduce. El manual de la SIECA recomienda usarlo con cautela en la región [@ManualHidroVial_CA]. <!-- VERIFICAR: confirmar en el manual de la SIECA. -->
-- **Exagera el pico del hidrograma.** Tiende a dar hidrogramas con picos muy marcados y volúmenes algo mayores que los observados, sobre todo en cuencas urbanas muy impermeables. <!-- CITA PENDIENTE: estudios que lo muestran. --> Eso es aceptable en obras menores de drenaje, pero no en el diseño de estanques de retención o de obras de control de inundaciones, donde importan el volumen y la forma completa del hidrograma.
+- **No representa una tormenta real.** El orden de los bloques es artificial: no reproduce cómo se forma, madura y se disipa una tormenta. Su único propósito es maximizar la respuesta de la cuenca.
+- **Combina extremos de tormentas distintas.** Cada punto de la curva IDF sale de una serie de máximos anuales propia: el máximo de 10 min de un año y el de 60 min pueden venir de tormentas diferentes. El MBA mete todos esos máximos, cada uno con periodo de retorno $T$, dentro de una sola tormenta. Esa tormenta es más rara que $T$ y su lámina total tiende a ser mayor que la de las tormentas observadas. Una alternativa son las distribuciones temporales de tormenta del NRCS (tipos I, IA, II y III), obtenidas de registros de Estados Unidos [@nrcs2019neh630cap4]. También tienen limitaciones y hay que revisar si representan las tormentas de la región antes de usarlas.
+- **No sirve para cuencas grandes.** Se pensó para tormentas de menos de 24 h y cuencas pequeñas. En cuencas grandes pesan más el almacenamiento en los cauces, la variación espacial de la lluvia y la duración total del evento que la forma del hietograma en un punto. En esos casos conviene usar tormentas históricas representativas o modelación continua.
+- **No tiene calibración regional.** Las curvas IDF son locales, pero la forma simétrica del hietograma es la misma en cualquier clima. En el trópico predominan tormentas convectivas cortas y asimétricas, con el pico al inicio, que el MBA no reproduce. Si hay registros de pluviógrafo, conviene comparar el hietograma con tormentas observadas de la zona.
+- **Exagera el pico del hidrograma.** Como concentra toda la lluvia intensa en el centro y su lámina total es mayor que la de una tormenta real del mismo periodo de retorno, da hidrogramas con picos muy marcados y volúmenes altos, sobre todo en cuencas urbanas muy impermeables. Eso es aceptable en obras menores de drenaje, pero no en el diseño de estanques de retención o de obras de control de inundaciones, donde importan el volumen y la forma completa del hidrograma.
 
 En resumen, el MBA sirve para prediseño y para obras menores en las que lo que interesa es el caudal pico. Quien lo usa debe tener presente que es una construcción matemática para maximizar la respuesta de la cuenca, no una tormenta real. En proyectos mayores, o cuando importan el volumen y la forma del hidrograma, se recomienda usar distribuciones temporales basadas en registros de la región.
 
-::: {.callout-note title="Ejemplo: hietograma de diseño de 10 años por el método del bloque alterno"}
+::: {.callout-note title="Ejemplo: hietograma de diseño de 10 años para la estación IMN-Aranjuez"}
 
-<!-- VERIFICAR: las intensidades de este ejemplo son muy altas para Costa Rica (680 mm/h en 5 min para T = 10 años equivale a 57 mm en 5 min). Confirmar la fuente o reemplazarlas por las de una estación real. -->
+**Planteamiento.** El IMN publicó las curvas IDF de la estación automática 84-141 IMN-Aranjuez, en San José, con 16 años de registro y ajuste de Gumbel [@Rojas2011automaticas]. El @tbl-MBA1 reproduce sus intensidades. El boletín también da la ecuación ajustada
 
-**Planteamiento.** El @tbl-MBA1 tiene las intensidades IDF de una estación. Construya el hietograma de diseño para $T = 10$ años, con $\Delta t = 5$ min y una duración total $T_d = 180$ min.
+$$
+i = \frac{174.33\, T^{0.104}}{d^{0.285}}
+$$ {#eq-idf-aranjuez}
 
-```{r}
-#| label: idf-datos-mba
-#| code-fold: false
+con $i$ en mm/h, $T$ en años y $d$ en min ($R^2 = 0.97$). Construya el hietograma de diseño para $T = 10$ años, con $\Delta t = 5$ min y una duración total $T_d = 30$ min, que es la mayor duración del boletín.
 
-library(tidyverse)
+| Duración (min) | $T = 5$ | $T = 10$ | $T = 25$ | $T = 50$ | $T = 100$ | $T = 250$ | $T = 500$ |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 5 | 124.05 | 135.60 | 150.20 | 161.02 | 171.77 | 185.92 | 196.60 |
+| 10 | 110.13 | 121.47 | 135.81 | 146.44 | 156.99 | 170.89 | 181.38 |
+| 15 | 95.45 | 104.21 | 115.28 | 123.49 | 131.64 | 142.37 | 150.48 |
+| 30 | 73.14 | 80.93 | 90.78 | 98.08 | 105.32 | 114.87 | 122.07 |
 
-# Intensidades IDF (mm/h): una columna por periodo de retorno (años)
+: Intensidades máximas de precipitación (mm/h) de la estación 84-141 IMN-Aranjuez, por duración y periodo de retorno (años). Fuente: @Rojas2011automaticas. {#tbl-MBA1}
 
-idf_tabla <- tribble(
-  ~d_min, ~`2`, ~`5`, ~`10`, ~`25`, ~`50`, ~`100`, ~`500`,
-  5, 526.77, 609.17, 679.96, 786.32, 877.71, 979.71, 1264.63,
-  10, 343.61, 397.36, 443.54, 512.92, 572.53, 639.07, 824.92,
-  15, 267.62, 309.49, 345.46, 399.49, 445.92, 497.74, 642.50,
-  20, 224.14, 259.20, 289.32, 334.58, 373.46, 416.86, 538.10,
-  25, 195.34, 225.89, 252.14, 291.59, 325.47, 363.30, 468.95,
-  30, 174.57, 201.88, 225.34, 260.59, 290.88, 324.68, 419.10,
-  35, 158.75, 183.58, 204.92, 236.97, 264.51, 295.25, 381.11,
-  40, 146.21, 169.08, 188.73, 218.25, 243.61, 271.92, 351.00,
-  45, 135.97, 157.24, 175.51, 202.96, 226.55, 252.88, 326.42,
-  50, 127.42, 147.35, 164.47, 190.20, 212.31, 236.98, 305.90,
-  55, 120.15, 138.94, 155.09, 179.35, 200.19, 223.46, 288.44,
-  60, 113.87, 131.69, 146.99, 169.98, 189.74, 211.79, 273.38,
-  65, 108.39, 125.35, 139.91, 161.80, 180.60, 201.59, 260.22,
-  70, 103.55, 119.75, 133.67, 154.58, 172.54, 192.59, 248.60,
-  75, 99.24, 114.77, 128.10, 148.14, 165.36, 184.57, 238.25,
-  80, 95.37, 110.29, 123.11, 142.36, 158.91, 177.38, 228.96,
-  85, 91.87, 106.24, 118.59, 137.14, 153.08, 170.87, 220.56,
-  90, 88.69, 102.57, 114.49, 132.39, 147.78, 164.95, 212.93,
-  95, 85.79, 99.20, 110.73, 128.05, 142.94, 159.55, 205.95,
-  100, 83.12, 96.12, 107.29, 124.07, 138.49, 154.58, 199.54,
-  105, 80.65, 93.27, 104.11, 120.39, 134.39, 150.00, 193.63,
-  110, 78.37, 90.63, 101.17, 116.99, 130.59, 145.76, 188.15,
-  115, 76.25, 88.18, 98.43, 113.83, 127.06, 141.82, 183.07,
-  120, 74.28, 85.90, 95.88, 110.88, 123.77, 138.15, 178.33,
-  125, 72.43, 83.77, 93.50, 108.13, 120.69, 134.72, 173.90,
-  130, 70.70, 81.76, 91.27, 105.54, 117.81, 131.50, 169.74,
-  135, 69.08, 79.88, 89.17, 103.12, 115.10, 128.48, 165.84,
-  140, 67.55, 78.11, 87.19, 100.83, 112.55, 125.63, 162.16,
-  145, 66.10, 76.44, 85.33, 98.67, 110.14, 122.94, 158.69,
-  150, 64.74, 74.86, 83.56, 96.63, 107.86, 120.40, 155.41,
-  155, 63.44, 73.36, 81.89, 94.70, 105.70, 117.99, 152.30,
-  160, 62.21, 71.94, 80.30, 92.86, 103.66, 115.70, 149.35,
-  165, 61.04, 70.59, 78.79, 91.12, 101.71, 113.53, 146.54,
-  170, 59.93, 69.30, 77.36, 89.46, 99.85, 111.46, 143.87,
-  175, 58.87, 68.08, 75.99, 87.87, 98.09, 109.48, 141.33,
-  180, 57.85, 66.90, 74.68, 86.36, 96.40, 107.60, 138.89,
-  360, 37.74, 43.64, 48.71, 56.33, 62.88, 70.19, 90.60,
-  720, 24.62, 28.47, 31.78, 36.75, 41.02, 45.78, 59.10,
-  1440, 16.06, 18.57, 20.73, 23.97, 26.76, 29.86, 38.55
-)
-```
-
-```{r}
-#| label: tbl-MBA1
-#| tbl-cap: "Intensidades IDF de la estación del ejemplo (mm/h), por duración y periodo de retorno."
-#| echo: false
-
-library(kableExtra)
-
-idf_tabla %>%
-  kbl(format = "html", align = "c",
-      col.names = c("Duración (min)", "2", "5", "10", "25", "50", "100", "500")) %>%
-  add_header_above(c(" " = 1, "Periodo de retorno (años)" = 7), bold = TRUE) %>%
-  kable_styling(full_width = FALSE, bootstrap_options = c("hover", "condensed", "striped")) %>%
-  row_spec(0, bold = TRUE) %>%
-  scroll_box(height = "500px")
-```
-
-```{r}
-#| label: fig-idf_MBA
-#| fig-cap: "Curvas IDF de la estación del ejemplo."
-#| fig-alt: "Siete curvas decrecientes de intensidad contra duración, para periodos de retorno de 2 a 500 años"
-
-idf_larga <- idf_tabla %>%
-  pivot_longer(-d_min, names_to = "t_ret", values_to = "i_mmh") %>%
-  mutate(t_ret = factor(t_ret, levels = c("2", "5", "10", "25", "50", "100", "500")))
-
-ggplot(idf_larga, aes(d_min, i_mmh, color = t_ret)) +
-  geom_line(linewidth = 1.05) +
-  scale_x_continuous(breaks = seq(0, 720, by = 80), limits = c(0, 720), expand = c(0, 0)) +
-  scale_y_continuous(breaks = seq(0, 500, by = 100), limits = c(0, 500), expand = c(0, 0)) +
-  scale_color_viridis_d(option = "turbo", end = 0.98) +
-  labs(x = "Duración (min)", y = "Intensidad (mm/h)", color = "T (años)") +
-  theme(panel.grid.minor = element_blank())
-```
+El boletín solo tiene duraciones de 5, 10, 15 y 30 min. Para los bloques de 20 y 25 min se usa la @eq-idf-aranjuez. No conviene usarla para duraciones mayores de 30 min, porque sería extrapolar fuera de los datos con que se ajustó.
 
 **Pseudocódigo**
 
-1. Tomar las intensidades de $T = 10$ años para duraciones de 5 a 180 min.
+1. Calcular con la @eq-idf-aranjuez la intensidad de $T = 10$ años para duraciones de 5 a 30 min.
 2. Calcular la lámina acumulada (curva de masa) con la @eq-idf-masa.
 3. Calcular la lluvia de cada bloque como diferencia de la curva de masa.
 4. Ordenar los bloques de mayor a menor.
 5. Colocar el mayor en el bloque central y los siguientes alternando a la derecha y a la izquierda.
 6. Graficar el hietograma.
 
-**Pasos 1 a 3. Curva de masa y bloques.** Los primeros valores de la curva de masa son
+**Pasos 1 a 3. Curva de masa y bloques.** Para $d = 5$ min:
 
 $$
-P(5) = 679.96 \times \frac{5}{60} = 56.7\ \text{mm}, \qquad
-P(10) = 443.54 \times \frac{10}{60} = 73.9\ \text{mm}, \qquad
-P(15) = 345.46 \times \frac{15}{60} = 86.4\ \text{mm}
+i = \frac{174.33 \times 10^{0.104}}{5^{0.285}} = 140.0\ \text{mm/h}, \qquad
+P(5) = 140.0 \times \frac{5}{60} = 11.7\ \text{mm}
 $$
 
-y los primeros bloques, $\Delta P_1 = 56.7$ mm, $\Delta P_2 = 73.9 - 56.7 = 17.3$ mm y $\Delta P_3 = 86.4 - 73.9 = 12.4$ mm (las diferencias se calculan sin redondear).
+Para $d = 10$ min, $i = 114.9$ mm/h y $P(10) = 19.2$ mm, de modo que el segundo bloque es $\Delta P_2 = 19.2 - 11.7 = 7.5$ mm. Se sigue igual hasta $d = 30$ min.
 
-**Pasos 4 y 5. Reordenamiento.** Hay $N = 180/5 = 36$ bloques. Como $N$ es par, el centro de la tormenta (90 min) queda entre los bloques 18 y 19. Aquí se usa la convención de poner el bloque mayor en el bloque 18, el que termina en el minuto 90. Las posiciones se llenan en este orden:
+La ecuación da valores cercanos a los del cuadro: 140.0 contra 135.6 mm/h en 5 min y 84.0 contra 80.9 mm/h en 30 min. La diferencia, de 3 % a 5 %, es el error del ajuste.
 
-$$
-18,\ 19,\ 17,\ 20,\ 16,\ 21,\ 15,\ 22,\ \ldots
-$$
-
-Así, el bloque 18 recibe 56.7 mm, el 19 recibe 17.3 mm, el 17 recibe 12.4 mm, el 20 recibe 10.1 mm, y así hasta ubicar los 36 bloques.
+**Pasos 4 y 5. Reordenamiento.** Hay $N = 30/5 = 6$ bloques. Como $N$ es par, el centro de la tormenta (minuto 15) queda entre los bloques 3 y 4. Aquí se usa la convención de poner el bloque mayor en el bloque 3, el que termina en el minuto 15. Las posiciones se llenan en el orden 3, 4, 2, 5, 1, 6.
 
 ```{r}
 #| label: fig-hietograma_bloque_alterno
-#| fig-cap: "Hietograma de diseño de 10 años obtenido por el método del bloque alterno."
-#| fig-alt: "Gráfico de barras con 36 bloques de 5 minutos; el bloque mayor, de 56.7 mm, está en el minuto 90"
+#| fig-cap: "Hietograma de diseño de 10 años para la estación IMN-Aranjuez, obtenido por el método del bloque alterno."
+#| fig-alt: "Gráfico de barras con seis bloques de 5 minutos; el bloque mayor, de 11.7 mm, está entre los minutos 10 y 15"
 #| code-fold: false
 
-dt <- 5      # min
-td <- 180    # min
+library(tidyverse)
 
-# 1) Intensidades de T = 10 años hasta la duración total
-bloques <- idf_tabla %>%
-  filter(d_min <= td) %>%
-  select(d_min, i_mmh = `10`) %>%
+t_ret <- 10   # años
+dt <- 5       # min
+td <- 30      # min
+
+# 1) Intensidad con la ecuación IDF de la estación 84-141 (i en mm/h, d en min)
+bloques <- tibble(d_min = seq(dt, td, by = dt)) %>%
+  mutate(i_mmh = 174.33 * t_ret^0.104 / d_min^0.285,
   # 2) Curva de masa (mm)
-  mutate(masa = i_mmh * d_min / 60,
+         masa = i_mmh * d_min / 60,
   # 3) Lluvia de cada bloque (mm)
          dp = masa - lag(masa, default = 0))
 
@@ -807,7 +733,7 @@ bloques <- idf_tabla %>%
 n_bloques <- nrow(bloques)
 j_central <- n_bloques / 2
 desplazamientos <- c(0, rep(1:n_bloques, each = 2) * c(1, -1))[1:n_bloques]
-posicion <- j_central + desplazamientos   # 18, 19, 17, 20, 16, ...
+posicion <- j_central + desplazamientos   # 3, 4, 2, 5, 1, 6
 
 hietograma <- tibble(
   bloque = posicion,
@@ -816,21 +742,20 @@ hietograma <- tibble(
   arrange(bloque) %>%
   mutate(t_fin = bloque * dt)
 
-# Comprobación: la suma no cambia con el reordenamiento
+# Comprobación: el reordenamiento no cambia la lluvia total
 sum(hietograma$dp_alterno)
 
 # 6) Gráfico
 ggplot(hietograma, aes(factor(t_fin), dp_alterno)) +
   geom_col(fill = "#1C6BA0", color = "#08306b", width = 0.85) +
-  scale_y_continuous(breaks = seq(0, 60, by = 5), limits = c(0, 60), expand = c(0, 0)) +
+  scale_y_continuous(breaks = seq(0, 12, by = 2), limits = c(0, 12), expand = c(0, 0)) +
   labs(x = "Tiempo (min)", y = "Precipitación (mm)") +
-  theme(panel.grid.minor = element_blank(),
-        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+  theme(panel.grid.minor = element_blank())
 ```
 
 ```{r}
 #| label: tbl-hietograma_MBA
-#| tbl-cap: "Curva de masa, lluvia por bloque y lluvia reordenada por el método del bloque alterno ($T = 10$ años)."
+#| tbl-cap: "Curva de masa, lluvia por bloque y lluvia reordenada por el método del bloque alterno para la estación IMN-Aranjuez ($T = 10$ años)."
 #| echo: false
 
 library(kableExtra)
@@ -839,18 +764,17 @@ bloques %>%
   mutate(dp_alterno = hietograma$dp_alterno) %>%
   kbl(
     format = "html",
-    digits = c(0, 2, 1, 1, 1),
+    digits = c(0, 1, 1, 1, 1),
     align = "c",
     col.names = c("Tiempo (min)", "Intensidad (mm/h)", "Masa (mm)",
                   "Precipitación (mm)", "P<sub>alterna</sub> (mm)"),
     escape = FALSE
   ) %>%
   kable_styling(full_width = FALSE, bootstrap_options = c("hover", "condensed", "striped")) %>%
-  row_spec(0, bold = TRUE) %>%
-  scroll_box(height = "500px")
+  row_spec(0, bold = TRUE)
 ```
 
-**Interpretación.** La tormenta de diseño acumula 224 mm en 3 h, y una cuarta parte de esa lluvia cae en los 5 min centrales. Cualquier ventana centrada en el pico contiene la lámina de la curva IDF para su duración: los 15 min centrales suman $56.7 + 17.3 + 12.4 = 86.4$ mm, igual a $P(15)$. Este hietograma es la entrada para un modelo de lluvia-escorrentía de la cuenca.
+**Interpretación.** La tormenta de diseño acumula 42 mm en 30 min, y 11.7 mm caen en los 5 min centrales. Cualquier ventana centrada en el pico contiene la lámina de la curva IDF para su duración: los 15 min centrales suman $11.7 + 7.5 + 6.4 = 25.6$ mm, igual a $P(15)$. Con una duración total de 30 min, este hietograma sirve para una cuenca urbana pequeña con un tiempo de concentración menor de media hora. Para cuencas más lentas haría falta una curva IDF con duraciones mayores.
 
 :::
 
@@ -985,7 +909,7 @@ knitr::include_graphics("assets/img/efra.png")
 
 ### Proyectos de investigación
 
-Algunos proyectos han estudiado cómo podrían cambiar las curvas IDF de Costa Rica con el cambio climático. Por ejemplo, hay estudios con modelos regionales del proyecto CORDEX para Centroamérica que analizan cómo los métodos de corrección de sesgo afectan las curvas IDF proyectadas. <!-- CITA PENDIENTE: estudio CORDEX sobre curvas IDF en Costa Rica. -->
+Algunos proyectos han estudiado cómo podrían cambiar las curvas IDF de Costa Rica con el cambio climático. @mendez2024bias, por ejemplo, construyeron curvas IDF futuras para la estación del aeropuerto Juan Santamaría con nueve combinaciones de modelos globales y regionales del proyecto CORDEX para Centroamérica, y compararon cómo cambian las curvas según el método de corrección de sesgo.
 
 ### Herramientas de cálculo
 
