@@ -45,8 +45,11 @@ local({
 PUB_DIR        <- "_publicar"      # copia de trabajo (se puede borrar sin problema)
 SALIDAS_DIR    <- "salidas"        # donde queda el HTML de un archivo
 NOMBRE_HTML    <- "Hidrologia_Aplicada.html"
-LADO_MAX_PX    <- 1600             # lado mayor de las imágenes reducidas
-CALIDAD_WEBP   <- 80               # 0-100; 80 se ve igual en pantalla
+LADO_MAX_PX    <- 2000             # lado mayor de las imágenes reducidas
+CALIDAD_WEBP   <- 92               # 0-100; antes 80, que emborronaba líneas y letras
+# Los PNG y GIF (mapas, esquemas, gráficos con texto) usan además "sharp YUV",
+# que conserva mejor los bordes de color finos. WebP sin pérdida se probó y
+# triplica el peso del HTML (160 MB).
 UMBRAL_KB      <- 300              # imágenes más livianas que esto se dejan igual
 
 # --- Utilidades ---------------------------------------------------------------
@@ -149,7 +152,12 @@ preparar_copia <- function() {
     if (max(info$width, info$height) > LADO_MAX_PX) {
       im <- magick::image_resize(im, paste0(LADO_MAX_PX, "x", LADO_MAX_PX, ">"))
     }
-    magick::image_write(im, dst, format = "webp", quality = CALIDAD_WEBP)
+    if (ext %in% c("png", "gif")) {
+      magick::image_write(im, dst, format = "webp", quality = CALIDAD_WEBP,
+                          defines = c("webp:use-sharp-yuv" = "true"))
+    } else {
+      magick::image_write(im, dst, format = "webp", quality = CALIDAD_WEBP)
+    }
     n_red <- n_red + 1
   }
   message("Imágenes reducidas en esta corrida: ", n_red,
@@ -243,10 +251,13 @@ libro_un_archivo <- function(preparar = TRUE) {
     bibliography = "references.bib",
     csl      = "assets/csl/apa.csl",
     nocite   = "@*",
-    crossref = cfg$crossref,
+    # Numeración por capítulo (Figura 13.2), como en el libro de varias páginas
+    crossref = c(cfg$crossref, list(chapters = TRUE)),
     format   = list(html = c(
       html_cfg[setdiff(names(html_cfg), c("lightbox"))],
       list(`embed-resources` = TRUE, `toc-location` = "left", `toc-expand` = 1L,
+           # Un capítulo por pantalla, con enlaces de anterior y siguiente
+           `include-after-body` = "assets/js/paginas.html",
            `title-block-banner` = FALSE,
            # MathML: las ecuaciones se ven sin internet (Chrome, Edge, Firefox)
            `html-math-method` = "mathml")
