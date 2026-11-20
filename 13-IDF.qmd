@@ -5,1503 +5,683 @@ suppress-bibliography: true
 ---
 
 ::: {.quote-block}
-“La lluvia ligera suele tener duración larga, pero las grandes tempestades son repentinas.”\
-— *William Shakespeare (Dramaturgo)*
+"Las lloviznas duran mucho, pero las tormentas repentinas son breves."\
+— *William Shakespeare, Ricardo II (acto II, escena 1)*
 :::
 
-La precipitación extrema constituye uno de los insumos fundamentales en el diseño hidrológico e hidráulico. Obras como alcantarillados pluviales, drenajes urbanos, vertederos, canales y estructuras de control dependen directamente de una correcta caracterización de la intensidad de lluvia asociada a diferentes duraciones y niveles de riesgo.
+Las alcantarillas, los drenajes urbanos, los vertederos y los canales se diseñan para una lluvia que todavía no ha caído. Para dimensionarlos hace falta saber cuánta lluvia puede caer en un intervalo corto y con qué probabilidad. Esa información la resumen las curvas de intensidad, duración y frecuencia, o **curvas IDF**.
 
-El análisis Intensidad-Duración-Frecuencia (IDF) permite cuantificar, de forma probabilística, la relación entre la magnitud de la precipitación, el tiempo durante el cual ocurre y su frecuencia de excedencia, proporcionando una base objetiva para el diseño hidrológico.
+Una curva IDF dice, para un sitio dado, qué intensidad media de lluvia se iguala o se supera en promedio una vez cada $T$ años durante un intervalo de duración $d$. Para llegar a ellas hay que definir las tres variables, procesar los registros de pluviógrafo, analizar la frecuencia de los máximos y ajustar una ecuación. Con la curva lista, el último paso es convertirla en un hietograma de diseño. El capítulo cierra con la información IDF que existe para Costa Rica.
 
-## Definición de las variables de lluvia
+## Variables de la lluvia de diseño {#sec-idf-variables}
 
-Para comprender y aplicar correctamente el análisis de Intensidad–Duración–Frecuencia (IDF), es indispensable definir con precisión los tres parámetros fundamentales que caracterizan una tormenta de diseño. Estos parámetros describen no solo la magnitud de la precipitación, sino también su comportamiento temporal y su probabilidad de ocurrencia, constituyendo la
-base conceptual de la hidrología de diseño.
+### Intensidad
 
-1. **Intensidad de la precipitación $(i)$**
-
-La intensidad de la precipitación se define como la tasa temporal de lluvia, es decir, la profundidad de agua precipitada por unidad de tiempo. Matemáticamente, puede expresarse como
+La **intensidad** de la precipitación es la lámina de lluvia que cae por unidad de tiempo:
 
 $$
-i = \frac{h}{\Delta t},
-$$
+i = \frac{h}{\Delta t}
+$$ {#eq-idf-intensidad}
 
-donde $h$ es la lámina de precipitación acumulada y $\Delta t$ es la duración del intervalo considerado. Sus unidades habituales son milímetros por hora $(\text{mm/h})$ o pulgadas por hora.
+donde $i$ es la intensidad (mm/h), $h$ es la lámina de precipitación acumulada en el intervalo (mm) y $\Delta t$ es la duración del intervalo (h).
 
-En hidrología aplicada, el interés no radica en la intensidad promedio de toda la tormenta, sino en la intensidad máxima asociada a un intervalo crítico de duración específica.
-Esta intensidad máxima controla directamente procesos como la escorrentía superficial, la capacidad hidráulica de drenajes urbanos y el dimensionamiento de obras de control de avenidas. A medida que la duración considerada disminuye, la intensidad máxima tiende a incrementarse, reflejando la naturaleza altamente concentrada de los eventos convectivos
-intensos.
+En diseño no interesa la intensidad media de toda la tormenta, sino la máxima que se registra dentro de un intervalo de cierta duración. Esa intensidad máxima es la que controla la escorrentía y la capacidad que necesita un drenaje. Cuanto más corto es el intervalo, mayor es la intensidad máxima, porque los núcleos más intensos de una tormenta convectiva duran pocos minutos.
 
-2. **Duración de la precipitación $(d)$**
+### Duración
 
-La duración corresponde al intervalo de tiempo durante el cual se acumula la precipitación. Puede definirse como el tiempo total de una tormenta o, más comúnmente en análisis IDF, como una ventana temporal fija sobre la cual se evalúa la lluvia máxima acumulada. Los valores típicos de duración abarcan desde pocos minutos hasta varias horas, dependiendo del tipo de cuenca y del diseño de ingeniería para el cual es considerado.
-
-Desde el punto de vista hidrológico, la duración está estrechamente relacionada con el tiempo de respuesta de la cuenca. Duraciones cortas suelen ser críticas en cuencas pequeñas y sistemas urbanos, mientras que duraciones largas resultan más relevantes en cuencas extensas. La selección adecuada de $\Delta t$ garantiza que la intensidad estimada sea físicamente consistente con el proceso de generación de escorrentía.
-
-3. **Frecuencia y periodo de retorno $(T)$**
-
-La frecuencia de ocurrencia de un evento de lluvia se expresa usualmente mediante el periodo de retorno $T$, definido como el tiempo promedio, en años, entre ocurrencias sucesivas de eventos cuya magnitud es igualada o superada. Desde un enfoque probabilístico, el periodo de retorno se relaciona con la probabilidad anual de excedencia $p$ mediante
+La **duración** $d$ es la longitud del intervalo sobre el que se calcula la lluvia acumulada. En un análisis IDF no es la duración total de la tormenta, sino una ventana fija que se desplaza a lo largo del registro. Se usan duraciones normalizadas para poder comparar estaciones y estudios. Un conjunto típico es
 
 $$
-p = \frac{1}{T}.
+d \in \{5,\ 10,\ 15,\ 30,\ 60,\ 120,\ 360,\ 720,\ 1440\}\ \text{min}.
 $$
 
-Así, una tormenta con $T = 50$ años posee una probabilidad anual de excedencia de $p = 1/50 = 0.02$, lo que implica un $2\%$ de probabilidad de ser igualada o superada en cualquier año dado. Es fundamental enfatizar que el periodo de retorno no implica que el evento ocurra regularmente cada $T$ años, sino que describe un comportamiento promedio
-en el largo plazo.
+La duración que importa en un diseño depende del tiempo de respuesta de la cuenca. En cuencas pequeñas y en sistemas urbanos son críticas las duraciones de minutos. En cuencas grandes pesan más las de varias horas.
 
-## Integración de las variables en el análisis IDF
+Una misma tormenta puede tener intensidades muy altas en intervalos de 5 o 10 minutos y una intensidad media mucho menor si se promedia sobre 3 horas. En las duraciones cortas domina el núcleo convectivo. En las largas entran también los periodos de lluvia estratiforme o intermitente, que bajan el promedio.
 
-Las curvas IDF sintetizan la relación funcional entre intensidad $(i)$, duración $(d)$ y frecuencia $(T)$, permitiendo estimar intensidades de diseño coherentes para distintos escenarios hidrológicos. Conceptualmente, estas curvas reflejan que:
+### Frecuencia y periodo de retorno
 
-- Para un periodo de retorno fijo, la intensidad disminuye al aumentar la duración.
-- Para una duración fija, la intensidad aumenta al incrementarse el periodo de retorno.
-- La relación entre las tres variables es no lineal y depende de las características
-  climáticas regionales.
+La **frecuencia** se expresa con el **periodo de retorno** $T$, que es el tiempo medio, en años, entre dos eventos que igualan o superan una magnitud dada. Se relaciona con la probabilidad anual de excedencia $p$ mediante
 
-Comprender en profundidad estas definiciones permite al ingeniero interpretar correctamente las curvas IDF, seleccionar valores de diseño realistas y evaluar con criterio técnico los riesgos hidrológicos asociados a eventos extremos de precipitación.
+$$
+p = \frac{1}{T}
+$$ {#eq-idf-periodo-retorno}
+
+Una tormenta con $T = 50$ años tiene una probabilidad de $1/50 = 0.02$, es decir de 2 %, de ser igualada o superada en un año cualquiera.
+
+::: {.callout-warning title="Cuidado"}
+El periodo de retorno no es un periodo. Un evento de 50 años no ocurre cada 50 años: puede repetirse en años seguidos o no aparecer en un siglo. Lo único que dice $T$ es la probabilidad anual de excedencia.
+:::
+
+### Relación entre las tres variables
+
+Las curvas IDF juntan las tres variables en una sola relación, $i = f(d, T)$, con dos propiedades que se cumplen en cualquier clima:
+
+- Para un mismo periodo de retorno, la intensidad disminuye al aumentar la duración.
+- Para una misma duración, la intensidad aumenta con el periodo de retorno.
+
+La relación no es lineal. En escala logarítmica, sin embargo, las curvas de distintos periodos de retorno quedan casi rectas y paralelas, lo que facilita interpolar entre ellas. La @fig-idf_ggplot_turbo muestra una familia de curvas IDF con parámetros ilustrativos.
 
 ```{r}
 #| label: fig-idf_ggplot_turbo
-#| fig-cap: "Curvas Intensidad-Duración-Frecuencia."
-#| fig-align: center
-#| out-width: 100%
-#| class: fig-border
+#| fig-cap: "Familia de curvas IDF con parámetros ilustrativos ($k = 1800$, $m = 0.18$, $c = 10$ min, $n = 0.72$)."
+#| fig-alt: "Siete curvas decrecientes de intensidad contra duración, una por periodo de retorno entre 2 y 200 años"
 
 library(tidyverse)
-library(viridis)
 
-Dur_min <- seq(5, 120, by = 5)
-T_anios <- c(2, 5, 10, 25, 50, 100, 200)
-
+# Parámetros ilustrativos de la ecuación i = k T^m / (d + c)^n
 k <- 1800
 m <- 0.18
-b <- 10
-c <- 0.72
+c_idf <- 10   # se llama c_idf para no tapar la función c() de R
+n <- 0.72
 
 idf <- expand_grid(
-  `Duración (min)` = Dur_min,
-  `T (años)` = T_anios
+  d_min = seq(5, 120, by = 5),
+  t_ret = c(2, 5, 10, 25, 50, 100, 200)
 ) %>%
-  mutate(
-    aT = k * (`T (años)`^m),
-    `Intensidad (mm/h)` = aT / ((`Duración (min)` + b)^c),
-    `T (años)` = factor(`T (años)`, levels = T_anios)
-  )
+  mutate(i_mmh = k * t_ret^m / (d_min + c_idf)^n)
 
-ggplot(idf, aes(x = `Duración (min)`, y = `Intensidad (mm/h)`, color = `T (años)`)) +
+ggplot(idf, aes(d_min, i_mmh, color = factor(t_ret))) +
   geom_line(linewidth = 1.1) +
   scale_color_viridis_d(option = "turbo", end = 0.98) +
   scale_x_continuous(breaks = seq(0, 120, by = 15), limits = c(0, 120), expand = c(0, 0)) +
   scale_y_continuous(breaks = seq(0, 700, by = 50), limits = c(0, 700), expand = c(0, 0)) +
-  labs(
-    title = "         Curvas IDF",
-    x = "Duración (min)",
-    y = "Intensidad (mm/h)",
-    color = "T (años)"
-  ) +
-  theme(
-    plot.title.position = "plot",
-    panel.grid.minor = element_blank(),
-    legend.position = "right"
-  )
-
+  labs(x = "Duración (min)", y = "Intensidad (mm/h)", color = "T (años)") +
+  theme(panel.grid.minor = element_blank())
 ```
 
+## Procesamiento de registros pluviográficos {#sec-idf-pluviograficos}
 
-**Duración de la precipitación**
+Las curvas IDF se construyen con registros de **pluviógrafo**, que miden la lluvia acumulada en función del tiempo. El registro resultante se llama **pluviograma**. Un pluviómetro convencional solo da el total diario, que no sirve para saber cuánta lluvia cayó en 10 o 30 minutos. Por eso las curvas IDF de una estación dependen de que tenga pluviógrafo y de cuántos años de registro tenga.
 
-La duración representa el intervalo temporal continuo durante el cual se evalúa la precipitación acumulada o, de forma equivalente, la intensidad media asociada a dicho intervalo. En el contexto del análisis Intensidad–Duración–Frecuencia (IDF), la duración no se define de manera arbitraria, sino que responde a escalas hidrológicamente relevantes para el diseño y análisis de obras hidráulicas.
+Este procesamiento es el paso más delicado del análisis. Un error en la lectura del registro se arrastra a todas las intensidades de diseño que salen de él.
 
-En la práctica ingenieril, se emplean duraciones normalizadas que permiten comparar resultados entre regiones y estudios. Un conjunto típico de duraciones es:
+### Lectura de bandas pluviográficas
 
-$$
-d \in \{5, 10, 15, 30, 60, 120, 360, 720, 1440\}\ \text{min},
-$$
+Los pluviógrafos mecánicos registraban la lluvia acumulada como una curva sobre una banda de papel. Quien analizaba la banda buscaba los tramos de mayor pendiente, que corresponden a las mayores intensidades. Hoy esas bandas suelen estar digitalizadas, y las estaciones automáticas entregan directamente la serie de lluvia cada 1, 5 o 10 minutos. En cualquier caso, el punto de partida es una función de precipitación acumulada $P(t)$ con un paso de tiempo corto.
 
-las cuales cubren desde tormentas muy cortas (asociadas a drenaje urbano y escorrentía rápida) hasta eventos de larga duración (relevantes para cuencas grandes y análisis de almacenamiento).
+::: {.callout-note title="Ejemplo: hietograma y curva intensidad-duración a partir de una banda de pluviógrafo"}
 
-Desde un punto de vista físico, la duración controla el volumen total de lluvia y la forma del hietograma. Una misma tormenta puede presentar intensidades muy altas en intervalos cortos, pero intensidades medias significativamente menores cuando se promedia sobre intervalos más largos.
+<!-- CITA PENDIENTE: el ejemplo se tomó de material de la Universidad de Salamanca (2025). Falta la entrada en references.bib. -->
 
-**Efecto de la duración sobre la intensidad**
+**Planteamiento.** A partir de la banda de pluviógrafo de la @fig-idf1, estime el hietograma con intervalos de 1 h y la curva intensidad-duración del evento.
 
-Existe una relación inversa y sistemática entre la duración $\Delta t$ y la intensidad promedio $i$. Matemáticamente, esta relación se expresa de forma general como una función decreciente:
+**Pseudocódigo**
 
-$$
-i = f(\Delta t), \qquad \frac{\partial i}{\partial \Delta t} < 0.
-$$
-
-Esto implica que, a medida que la duración aumenta, la intensidad promedio disminuye. Este comportamiento refleja la estructura temporal interna de las tormentas:
-
-- En duraciones cortas, la intensidad está dominada por núcleos convectivos intensos y altamente concentrados en el tiempo.
-- En duraciones largas, la intensidad promedio incorpora periodos de lluvia típicamente estratigráfica o intermitente, reduciendo el valor medio.
-
-Desde el punto de vista hidrológico, esta propiedad es fundamental, ya que los procesos de generación de escorrentía, inundación urbana y erosión responden de forma distinta según la escala temporal de la lluvia considerada.
-
-**Frecuencia y periodo de retorno**
-
-La frecuencia describe cuán a menudo se espera que ocurra un evento de precipitación de determinada magnitud. En hidrología se expresa usualmente mediante el periodo de retorno $T$, definido como el inverso de la probabilidad anual de excedencia $p$:
-
-$$
-T = \frac{1}{p}.
-$$
-
-Equivalentemente, la probabilidad anual de que un evento con periodo de retorno $T$ sea igualado o superado en un año cualquiera es:
-
-$$
-p = \frac{1}{T}.
-$$
-
-Es importante enfatizar, como se ha mencionado en anteriores ocasiones, que el periodo de retorno no implica periodicidad determinista. Un evento con $T=50$ años no ocurre necesariamente cada 50 años, sino que tiene una probabilidad anual de excedencia del $2\%$. En años consecutivos pueden ocurrir eventos extremos de igual o mayor magnitud, o bien puede transcurrir un largo periodo sin que se observe ninguno.
-
-**Interacción duración–frecuencia**
-
-Para una duración fija $\Delta t$, intensidades mayores están asociadas a periodos de retorno más grandes. De forma análoga, para un mismo periodo de retorno $T$, las intensidades disminuyen al aumentar la duración. Esta doble dependencia se resume conceptualmente como:
-
-$$
-i = f(\Delta t, T),
-$$
-
-donde $i$ aumenta con $T$ y disminuye con $\Delta t$. Esta relación constituye la base conceptual de las curvas IDF y permite al hidrólogo traducir información estadística de precipitaciones extremas en criterios cuantitativos de diseño.
-
-**Forma general de las curvas IDF**
-
-Tal y como se observó en la @fig-idf_ggplot_turbo, las curvas IDF presentan características estructurales que se repiten de forma consistente en distintas regiones climáticas:
-
-- Intensidades decrecientes con la duración, lo que se traduce gráficamente en curvas descendentes cuando $i$ se representa frente a $d$.
-- Intensidades crecientes con el periodo de retorno, de modo que, para una misma duración, las curvas asociadas a mayores valores de $T$ se sitúan sistemáticamente por encima de las correspondientes a valores menores.
-- Comportamiento suavemente no lineal, que se aproxima a relaciones lineales cuando se utilizan escalas logarítmicas para la duración y, en muchos casos, para la intensidad.
-
-Estas propiedades permiten representar las curvas IDF mediante familias de curvas aproximadamente paralelas en diagramas semilogarítmicos o log–log, facilitando la interpolación y extrapolación controlada de valores.
-
-## Procesamiento de Datos Pluviográficos
-
-Para dominar la construcción de curvas Intensidad–Duración–Frecuencia (IDF), el hidrólogo debe transformar registros pluviográficos brutos en información estadística estructurada y físicamente coherente. Este proceso constituye uno de los pasos más delicados del análisis hidrológico, pues de su correcta ejecución depende directamente la confiabilidad de las intensidades de diseño utilizadas en obras de drenaje, control de inundaciones y planeamiento urbano.
-
-Los pluviógrafos proporcionan un registro continuo de la precipitación acumulada en función del tiempo, conocido como pluviograma. Este tipo de registro permite observar no solo la cantidad total de lluvia, sino también la evolución temporal del evento, la identificación de pulsos intensos y la variabilidad intra–tormenta. A diferencia de los pluviómetros convencionales, que solo entregan acumulados diarios, los pluviógrafos constituyen la fuente indispensable para el análisis de intensidades extremas.
-
-**Lectura y digitalización de bandas pluviográficas**
-
-Históricamente, los registros pluviográficos se obtenían en forma de bandas de papel donde la precipitación acumulada se representaba como una curva continua. La primera tarea del analista consistía en interpretar gráficamente estas bandas, identificando cambios de pendiente asociados a variaciones de intensidad. En la actualidad, estos registros suelen encontrarse digitalizados o pueden ser convertidos mediante escáneres y software de digitalización, lo que permite trabajar directamente con series temporales discretas de precipitación acumulada o incremental.
-
-Independientemente del formato, el principio fundamental es el mismo: se dispone de una función acumulada de precipitación $P(t)$, definida en intervalos de tiempo suficientemente pequeños (por ejemplo, 1, 5 o 10 minutos), que representa la materia prima para el análisis posterior.
-
-A continuación, se muestra un ejemplo de lectura de bandas pluviográficas para estimación de hietogramas e intensidades de precipitación.
-
-
-::: {.callout-note title="Ejemplo. (Tomando de [Universidad de Salamanca, 2025])"}
-A partir de la siguiente banda de pluviógrafo, estime el hietograma con intervalos de $\Delta t=1\ hr$ y dibujar la curva de intensidad-duración del evento registrado.
-
-- Paso 1. Lectura de acumulados en intervalos de 1 hora.
+1. Leer en la banda la lluvia acumulada al final de cada hora.
+2. Corregir los vaciados del sifón: después de cada descarga, sumar 10 mm a las lecturas.
+3. Restar lecturas consecutivas para obtener la lluvia de cada hora.
+4. Para cada duración, buscar en la banda el tramo con mayor lluvia acumulada.
+5. Dividir esa lluvia entre la duración en horas para obtener la intensidad.
 
 ```{r}
 #| label: fig-idf1
-#| fig-cap: "Lectura de volúmenes acumulados en cada periodo de 1 hora."
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Lectura de la lluvia acumulada al final de cada hora en la banda de pluviógrafo."
+#| fig-alt: "Banda de pluviógrafo con la curva de lluvia acumulada entre las 11 y las 19 horas"
 #| echo: false
-#| class: fig-border
 
 knitr::include_graphics("assets/img/idf1.png")
-
 ```
 
-Ejemplo de lectura de la banda:
+La lluvia de cada hora es la diferencia entre dos lecturas. Por ejemplo, entre las 14 h y las 15 h:
 
 $$
-P_{\{15\ h \ - 14 \ h\} }= 5.8 \text{ mm} - 4.3 \text{ mm} = 1.5 \text{ mm}
+P_{14\text{–}15} = 5.8\ \text{mm} - 4.3\ \text{mm} = 1.5\ \text{mm}
 $$
 
-Este mismo procedimiento se realiza para toda la duración de la tormenta registrada.
+Entre las 17 h y las 18 h el sifón vació el depósito al llegar a 10 mm. La lectura de las 18 h (0.6 mm) se corrige sumando esos 10 mm:
 
 $$
-P_{\{12\ h \ - 11 \ h\} }= 3.8 \text{ mm} - 1.4 \text{ mm} = 2.4 \text{ mm}
-$$
-
-$$
-P_{\{13\ h \ - 12 \ h\} }= 4.2 \text{ mm} - 3.8 \text{ mm} = 0.4 \text{ mm}
-$$
-
-$$
-P_{\{14\ h \ - 13 \ h\} }= 4.3\text{ mm} - 4.2 \text{ mm} = 0.1 \text{ mm}
-$$
-
-$$
-P_{\{15\ h \ - 14 \ h\} }= 5.8 \text{ mm} - 4.3 \text{ mm} = 1.5 \text{ mm}
-$$
-
-$$
-P_{\{16\ h \ - 15 \ h\} }= 7.2 \text{ mm} - 5.8 \text{ mm} = 1.4 \text{ mm}
-$$
-
-
-$$
-P_{\{17\ h \ - 16 \ h\} }= 9.5 \text{ mm} - 7.2 \text{ mm} = 2.3 \text{ mm}
-$$
-
-$$
-P_{\{18\ h \ - 17 \ h\} }= 0.6_{\text{(sifón)}} \text{ mm} - 9.5 \text{ mm} =  10.6 \text{ mm} - 9.5 \text{ mm} = 1.1 \text{ mm}
-$$
-
-$$
-P_{\{19\ h \ - 18 \ h\} }= 1.8 \text{ mm} - 0.6 \text{ mm} = 1.2 \text{ mm}
+P_{17\text{–}18} = (10 + 0.6)\ \text{mm} - 9.5\ \text{mm} = 1.1\ \text{mm}
 $$
 
 ```{r}
-#| label: tbl-valores_hieto_banda
-#| tbl-cap: "Pulsos de precipitación por hora."
-#| message: false
-#| warning: false
-
-library(tidyverse)
-library(kableExtra)
-
-# ------------------------------------------------------------
-# Tabla resumen del evento de precipitación (banda pluviográfica)
-# ------------------------------------------------------------
-tabla_evento <- tibble(
-  `Intervalo horario` = c(
-    "11–12", "12–13", "13–14", "14–15",
-    "15–16", "16–17", "17–18", "18–19"
-  ),
-  `Precipitación incremental (mm)` = c(
-    2.4, 0.4, 0.1, 1.5,
-    1.4, 2.3, 1.1, 1.2
-  )
-) %>%
-  mutate(
-    `Precipitación incremental (mm)` =
-      round(`Precipitación incremental (mm)`, 2)
-  )
-
-# ------------------------------------------------------------
-# Presentación con kableExtra
-# ------------------------------------------------------------
-tabla_evento %>%
-  kbl(
-    booktabs = TRUE,
-    format = "html",
-    align = c("c", "c"),
-    col.names = c(
-      "Intervalo horario",
-      "Precipitación incremental (mm)"
-    ),
-    escape = FALSE) %>%
-  kable_classic(html_font = "Latin Modern Roman") %>%
-  kable_styling(
-    full_width = FALSE,
-    bootstrap_options = c("hover", "condensed", "striped")
-  ) %>%
-  row_spec(0, bold = TRUE)
-
-```
-
-
-```{r message=FALSE, warning=FALSE, error=FALSE}
 #| label: fig-plot_idfbanda
-#| fig-cap: "Hietograma asociado a la tormenta registrada."
-#| class: fig-border
+#| fig-cap: "Hietograma horario de la tormenta registrada en la banda."
+#| fig-alt: "Gráfico de barras con la lluvia de cada hora entre las 11 y las 19 horas"
+#| code-fold: false
 
 library(tidyverse)
 
-# ------------------------------------------------------------
-# Datos del pluviograma (precipitación incremental por hora)
-# ------------------------------------------------------------
-hietograma <- tibble(
-  Hora = c(
-    "11–12", "12–13", "13–14", "14–15",
-    "15–16", "16–17", "17–18", "18–19"
-  ),
-  `Precipitación (mm)` = c(
-    2.4, 0.4, 0.1, 1.5,
-    1.4, 2.3, 1.1, 1.2
-  )
-) %>%
-  mutate(
-    Hora = factor(Hora, levels = Hora)
-  )
+# 1) Lecturas de lluvia acumulada en la banda (mm), al final de cada hora
+lecturas <- tibble(
+  hora    = 11:19,
+  lectura = c(1.4, 3.8, 4.2, 4.3, 5.8, 7.2, 9.5, 0.6, 1.8)
+)
 
-# ------------------------------------------------------------
-# Gráfico de hietograma
-# ------------------------------------------------------------
-ggplot(hietograma, aes(x = Hora, y = `Precipitación (mm)`)) +
-  geom_col(
-    fill = "#1f78b4",
-    width = 0.75
-  ) +
-  scale_y_continuous(
-    breaks = seq(0, 2.5, by = 0.5),
-    minor_breaks = seq(0, 2.5, by = 0.1),
-    expand = c(0, 0.1)
-  ) +
-  labs(
-    title = "Hietograma horario a partir de banda pluviográfica",
-    x = "Intervalo horario",
-    y = "Precipitación (mm)"
-  ) +
-  theme(
-    plot.title.position = "plot",
-    panel.grid.major.y = element_line(color = "grey70", linewidth = 0.4),
-    panel.grid.minor.y = element_line(color = "grey85", linewidth = 0.25),
-    panel.grid.minor.x = element_blank()
-  )
+# 2) Corrección por vaciado del sifón (capacidad de 10 mm) a partir de las 18 h
+lecturas <- lecturas %>%
+  mutate(acumulada = if_else(hora >= 18, lectura + 10, lectura))
+
+# 3) Lluvia de cada hora (diferencia entre lecturas consecutivas)
+hietograma <- lecturas %>%
+  mutate(
+    intervalo = paste0(lag(hora), "–", hora),
+    p_mm = acumulada - lag(acumulada)
+  ) %>%
+  filter(!is.na(p_mm))
+
+hietograma
+
+ggplot(hietograma, aes(factor(intervalo, levels = intervalo), p_mm)) +
+  geom_col(fill = "#1C6BA0", width = 0.75) +
+  scale_y_continuous(breaks = seq(0, 2.5, by = 0.5), expand = c(0, 0.1)) +
+  labs(x = "Intervalo horario (h)", y = "Precipitación (mm)") +
+  theme(panel.grid.minor.x = element_blank())
 ```
 
-Después se discretiza la banda en intervalos de $\Delta t=\{10,20,30,60,120,180 \}$ min para dentro de cada intervalo definido determinar el tramo de mayor pendiente, es decir, la mayor concentración de volumen para cumplir con la definición de intensidad:
-
-$$
-i = \frac{h}{\Delta t},
-$$
+Para la curva intensidad-duración se divide la banda en ventanas de 10, 20, 30, 60, 120 y 180 min. En cada caso se busca el tramo de mayor pendiente, que es el de mayor lluvia en esa duración (@fig-idf2).
 
 ```{r}
 #| label: fig-idf2
-#| fig-cap: "Lectura de intensidades de precipitación para cada intervalo de duración definido."
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Lectura de la lluvia máxima en la banda para cada duración."
+#| fig-alt: "Banda de pluviógrafo con los tramos de mayor pendiente marcados para cada duración"
 #| echo: false
-#| class: fig-border
 
 knitr::include_graphics("assets/img/idf2.png")
-
 ```
+
+La intensidad sale de la @eq-idf-intensidad con la duración en horas. Para 10 min:
+
+$$
+i = \frac{1.2\ \text{mm}}{(10/60)\ \text{h}} = 7.2\ \text{mm/h}
+$$
+
+y para 120 min:
+
+$$
+i = \frac{3.6\ \text{mm}}{2\ \text{h}} = 1.8\ \text{mm/h}
+$$
 
 ```{r}
-#| label: tbl-valores_intensidad
-#| tbl-cap: "Volúmenes de máxima precipitación para cada intervalo de duración definido."
-#| message: false
-#| warning: false
+#| label: fig-plot_idfbanda2
+#| fig-cap: "Curva intensidad-duración de la tormenta registrada en la banda."
+#| fig-alt: "Curva decreciente de intensidad contra duración, de 7.2 mm/h a 10 min hasta 1.7 mm/h a 180 min"
+#| code-fold: false
 
-library(tidyverse)
-library(kableExtra)
+# 4) Lluvia máxima leída en la banda para cada duración (mm)
+id_evento <- tibble(
+  d_min = c(10, 20, 30, 60, 120, 180),
+  p_max = c(1.2, 1.9, 2.2, 2.8, 3.6, 5.2)
+) %>%
+  # 5) Intensidad con la duración en horas
+  mutate(i_mmh = p_max / (d_min / 60))
 
-tabla_intervalos <- tibble(
-  `Duración (min)` = c(
-    "10",
-    "20",
-    "30",
-    "60",
-    "120",
-    "180"
-  ),
-  `Duración (h)` = c(
-    "0.16667",
-    "0.33333",
-    "0.5",
-    "1",
-    "2",
-    "3"
-  ),
-  `P (mm)` = c(
-    1.2,
-    1.9,
-    2.2,
-    2.8,
-    3.6,
-    5.2
-  )
-)
+id_evento
 
-tabla_intervalos %>%
-  kbl(
-    booktabs = TRUE,
-    format = "html",
-    align = c("c", "c", "c"),
-    col.names = c("Duración (min)","Duración (h)" ,"P (mm)"),
-    escape = FALSE
-  ) %>%
-  kable_classic(
-    html_font = "Latin Modern Roman"
-  ) %>%
-  kable_styling(
-    full_width = FALSE,
-    bootstrap_options = c("hover", "condensed", "striped")
-  ) %>%
-  row_spec(0, bold = TRUE)
-
+ggplot(id_evento, aes(d_min, i_mmh)) +
+  geom_line(linewidth = 1.1, color = "#1C6BA0") +
+  geom_point(size = 3, shape = 18, color = "#0B2C8A") +
+  scale_x_continuous(breaks = id_evento$d_min, limits = c(0, 180), expand = c(0, 2)) +
+  scale_y_continuous(breaks = 0:8, limits = c(0, 8), expand = c(0, 0)) +
+  labs(x = "Duración (min)", y = "Intensidad (mm/h)") +
+  theme(panel.grid.minor = element_blank())
 ```
-
-una vez definidos lo máximos volúmenes de precipitación para cada intervalo de duración $\Delta t$ definido, se procede a estimar para cada duración, la intensidad en mm/h. 
-
-**Ejemplo de estimación de intensidad para $\Delta t= 10 \text{ min}$.**
-
-$$
-i = \frac{h}{\Delta t} = \frac{1.2 \text{ mm}}{0.17 \text{ h}} = 7.2 \text{ mm/h}
-$$
-
-**Ejemplo de estimación de intensidad para $\Delta t= 120 \text{ min}$.**
-
-$$
-i = \frac{h}{\Delta t} = \frac{3.6 \text{ mm}}{2 \text{ h}} = 1.8 \text{ mm/h}
-$$
-
-
-Por lo que al final se obtiene para cada duración, una intensidad definida.
 
 ```{r}
 #| label: tbl-valores_intensidad2
-#| tbl-cap: "Máximas intensidades de precipitación para cada intervalo de duración definido."
-#| message: false
-#| warning: false
+#| tbl-cap: "Lluvia máxima e intensidad máxima de la tormenta para cada duración."
+#| echo: false
 
-library(tidyverse)
 library(kableExtra)
 
-tabla_intervalos <- tibble(
-  `Duración (min)` = c(
-    "10",
-    "20",
-    "30",
-    "60",
-    "120",
-    "180"
-  ),
-  `Duración (h)` = c(
-    "0.16667",
-    "0.33333",
-    "0.5",
-    "1",
-    "2",
-    "3"
-  ),
-  `P (mm)` = c(
-    1.2,
-    1.9,
-    2.2,
-    2.8,
-    3.6,
-    5.2
-  ),
-  `I (mm/h)`=c(
-    7.2,
-    5.7,
-    4.4,
-    2.8,
-    1.8,
-    1.7
-  )
-)
-
-tabla_intervalos %>%
+id_evento %>%
+  mutate(d_h = d_min / 60) %>%
+  select(d_min, d_h, p_max, i_mmh) %>%
   kbl(
-    booktabs = TRUE,
     format = "html",
-    align = c("c", "c", "c", "c"),
-    col.names = c("Duración (min)","Duración (h)" ,"P (mm)", "I (mm/h)"),
-    escape = FALSE
+    digits = c(0, 3, 1, 1),
+    align = "c",
+    col.names = c("Duración (min)", "Duración (h)", "P (mm)", "i (mm/h)")
   ) %>%
-  kable_classic(
-    html_font = "Latin Modern Roman"
-  ) %>%
-  kable_styling(
-    full_width = FALSE,
-    bootstrap_options = c("hover", "condensed", "striped")
-  ) %>%
+  kable_styling(full_width = FALSE, bootstrap_options = c("hover", "condensed", "striped")) %>%
   row_spec(0, bold = TRUE)
-
 ```
 
-A partir de la información anterior, se procede a generar la curva IDF asociada al evento de precipitación registrado en la banda pluviográfica.
-
-```{r message=FALSE, warning=FALSE, error=FALSE}
-#| label: fig-plot_idfbanda2
-#| fig-cap: "Curva IDF asociada a la tormenta registrada."
-#| class: fig-border
-
-library(tidyverse)
-
-library(tidyverse)
-
-tabla_intervalos <- tibble(
-  `Duración (min)` = c("10","20","30","60","120","180"),
-  `Duración (h)` = c("0.16667","0.33333","0.5","1","2","3"),
-  `P (mm)` = c(1.2, 1.9, 2.2, 2.8, 3.6, 5.2),
-  `I (mm/h)` = c(7.2, 5.7, 4.4, 2.8, 1.8, 1.7)
-) %>%
-  mutate(
-    `Duración (min)` = as.numeric(`Duración (min)`),
-    `Duración (h)` = as.numeric(`Duración (h)`),
-    `P (mm)` = as.numeric(`P (mm)`),
-    `I (mm/h)` = as.numeric(`I (mm/h)`)
-  )
-
-idf_evento <- tabla_intervalos %>%
-  arrange(`Duración (min)`)
-
-d_grid <- seq(
-  min(idf_evento$`Duración (min)`),
-  max(idf_evento$`Duración (min)`),
-  length.out = 400
-)
-
-idf_suave <- tibble(`Duración (min)` = d_grid) %>%
-  mutate(
-    `I (mm/h)` = approx(
-      x = idf_evento$`Duración (min)`,
-      y = idf_evento$`I (mm/h)`,
-      xout = `Duración (min)`,
-      method = "linear",
-      rule = 2
-    )$y
-  )
-
-ggplot() +
-  geom_line(
-    data = idf_suave,
-    aes(x = `Duración (min)`, y = `I (mm/h)`),
-    linewidth = 1.1,
-    color = "#009ACD"
-  ) +
-  geom_point(
-    data = idf_evento,
-    aes(x = `Duración (min)`, y = `I (mm/h)`),
-    size = 3.2,
-    shape = 18,
-    color = "#0B2C8A"
-  ) +
-  scale_x_continuous(
-    breaks = c(10, 20, 30, 60, 120, 180),
-    limits = c(0, 180),
-    expand = c(0, 2)
-  ) +
-  scale_y_continuous(
-    breaks = seq(0, 8, by = 1),
-    limits = c(0, 8),
-    expand = c(0, 0)
-  ) +
-  labs(
-    title = "Curva Intensidad–Duración (evento)",
-    x = "Duración (min)",
-    y = "I (mm/h)"
-  ) +
-  theme(
-    plot.title.position = "plot",
-    panel.grid.minor = element_blank()
-  )
-
-```
+**Interpretación.** La intensidad cae de 7.2 mm/h en 10 min a 1.7 mm/h en 3 h. Esta tormenta fue larga y poco intensa: en tres horas acumuló 5.2 mm. La curva describe un solo evento. Una curva IDF se obtiene con los máximos de muchos años, como se explica en la siguiente sección.
 
 :::
 
+### Extracción de máximos con ventanas móviles
 
-**Extracción de máximos mediante ventanas móviles**
-
-El paso central del procesamiento pluviográfico es la extracción sistemática de máximos de precipitación para duraciones predefinidas. Este procedimiento se basa en el concepto de ventana móvil. Para una duración $d$, se desplaza un intervalo temporal de longitud $d$ a lo largo de todo el registro de una tormenta, calculando en cada posición la precipitación acumulada dentro de dicha ventana. 
+El paso central del procesamiento es extraer, para cada duración, la lluvia máxima de cada tormenta. Para eso se usa una **ventana móvil**: un intervalo de longitud $d$ que se desplaza a lo largo del registro y en cada posición acumula la lluvia que cae dentro de él (@fig-rollingwindow).
 
 ```{r}
 #| label: fig-rollingwindow
-#| fig-cap: "Planteamiento algebráico de la ventana móvil."
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Planteamiento algebraico de la ventana móvil."
+#| fig-alt: "Curva de lluvia acumulada con una ventana de duración d que se desplaza sobre el eje del tiempo"
 #| echo: false
-#| class: fig-border
 
 knitr::include_graphics("assets/img/rolling_window2.png")
-
 ```
 
-Matemáticamente, si $P(t)$ representa la precipitación acumulada, la altura asociada a la ventana que inicia en $t$ es:
+Si $P(t)$ es la precipitación acumulada, la lámina dentro de la ventana que empieza en $t$ es
 
 $$
-h_d(t) = P(t+d) - P(t).
+h_d(t) = P(t+d) - P(t)
+$$ {#eq-idf-ventana}
+
+El máximo de $h_d(t)$ en toda la tormenta es la lámina máxima para la duración $d$. El cálculo se repite para cada duración estándar, por lo común
+
+$$
+d \in \{5,\ 10,\ 15,\ 30,\ 45,\ 60,\ 90,\ 120,\ 180,\ 360,\ 720,\ 1440\}\ \text{min}.
 $$
 
-El máximo de $h_d(t)$ sobre toda la tormenta define la mayor altura de lluvia asociada a la duración $d$ para ese evento. Este procedimiento se repite para todas las duraciones estándar de interés, típicamente:
+De cada año se toma el máximo de $h_d(t)$ para cada duración. Así se arma una **serie de máximos anuales** (AMS, por sus siglas en inglés) por duración, que es la base del análisis IDF clásico. La @fig-plot_idfbanda3 muestra la ventana de máxima lluvia para 10 y 45 min en una tormenta sintética registrada cada 5 min.
 
-$$
-d \in \{5, 10, 15, 30, 45, 60, 90, 120, 180, 360, 720, 1440\}\ \text{min}.
-$$
-
-Para cada año hidrológico, se selecciona el valor máximo absoluto de $h_d(t)$ correspondiente a cada duración. De esta forma se construyen las Series de Máximos Anuales (AMS) para cada duración, las cuales constituyen la base clásica del análisis IDF. 
-
-
-```{r message=FALSE, warning=FALSE, error=FALSE}
+```{r}
 #| label: fig-plot_idfbanda3
-#| fig-cap: "Ventana móvil para diferentes duraciones."
-#| class: fig-border
+#| fig-cap: "Posición de la ventana de máxima lluvia para duraciones de 10 y 45 min en una tormenta sintética."
+#| fig-alt: "Dos paneles con la curva de lluvia acumulada y una franja sombreada donde la ventana acumula más lluvia"
+
 library(tidyverse)
 
-set.seed(123)
-
-tiempo_min <- seq(0, 180, by = 5)
-
-precip_incremental <- c(
-  0, 0, 0.2, 0.4, 0.8, 1.5, 1.2, 0.6, 0.3,
-  0.1, 0, 0, 0.4, 0.9, 1.3, 0.8, 0.4,
-  0.2, 0, 0, 0.1, 0.2, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-)
-
-precip_acum <- cumsum(precip_incremental)
-
+# Tormenta sintética registrada cada 5 min (lluvia de cada intervalo, mm)
 pluvio <- tibble(
-  t = tiempo_min,
-  P = precip_acum
-)
-
-duraciones <- c(10, 45)
-
-colores <- tibble(
-  dur_label = paste0("d = ", duraciones, " min"),
-  col = c("#33a02c", "#6a3d9a")
-)
-
-ventanas <- purrr::map_dfr(duraciones, function(d){
-  k <- as.integer(d / 5)
-
-  tmp <- pluvio %>%
-    mutate(
-      d = d,
-      dur_label = paste0("d = ", d, " min"),
-      P_t_d = dplyr::lead(P, n = .env$k),
-      h_d = P_t_d - P
-    )
-
-  t_max <- tmp$t[which.max(tmp$h_d)]
-  h_max <- max(tmp$h_d, na.rm = TRUE)
-
-  tmp %>%
-    mutate(
-      t_max = t_max,
-      h_max = h_max
-    )
-}) %>%
-  left_join(colores, by = "dur_label")
-
-rect_data <- ventanas %>%
-  distinct(d, dur_label, t_max, col) %>%
-  mutate(
-    xmin = t_max,
-    xmax = t_max + d
-  )
-
-seg_data <- ventanas %>%
-  distinct(d, dur_label, t_max, col) %>%
-  mutate(
-    x = t_max,
-    xend = t_max + d,
-    y = pluvio$P[match(t_max, pluvio$t)],
-    yend = pluvio$P[match(t_max + d, pluvio$t)]
-  )
-
-label_data <- ventanas %>%
-  distinct(d, dur_label, col) %>%
-  mutate(
-    x = 5,
-    y1 = max(pluvio$P) * 0.92,
-    y2 = max(pluvio$P) * 0.84,
-    txt1 = paste0("Ventana móvil (", dur_label, ")"),
-    txt2 = "h[d](t) = P(t + d) - P(t)"
-  )
-
-ggplot(ventanas, aes(x = t, y = P)) +
-  geom_line(linewidth = 1.1, color = "#1f78b4") +
-  geom_rect(
-    data = rect_data,
-    aes(xmin = xmin, xmax = xmax, ymin = -Inf, ymax = Inf, fill = dur_label),
-    alpha = 0.14,
-    inherit.aes = FALSE
-  ) +
-  geom_segment(
-    data = seg_data,
-    aes(x = x, xend = xend, y = y, yend = yend, color = dur_label),
-    linewidth = 1.2,
-    inherit.aes = FALSE
-  ) +
-  geom_text(
-    data = label_data,
-    aes(x = 90, y = 5, label = txt1, color = dur_label),
-    hjust = 0,
-    size = 4,
-    inherit.aes = FALSE
-  ) +
-  facet_wrap(~ dur_label, ncol = 1) +
-  scale_x_continuous(
-    breaks = seq(0, 180, by = 30),
-    expand = c(0, 0)
-  ) +
-  scale_fill_manual(
-    values = setNames(colores$col, colores$dur_label),
-    guide = "none"
-  ) +
-  scale_color_manual(
-    values = setNames(colores$col, colores$dur_label),
-    guide = "none"
-  ) +
-  labs(
-    x = "Tiempo (min)",
-    y = "Precipitación acumulada (mm)"
-  ) +
-  theme(
-    plot.title.position = "plot",
-    panel.grid.minor = element_blank(),
-    strip.text = element_text(face = "bold")
-  )
-
-```
-
- 
-**Control de calidad y consistencia hidrológica**
-
-Antes de proceder al análisis estadístico, es imprescindible realizar controles de calidad sobre las series extraídas. Estos incluyen la verificación de valores atípicos, la consistencia temporal de los registros, la detección de errores instrumentales y la coherencia física entre duraciones. 
-
-Con las series de intensidades máximas preparadas, se realiza el análisis de frecuencia con el objetivo de relacionar la magnitud de la intensidad con su probabilidad de ocurrencia o su periodo de retorno $T$. Existen dos enfoques principales para la selección de datos extremos:
-
-Series de Máximos Anuales (AMS), donde se utiliza un solo valor extremo por año, adecuadas para periodos de retorno moderados y grandes.
-
-Series de Duraciones Parciales (PDS o POT), donde se consideran todos los eventos que superan un umbral predefinido, permitiendo capturar múltiples tormentas severas en un mismo año.
-
-Para asignar probabilidades empíricas, los datos se ordenan de mayor a menor y se utiliza una posición de graficación. La fórmula de Weibull es ampliamente aceptada y se expresa como:
-
-$$
-P = \frac{m}{n+1},
-\qquad
-T = \frac{1}{P} = \frac{n+1}{m},
-$$
-
-donde $m$ es el orden del dato y $n$ el tamaño de la muestra.
-
-**Ajuste a distribuciones teóricas**
-
-Las intensidades empíricas se ajustan posteriormente a distribuciones de probabilidad teóricas con el fin de extrapolar valores asociados a periodos de retorno mayores que la longitud del registro. Entre las distribuciones más utilizadas se encuentran la Gumbel, la Log-Pearson Tipo III y la GEV. Cada una presenta supuestos y grados de flexibilidad distintos, siendo la elección dependiente de la asimetría de los datos, la longitud del registro y los criterios normativos.
-
-Un método ampliamente utilizado para estimar cuantiles de diseño es el de los factores de frecuencia, propuesto por Ven Te Chow, expresado como:
-
-$$
-X_T = \bar{X} + K_T\,S,
-$$
-
-Al completar este proceso para cada duración, se obtiene un conjunto de intensidades de diseño $i(d,T)$ que permiten construir la familia de curvas IDF o ajustar una ecuación general que describa el comportamiento extremo de la precipitación en la región de estudio. Este encadenamiento riguroso, desde el registro pluviográfico hasta el modelo estadístico final, es lo que distingue un análisis IDF preliminar de un estudio hidrológico de nivel profesional.
-
-
-## Expresión funcional típica
-
-A partir de observaciones empíricas y fundamentos teóricos, se han propuesto múltiples expresiones analíticas para aproximar la relación IDF. Una forma genérica ampliamente utilizada es
-
-$$
-i(d,T) = \frac{a(T)}{(d + b)^{c}},
-$$
-
-Donde:
-
-- $a(T)$ es una función creciente del periodo de retorno.
-
-- $d$ es la duración del evento de precipitación.
-
-- $b$, $c$ son parámetros que controlan la curvatura y la escala temporal. Esta estructura funcional refleja explícitamente la disminución de la intensidad con la duración y permite incorporar el efecto probabilístico del periodo de retorno.
-
-Otras formulaciones expresan $a(T)$ como una función logarítmica o potencial de $T$, reforzando la interpretación estadística del fenómeno.
-
-**Significado hidrológico y estadístico**
-
-Desde el punto de vista estadístico, las curvas IDF representan cuantiles extremos de la distribución de precipitación acumulada en distintas ventanas temporales. Cada punto de una curva IDF corresponde a un cuantil asociado a una probabilidad de excedencia $p=1/T$.
-
-Desde el punto de vista hidrológico, estas curvas constituyen una herramienta de síntesis que permite integrar información de miles de eventos de lluvia en un conjunto reducido de relaciones funcionales, adecuadas para el diseño y la toma de decisiones.
-
-Un entendimiento profundo de la relación IDF implica reconocer que estas curvas no son leyes universales, sino modelos empíricos condicionados por:
-
-- La longitud y calidad del registro de datos.
-- La resolución temporal de la precipitación observada.
-- El régimen climático y los mecanismos dominantes de generación de tormentas.
-- Los métodos estadísticos utilizados para la estimación de extremos.
-
-Comprender estas limitaciones es lo que distingue a un usuario principiante de un analista experto, capaz de interpretar, aplicar y cuestionar adecuadamente las curvas IDF en contextos reales de ingeniería hidrológica.
-
-## Ecuación general simultánea de curvas IDF 
-
-Una forma funcional ampliamente utilizada en la práctica profesional para representar, de manera simultánea, el efecto de la duración $d$ y del periodo de retorno $T$ sobre la intensidad de precipitación $i$ es la ecuación tipo potencia con desplazamiento temporal:
-
-$$
-i(d,T)=\frac{k\,T^{m}}{(d+c)^{n}}.
-$$
-
-En esta expresión:
-
-- $i$ es la intensidad media máxima asociada a la duración $d$ y al periodo de retorno $T$ (típicamente en $\text{mm/h}$).
-- $T$ es el periodo de retorno (años), con probabilidad anual de excedencia $p=1/T$.
-- $d$ es la duración (min u horas, según convención; debe usarse una sola unidad de forma consistente).
-- $k,m,n,c$ son parámetros de ajuste que dependen del clima local, la dinámica de tormentas, el régimen convectivo/estratiforme y la escala temporal del registro.
-
-**Interpretación hidrológica de los parámetros:**
-
-- $m>0$ controla el crecimiento de $i$ con $T$ (eventos más raros $\Rightarrow$ mayores intensidades).
-- $n>0$ controla la rapidez con la que $i$ decrece con $d$ (tormentas cortas $\Rightarrow$ intensidades más altas).
-- $c\ge 0$ desplaza la duración para estabilizar el comportamiento en duraciones muy cortas; evita que el modelo explote cuando $d\to 0$ y captura efectos de resolución temporal, discretización y estructura interna de la tormenta.
-- $k$ fija la escala global de intensidades en el sitio.
-
-Un aspecto clave es que esta ecuación describe intensidades de diseño, es decir, cuantiles extremos estimados para cada combinación $(d,T)$. Por ello, su calibración debe realizarse sobre intensidades máximas por duración (por ejemplo, máximos anuales por cada $d$) o mediante POT a nivel subdiario, según el enfoque adoptado.
-
-**Formas empíricas comunes como casos particulares**
-
-Existen variantes históricas que pueden interpretarse como simplificaciones del modelo general:
-
-1) Forma tipo Talbot (hiperbólica desplazada)
-
-$$
-i(d)=\frac{a}{d+b},
-$$
-
-donde $a>0$ y $b>0$ se ajustan para un $T$ fijo. Esta forma suele funcionar razonablemente en duraciones cortas a medias, con curvatura evidente.
-
-2) Forma tipo Montana (potencia)
-
-$$
-i(d)=a\,d^{-b},
-$$
-
-donde $a>0$ y $b>0$. En escala log–log, $\log i$ vs. $\log d$ es aproximadamente lineal, por lo que resulta útil en rangos donde la relación potencia es adecuada (frecuentemente para duraciones medias a largas, dependiendo del clima y del instrumento).
-
-3) Forma tipo Wenzel (potencia con desplazamiento)
-
-$$
-i(d)=\frac{c}{(d+f)^{e}},
-$$
-
-que introduce un término de desplazamiento en duración y un exponente para mejorar el ajuste en un rango más amplio.
-
-Estas expresiones pueden verse como modelos por “rebanadas”: se ajustan para cada $T$ (o para cada familia de cuantiles) y luego se integran en una ecuación simultánea donde $T$ aparece explícitamente.
-
-## Determinación de parámetros
-
-La estimación de $(k,m,n,c)$ es un problema de ajuste estadístico. Existen dos rutas principales:
-
-### Ajuste en dos etapas (recomendado cuando se desea control e interpretabilidad)
-
-- <u>Paso 1. Construcción de intensidades de diseño por duración</u>
-
-Para cada duración $d_j$, se calcula una serie de máximos (por ejemplo, máximos anuales de precipitación acumulada en ventana móvil de longitud $d_j$). Luego se convierte a intensidad:
-
-$$
-i_{j,t}=\frac{h_{j,t}}{d_j},
-$$
-
-donde $h_{j,t}$ es la altura máxima asociada a duración $d_j$ en el año $t$ (en unidades consistentes).
-
-Para cada $d_j$, se ajusta un modelo de extremos (por ejemplo GEV sobre máximos anuales, o GP/POT sobre excedencias) y se estiman cuantiles de intensidad $i(d_j,T)$ para varios $T$.
-
-- <u>Paso 2. Ajuste de la ecuación simultánea sobre la malla $(d_j,T_\ell)$</u>
-
-Se dispone de una tabla de valores objetivo $\{i_{j\ell}\}$, donde
-
-$$
-i_{j\ell}\approx i(d_j,T_\ell).
-$$
-
-Se ajusta entonces el modelo
-
-$$
-i_{j\ell}=\frac{k\,T_\ell^m}{(d_j+c)^n}+\varepsilon_{j\ell}.
-$$
-
-Este ajuste puede hacerse por mínimos cuadrados no lineales (NLS) o mediante optimización robusta (por ejemplo, minimizando una función de pérdida menos sensible a valores atípicos).
-
-Una forma útil para facilitar el ajuste es trabajar con logaritmos:
-
-$$
-\log i_{j\ell}=\log k + m\log T_\ell - n\log(d_j+c) + \eta_{j\ell}.
-$$
-
-Aquí aparece el principal desafío: $c$ está dentro del logaritmo, por lo que el modelo sigue siendo no lineal en $c$. Sin embargo, se puede proceder de manera sistemática:
-
-- elegir un conjunto de candidatos $c\in\mathcal{C}$ (por ejemplo, valores cercanos a 0, resoluciones instrumentales y duraciones cortas),
-- para cada $c$, ajustar por regresión lineal
-
-$$
-\log i_{j\ell}=\beta_0 + \beta_1\log T_\ell + \beta_2\log(d_j+c),
-$$
-
-con identificaciones
-
-$$
-\beta_0=\log k,\qquad \beta_1=m,\qquad \beta_2=-n,
-$$
-
-- seleccionar el $c$ que minimice el criterio de ajuste (por ejemplo SSE en escala log, AIC, o error relativo promedio),
-- recuperar parámetros
-
-$$
-\hat{k}=\exp(\hat{\beta}_0),\qquad \hat{m}=\hat{\beta}_1,\qquad \hat{n}=-\hat{\beta}_2,\qquad \hat{c}=c_{\text{óptimo}}.
-$$
-
-Este procedimiento ofrece transparencia: se observa cómo cambia el ajuste al variar $c$ y se evita que un optimizador “oculte” problemas de identificabilidad.
-
-- <u>Paso 3. Verificación técnica del ajuste</u>
-
-Un ajuste adecuado no termina en un buen $R^2$ en escala log. Es recomendable además verificar:
-
-- coherencia física: $\hat{m}>0$, $\hat{n}>0$, $\hat{c}\ge 0$,
-- monotonicidad: para cada $T$, $i(d,T)$ debe decrecer con $d$, y para cada $d$, $i(d,T)$ debe crecer con $T$,
-- residuales: inspección de $\eta_{j\ell}$ en función de $d$ y $T$ para detectar sesgos sistemáticos,
-- errores relativos:
-
-$$
-\text{RE}_{j\ell}=\frac{i_{j\ell}-\hat{i}(d_j,T_\ell)}{i_{j\ell}},
-$$
-
-y resúmenes como media absoluta y percentiles.
-
-
-::: {.callout-note title="Ejemplo"}
-
-Se dispone de una serie sintética de precipitación máxima anual (mm) para una estación (30 años). Se desea ilustrar, en forma compacta, el procedimiento de ajuste de curvas IDF en dos etapas:
-
-1) construir intensidades de diseño $i(d,T)$ para varias duraciones $d$ y periodos de retorno $T$;
-
-2) ajustar el modelo simultáneo
-
-$$
-i(d,T)=\frac{k\,T^{m}}{(d+c)^{n}}.
-$$
-
-```{r}
-#| label: fig-serie_max_anual
-#| fig-cap: "Serie sintética de máximos anuales de precipitación (mm)."
-#| class: fig-border
-library(tidyverse)
-library(kableExtra)
-library(moments)
-
-set.seed(20260214)
-
-datos <- tibble(
-  Año = 1994:2023,
-  Pmax = round(rlnorm(30, meanlog = log(120), sdlog = 0.35), 1)
+  t = seq(0, 180, by = 5),
+  p_inc = c(0, 0, 0.2, 0.4, 0.8, 1.5, 1.2, 0.6, 0.3,
+            0.1, 0, 0, 0.4, 0.9, 1.3, 0.8, 0.4,
+            0.2, 0, 0, 0.1, 0.2, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 ) %>%
-  mutate(
-    Pmax = pmin(Pmax, 420),
-    Pmax = pmax(Pmax, 20)
-  )
+  mutate(p_acum = cumsum(p_inc))
 
-datos %>%
-  kbl(
-    booktabs = TRUE,
-    format = "html",
-    align = c("c","c"),
-    col.names = c("Año", "Precipitación máxima anual (mm)"),
-    escape = FALSE
-  ) %>%
-  kable_classic(html_font = "Latin Modern Roman") %>%
-  kable_styling(full_width = FALSE, bootstrap_options = c("hover","condensed")) %>%
-  row_spec(0, bold = TRUE) %>% 
-  scroll_box(width = "700px", height = "500px")
+# Ventana móvil: h_d(t) = P(t + d) - P(t)
+ventana_maxima <- function(d) {
+  pasos <- d / 5
+  pluvio %>%
+    mutate(h_d = lead(p_acum, pasos) - p_acum) %>%
+    slice_max(h_d, n = 1, with_ties = FALSE) %>%
+    transmute(duracion = paste0("d = ", d, " min"), t_ini = t, t_fin = t + d, h_d)
+}
+
+ventanas <- map_dfr(c(10, 45), ventana_maxima)
+
+pluvio_panel <- expand_grid(duracion = ventanas$duracion, pluvio)
+
+ggplot(pluvio_panel, aes(t, p_acum)) +
+  geom_rect(data = ventanas,
+            aes(xmin = t_ini, xmax = t_fin, ymin = -Inf, ymax = Inf, fill = duracion),
+            alpha = 0.2, inherit.aes = FALSE) +
+  geom_line(linewidth = 1.1, color = "#1C6BA0") +
+  facet_wrap(~ duracion, ncol = 1) +
+  scale_fill_manual(values = c("#33a02c", "#6a3d9a"), guide = "none") +
+  scale_x_continuous(breaks = seq(0, 180, by = 30), expand = c(0, 0)) +
+  labs(x = "Tiempo (min)", y = "Precipitación acumulada (mm)") +
+  theme(panel.grid.minor = element_blank(), strip.text = element_text(face = "bold"))
 ```
 
+En esta tormenta, la ventana de 10 min con más lluvia va del minuto 20 al 30 y acumula 2.7 mm. La de 45 min va del minuto 0 al 45 y acumula 5.1 mm.
 
-```{r}
-#| label: fig-serie_mensual_IDF
-#| fig-cap: "Serie anual de máximos de precipitación."
-#| fig-align: center
-#| out-width: 100%
-#| class: fig-border
-#| message: false
-#| warning: false
-ggplot(datos, aes(x = Año, y = Pmax)) +
-  geom_line(color = "#1C6BA0") +
-  geom_point(color = "#1C6BA0", size = 2) +
-  scale_x_continuous(breaks = seq(min(datos$Año), max(datos$Año), by = 3)) +
-  labs(
-    title = "Serie anual de máximos de precipitación",
-    x = "Año",
-    y = "Precipitación máxima anual (mm)"
-  ) +
-  theme(
-    plot.title.position = "plot",
-    panel.grid.minor = element_blank()
-  )
-```
+### Control de calidad
 
-El ajuste IDF en dos etapas requiere construir intensidades de diseño por duración:
+Antes del análisis estadístico se revisan las series extraídas: valores atípicos, saltos en el registro, errores del instrumento y coherencia entre duraciones. La lámina máxima de 60 min de un año no puede ser menor que la de 30 min del mismo año. Si lo es, hay un error de lectura o de procesamiento.
 
-1) seleccionar un conjunto de duraciones $d\in\{10,20,30,60,120\}$ min (o las que sean normativas);
+### Análisis de frecuencia por duración
 
-2) obtener, para cada $d$, la serie de máximos anuales de altura $h_{d,t}$ en ventanas móviles de longitud $d$ (a partir de un pluviógrafo subdiario);
+Con las series de máximos listas, se relaciona cada intensidad con su periodo de retorno. Hay dos formas de seleccionar los extremos:
 
-3) convertir a intensidades $i_{d,t}=h_{d,t}/d$ (con unidades consistentes, por ejemplo mm/h);
+- **Serie de máximos anuales (AMS):** un valor por año. Es la más usada y funciona bien para periodos de retorno medios y altos.
+- **Serie de duración parcial (PDS o POT):** todos los eventos que superan un umbral. Aprovecha mejor registros cortos, porque puede tomar varias tormentas de un mismo año.
 
-4) ajustar un modelo de extremos por duración (GEV en AMS o GP en POT) y estimar, para varios $T$, los cuantiles $i(d,T)$;
-
-5) ajustar la ecuación simultánea $i(d,T)=kT^m/(d+c)^n$ usando la malla de valores $(d,T)\mapsto i(d,T)$.
-
-En este ejemplo, para ilustrar la mecánica algebraica de la etapa 2, se construirá directamente una malla sintética $i(d,T)$ coherente (como si fuera el resultado de la etapa 1), y con ella se estimarán $(k,m,n,c)$.
-
-
-**Paso 1. Malla sintética de intensidades $i(d,T)$**
-
-Se toman duraciones (min) y periodos de retorno (años):
+Para asignar probabilidades empíricas, los datos se ordenan de mayor a menor y se usa una fórmula de posición de graficación. La de Weibull es la más común:
 
 $$
-d\in\{10,30,60,120\},\qquad T\in\{2,10,50,100\}.
-$$
+P = \frac{m}{n+1}, \qquad T = \frac{n+1}{m}
+$$ {#eq-idf-weibull}
 
-Para ejemplificar, supóngase que la etapa de extremos por duración produjo la siguiente malla (mm/h):
+donde $P$ es la probabilidad de excedencia, $m$ es el número de orden del dato (1 para el mayor) y $n$ es el número de datos.
 
-$$
-\begin{array}{c|cccc}
- & T=2 & T=10 & T=50 & T=100\\
-\hline
-d=10  & 140 & 185 & 245 & 275\\
-d=30  &  85 & 112 & 150 & 170\\
-d=60  &  60 &  80 & 110 & 125\\
-d=120 &  42 &  56 &  78 &  90
-\end{array}
-$$
+Después se ajusta una distribución teórica a cada serie para estimar intensidades de periodos de retorno mayores que el registro. Las más usadas son Gumbel, log-Pearson tipo III y la distribución generalizada de valores extremos (GEV). La elección depende de la asimetría de los datos, de la longitud del registro y de lo que pida la norma aplicable. El ajuste se explica en el capítulo de distribuciones paramétricas.
 
-Esta tabla cumple las restricciones físicas: para cada $T$, la intensidad decrece con $d$; para cada $d$, la intensidad crece con $T$.
-
-**Paso 2. Linealización (para un $c$ fijo)**
-
-Se parte de
+Una forma práctica de estimar los cuantiles es el método de los factores de frecuencia de Chow [@chow1988appliedhydrology]:
 
 $$
-i(d,T)=\frac{k\,T^m}{(d+c)^n}.
-$$
+X_T = \bar{X} + K_T\,S
+$$ {#eq-idf-factor-frecuencia}
 
-Se aplica logaritmo natural:
+donde $X_T$ es el valor de periodo de retorno $T$, $\bar{X}$ y $S$ son la media y la desviación estándar de la serie y $K_T$ es el factor de frecuencia, que depende de la distribución elegida y de $T$.
 
-$$
-\log i
-=
-\log k
-+
-m\log T
--
-n\log(d+c).
-$$
+Al repetir el ajuste para cada duración se obtiene una malla de intensidades de diseño $i(d,T)$. Con ella se dibujan las curvas IDF o se ajusta una ecuación, como se explica a continuación.
 
-Se definen la variable respuesta $y=\log i$ y regresores
+## Ecuaciones de las curvas IDF {#sec-idf-ecuaciones}
+
+Las curvas IDF son cuantiles de la lluvia máxima en ventanas de distinta duración. Cada punto de una curva corresponde a una probabilidad de excedencia $p = 1/T$. No son leyes físicas: son modelos empíricos que dependen de la longitud y la calidad del registro, de la resolución temporal del instrumento, del régimen de tormentas de la zona y del método estadístico usado. Quien las aplica debe conocer esas condiciones para saber cuándo una curva sirve y cuándo no.
+
+### Ecuación general
+
+La forma más usada en la práctica para representar a la vez el efecto de la duración y del periodo de retorno es
 
 $$
-x_1=\log T,\qquad x_2=\log(d+c).
+i(d,T) = \frac{k\,T^{m}}{(d+c)^{n}}
+$$ {#eq-idf-general}
+
+donde $i$ es la intensidad media máxima (mm/h), $T$ es el periodo de retorno (años), $d$ es la duración (min) y $k$, $m$, $c$ y $n$ son parámetros de ajuste propios de cada estación.
+
+Cada parámetro tiene una lectura física:
+
+- $m > 0$ controla cuánto crece la intensidad con el periodo de retorno.
+- $n > 0$ controla qué tan rápido cae la intensidad con la duración.
+- $c \ge 0$ (min) desplaza la duración. Evita que la intensidad tienda a infinito cuando $d \to 0$ y absorbe efectos de la resolución del registro.
+- $k$ fija la escala de intensidades del sitio.
+
+La ecuación describe intensidades de diseño, es decir cuantiles extremos para cada par $(d, T)$. Por eso se calibra con los cuantiles obtenidos del análisis de frecuencia de cada duración, no con las intensidades observadas directamente.
+
+::: {.callout-warning title="Cuidado"}
+Los parámetros solo valen en las unidades en que se ajustaron. Si $d$ está en minutos, $c$ también. Una ecuación ajustada con $d$ en horas da resultados absurdos si se usa con $d$ en minutos.
+:::
+
+### Formas particulares
+
+Hay varias ecuaciones históricas que son casos particulares de la @eq-idf-general. Todas se ajustan para un periodo de retorno fijo.
+
+<!-- CITA PENDIENTE: referencias originales de Talbot, Sherman y de la forma potencial. -->
+
+1. **Talbot** (hiperbólica):
+   $$
+   i(d) = \frac{a}{d+b}
+   $$
+   con $a > 0$ y $b > 0$. Suele funcionar en duraciones cortas y medias.
+
+2. **Potencial** (llamada a veces de Montana):
+   $$
+   i(d) = a\,d^{-b}
+   $$
+   con $a > 0$ y $b > 0$. En escala log-log es una recta, por lo que se ajusta bien en los rangos de duración donde la curva observada también lo es, por lo general duraciones medias y largas.
+
+3. **Sherman** (potencial con desplazamiento):
+   $$
+   i(d) = \frac{a}{(d+b)^{e}}
+   $$
+   que agrega un desplazamiento en la duración y amplía el rango en que el ajuste es bueno.
+
+Estas formas se ajustan curva por curva, una para cada $T$. La @eq-idf-general incorpora $T$ explícitamente y reemplaza a toda la familia con una sola ecuación.
+
+## Determinación de los parámetros {#sec-idf-parametros}
+
+Los parámetros $k$, $m$, $n$ y $c$ se pueden estimar de dos maneras: en dos etapas o directamente.
+
+### Ajuste en dos etapas
+
+Es el método recomendado cuando interesa controlar e interpretar cada paso.
+
+**Etapa 1. Intensidades de diseño por duración.** Para cada duración $d_j$ se arma la serie de máximos anuales de lámina en ventana móvil, se convierte a intensidad,
+
+$$
+i_{j,t} = \frac{h_{j,t}}{d_j},
 $$
 
-Entonces el modelo es lineal:
+donde $h_{j,t}$ es la lámina máxima de duración $d_j$ en el año $t$, y se ajusta una distribución de extremos (GEV para AMS o Pareto generalizada para POT). De ese ajuste salen los cuantiles $i(d_j, T_\ell)$ para varios periodos de retorno.
+
+**Etapa 2. Ajuste de la ecuación general.** Con la malla de cuantiles $i_{j\ell} \approx i(d_j, T_\ell)$ se ajusta la @eq-idf-general. Al tomar logaritmos queda
 
 $$
-y=\beta_0+\beta_1x_1+\beta_2x_2,
-\qquad
-\beta_0=\log k,\ \beta_1=m,\ \beta_2=-n.
+\log i_{j\ell} = \log k + m\log T_\ell - n\log(d_j+c) + \eta_{j\ell}
+$$ {#eq-idf-log}
+
+donde $\eta_{j\ell}$ es el residuo. Para un valor fijo de $c$, la @eq-idf-log es una regresión lineal múltiple con $\beta_0 = \log k$, $\beta_1 = m$ y $\beta_2 = -n$. El problema es que $c$ está dentro del logaritmo. La salida práctica es probar una serie de valores de $c$, hacer la regresión para cada uno y quedarse con el que da el menor error. Así se ve cómo cambia el ajuste con $c$ y no se deja a un optimizador decidir sin mostrar si el parámetro está bien definido.
+
+**Verificación.** Un $R^2$ alto en escala logarítmica no basta. Además hay que revisar:
+
+- que $\hat m > 0$, $\hat n > 0$ y $\hat c \ge 0$;
+- que, para cada $T$, la intensidad baje con $d$ y, para cada $d$, suba con $T$;
+- que los residuos $\eta_{j\ell}$ no muestren tendencia con $d$ ni con $T$;
+- el error relativo en cada punto de la malla,
+  $$
+  \text{ER}_{j\ell} = \frac{i_{j\ell} - \hat{i}(d_j, T_\ell)}{i_{j\ell}},
+  $$
+  resumido con su media absoluta y sus percentiles.
+
+::: {.callout-note title="Ejemplo: ajuste de la ecuación IDF a una malla de intensidades"}
+
+**Planteamiento.** Suponga que la etapa 1 dio la siguiente malla de intensidades de diseño (mm/h) para una estación. Los valores son sintéticos y se eligieron para cumplir las restricciones físicas: la intensidad baja con $d$ y sube con $T$.
+
+| $d$ (min) | $T = 2$ | $T = 10$ | $T = 50$ | $T = 100$ |
+|:---:|:---:|:---:|:---:|:---:|
+| 10 | 140 | 185 | 245 | 275 |
+| 30 | 85 | 112 | 150 | 170 |
+| 60 | 60 | 80 | 110 | 125 |
+| 120 | 42 | 56 | 78 | 90 |
+
+: Malla de intensidades de diseño (mm/h) del ejemplo. {#tbl-idf-malla}
+
+Estime $k$, $m$, $n$ y $c$ de la @eq-idf-general.
+
+**Pseudocódigo**
+
+1. Estimar $m$ con cocientes de intensidad a duración fija.
+2. Suponer un valor de $c$ y estimar $n$ con cocientes de intensidad a periodo de retorno fijo.
+3. Despejar $k$ de un punto de la malla y comprobarlo con otro.
+4. Verificar con una regresión sobre toda la malla, probando varios valores de $c$.
+
+**Paso 1. Estimación de $m$.** Con $d$ fijo, el denominador se cancela al dividir dos intensidades:
+
 $$
-
-**Paso 3. Cálculo manual mínimo con “diferencias” para estimar $m$ y $n$**
-
-- Estimación de $m$ (misma duración, distintos $T$)
-
-Con $d$ fijo, el término $(d+c)^n$ se cancela al tomar razón:
-
-$$
-\frac{i(d,T_2)}{i(d,T_1)}=\left(\frac{T_2}{T_1}\right)^m
+\frac{i(d,T_2)}{i(d,T_1)} = \left(\frac{T_2}{T_1}\right)^m
 \quad\Rightarrow\quad
-m=\frac{\log\!\left(i(d,T_2)/i(d,T_1)\right)}{\log(T_2/T_1)}.
+m = \frac{\log\left[i(d,T_2)/i(d,T_1)\right]}{\log(T_2/T_1)}
 $$
 
-Ejemplo con $d=60$ min, $T_2=100$, $T_1=10$:
+Con $d = 60$ min, $T_1 = 10$ y $T_2 = 100$:
 
 $$
-m
-=
-\frac{\log(125/80)}{\log(100/10)}
-=
-\frac{\log(1.5625)}{\log(10)}
-\approx
-\frac{0.4463}{2.3026}
-\approx
-0.194.
+m = \frac{\log(125/80)}{\log(100/10)} = \frac{0.4463}{2.3026} \approx 0.194
 $$
 
-Ejemplo con $d=30$ min, $T_2=50$, $T_1=2$:
+Con $d = 30$ min, $T_1 = 2$ y $T_2 = 50$:
 
 $$
-m
-=
-\frac{\log(150/85)}{\log(50/2)}
-=
-\frac{\log(1.7647)}{\log(25)}
-\approx
-\frac{0.5686}{3.2189}
-\approx
-0.177.
+m = \frac{\log(150/85)}{\log(50/2)} = \frac{0.5686}{3.2189} \approx 0.177
 $$
 
-Se adopta un valor representativo (promedio simple para el ejemplo):
+Se adopta el promedio, $\hat m \approx 0.186$.
+
+**Paso 2. Estimación de $n$.** Con $T$ fijo se cancela $T^m$:
 
 $$
-\hat{m}\approx \frac{0.194+0.177}{2}\approx 0.186.
+n = \frac{\log\left[i(d_1,T)/i(d_2,T)\right]}{\log\left[(d_2+c)/(d_1+c)\right]}
 $$
 
-- Estimación de $n$ (mismo $T$, distintas $d$)
-
-Con $T$ fijo, el término $T^m$ se cancela:
+Aquí hace falta suponer $c$. Se prueba $c = 5$ min. Con $T = 10$, $d_1 = 30$ y $d_2 = 120$:
 
 $$
-\frac{i(d_1,T)}{i(d_2,T)}
-=
-\left(\frac{d_2+c}{d_1+c}\right)^n
-\quad\Rightarrow\quad
-n=\frac{\log\!\left(i(d_1,T)/i(d_2,T)\right)}{\log\!\left((d_2+c)/(d_1+c)\right)}.
+n = \frac{\log(112/56)}{\log(125/35)} = \frac{0.6931}{1.2730} \approx 0.545
 $$
 
-Aquí se requiere $c$. Para ilustrar, se prueba $c=5$ min (valor típico ligado a resolución/regularización de duraciones cortas).
-
-Con $T=10$, $d_1=30$, $d_2=120$:
+Con $T = 50$, $d_1 = 10$ y $d_2 = 60$:
 
 $$
-n
-=
-\frac{\log(112/56)}{\log\!\left((120+5)/(30+5)\right)}
-=
-\frac{\log(2)}{\log(125/35)}
-\approx
-\frac{0.6931}{\log(3.5714)}
-\approx
-\frac{0.6931}{1.2720}
-\approx
-0.545.
+n = \frac{\log(245/110)}{\log(65/15)} = \frac{0.8007}{1.4663} \approx 0.546
 $$
 
-Con $T=50$, $d_1=10$, $d_2=60$:
+Los dos valores coinciden. Se adoptan $\hat n \approx 0.546$ y $\hat c = 5$ min.
+
+**Paso 3. Estimación de $k$.** Despejando de la @eq-idf-general:
 
 $$
-n
-=
-\frac{\log(245/110)}{\log\!\left((60+5)/(10+5)\right)}
-=
-\frac{\log(2.2273)}{\log(65/15)}
-\approx
-\frac{0.8007}{\log(4.3333)}
-\approx
-\frac{0.8007}{1.4663}
-\approx
-0.546.
+k = i(d,T)\,(d+c)^n\,T^{-m}
 $$
 
-Consistente. Se adopta:
+Con $d = 60$ min, $T = 10$ años e $i = 80$ mm/h:
 
 $$
-\hat{n}\approx 0.546,
-\qquad
-\hat{c}=5\ \text{min}.
+\hat k = 80 \times 65^{0.546} \times 10^{-0.186} \approx 80 \times 9.76 \times 0.652 \approx 509
 $$
 
-- Paso 4. Estimación de $k$ (despeje directo)
-
-Despejando $k$:
+Como control, con $d = 30$ min, $T = 50$ años e $i = 150$ mm/h:
 
 $$
-k=i(d,T)\,(d+c)^n\,T^{-m}.
+\hat k = 150 \times 35^{0.546} \times 50^{-0.186} \approx 150 \times 6.97 \times 0.483 \approx 505
 $$
 
-Usando, por ejemplo, $d=60$ min, $T=10$, $i=80$ mm/h:
+Los dos valores son parecidos y se adopta el promedio, $\hat k \approx 507$. La ecuación queda
 
 $$
-\hat{k}
-=
-80\,(60+5)^{0.546}\,10^{-0.186}.
-$$
-
-Cálculo numérico aproximado:
-
-$$
-(65)^{0.546}\approx \exp\!\left(0.546\log 65\right)
-=
-\exp(0.546\times 4.1744)
-=
-\exp(2.278)
-\approx 9.76,
-$$
-
-$$
-10^{-0.186}=\exp(-0.186\log 10)=\exp(-0.186\times 2.3026)=\exp(-0.428)\approx 0.652.
-$$
-
-Entonces:
-
-$$
-\hat{k}\approx 80\times 9.76\times 0.652\approx 509.
-$$
-
-Un segundo cálculo (control) con $d=30$, $T=50$, $i=150$:
-
-$$
-\hat{k}
-=
-150\,(35)^{0.546}\,50^{-0.186}.
-$$
-
-Aproximaciones:
-
-$$
-(35)^{0.546}\approx \exp(0.546\log 35)=\exp(0.546\times 3.555)=\exp(1.942)\approx 6.97,
-$$
-
-$$
-50^{-0.186}=\exp(-0.186\log 50)=\exp(-0.186\times 3.912)=\exp(-0.728)\approx 0.483.
-$$
-
-Entonces:
-
-$$
-\hat{k}\approx 150\times 6.97\times 0.483\approx 505.
-$$
-
-Se considera que el parámetro es consistente. Se adopta el promedio aritmético:
-
-$$
-\hat{k}\approx 507.
-$$
-
-{Modelo IDF estimado (ejemplo)}
-
-Con $(\hat{k},\hat{m},\hat{n},\hat{c})\approx(507,\ 0.186,\ 0.546,\ 5)$:
-
-$$
-\hat{i}(d,T)=\frac{507\,T^{0.186}}{(d+5)^{0.546}},
-\qquad
-d\ \text{en min},\ i\ \text{en mm/h}.
+\hat{i}(d,T) = \frac{507\,T^{0.186}}{(d+5)^{0.546}}, \qquad d \text{ en min},\ i \text{ en mm/h}.
 $$
 
 ```{r}
 #| label: fig-idf_ggplot_mako
-#| fig-cap: "Curvas Intensidad–Duración–Frecuencia (IDF) estimadas mediante el modelo simultáneo."
-#| fig-align: center
-#| out-width: 100%
-#| class: fig-border
+#| fig-cap: "Curvas IDF obtenidas con los parámetros estimados a mano ($k = 507$, $m = 0.186$, $n = 0.546$, $c = 5$ min)."
+#| fig-alt: "Seis curvas decrecientes de intensidad contra duración para periodos de retorno de 2 a 100 años"
+#| code-fold: false
 
 library(tidyverse)
-library(viridis)
 
-Dur_min <- seq(5, 120, by = 5)
-T_anios <- c(2, 5, 10, 25, 50, 100)
-
+# Parámetros estimados en los pasos 1 a 3
 k <- 507
 m <- 0.186
 n <- 0.546
-c <- 5
+c_idf <- 5
 
 idf <- expand_grid(
-  `Duración (min)` = Dur_min,
-  `T (años)` = T_anios
+  d_min = seq(5, 120, by = 5),
+  t_ret = c(2, 5, 10, 25, 50, 100)
 ) %>%
-  mutate(
-    `Intensidad (mm/h)` = k * (`T (años)`^m) / ((`Duración (min)` + c)^n),
-    `T (años)` = factor(`T (años)`, levels = T_anios)
-  )
+  mutate(i_mmh = k * t_ret^m / (d_min + c_idf)^n)
 
-ggplot(
-  idf,
-  aes(
-    x = `Duración (min)`,
-    y = `Intensidad (mm/h)`,
-    color = `T (años)`
-  )
-) +
+ggplot(idf, aes(d_min, i_mmh, color = factor(t_ret))) +
   geom_line(linewidth = 1.2) +
   scale_color_viridis_d(option = "C", end = 0.95) +
-  scale_x_continuous(
-    breaks = seq(0, 120, by = 15),
-    limits = c(0, 120),
-    expand = c(0, 0)
-  ) +
-  scale_y_continuous(
-    breaks = seq(0, 350, by = 25),
-    limits = c(0, 350),
-    expand = c(0, 0)
-  ) +
-  labs(
-    title = "Curvas Intensidad–Duración–Frecuencia",
-    x = "Duración (min)",
-    y = "Intensidad (mm/h)",
-    color = "T (años)"
-  ) +
-  theme(
-    plot.title.position = "plot",
-    panel.grid.minor = element_blank(),
-    legend.position = "right"
-  )
-
+  scale_x_continuous(breaks = seq(0, 120, by = 15), limits = c(0, 120), expand = c(0, 0)) +
+  scale_y_continuous(breaks = seq(0, 350, by = 25), limits = c(0, 350), expand = c(0, 0)) +
+  labs(x = "Duración (min)", y = "Intensidad (mm/h)", color = "T (años)") +
+  theme(panel.grid.minor = element_blank())
 ```
 
-
-1) El exponente $\hat{n}\approx 0.55$ indica un decaimiento moderado de la intensidad con la duración; es coherente con tormentas donde la estructura temporal concentra gran parte del volumen en ventanas cortas, pero sin colas extremadamente abruptas.
-
-2) El exponente $\hat{m}\approx 0.19$ refleja que la sensibilidad de la intensidad al periodo de retorno es sub-lineal: al aumentar $T$ en un orden de magnitud, $i$ crece aproximadamente por un factor $10^{0.19}\approx 1.55$ (a duración fija), lo cual es típico en muchos climas donde el crecimiento con la rareza es gradual.
-
-3) El desplazamiento $\hat{c}=5$ min regulariza el comportamiento para duraciones cortas y puede interpretarse como un término operativo asociado a resolución temporal, redondeo de ventanas y limitaciones instrumentales; su selección debe validarse comparando errores en todo el rango de duraciones, priorizando el rango de diseño del proyecto.
-
-4) La consistencia de $\hat{k}$ obtenida por despejes desde distintos pares $(d,T)$ sugiere que la malla usada es coherente con el modelo simultáneo, lo cual es una verificación mínima de plausibilidad.
-
-
-::: 
-
-### Ajuste directo “todo en uno” (útil cuando se dispone de malla completa y se busca eficiencia) 
-
-En vez de estimar primero cuantiles por $d$, se puede ajustar una formulación integrada que modele directamente los cuantiles extremos en función de $(d,T)$, pero este enfoque suele requerir mayor cuidado estadístico, ya que mezcla incertidumbres del modelo extremo con incertidumbres del ajuste IDF en una sola etapa. Cuando se aplica, debe reportarse claramente la propagación de incertidumbre y el método de estimación.
-
-**Aspectos críticos para que el ajuste sea “óptimo"**
-
-1) <u>Consistencia de unidades</u>  
-Si $d$ está en minutos, $c$ debe estar en minutos, y $i$ debe ser compatible con esa escala. Un error común es mezclar $d$ en minutos con intensidades en $\text{mm/h}$ sin conversión consistente.
-
-2) <u>Resolución temporal y sesgo por discretización</u>  
-En duraciones cortas, la intensidad estimada depende fuertemente del paso de registro (por ejemplo 5-min vs 1-min). Esto suele reflejarse en la necesidad de un $c$ positivo y en cambios de pendiente en log–log.
-
-3) <u>Dependencia entre duraciones</u>  
-Los valores $i(d_j,T)$ para distintas $d_j$ provienen del mismo registro y no son independientes. Por ello, el ajuste debe interpretarse como un ajuste estructural (curvas de diseño), no como una regresión con errores i.i.d. en sentido estricto. En aplicaciones avanzadas se emplean ponderaciones o modelos jerárquicos para reflejar esta dependencia.
-
-4) <u>Criterio de ajuste coherente con el objetivo</u>  
-Si el objetivo es diseño en colas (grandes $T$), conviene ponderar más esos puntos. Una ponderación típica en escala log es:
-
-$$
-\min \sum_{j,\ell} w_{j\ell}\left(\log i_{j\ell}-\log \hat{i}(d_j,T_\ell)\right)^2,
-\qquad
-w_{j\ell}\propto \frac{1}{\operatorname{Var}\!\left(\log i_{j\ell}\right)}.
-$$
-
-Si no se dispone de varianzas, se puede usar un esquema operativo que privilegie duraciones y retornos relevantes para el proyecto.
-
-
-## Construcción de hietogramas de diseño: método del Bloque Alterno
-
-El diseño hidrológico moderno requiere un paso adicional más allá de la estimación estadística de intensidades extremas: la transformación de la información contenida en las curvas Intensidad–Duración–Frecuencia (IDF) en una distribución temporal explícita de la lluvia, conocida como hietograma de diseño^[Un hietograma de diseño es una representación temporal sintética de la precipitación, construida a partir de información estadística (típicamente curvas Intensidad–Duración–Frecuencia), que distribuye la lluvia total de un evento extremo en intervalos discretos de tiempo de forma hidrológicamente crítica. Su objetivo es reproducir una secuencia de intensidades consistente con los valores de diseño para distintas duraciones y un periodo de retorno dado, de modo que cualquier subintervalo del hietograma contenga exactamente la precipitación máxima esperada según la estadística local. El hietograma de diseño constituye la entrada fundamental para los modelos lluvia–escorrentía y permite evaluar de manera conservadora la respuesta hidrológica de una cuenca y el comportamiento hidráulico de las obras asociadas.]. 
-
-Mientras que las curvas IDF proporcionan valores medios de intensidad asociados a una duración y a un periodo de retorno específicos, no describen cómo esa lluvia se distribuye en el tiempo. El método del Bloque Alterno constituye una técnica clásica y muy difundida para resolver este problema, ya que permite construir un hietograma sintético que reproduce de forma conservadora las condiciones más críticas para el diseño hidráulico e hidrológico.
-
-**Fundamento conceptual del método del Bloque Alterno**
-
-El método se apoya en el concepto de tormenta balanceada o tormenta crítica. La idea central es que el hietograma de diseño debe ser plenamente consistente con la estadística de extremos locales: la precipitación máxima contenida en cualquier intervalo de duración $d$ dentro del hietograma debe coincidir exactamente con la lámina o intensidad asociada a esa duración y periodo de retorno según la curva IDF. De esta manera, el hietograma no es arbitrario, sino que representa una realización temporal que respeta simultáneamente todas las intensidades de diseño relevantes.
-
-Desde un punto de vista hidrológico, este enfoque es conservador, ya que agrupa los mayores bloques de lluvia en torno al centro del evento (tormenta triangular típicamente convectiva), lo que tiende a maximizar la superposición entre la respuesta de la cuenca y la precipitación más intensa, produciendo caudales pico elevados en los modelos lluvia–escorrentía.
-
-**Definición de parámetros de diseño** 
-
-El primer paso consiste en definir claramente los parámetros que controlan la construcción del hietograma:
-
-- <u>Periodo de retorno $T$</u>: 
-
-Se selecciona en función de la importancia de la obra, las consecuencias de falla y los criterios normativos vigentes. Valores típicos incluyen $T=10$, $25$, $50$ o $100$ años.
-
-- <u>Duración total de la tormenta $T_d$</u>: 
-
-Debe ser, como mínimo, igual al tiempo de concentración de la cuenca, de modo que toda el área contribuya al escurrimiento máximo. En muchos casos se adopta una duración ligeramente mayor para capturar escenarios críticos.
-
->Nota: El concepto de tiempo de concentración de una cuenca se definirá con mayor detalle en secciones posteriores.
-
-- <u>Intervalo de discretización temporal $\Delta t$</u>: 
-
-Representa el tamaño de los bloques de lluvia. Debe ser suficientemente pequeño para describir la variabilidad temporal de la tormenta, pero no tan pequeño que introduzca ruido innecesario o dificultades computacionales. Valores habituales son $5$, $10$ o $15$ minutos.
-
-**Cálculo de intensidades y profundidades acumuladas** 
-
-Una vez definidos $T$, $T_d$ y $\Delta t$, se divide la tormenta total en $n$ intervalos iguales, donde:
-
-$$
-n = \frac{T_d}{\Delta t}.
-$$
-
-Para cada duración acumulada
-
-$$
-d_j = j\,\Delta t, \qquad j = 1, 2, \dots, n,
-$$
-
-se obtiene la intensidad media $i(d_j, T)$ a partir de la curva IDF o de su ecuación empírica general. Estas intensidades representan valores medios sobre el intervalo completo $d_j$.
-
-La intensidad se transforma en profundidad acumulada de precipitación mediante: 
-
-$$
-P(d_j) = i(d_j, T)\, d_j,
-$$
-
-Donde $d_j$ debe expresarse en unidades de tiempo compatibles con la intensidad, típicamente horas si $i$ está en mm/h. El resultado $P(d_j)$ corresponde a la lámina total acumulada desde el inicio de la tormenta hasta el tiempo $d_j$.
-
-**Cálculo de volúmenes incrementales**
-
-El siguiente paso consiste en descomponer la lluvia acumulada en bloques incrementales de duración $\Delta t$. Para ello, se calcula la profundidad incremental asociada a cada intervalo:
-
-$$
-\Delta P_j = P(d_j) - P(d_{j-1}), \qquad j = 1, 2, \dots, n,
-$$
-
-con la convención $P(d_0)=0$. Los valores $\Delta P_j$ representan la cantidad de lluvia que cae en cada bloque elemental y constituyen los componentes básicos del hietograma de diseño.
-
-Es importante destacar que, debido a la forma decreciente típica de las curvas IDF, los valores de $\Delta P_j$ no son constantes y suelen presentar un máximo asociado a los primeros incrementos de duración, reflejando la mayor intensidad de las lluvias de corta duración.
-
-**Algoritmo de reordenamiento alterno de los bloques**
-
-Una vez calculados los bloques incrementales $\Delta P_j$, estos no se colocan en el orden cronológico natural, sino que se reordenan siguiendo el esquema alterno que da nombre al método. El procedimiento es el siguiente:
-
-1. Se ordenan los valores $\Delta P_j$ de mayor a menor.
-2. El bloque de mayor magnitud se coloca en el centro de la tormenta, es decir, en el intervalo cuyo centro temporal coincide aproximadamente con $T_d/2$.
-3. El segundo bloque más intenso se ubica inmediatamente a la derecha del bloque central.
-4. El tercer bloque más intenso se coloca inmediatamente a la izquierda del bloque central.
-5. El proceso continúa alternando hacia la derecha y hacia la izquierda, hasta que todos los bloques hayan sido asignados.
-
-Este patrón puede representarse esquemáticamente como:
-
-$$
-\cdots,\ \Delta P_5,\ \Delta P_3,\ \Delta P_1,\ \Delta P_2,\ \Delta P_4,\ \Delta P_6,\ \cdots
-$$
-
-donde $\Delta P_1$ es el bloque más intenso, $\Delta P_2$ el segundo más intenso, y así sucesivamente.
-
-El reordenamiento alterno garantiza que, para cualquier duración parcial analizada dentro del hietograma, los bloques de mayor precipitación estén lo más concentrados posible. Esto asegura que la precipitación máxima contenida en ventanas móviles de duración $d$ coincida con la profundidad $P(d)$ obtenida de la curva IDF, cumpliendo estrictamente el principio de consistencia estadística.
-
-Desde el punto de vista del diseño, el método tiende a producir escenarios críticos en términos de caudal pico, lo cual es deseable cuando se busca un enfoque conservador. Por esta razón, el método del Bloque Alterno ha sido ampliamente adoptado en manuales de diseño hidráulico y sigue siendo una referencia fundamental en el análisis de drenaje urbano, diseño de alcantarillas, canales y estructuras de control de avenidas.
-
-**Alcances del método de Bloque Alterno**
-
-Según el *Manual de Drenaje de la Federal Highway Administration* (FHWA), específicamente el *Hydraulic Design Series No. 2* (HDS-2) y el *Hydraulic Engineering Circular No. 22* (HEC-22), el Método del Bloque Alterno (MBA) es apropiado para el diseño de sistemas de drenaje urbano de pequeña escala, tales como alcantarillas pluviales, cunetas y sistemas de captación superficial. En este contexto, se asume que la tormenta crítica es aquella que concentra la máxima intensidad de precipitación en un intervalo dentro de una duración total predefinida, produciendo así el mayor caudal pico de diseño.
-
-A pesar de su amplio uso en la práctica profesional, la literatura técnica especializada es explícita en señalar una serie de limitaciones inherentes al MBA que deben ser consideradas cuidadosamente para evitar diseños hidrológicos sesgados o excesivamente conservadores.
-
-- <u>Falta de realismo físico y estructura temporal</u>
-
-La limitación más relevante del MBA es que el hietograma resultante no representa la estructura temporal de una tormenta real. Al reorganizar los bloques de precipitación para forzar la ocurrencia del máximo en el centro del evento, se elimina cualquier correlación secuencial natural presente en las tormentas observadas. Como señala el *Task Committee on Hydrology Handbook* de la American Society of Civil Engineers (ASCE, 1996), el método ignora los procesos físicos asociados a la génesis, intensificación, madurez y disipación de las tormentas, produciendo una secuencia artificial sin base meteorológica.
-
-En palabras de la ASCE, "*el método del bloque alterno produce una distribución de lluvia altamente idealizada y sin base física, cuyo único propósito es maximizar el pico de escorrentía para una duración y periodo de retorno dados*". Esta característica, si bien útil desde un punto de vista conservador, limita su interpretación como representación realista de eventos hidrológicos extremos.
-
-- <u>Independencia implícita de las curvas IDF</u>
-
-El MBA asume implícitamente que las intensidades asociadas a todas las duraciones parciales son estadísticamente independientes y que pueden ocurrir simultáneamente dentro de una misma tormenta. Esta suposición contradice el fundamento estadístico de las curvas Intensidad–Duración–Frecuencia, las cuales se construyen a partir de máximos anuales independientes para cada duración. El *National Engineering Handbook*, Parte 630 (Hydrology) del Natural Resources Conservation Service (NRCS), advierte que el uso directo de curvas IDF dentro del MBA puede conducir a una sobreestimación de la lámina total de precipitación, al combinar extremos de distintas duraciones como si correspondieran a un único evento físico.
-
-Por esta razón, el NRCS prefiere el empleo de distribuciones temporales estándar de tormenta (Tipos I, IA, II y III), derivadas empíricamente de registros históricos, en lugar de hietogramas sintéticos generados mediante el bloque alterno (aunque el uso de estas distribuciones temporales tienen sus propias limitaciones y alcances que deben ser cuidadosamente revisadas antes de ser utilizadas para diseño).
-
-- <u>Poca representatividad para cuencas de gran extensión</u>
-
-El MBA fue concebido para tormentas de corta duración, típicamente menores a 24 horas, y para cuencas pequeñas donde la respuesta hidrológica está dominada por el caudal pico. El *Flood Hydrology Manual* del United States Bureau of Reclamation (USBR, 1989) establece que, en cuencas de gran extensión (mayores a aproximadamente 250 km$^2$), el método resulta inapropiado. En estos sistemas, el almacenamiento en cauces, la variabilidad espacial de la precipitación y la duración total de la tormenta tienen un efecto predominante sobre la respuesta hidrológica, reduciendo la influencia de la forma puntual del hietograma.
-
-En tales casos, se recomiendan enfoques más robustos, como tormentas indexadas, análisis de eventos históricos representativos o modelación hidrológica continua, que capturen de manera más adecuada los procesos dominantes a gran escala.
-
-- <u>Insensibilidad a la variabilidad regional</u>
-
-A diferencia de las distribuciones adimensionales propuestas por el NRCS, el MBA no incorpora calibración explícita para condiciones climáticas regionales específicas. Organismos regionales como el Sistema de la Integración Centroamericana (SIECA) recomiendan su uso con cautela en regiones tropicales, donde predominan tormentas convectivas de alta intensidad y corta duración, cuyo patrón temporal suele ser altamente asimétrico.
-
-- <u>Efecto sobre el hidrograma de salida</u>
-
-Numerosos estudios reportados en publicaciones de la ASCE y del United States Geological Survey (USGS) indican que el MBA tiende a generar hidrogramas con picos muy pronunciados y, en algunos casos, volúmenes de escorrentía ligeramente superiores a los observados. Este efecto es particularmente marcado en cuencas urbanas altamente impermeabilizadas, donde la respuesta hidrológica es rápida y sensible a la concentración temporal de la lluvia.
-
-Si bien este comportamiento puede ser aceptable, e incluso deseable, para el diseño conservador de obras de drenaje menores, puede resultar excesivo o inadecuado para el diseño de estructuras de almacenamiento, o de control de inundaciones, donde la forma completa del hidrograma y el volumen total son variables críticas.
-
-- <u>Conclusión técnica</u>
-
-El método del bloque alterno constituye una herramienta válida y de gran utilidad en la fase de prediseño o en proyectos de infraestructura menor, donde el objetivo principal es la estimación del caudal pico y los recursos disponibles para un análisis más detallado son limitados. No obstante, el ingeniero proyectista debe ser plenamente consciente de que se trata de una abstracción matemática, no de una representación física de tormentas reales, cuyo propósito explícito es maximizar la respuesta hidrológica.
-
-Para proyectos de mayor envergadura, o en aquellos donde el volumen de escorrentía, la duración del evento y la forma del hidrograma sean determinantes, las guías técnicas de la ASCE, el NRCS y el USBR recomiendan de manera explícita el uso de distribuciones temporales basadas en datos históricos regionales o modelos de tormenta de diseño más avanzados, capaces de incorporar la variabilidad temporal observada y reducir la incertidumbre hidrológica asociada.
-
-::: {.callout-note title="Ejemplo"}
-
-A partir de los valores de Intensidad–Duración–Frecuencia (IDF) estimados para una estación meteorológica de Costa Rica, estime los hietogramas de diseño para 10 años de periodo de retorno (Método del Bloque Alterno).
-
-A continuación, se presentan los datos:
+**Paso 4. Verificación con regresión.** El cálculo a mano usa solo cuatro puntos de la malla. Con R se puede usar la malla completa: para cada valor de $c$ entre 0 y 30 min se ajusta la @eq-idf-log por mínimos cuadrados y se elige el $c$ con menor suma de cuadrados de los residuos.
 
 ```{r}
-#| label: tbl-MBA1
-#| tbl-cap: "Datos de Intensidad-Duración-Frecuencia."
-#| message: false
-#| warning: false
+#| label: idf-ajuste-regresion
+#| code-fold: false
 
 library(tidyverse)
-library(kableExtra)
 
-idf_wide <- tibble::tribble(
-  ~`Duración (min)`, ~`2`, ~`5`, ~`10`, ~`25`, ~`50`, ~`100`, ~`500`,
+# Malla del Cuadro (mm/h)
+malla <- expand_grid(d_min = c(10, 30, 60, 120), t_ret = c(2, 10, 50, 100)) %>%
+  mutate(i_mmh = c(140, 185, 245, 275,
+                   85, 112, 150, 170,
+                   60,  80, 110, 125,
+                   42,  56,  78,  90))
+
+# Regresión lineal en logaritmos para un c fijo
+ajuste_c <- function(c_idf) {
+  lm(log(i_mmh) ~ log(t_ret) + log(d_min + c_idf), data = malla)
+}
+
+# Búsqueda de c: suma de cuadrados de los residuos para cada candidato
+candidatos <- tibble(c_idf = seq(0, 30, by = 0.5)) %>%
+  mutate(sse = map_dbl(c_idf, ~ sum(residuals(ajuste_c(.x))^2)))
+
+c_opt <- candidatos$c_idf[which.min(candidatos$sse)]
+coefs <- coef(ajuste_c(c_opt))
+
+tibble(
+  k = exp(coefs[1]),
+  m = coefs[2],
+  n = -coefs[3],
+  c = c_opt
+)
+```
+
+**Interpretación.**
+
+- $\hat n \approx 0.55$ indica que la intensidad cae moderadamente con la duración.
+- $\hat m \approx 0.19$ indica que, a duración fija, multiplicar $T$ por 10 multiplica la intensidad por $10^{0.19} \approx 1.55$.
+- $\hat c = 5$ min es un ajuste para las duraciones cortas. Su valor debe validarse con el error en todo el rango de duraciones, dando más peso a las que importan en el proyecto.
+- La regresión sobre toda la malla da $c = 2$ min, $k \approx 419$, $m \approx 0.184$ y $n \approx 0.501$. Los parámetros cambian bastante porque $c$, $k$ y $n$ se compensan entre sí, pero las intensidades que predicen las dos ecuaciones son parecidas. La regresión ajusta algo mejor: el mayor error relativo baja de 6 % (parámetros a mano, en $d = 10$ min y $T = 2$ años) a menos de 3 %. Por eso conviene comparar las intensidades que predice cada ecuación y no sus parámetros por separado.
+
+:::
+
+### Ajuste directo
+
+En lugar de estimar primero los cuantiles por duración, se puede ajustar un modelo que relacione directamente los extremos con $d$ y $T$. Es más eficiente, pero mezcla en una sola etapa la incertidumbre del ajuste de extremos con la de la ecuación IDF. Si se usa, hay que informar con claridad el método de estimación y cómo se propaga la incertidumbre.
+
+### Aspectos que afectan la calidad del ajuste
+
+1. **Unidades.** Como se dijo, $c$ debe estar en las mismas unidades que $d$. Mezclar minutos y horas es el error más frecuente.
+2. **Resolución del registro.** En duraciones cortas, la intensidad depende mucho del paso del registro (1 min frente a 5 min). Eso suele obligar a un $c$ positivo y produce cambios de pendiente en escala log-log.
+3. **Dependencia entre duraciones.** Las intensidades de distintas duraciones salen del mismo registro y no son independientes. El ajuste debe verse como un ajuste de curvas de diseño, no como una regresión con errores independientes. En aplicaciones avanzadas se usan ponderaciones o modelos jerárquicos.
+4. **Criterio de ajuste.** Si el diseño depende de periodos de retorno altos, conviene dar más peso a esos puntos. Una opción es minimizar
+   $$
+   \sum_{j,\ell} w_{j\ell}\left[\log i_{j\ell} - \log \hat{i}(d_j,T_\ell)\right]^2,
+   \qquad
+   w_{j\ell} \propto \frac{1}{\operatorname{Var}\left(\log i_{j\ell}\right)}.
+   $$
+   Si no se conocen las varianzas, se da más peso a las duraciones y los periodos de retorno que importan en el proyecto.
+
+## Hietograma de diseño por el método del bloque alterno {#sec-idf-bloque-alterno}
+
+Una curva IDF da la intensidad media para cada duración, pero no dice cómo se reparte la lluvia dentro de la tormenta. Los modelos de lluvia-escorrentía necesitan esa distribución en el tiempo, es decir un **hietograma de diseño**: una tormenta sintética cuya lluvia en cualquier subintervalo coincide con la que da la curva IDF para ese periodo de retorno.
+
+El **método del bloque alterno** (MBA) es la forma más difundida de construirlo [@chow1988appliedhydrology]. Coloca el bloque de lluvia más intenso en el centro de la tormenta y los demás alternando a cada lado, de mayor a menor. Así, para cualquier duración $d$, la ventana de máxima lluvia dentro del hietograma contiene exactamente la lámina $P(d)$ de la curva IDF. El resultado es una tormenta con forma de triángulo, parecida a una tormenta convectiva, que hace coincidir la lluvia más intensa con la respuesta de la cuenca y por eso da caudales pico altos. Es un método conservador.
+
+### Parámetros de diseño
+
+- **Periodo de retorno $T$.** Depende de la importancia de la obra, de las consecuencias de una falla y de la norma vigente. Valores comunes son 10, 25, 50 y 100 años.
+- **Duración total $T_d$.** Debe ser al menos igual al tiempo de concentración de la cuenca, para que toda el área aporte al caudal pico. Es común tomar una duración algo mayor. El tiempo de concentración se estudia en el capítulo de escorrentía.
+- **Intervalo $\Delta t$.** Es el ancho de cada bloque. Debe ser lo bastante corto para describir la variación de la lluvia, sin llegar a valores que solo agreguen ruido. Se usan 5, 10 o 15 min.
+
+### Cálculo
+
+La tormenta se divide en $N = T_d / \Delta t$ bloques. Para cada duración acumulada $d_j = j\,\Delta t$, con $j = 1, \dots, N$, se lee la intensidad $i(d_j, T)$ de la curva IDF y se convierte en lámina acumulada:
+
+$$
+P(d_j) = i(d_j, T)\, \frac{d_j}{60}
+$$ {#eq-idf-masa}
+
+donde $P$ está en mm, $i$ en mm/h y $d_j$ en min. La serie $P(d_j)$ es la **curva de masa** de la tormenta. La lluvia de cada bloque es la diferencia entre valores sucesivos,
+
+$$
+\Delta P_j = P(d_j) - P(d_{j-1}), \qquad P(d_0) = 0.
+$$
+
+Como la curva IDF es decreciente, los $\Delta P_j$ salen ya ordenados de mayor a menor: el primero es el más grande.
+
+Después se reordenan los bloques:
+
+1. Se ordenan los $\Delta P_j$ de mayor a menor.
+2. El mayor se coloca en el bloque central, el que contiene $T_d/2$.
+3. El segundo se coloca inmediatamente a la derecha del central.
+4. El tercero, inmediatamente a la izquierda.
+5. Se sigue alternando derecha e izquierda hasta ubicar todos los bloques.
+
+El resultado tiene la forma
+
+$$
+\ldots,\ \Delta P_5,\ \Delta P_3,\ \Delta P_1,\ \Delta P_2,\ \Delta P_4,\ \Delta P_6,\ \ldots
+$$
+
+donde $\Delta P_1$ es el bloque más grande, $\Delta P_2$ el segundo, y así sucesivamente.
+
+### Limitaciones
+
+El MBA es adecuado para obras menores de drenaje urbano, como alcantarillas, cunetas y tragantes, donde lo que importa es el caudal pico. <!-- CITA PENDIENTE: FHWA, Hydraulic Design Series No. 2 (HDS-2) y Hydraulic Engineering Circular No. 22 (HEC-22). --> Fuera de ese uso tiene limitaciones que conviene conocer:
+
+- **No representa una tormenta real.** El orden de los bloques es artificial: no reproduce cómo se forma, madura y se disipa una tormenta [@ASCE1996_HydrologyHandbook]. <!-- VERIFICAR: la versión anterior citaba una frase textual del manual de la ASCE que no se pudo confirmar. Si se quiere citar textualmente, agregar la página. -->
+- **Combina extremos de tormentas distintas.** Cada punto de la curva IDF sale de una serie de máximos anuales propia: el máximo de 10 min de un año y el de 60 min pueden venir de tormentas diferentes. El MBA mete todos esos máximos, cada uno con periodo de retorno $T$, dentro de una sola tormenta. Esa tormenta es más rara que $T$ y su lámina total tiende a ser mayor que la de las tormentas observadas. Por eso el NRCS prefiere sus distribuciones temporales de tormenta (tipos I, IA, II y III), obtenidas de registros, aunque esas distribuciones tienen sus propias limitaciones [@USDA_NRCS_630]. <!-- VERIFICAR: confirmar la sección del NEH 630 que trata este punto. -->
+- **No sirve para cuencas grandes.** Se pensó para tormentas de menos de 24 h y cuencas pequeñas. En cuencas grandes pesan más el almacenamiento en los cauces, la variación espacial de la lluvia y la duración total del evento que la forma del hietograma en un punto. <!-- CITA PENDIENTE: la versión anterior atribuía al USBR (1989) un límite de unos 250 km². Confirmar en la fuente antes de dar el número. --> En esos casos conviene usar tormentas históricas representativas o modelación continua.
+- **No tiene calibración regional.** En el trópico predominan tormentas convectivas cortas y asimétricas, que el MBA no reproduce. El manual de la SIECA recomienda usarlo con cautela en la región [@ManualHidroVial_CA]. <!-- VERIFICAR: confirmar en el manual de la SIECA. -->
+- **Exagera el pico del hidrograma.** Tiende a dar hidrogramas con picos muy marcados y volúmenes algo mayores que los observados, sobre todo en cuencas urbanas muy impermeables. <!-- CITA PENDIENTE: estudios que lo muestran. --> Eso es aceptable en obras menores de drenaje, pero no en el diseño de estanques de retención o de obras de control de inundaciones, donde importan el volumen y la forma completa del hidrograma.
+
+En resumen, el MBA sirve para prediseño y para obras menores en las que lo que interesa es el caudal pico. Quien lo usa debe tener presente que es una construcción matemática para maximizar la respuesta de la cuenca, no una tormenta real. En proyectos mayores, o cuando importan el volumen y la forma del hidrograma, se recomienda usar distribuciones temporales basadas en registros de la región.
+
+::: {.callout-note title="Ejemplo: hietograma de diseño de 10 años por el método del bloque alterno"}
+
+<!-- VERIFICAR: las intensidades de este ejemplo son muy altas para Costa Rica (680 mm/h en 5 min para T = 10 años equivale a 57 mm en 5 min). Confirmar la fuente o reemplazarlas por las de una estación real. -->
+
+**Planteamiento.** El @tbl-MBA1 tiene las intensidades IDF de una estación. Construya el hietograma de diseño para $T = 10$ años, con $\Delta t = 5$ min y una duración total $T_d = 180$ min.
+
+```{r}
+#| label: idf-datos-mba
+#| code-fold: false
+
+library(tidyverse)
+
+# Intensidades IDF (mm/h): una columna por periodo de retorno (años)
+
+idf_tabla <- tribble(
+  ~d_min, ~`2`, ~`5`, ~`10`, ~`25`, ~`50`, ~`100`, ~`500`,
   5, 526.77, 609.17, 679.96, 786.32, 877.71, 979.71, 1264.63,
   10, 343.61, 397.36, 443.54, 512.92, 572.53, 639.07, 824.92,
   15, 267.62, 309.49, 345.46, 399.49, 445.92, 497.74, 642.50,
@@ -1542,718 +722,278 @@ idf_wide <- tibble::tribble(
   720, 24.62, 28.47, 31.78, 36.75, 41.02, 45.78, 59.10,
   1440, 16.06, 18.57, 20.73, 23.97, 26.76, 29.86, 38.55
 )
+```
 
-idf_wide %>%
-  mutate(across(where(is.numeric), ~round(.x, 2))) %>%
-  kbl(
-    format = "html",
-    booktabs = TRUE,
-    align = c("c", rep("c", 7)),
-    col.names = c("Duración (min)", "2", "5", "10", "25", "50", "100", "500"),
-    caption = "Valores IDF (intensidad en mm/h) por duración y periodo de retorno."
-  ) %>%
+```{r}
+#| label: tbl-MBA1
+#| tbl-cap: "Intensidades IDF de la estación del ejemplo (mm/h), por duración y periodo de retorno."
+#| echo: false
+
+library(kableExtra)
+
+idf_tabla %>%
+  kbl(format = "html", align = "c",
+      col.names = c("Duración (min)", "2", "5", "10", "25", "50", "100", "500")) %>%
   add_header_above(c(" " = 1, "Periodo de retorno (años)" = 7), bold = TRUE) %>%
-  kable_classic(html_font = "Latin Modern Roman") %>%
   kable_styling(full_width = FALSE, bootstrap_options = c("hover", "condensed", "striped")) %>%
-  row_spec(0, bold = TRUE)%>% 
+  row_spec(0, bold = TRUE) %>%
   scroll_box(height = "500px")
-
-
 ```
 
 ```{r}
 #| label: fig-idf_MBA
-#| fig-cap: "Curvas Intensidad-Duración-Frecuencia."
-#| fig-align: center
-#| out-width: 100%
-#| class: fig-border
+#| fig-cap: "Curvas IDF de la estación del ejemplo."
+#| fig-alt: "Siete curvas decrecientes de intensidad contra duración, para periodos de retorno de 2 a 500 años"
 
-idf_long <- idf_wide %>%
-  pivot_longer(
-    cols = -`Duración (min)`,
-    names_to = "T (años)",
-    values_to = "Intensidad (mm/h)"
-  ) %>%
-  mutate(
-    `Duración (min)` = as.numeric(`Duración (min)`),
-    `T (años)` = factor(`T (años)`, levels = c("2", "5", "10", "25", "50", "100", "500"))
-  )
+idf_larga <- idf_tabla %>%
+  pivot_longer(-d_min, names_to = "t_ret", values_to = "i_mmh") %>%
+  mutate(t_ret = factor(t_ret, levels = c("2", "5", "10", "25", "50", "100", "500")))
 
-ggplot(idf_long, aes(x = `Duración (min)`, y = `Intensidad (mm/h)`, color = `T (años)`)) +
+ggplot(idf_larga, aes(d_min, i_mmh, color = t_ret)) +
   geom_line(linewidth = 1.05) +
   scale_x_continuous(breaks = seq(0, 720, by = 80), limits = c(0, 720), expand = c(0, 0)) +
-  scale_y_continuous(breaks = seq(0, 800, by = 100), limits = c(0, 500), expand = c(0, 0)) +
-  labs(
-    title = "Curvas Intensidad–Duración–Frecuencia (IDF)",
-    x = "Duración (min)",
-    y = "Intensidad (mm/h)",
-    color = "T (años)"
-  ) +
+  scale_y_continuous(breaks = seq(0, 500, by = 100), limits = c(0, 500), expand = c(0, 0)) +
   scale_color_viridis_d(option = "turbo", end = 0.98) +
-  theme(
-    plot.title.position = "plot",
-    panel.grid.minor = element_blank(),
-    legend.position = "right"
-  )
-
+  labs(x = "Duración (min)", y = "Intensidad (mm/h)", color = "T (años)") +
+  theme(panel.grid.minor = element_blank())
 ```
 
-- **Estimación de hietograma de diseño con $T=10$ años**
+**Pseudocódigo**
 
-Según la información suministrada para el ejercicio, se tienen los siguientes valores de Intensidad-Duración para un periodo de retorno de 10 años.
+1. Tomar las intensidades de $T = 10$ años para duraciones de 5 a 180 min.
+2. Calcular la lámina acumulada (curva de masa) con la @eq-idf-masa.
+3. Calcular la lluvia de cada bloque como diferencia de la curva de masa.
+4. Ordenar los bloques de mayor a menor.
+5. Colocar el mayor en el bloque central y los siguientes alternando a la derecha y a la izquierda.
+6. Graficar el hietograma.
 
-```{r}
-#| label: tbl-MBA_idf_T10
-#| tbl-cap: "Valores IDF para $T=10$ años: intensidad media $i(d,10)$ (mm/h) por duración $d$."
-#| message: false
-#| warning: false
-
-library(tidyverse)
-library(kableExtra)
-
-idf_T10 <- tibble(
-  `Tiempo (min)` = c(
-    5, 10, 15, 20, 25, 30, 35, 40, 45, 50,
-    55, 60, 65, 70, 75, 80, 85, 90, 95, 100,
-    105, 110, 115, 120, 125, 130, 135, 140, 145, 150,
-    155, 160, 165, 170, 175, 180
-  ),
-  `Intensidad (mm/h)` = c(
-    679.96, 443.54, 345.46, 289.32, 252.14, 225.34, 204.92, 188.73, 175.51, 164.47,
-    155.09, 146.99, 139.91, 133.67, 128.10, 123.11, 118.59, 114.49, 110.73, 107.29,
-    104.11, 101.17, 98.43, 95.88, 93.50, 91.27, 89.17, 87.19, 85.33, 83.56,
-    81.89, 80.30, 78.79, 77.36, 75.99, 74.68
-  )
-) %>%
-  mutate(across(where(is.numeric), ~round(.x, 2)))
-
-idf_T10 %>%
-  kbl(
-    format = "html",
-    booktabs = TRUE,
-    align = c("c", "c"),
-    col.names = c("Tiempo (min)", "Intensidad (mm/h)")
-  ) %>%
-  kable_classic(html_font = "Latin Modern Roman") %>%
-  kable_styling(full_width = FALSE, bootstrap_options = c("hover", "condensed", "striped")) %>%
-  row_spec(0, bold = TRUE) %>%
-  scroll_box(height = "500px")
-
-```
-
-Una vez definidos los valores de intensidad asociados a cada duración, se procede a la construcción de la curva de masa de la tormenta, la cual representa la evolución temporal de la precipitación acumulada correspondiente al evento de diseño. Este paso consiste en transformar las intensidades medias IDF en láminas acumuladas de lluvia para duraciones crecientes, permitiendo describir de forma coherente y consistente la magnitud total de la tormenta asociada al periodo de retorno considerado. La curva de masa constituye así el vínculo fundamental entre la información estadística de las curvas IDF y la posterior estimación del hietograma de diseño mediante el método del bloque alterno.
-
-Dado que las intensidades están expresadas para un $\Delta t=60 \text{ min}$, entonces la estimación de la curva de masa y los volúmenes acumulados está dada por:
+**Pasos 1 a 3. Curva de masa y bloques.** Los primeros valores de la curva de masa son
 
 $$
-i = \frac{h}{\Delta t},
+P(5) = 679.96 \times \frac{5}{60} = 56.7\ \text{mm}, \qquad
+P(10) = 443.54 \times \frac{10}{60} = 73.9\ \text{mm}, \qquad
+P(15) = 345.46 \times \frac{15}{60} = 86.4\ \text{mm}
 $$
 
-$$
-h = i \Delta t
-$$
-**Caso de ejemplo de cálculo, estimación de los primeros valores de duración**
+y los primeros bloques, $\Delta P_1 = 56.7$ mm, $\Delta P_2 = 73.9 - 56.7 = 17.3$ mm y $\Delta P_3 = 86.4 - 73.9 = 12.4$ mm (las diferencias se calculan sin redondear).
 
-- t=5 min
+**Pasos 4 y 5. Reordenamiento.** Hay $N = 180/5 = 36$ bloques. Como $N$ es par, el centro de la tormenta (90 min) queda entre los bloques 18 y 19. Aquí se usa la convención de poner el bloque mayor en el bloque 18, el que termina en el minuto 90. Las posiciones se llenan en este orden:
 
 $$
-h_{5 \text{ min}}=\frac{5 \text{ min}\cdot 679.96 \text{ mm/h} }{60 \text{ min}}= 56.7\text{ mm}
+18,\ 19,\ 17,\ 20,\ 16,\ 21,\ 15,\ 22,\ \ldots
 $$
 
-- t=10 min
-
-$$
-h_{10 \text{ min}}=\frac{10 \text{ min}\cdot 443.54 \text{ mm/h} }{60 \text{ min}}= 73.9\text{ mm}
-$$
-
-- t=15 min
-
-$$
-h_{15 \text{ min}}=\frac{15 \text{ min}\cdot 345.46 \text{ mm/h} }{60 \text{ min}}= 86.4\text{ mm}
-$$
-
-Como se puede observar, los valores sucesivos para cada $\Delta t+1$ son incrementales, ya que describen una curva de masa, por lo que para obtener las láminas de precipitación asociadas a cada intevalo temporal, es necesario desacumular la curva de masa.
-
-A continuación se muestra el resultado de este proceso.
-
-```{r}
-#| label: tbl-curva_masa
-#| tbl-cap: "Curva de masa e incrementos de precipitación para la tormenta de diseño (T = 10 años)."
-#| message: false
-#| warning: false
-
-library(tidyverse)
-library(kableExtra)
-
-tabla_masa <- tibble::tribble(
-  ~`Tiempo (min)`, ~`Intensidad (mm/h)`, ~`Masa (mm)`, ~`Precipitación (mm)`,
-   5, 679.96,  56.7, 56.7,
-  10, 443.54,  73.9, 17.3,
-  15, 345.46,  86.4, 12.4,
-  20, 289.32,  96.4, 10.1,
-  25, 252.14, 105.1,  8.6,
-  30, 225.34, 112.7,  7.6,
-  35, 204.92, 119.5,  6.9,
-  40, 188.73, 125.8,  6.3,
-  45, 175.51, 131.6,  5.8,
-  50, 164.47, 137.1,  5.4,
-  55, 155.09, 142.2,  5.1,
-  60, 146.99, 147.0,  4.8,
-  65, 139.91, 151.6,  4.6,
-  70, 133.67, 155.9,  4.4,
-  75, 128.10, 160.1,  4.2,
-  80, 123.11, 164.1,  4.0,
-  85, 118.59, 168.0,  3.9,
-  90, 114.49, 171.7,  3.7,
-  95, 110.73, 175.3,  3.6,
- 100, 107.29, 178.8,  3.5,
- 105, 104.11, 182.2,  3.4,
- 110, 101.17, 185.5,  3.3,
- 115,  98.43, 188.7,  3.2,
- 120,  95.88, 191.8,  3.1,
- 125,  93.50, 194.8,  3.0,
- 130,  91.27, 197.7,  3.0,
- 135,  89.17, 200.6,  2.9,
- 140,  87.19, 203.4,  2.8,
- 145,  85.33, 206.2,  2.8,
- 150,  83.56, 208.9,  2.7,
- 155,  81.89, 211.5,  2.6,
- 160,  80.30, 214.1,  2.6,
- 165,  78.79, 216.7,  2.5,
- 170,  77.36, 219.2,  2.5,
- 175,  75.99, 221.6,  2.5,
- 180,  74.68, 224.0,  2.4
-)
-
-tabla_masa %>%
-  mutate(across(where(is.numeric), ~ round(.x, 2))) %>%
-  kbl(
-    format = "html",
-    booktabs = TRUE,
-    align = c("c", "c", "c", "c")) %>%
-  kable_classic(html_font = "Latin Modern Roman") %>%
-  kable_styling(
-    full_width = FALSE,
-    bootstrap_options = c("hover", "condensed", "striped")
-  ) %>%
-  row_spec(0, bold = TRUE) %>%
-  scroll_box(height = "450px")
-
-```
-
-A partir de la tabla de masa (intensidades IDF y precipitaciones incrementales) para $\Delta t = 5$ min y $T_d = 180$ min, construir el hietograma de diseño mediante el Método del Bloque Alterno.
-
-Datos relevantes
-
-- Intervalo base: $\Delta t = 5\ \text{min}$
-- Duración total: $T_d = 180\ \text{min}$
-- Número de bloques: 
-
-$$
-N = \frac{T_d}{\Delta t} = \frac{180}{5} = 36
-$$
-
-Bloques incrementales (ya calculados en la tabla):
-
-$$
-\Delta P_1,\Delta P_2,\ldots,\Delta P_{36}
-$$
-
-donde cada $\Delta P_j$ corresponde a la precipitación (mm) en un bloque de $5$ minutos.
-
-- Paso 1. Listar los bloques incrementales $\Delta P_j$
-
-De la columna **Precipitación (mm)** (con $\Delta t=5$ min), se obtienen 36 valores.
-
-- Paso 2. Ordenar $\Delta P_j$ de mayor a menor
-
-Se ordenan los bloques incrementales en orden descendente y se les asigna un rango:
-
-$$
-\Delta P_{(1)} \ge \Delta P_{(2)} \ge \cdots \ge \Delta P_{(36)}
-$$
-
-En este caso (ya están en orden descendente), los primeros valores son:
-
-- $\Delta P_{(1)} = 56.7$
-- $\Delta P_{(2)} = 17.3$
-- $\Delta P_{(3)} = 12.4$
-- $\Delta P_{(4)} = 10.1$
-- $\Delta P_{(5)} = 8.6$
-- $\Delta P_{(6)} = 7.6$
-- $\cdots$
-
-- Paso 3. Identificar el bloque central
-
-Como $N=36$ es par, el centro temporal cae entre los bloques $18$ y $19$.  
-En el MBA se usa una convención práctica: colocar el máximo en el bloque $19$ (primer bloque a la derecha del centro).
-
-Bloque central adoptado:
-
-$$
-j_c = \frac{N}{2}+1 = 18+1 = 19
-$$
-
-- Paso 4. Regla alterna de asignación (derecha–izquierda)
-
-Se define el patrón de posiciones donde se colocarán los bloques ordenados:
-
-1. $\Delta P_{(1)}$ en $j_c$
-2. $\Delta P_{(2)}$ en $j_c+1$
-3. $\Delta P_{(3)}$ en $j_c-1$
-4. $\Delta P_{(4)}$ en $j_c+2$
-5. $\Delta P_{(5)}$ en $j_c-2$
-6. $\Delta P_{(6)}$ en $j_c+3$
-7. $\Delta P_{(7)}$ en $j_c-3$
-8. $\cdots$
-
-Es decir, las posiciones siguen:
-
-$$
-j_c,\ (j_c+1),\ (j_c-1),\ (j_c+2),\ (j_c-2),\ (j_c+3),\ (j_c-3),\ldots
-$$
-
-Para $j_c=19$:
-
-$$
-19,\ 20,\ 18,\ 21,\ 17,\ 22,\ 16,\ 23,\ 15,\ 24,\ 14,\ldots
-$$
-
-- Paso 5. Construcción manual del hietograma (primeros bloques)
-
-Se asignan los bloques más grandes a las posiciones alternas:
-
-- En el bloque $19$ (centro): $\Delta P^{*}_{19}=\Delta P_{(1)}=56.7$
-- En el bloque $20$ (derecha): $\Delta P^{*}_{20}=\Delta P_{(2)}=17.3$
-- En el bloque $18$ (izquierda): $\Delta P^{*}_{18}=\Delta P_{(3)}=12.4$
-- En el bloque $21$: $\Delta P^{*}_{21}=\Delta P_{(4)}=10.1$
-- En el bloque $17$: $\Delta P^{*}_{17}=\Delta P_{(5)}=8.6$
-- En el bloque $22$: $\Delta P^{*}_{22}=\Delta P_{(6)}=7.6$
-- En el bloque $16$: $\Delta P^{*}_{16}=\Delta P_{(7)}=6.9$
-
-y así sucesivamente hasta ubicar los 36 bloques.
-
-El resultado final es la serie reordenada:
-
-$$
-\{\Delta P^{*}_j\}_{j=1}^{36}
-$$
-
-donde $\Delta P^{*}_j$ es la precipitación del bloque $j$ en el hietograma MBA.
-
-
-
-```{r}
-#| label: tbl-hietograma_MBA
-#| tbl-cap: "Tabla resumen para la construcción del hietograma de diseño mediante el Método del Bloque Alterno."
-#| message: false
-#| warning: false
-
-library(tidyverse)
-library(kableExtra)
-
-tabla_hietograma <- tibble::tribble(
-  ~`Tiempo (min)`, ~`Intensidad (mm/h)`, ~`Masa (mm)`, ~`Precipitación (mm)`, ~`P_alterna (mm)`,
-   5, 679.96,  56.7, 56.7,  2.5,
-  10, 443.54,  73.9, 17.3,  2.5,
-  15, 345.46,  86.4, 12.4,  2.6,
-  20, 289.32,  96.4, 10.1,  2.8,
-  25, 252.14, 105.1,  8.6,  2.9,
-  30, 225.34, 112.7,  7.6,  3.0,
-  35, 204.92, 119.5,  6.9,  3.2,
-  40, 188.73, 125.8,  6.3,  3.4,
-  45, 175.51, 131.6,  5.8,  3.6,
-  50, 164.47, 137.1,  5.4,  3.9,
-  55, 155.09, 142.2,  5.1,  4.2,
-  60, 146.99, 147.0,  4.8,  4.6,
-  65, 139.91, 151.6,  4.6,  5.1,
-  70, 133.67, 155.9,  4.4,  5.8,
-  75, 128.10, 160.1,  4.2,  6.9,
-  80, 123.11, 164.1,  4.0,  8.6,
-  85, 118.59, 168.0,  3.9, 12.4,
-  90, 114.49, 171.7,  3.7, 56.7,
-  95, 110.73, 175.3,  3.6, 17.3,
- 100, 107.29, 178.8,  3.5, 10.1,
- 105, 104.11, 182.2,  3.4,  7.6,
- 110, 101.17, 185.5,  3.3,  6.3,
- 115,  98.43, 188.7,  3.2,  5.4,
- 120,  95.88, 191.8,  3.1,  4.8,
- 125,  93.50, 194.8,  3.0,  4.4,
- 130,  91.27, 197.7,  3.0,  4.0,
- 135,  89.17, 200.6,  2.9,  3.7,
- 140,  87.19, 203.4,  2.8,  3.5,
- 145,  85.33, 206.2,  2.8,  3.3,
- 150,  83.56, 208.9,  2.7,  3.1,
- 155,  81.89, 211.5,  2.6,  3.0,
- 160,  80.30, 214.1,  2.6,  2.8,
- 165,  78.79, 216.7,  2.5,  2.7,
- 170,  77.36, 219.2,  2.5,  2.6,
- 175,  75.99, 221.6,  2.5,  2.5,
- 180,  74.68, 224.0,  2.4,  2.4
-)
-
-tabla_hietograma %>%
-  mutate(across(where(is.numeric), ~round(.x, 2))) %>%
-  kbl(
-    format = "html",
-    booktabs = TRUE,
-    align = "c",
-    col.names = c(
-      "Tiempo (min)",
-      "Intensidad (mm/h)",
-      "Masa (mm)",
-      "Precipitación (mm)",
-      "P<sub>alterna</sub> (mm)"
-    ),
-    escape = FALSE,
-    caption = "Información base y precipitación reordenada para la construcción del hietograma mediante el Método del Bloque Alterno."
-  ) %>%
-  kable_classic(html_font = "Latin Modern Roman") %>%
-  kable_styling(
-    full_width = FALSE,
-    bootstrap_options = c("hover", "condensed", "striped")
-  ) %>%
-  row_spec(0, bold = TRUE) %>%
-  scroll_box(height = "500px")
-
-```
-
-Por lo que a partir de este análisis, se puede obtener el siguiente hietograma de diseño.
+Así, el bloque 18 recibe 56.7 mm, el 19 recibe 17.3 mm, el 17 recibe 12.4 mm, el 20 recibe 10.1 mm, y así hasta ubicar los 36 bloques.
 
 ```{r}
 #| label: fig-hietograma_bloque_alterno
-#| fig-cap: "Hietograma de diseño obtenido mediante el Método del Bloque Alterno."
-#| fig-align: center
-#| out-width: 100%
-#| class: fig-border
+#| fig-cap: "Hietograma de diseño de 10 años obtenido por el método del bloque alterno."
+#| fig-alt: "Gráfico de barras con 36 bloques de 5 minutos; el bloque mayor, de 56.7 mm, está en el minuto 90"
+#| code-fold: false
 
-library(tidyverse)
+dt <- 5      # min
+td <- 180    # min
 
-# ------------------------------------------------------------
-# Datos del hietograma (bloque alterno)
-# ------------------------------------------------------------
-tabla_hietograma <- tibble::tribble(
-  ~`Tiempo (min)`, ~`P_alterna (mm)`,
-   5,  2.5,
-  10,  2.5,
-  15,  2.6,
-  20,  2.8,
-  25,  2.9,
-  30,  3.0,
-  35,  3.2,
-  40,  3.4,
-  45,  3.6,
-  50,  3.9,
-  55,  4.2,
-  60,  4.6,
-  65,  5.1,
-  70,  5.8,
-  75,  6.9,
-  80,  8.6,
-  85, 12.4,
-  90, 56.7,
-  95, 17.3,
- 100, 10.1,
- 105,  7.6,
- 110,  6.3,
- 115,  5.4,
- 120,  4.8,
- 125,  4.4,
- 130,  4.0,
- 135,  3.7,
- 140,  3.5,
- 145,  3.3,
- 150,  3.1,
- 155,  3.0,
- 160,  2.8,
- 165,  2.7,
- 170,  2.6,
- 175,  2.5,
- 180,  2.4
-)
+# 1) Intensidades de T = 10 años hasta la duración total
+bloques <- idf_tabla %>%
+  filter(d_min <= td) %>%
+  select(d_min, i_mmh = `10`) %>%
+  # 2) Curva de masa (mm)
+  mutate(masa = i_mmh * d_min / 60,
+  # 3) Lluvia de cada bloque (mm)
+         dp = masa - lag(masa, default = 0))
 
-# ------------------------------------------------------------
-# Gráfico del hietograma por Bloque Alterno
-# ------------------------------------------------------------
-ggplot(tabla_hietograma,
-       aes(x = factor(`Tiempo (min)`),
-           y = `P_alterna (mm)`)) +
-  geom_col(
-    fill = "#1f78b4",
-    color = "#08306b",
-    width = 0.85
-  ) +
+# 4) y 5) Reordenamiento alterno alrededor del bloque central
+n_bloques <- nrow(bloques)
+j_central <- n_bloques / 2
+desplazamientos <- c(0, rep(1:n_bloques, each = 2) * c(1, -1))[1:n_bloques]
+posicion <- j_central + desplazamientos   # 18, 19, 17, 20, 16, ...
+
+hietograma <- tibble(
+  bloque = posicion,
+  dp_alterno = sort(bloques$dp, decreasing = TRUE)
+) %>%
+  arrange(bloque) %>%
+  mutate(t_fin = bloque * dt)
+
+# Comprobación: la suma no cambia con el reordenamiento
+sum(hietograma$dp_alterno)
+
+# 6) Gráfico
+ggplot(hietograma, aes(factor(t_fin), dp_alterno)) +
+  geom_col(fill = "#1C6BA0", color = "#08306b", width = 0.85) +
   scale_y_continuous(breaks = seq(0, 60, by = 5), limits = c(0, 60), expand = c(0, 0)) +
-  labs(
-    title = "Hietograma de diseño por el Método del Bloque Alterno con T=10 años",
-    x = "Tiempo (min)",
-    y = "Precipitación (mm)"
-  ) +
-  theme(
-    plot.title.position = "plot",
-    panel.grid.minor = element_blank(),
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
-  )
-
+  labs(x = "Tiempo (min)", y = "Precipitación (mm)") +
+  theme(panel.grid.minor = element_blank(),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 ```
- 
-::: 
 
+```{r}
+#| label: tbl-hietograma_MBA
+#| tbl-cap: "Curva de masa, lluvia por bloque y lluvia reordenada por el método del bloque alterno ($T = 10$ años)."
+#| echo: false
 
-## Disponibilidad de información de curvas IDF en Costa Rica
+library(kableExtra)
 
-La estimación de curvas de Intensidad–Duración–Frecuencia (IDF) es un componente esencial para el diseño hidrológico y la planificación de infraestructuras que manejan aguas pluviales. En Costa Rica, la disponibilidad de este tipo de información proviene de diferentes fuentes institucionales, publicaciones científicas y proyectos académicos, aunque no siempre existe un repositorio único centralizado con datos completos y actualizados para todas las estaciones meteorológicas del país.
+bloques %>%
+  mutate(dp_alterno = hietograma$dp_alterno) %>%
+  kbl(
+    format = "html",
+    digits = c(0, 2, 1, 1, 1),
+    align = "c",
+    col.names = c("Tiempo (min)", "Intensidad (mm/h)", "Masa (mm)",
+                  "Precipitación (mm)", "P<sub>alterna</sub> (mm)"),
+    escape = FALSE
+  ) %>%
+  kable_styling(full_width = FALSE, bootstrap_options = c("hover", "condensed", "striped")) %>%
+  row_spec(0, bold = TRUE) %>%
+  scroll_box(height = "500px")
+```
 
-### Fuentes oficiales y datos nacionales
+**Interpretación.** La tormenta de diseño acumula 224 mm en 3 h, y una cuarta parte de esa lluvia cae en los 5 min centrales. Cualquier ventana centrada en el pico contiene la lámina de la curva IDF para su duración: los 15 min centrales suman $56.7 + 17.3 + 12.4 = 86.4$ mm, igual a $P(15)$. Este hietograma es la entrada para un modelo de lluvia-escorrentía de la cuenca.
 
-1. <u>Instituto Meteorológico Nacional (IMN)</u>: El IMN ha publicado documentos técnicos que incluyen curvas IDF y análisis de precipitación para duraciones y periodos de retorno específicos, disponibles en su repositorio de publicaciones.
-   - El **Atlas Clasificado Climatológico de Costa Rica** contiene mapas y estadísticas climáticas que son útiles como complemento para estudios de frecuencia de lluvia [@IMN_AtlasClimatologico_CostaRica].
-   - El **Boletín Curvas de Intensidad Duración Frecuencia de algunas estaciones meteorológicas mecánicas** el cual presenta curvas IDF de diferentes estaciones mecánicas ubicadas en distintas partes del país, tal y como se muestra en la siguiente figura.
+:::
+
+## Información IDF disponible en Costa Rica {#sec-idf-costa-rica}
+
+En Costa Rica no hay un repositorio único con curvas IDF actualizadas para todas las estaciones. La información está repartida entre publicaciones del Instituto Meteorológico Nacional (IMN), trabajos académicos y proyectos de investigación.
+
+### Publicaciones del IMN
+
+- El **Atlas climatológico de Costa Rica** tiene mapas y estadísticas que sirven de complemento a los estudios de frecuencia de lluvia [@IMN_AtlasClimatologico_CostaRica].
+- El boletín de **curvas IDF de estaciones meteorológicas mecánicas** [@Rojas2011mecanicas] presenta curvas de 15 estaciones en distintas zonas del país (@fig-IMN_mecanicas y @tbl-estaciones_mecanicas_imn).
+
 ```{r}
 #| label: fig-IMN_mecanicas
-#| fig-cap: "Ubicación de estaciones mecánicas con información disponible dentro del boletín de estaciones mecánicas.<br><span style='font-size:0.8em;'>Fuente: [@Rojas2011mecanicas]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Ubicación de las estaciones mecánicas del boletín de curvas IDF del IMN. Fuente: @Rojas2011mecanicas."
+#| fig-alt: "Mapa de Costa Rica con la ubicación de 15 estaciones meteorológicas mecánicas"
 #| echo: false
-#| class: fig-border
 
 knitr::include_graphics("assets/img/imn_mecanicas.png")
 ```
-   Las estaciones presentes en el boletín son:
-```{r}
-#| label: tbl-estaciones_mecanicas_imn
-#| tbl-cap: "Estaciones mecánicas presentes en el bolétin de [@Rojas2011mecanicas]."
-#| message: false
-#| warning: false
-library(tibble)
-library(kableExtra)
 
-estaciones <- tribble(
-  ~`Número`, ~`Nombre`,
-  "71-02",  "La Mola",
-  "73-22",  "Pacayas",
-  "73-49",  "Mola 2",
-  "73-91",  "Hacienda El Carmen",
-  "74-06",  "La Guinea",
-  "74-20",  "Llano Grande, Liberia",
-  "76-02",  "Tilarán",
-  "76-41",  "Ingenio Taboga",
-  "81-03",  "Limón",
-  "84-46",  "San Josecito, Heredia",
-  "84-111", "Santa Lucía, Heredia",
-  "90-09",  "Damas",
-  "98-27",  "Pindeco",
-  "98-56",  "Volcán",
-  "100-35", "Coto 47"
-)
+| Número | Nombre |
+|:---:|:---|
+| 71-02 | La Mola |
+| 73-22 | Pacayas |
+| 73-49 | Mola 2 |
+| 73-91 | Hacienda El Carmen |
+| 74-06 | La Guinea |
+| 74-20 | Llano Grande, Liberia |
+| 76-02 | Tilarán |
+| 76-41 | Ingenio Taboga |
+| 81-03 | Limón |
+| 84-46 | San Josecito, Heredia |
+| 84-111 | Santa Lucía, Heredia |
+| 90-09 | Damas |
+| 98-27 | Pindeco |
+| 98-56 | Volcán |
+| 100-35 | Coto 47 |
 
-estaciones %>%
-  kbl(
-    format   = "html",
-    booktabs = TRUE,
-    align    = c("c", "c")) %>%
-  kable_classic(html_font = "Latin Modern Roman") %>%
-  kable_styling(
-    full_width        = FALSE,
-    bootstrap_options = c("striped", "hover", "condensed")
-  ) %>%
-  row_spec(0, bold = TRUE)
+: Estaciones mecánicas del boletín de curvas IDF del IMN [@Rojas2011mecanicas]. {#tbl-estaciones_mecanicas_imn}
 
-```
+- El boletín de **curvas IDF de estaciones meteorológicas automáticas** [@Rojas2011automaticas] presenta curvas de 27 estaciones. El boletín no incluye un mapa de ubicación.
 
-   - El **Boletín Curvas de Intensidad Duración Frecuencia de algunas estaciones meteorológicas automáticas** el cual presenta curvas IDF de diferentes estaciones automátivas ubicadas en distintas ubicaciones del país, en el siguiente cuadro se detallan las estaciones que aparecen en el boletín.
-   
-```{r}
-#| label: tbl-estaciones_auto_imn
-#| tbl-cap: "Estaciones automáticas presentes en el bolétin de [@Rojas2011mecanicas]."
-#| echo: false
-#| message: false
-#| warning: false
-library(tibble)
-library(kableExtra)
+| Estación | Nombre |
+|:---:|:---|
+| 69-633 | Comando Los Chiles |
+| 69-661 | Ciudad Quesada |
+| 69-679 | Upala |
+| 69-681 | La Rebusca |
+| 71-15 | Canta Gallo |
+| 72-157 | Finca La Ceiba |
+| 73-123 | ITCR, Cartago |
+| 73-129 | Recope Ochomogo |
+| 74-51 | Aeropuerto Liberia |
+| 74-53 | Santa Cruz |
+| 76-55 | Hacienda Mojica |
+| 81-05 | Aeropuerto Limón |
+| 84-139 | CIGEFI |
+| 84-141 | IMN-Aranjuez |
+| 84-145 | Esc. Centroamericana de Ganadería |
+| 84-191 | RECOPE La Garita |
+| 84-195 | Aeropuerto Pavas (Oeste) |
+| 85-21 | Hito Cerere |
+| 87-13 | Sixaola |
+| 88-35 | Frailes |
+| 88-41 | La Lucha |
+| 98-75 | Las Brisas, San Vito |
+| 98-87 | PINDECO |
+| 98-91 | Chirripó |
+| 98-95 | Altamira |
+| 100-03 | Golfito |
+| 100-631 | Coto 47 |
 
-estaciones_automaticas <- tribble(
-  ~`Estación`, ~`Nombre`,
-  "69-633",  "Comando Los Chiles",
-  "69-661",  "Ciudad Quesada",
-  "69-679",  "Upala",
-  "69-681",  "La Rebusca",
-  "71-15",   "Canta Gallo",
-  "72-157",  "Finca La Ceiba",
-  "73-123",  "ITCR, Cartago",
-  "73-129",  "Recope Ochomogo",
-  "74-51",   "Aeropuerto Liberia",
-  "74-53",   "Santa Cruz",
-  "76-55",   "Hacienda Mojica",
-  "81-05",   "Aeropuerto Limón",
-  "84-139",  "CIGEFI",
-  "84-141",  "IMN-Aranjuez",
-  "84-145",  "Esc. Centroamericana Ganadería",
-  "84-191",  "RECOPE La Garita",
-  "84-195",  "Aeropuerto Pavas (Oeste)",
-  "85-21",   "Hito Cerere",
-  "87-13",   "Sixaola",
-  "88-35",   "Frailes",
-  "88-41",   "La Lucha",
-  "98-75",   "Las Brisas, San Vito",
-  "98-87",   "PINDECO",
-  "98-91",   "Chirripó",
-  "98-95",   "Altamira",
-  "100-03",  "Golfito",
-  "100-631", "Coto 47"
-)
+: Estaciones automáticas del boletín de curvas IDF del IMN [@Rojas2011automaticas]. {#tbl-estaciones_auto_imn}
 
-estaciones_automaticas %>%
-  kbl(
-    format   = "html",
-    booktabs = TRUE,
-    align    = c("c", "l"),
-    caption  = "Estaciones meteorológicas automáticas incluidas en el boletín."
-  ) %>%
-  kable_classic(html_font = "Latin Modern Roman") %>%
-  kable_styling(
-    full_width        = FALSE,
-    bootstrap_options = c("striped", "hover", "condensed")
-  ) %>%
-  row_spec(0, bold = TRUE) %>%
-  footnote(
-    general       = "Nota: El presente boletín no cuenta con figura de ubicación de estaciones.",
-    general_title = "",
-    footnote_as_chunk = TRUE,
-    escape = FALSE
-  )
+Los análisis de Vahrson para estaciones pluviográficas de Limón, Liberia, Puntarenas, San Carlos y otras localidades [@Vahrson1992a; @Vahrson1992b] ya no se usan como referencia habitual en diseño. Son antiguos, tienen poca cobertura y se extrapolaban a provincias enteras, cuyas condiciones de lluvia no siempre representan.
 
+### Trabajos académicos
 
-```
+- @Murillo1994 presenta curvas IDF de 10 estaciones en la cuenca del río Virilla (@tbl-estaciones_murillo).
 
-   - Es importante notar que, si bien existen referencias antiguas como los análisis de Vahrson para estaciones pluviográficas regionales (e.g., Limón, Liberia, Puntarenas, San Carlos, etc.), dichas fuentes **ya no se consideran de consulta habitual** para el diseño moderno debido a su antigüedad, cobertura limitada y métodos que no reflejan las condiciones hidrometeorológicas de las zonas que dicen tener influencia (provincias).  
+| Número | Estación |
+|:---:|:---|
+| 84001 | San José |
+| 84021 | A. J. Santamaría |
+| 84034 | Embalse La Garita |
+| 84046 | San Josecito |
+| 84074 | Aeropuerto Pavas |
+| 84075 | Coop. Café, Naranjo |
+| 84096 | Sabana Norte |
+| 84111 | Santa Lucía |
+| 84115 | Sabanilla |
+| 69505 | Vara Blanca |
 
-2. <u>Publicaciones académicas costarricenses</u>: También existen resúmenes y materiales (tesis, informes) que contienen análisis de IDF basados en estaciones automáticas y en series de máximos diarios.
+: Estaciones con curvas IDF en la cuenca del río Virilla [@Murillo1994]. {#tbl-estaciones_murillo}
 
-  - El trabajo de [@Murillo1994], donde se detallan curvas IDF de estaciones ubicadas dentro de la cuenca del río Virilla. Estas estaciones son:
+- @Garcia2015Terraba presenta curvas IDF de 20 estaciones pluviográficas del ICE en la cuenca del río Grande de Térraba (@fig-estaciones_efra y @tbl-estaciones_efra).
 
-```{r}
-#| label: tbl-estaciones_murillo
-#| tbl-cap: "Estaciones automáticas presentes en el trabajo académico de [@Murillo1994]."
-#| echo: false
-#| message: false
-#| warning: false
-library(tibble)
-library(kableExtra)
-
-estaciones <- tribble(
-  ~`Número`, ~`Estación`,
-  "84001", "San José",
-  "84021", "A. J. Santamaría",
-  "84034", "Embalse La Garita",
-  "84046", "San Josecito",
-  "84074", "Aeropuerto Pavas",
-  "84075", "Coop. Café, Naranjo",
-  "84096", "Sabana Norte",
-  "84111", "Santa Lucía",
-  "84115", "Sabanilla",
-  "69505", "Vara Blanca"
-)
-
-estaciones %>%
-  kbl(
-    format   = "html",
-    booktabs = TRUE,
-    align    = c("c", "c"),
-    caption  = "Estaciones meteorológicas incluidas en el análisis."
-  ) %>%
-  kable_classic(html_font = "Latin Modern Roman") %>%
-  kable_styling(
-    full_width        = FALSE,
-    bootstrap_options = c("striped", "hover", "condensed")
-  ) %>%
-  row_spec(0, bold = TRUE)
-
-```
-
-  - El trabajo realizado por [@Garcia2015Terraba], donde se detallan curvas IDF de estaciones ubicadas dentro de la cuenca del río Grande de Térraba. Estas estaciones son:
-  
 ```{r}
 #| label: fig-estaciones_efra
-#| fig-cap: "Ubicación de estaciones pluviográficas con información de curvas IDF dentro de la cuenca del río Grande de Térraba.<br><span style='font-size:0.8em;'>Fuente: [@Garcia2015Terraba]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Estaciones pluviográficas con curvas IDF en la cuenca del río Grande de Térraba. Fuente: @Garcia2015Terraba."
+#| fig-alt: "Mapa de la cuenca del río Grande de Térraba con la ubicación de 20 estaciones pluviográficas"
 #| echo: false
-#| class: fig-border
 
 knitr::include_graphics("assets/img/efra.png")
 ```
 
-```{r}
-#| label: tbl-estaciones_efra
-#| tbl-cap: "Estaciones automáticas presentes en el trabajo académico de [@Murillo1994]."
-#| echo: false
-#| message: false
-#| warning: false
-library(tibble)
-library(kableExtra)
+| Código | Nombre |
+|:---:|:---|
+| 98006 | Volcán Buenos Aires |
+| 98007 | San Vito de Jaba |
+| 98010 | Cedral |
+| 98011 | Bolivia |
+| 98012 | Potrero Grande |
+| 98013 | Río Negro |
+| 98018 | Ujarrás |
+| 98031 | Buena Vista |
+| 98032 | Alto San Juan |
+| 98033 | San Jerónimo |
+| 98034 | Guácimo Tablas |
+| 98035 | Limoncito |
+| 98036 | Maíz de Boruca |
+| 98037 | Cajón Boruca |
+| 98043 | Las Mellizas |
+| 98044 | Las Alturas |
+| 98051 | Helechales |
+| 98057 | Térraba |
+| 98066 | San Isidro de Biolley |
+| 98068 | Las Delicias |
 
-estaciones_ice <- tribble(
-  ~`Código`, ~`Nombre`,
-  "98006", "Volcán Buenos Aires",
-  "98007", "San Vito de Jaba",
-  "98010", "Cedral",
-  "98011", "Bolivia",
-  "98012", "Potrero Grande",
-  "98013", "Río Negro",
-  "98018", "Ujarrás",
-  "98031", "Buena Vista",
-  "98032", "Alto San Juan",
-  "98033", "San Jerónimo",
-  "98034", "Guácimo Tablas",
-  "98035", "Limoncito",
-  "98036", "Maíz de Boruca",
-  "98037", "Cajón Boruca",
-  "98043", "Las Mellizas",
-  "98044", "Las Alturas",
-  "98051", "Helechales",
-  "98057", "Térraba",
-  "98066", "San Isidro de Biolley",
-  "98068", "Las Delicias"
-)
-
-estaciones_ice %>%
-  kbl(
-    format   = "html",
-    booktabs = TRUE,
-    align    = c("c", "l")) %>%
-  kable_classic(html_font = "Latin Modern Roman") %>%
-  kable_styling(
-    full_width        = FALSE,
-    bootstrap_options = c("striped", "hover", "condensed")
-  ) %>%
-  row_spec(0, bold = TRUE) %>%
-  footnote(
-    general       = "Fuente: (García, 2015).",
-    general_title = "",
-    footnote_as_chunk = TRUE,
-    escape = FALSE
-  )
-
-``` 
-
+: Estaciones pluviográficas con curvas IDF en la cuenca del río Grande de Térraba [@Garcia2015Terraba]. {#tbl-estaciones_efra}
 
 ### Proyectos de investigación
 
-Proyectos de investigación en ingeniería y cambio climático han generado metodologías para actualizar cadenas pluviográficas e IDF, incluso en el contexto de futuros escenarios climáticos. Por ejemplo, estudios vinculados a CORDEX para Centroamérica analizan cómo métodos de corrección de sesgos afectan las curvas IDF proyectadas para Costa Rica. 
+Algunos proyectos han estudiado cómo podrían cambiar las curvas IDF de Costa Rica con el cambio climático. Por ejemplo, hay estudios con modelos regionales del proyecto CORDEX para Centroamérica que analizan cómo los métodos de corrección de sesgo afectan las curvas IDF proyectadas. <!-- CITA PENDIENTE: estudio CORDEX sobre curvas IDF en Costa Rica. -->
 
+### Herramientas de cálculo
 
-### Fuentes adicionales a nivel teórico y metodológico
+Para construir curvas IDF a partir de registros pluviográficos se pueden usar, entre otras, estas herramientas:
 
-Aunque no específicas de Costa Rica, existen recursos ampliamente aceptados que proporcionan metodologías y herramientas para derivar curvas IDF con datos pluviográficos, lo cual puede apoyar análisis locales. Entre estas hay herramientas computacionales para generar curvas IDF a partir de datos pluviográficos y distribuciones extremas están disponibles como software y proyectos colaborativos. Entre ellos están:
+- R [@RcoreTeam2024], que es la que se usa en este libro.
+- Python [@PythonSoftwareFoundation2024].
+- Hydrognomon [@Hydrognomon2023].
+- HEC-HMS [@HECHMS2023], que además permite usar los hietogramas de diseño en modelos de lluvia-escorrentía.
 
-a. R y Rstudio:[@RcoreTeam2024]
-
-b. Python: [@PythonSoftwareFoundation2024]
-
-c. Hydrognomon: [@Hydrognomon2023]
-
-d. HEC-HMS: [@HECHMS2023]
-
-
-Aunque Costa Rica no cuenta con un repositorio único oficial donde se puedan descargar todas las curvas IDF completas para cada estación, la información existe dispersa en publicaciones del Instituto Meteorológico Nacional, trabajos académicos, atlas climáticos y proyectos de investigación. La combinación de estas fuentes permite a ingenieros e investigadores construir, para algunos casos, curvas IDF específicas para cuencas y localidades con suficientes registros pluviográficos, integrando metodologías modernas y, cuando sea necesario, extendiendo los análisis hacia escenarios futuros con apoyo de estudios climáticos internacionales.  
+En síntesis, en Costa Rica sí hay curvas IDF, pero dispersas y para un número limitado de estaciones. Para una cuenca sin curvas propias, el camino es reunir estas fuentes, revisar qué estaciones tienen registro pluviográfico suficiente y, cuando haga falta, construir las curvas con los métodos de este capítulo.
