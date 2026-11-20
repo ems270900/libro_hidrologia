@@ -1,1149 +1,1049 @@
 ---
-title: "Fuentes de información hidro-meteorológica"
+title: "Fuentes de información hidrometeorológica"
 bibliography: references.bib
 suppress-bibliography: true
 ---
 
 ::: {.quote-block}
-“La hidrología no es solo el estudio del agua, sino el estudio de su medición.”\
-— *Robert E. Horton, hidrólogo, padre de la hidrología moderna*
+"Cuando se puede medir aquello de lo que se habla y expresarlo en números, se sabe algo de ello."\
+— *William Thomson (lord Kelvin), conferencia "Electrical Units of Measurement" (1883)*
 :::
 
-La hidrología es una ciencia intensiva en información. Como disciplina que estudia la ocurrencia, circulación y distribución del agua en la superficie terrestre y la atmósfera, su progreso depende directamente de la disponibilidad de datos precisos y representativos. En la hidrología, el análisis de estos datos no constituye un fin en sí mismo, sino el primer paso fundamental para el diseño y dimensionamiento de obras de control y aprovechamiento del recurso hídrico, tales como presas, sistemas de drenaje vial y proyectos hidroeléctricos.
+Casi todo cálculo hidrológico empieza con un registro: la lluvia diaria de una estación, la temperatura con que se estima la evapotranspiración o los aforos con que se construye la curva de descarga de un río. Muchos procesos de la cuenca no se pueden deducir solo con la física, así que el diseño se apoya en relaciones empíricas que se ajustan con datos medidos. Si los datos son malos, el caudal de diseño también lo será, por bueno que sea el método.
 
-Sin mediciones sistemáticas y confiables, la hidróloga o el hidrólogo se enfrentan a una limitación crítica, ya que muchos de los procesos naturales involucrados no admiten un análisis puramente deductivo o mecánico. En su lugar, el estudio hidrológico debe apoyarse en hechos observados, a partir de los cuales se formulan relaciones empíricas y criterios de diseño que describen el comportamiento integrado de una cuenca hidrográfica.
+Este capítulo describe qué se mide, con qué instrumentos y con qué limitaciones. Conocer el instrumento ayuda a interpretar el dato: un pluviómetro que se lee una vez al día no da intensidades, un tanque evaporímetro sobrestima la evaporación de un embalse y un aforo hecho en aguas bajas no dice mucho de una crecida.
 
-Nuestro trabajo desde la hidrología no es una tarea meramente teórica, sino que consiste en construir, calibrar y probar modelos que representen la realidad física que se produce en una cuenca hidrográfica y dentro de alguna parte o la totalidad del ciclo hidrológico. Es por esto que tener información base confiable, nos permite mejorar y tener más precisión dentro de esa labor aplicada.
+## Variables meteorológicas {#sec-fuentes-meteorologicas}
 
-## Mediciones hidroclimáticas
+### Precipitación {#sec-fuentes-precipitacion}
 
-### Precipitación
+La **precipitación** es el agua, líquida o sólida, que cae de las nubes y llega a la superficie: lluvia, llovizna, granizo y nieve. Es la entrada principal de cualquier balance hídrico y de casi todos los modelos de crecidas.
 
-La precipitación es la fuente primaria de agua en la superficie terrestre. Se define como cualquier forma de humedad que, originándose en las nubes, llega hasta la superficie del suelo, incluyendo lluvia, nieve, granizo, y en menor medida, rocío y escarcha. Su cuantificación correcta es uno de los mayores desafíos en la hidrología, ya que es el motor principal del ciclo hidrológico y la entrada fundamental para cualquier modelo de balance hídrico o predicción de crecientes.
+Se mide como la altura de la lámina de agua que se acumularía sobre una superficie horizontal, en milímetros. Un milímetro de lluvia equivale a un litro por metro cuadrado.
 
-La precipitación se mide comúnmente en términos de la altura de lámina de agua $(h_p)$. La unidad estándar es el milímetro (mm), donde 1 mm equivale a 1 litro por metro cuadrado.
+**Pluviómetro.** Es un recipiente cilíndrico con una boca de área conocida que recoge la lluvia. El agua se mide a mano con una probeta graduada, por lo general una vez al día y a una hora fija, por ejemplo a las 7:00. La Organización Meteorológica Mundial (OMM) recomienda bocas de entre 200 y 500 cm² [@wmo2018guia]. En sitios de difícil acceso se usan **pluviómetros totalizadores**, que acumulan la lluvia de semanas o meses bajo una capa de aceite que impide la evaporación. El pluviómetro da el total del periodo, pero no dice cómo se repartió la lluvia dentro de él.
 
-**Pluviómetros** 
+**Pluviógrafo.** Registra la lluvia acumulada en función del tiempo. Con ese registro se calculan intensidades y se analizan tormentas, que es lo que piden las curvas IDF y el diseño de drenajes. Hay tres tipos:
 
-Son recipientes cilíndricos abiertos en su parte superior con un área de captación estandarizada por la Organización Meteorológica Mundial (OMM), usualmente de 200 cm$^2$. El agua captada se mide manualmente mediante una probeta graduada o una regla. En zonas de difícil acceso se utilizan pluviómetros totalizadores que acumulan la lluvia durante períodos largos, protegidos con una capa de aceite para evitar la evaporación.
-
-Permiten obtener un registro continuo de la precipitación en función del tiempo, lo cual es vital para determinar la intensidad de la lluvia. Los tipos principales son:
-
-- De balanza o pesa: Pesa el agua o nieve acumulada mediante un resorte o báscula, registrando el peso total en una carta o formato digital (*datalogger*).
-
-- De flotador: Utiliza un flotador que sube a medida que se llena el recipiente, moviendo una plumilla sobre un tambor giratorio; suelen tener sifones automáticos para vaciarse al alcanzar una capacidad fija.
-
-- De cubeta basculante (balancín): Contiene un pequeño balancín con dos compartimentos que se vuelcan alternativamente cada vez que reciben una cantidad fija (usualmente 0.1 o 0.2 mm), generando un pulso eléctrico.
+- **De balanza:** pesa el agua acumulada y registra el peso en una banda de papel o en un registrador digital (*datalogger*).
+- **De flotador:** el agua levanta un flotador que mueve una plumilla sobre un tambor giratorio (@fig-pluviografo). Un sifón vacía el recipiente cuando se llena.
+- **De balancín o cubeta basculante:** un balancín con dos compartimentos se vuelca cada vez que recibe una cantidad fija de agua, por lo general 0.1 o 0.2 mm, y cada vuelco envía un pulso eléctrico al registrador (@fig-pluvio). Es el que usan las estaciones automáticas, porque la información se puede transmitir en tiempo real.
 
 ```{r}
 #| label: fig-pluvio
-#| fig-cap: "Diagrama de un pluviómetro de balancín"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Pluviómetro de balancín."
+#| fig-alt: "Esquema de un pluviómetro con embudo colector, balancín de doble cubeta, pivote, imán y registrador de datos"
 #| echo: false
-#| class: fig-border
+#| out-width: 70%
 
 knitr::include_graphics("assets/img/pluviometro.png")
-
 ```
-
-
-En términos generales, los instrumentos de medición de precipitación pueden agruparse en pluviómetros y pluviógrafos, los cuales se describen a continuación.
-
-**Pluviómetro tradicional (sin registro)**
-
-El pluviómetro convencional se utiliza para medir la cantidad total de lluvia acumulada durante un período determinado, usualmente diario. Este instrumento consiste en un recipiente cilíndrico con un área de captación conocida, donde el agua de lluvia se almacena hasta el momento de la lectura.
-
-La medición se realiza manualmente, normalmente una vez al día (por ejemplo, a las 7:00 a.m.), mediante una probeta o cilindro graduado. Aunque es un método simple, su principal limitación es que no proporciona información sobre la intensidad ni la distribución temporal de la lluvia.
-
-**Pluviómetro electrónico (automático)**
-
-El pluviómetro electrónico es ampliamente utilizado en estaciones meteorológicas automáticas. Su funcionamiento se basa en un sistema de cazoletas o cubetas basculantes (balancín), que se llenan con una cantidad fija de lluvia y se vacían alternativamente por efecto del peso.
-
-Cada basculamiento genera un pulso eléctrico, el cual es registrado por un datalogger. A partir del número de pulsos, se estima la precipitación acumulada. Este tipo de instrumento permite obtener datos con alta resolución temporal y facilita la transmisión automática de la información, reduciendo la necesidad de observaciones manuales.
-
-**Pluviógrafo (medidor con registro continuo)**
-
-El pluviógrafo es un instrumento diseñado para registrar de forma continua la precipitación en función del tiempo. Tradicionalmente, el registro se realiza mediante una pluma que traza una curva sobre una banda de papel montada en un tambor giratorio.
-
-Gracias a este registro continuo, el pluviógrafo permite analizar la intensidad, la duración y la distribución temporal de los eventos de lluvia, información indispensable para estudios hidrológicos avanzados, como el análisis de tormentas, la construcción de curvas IDF y el diseño de obras hidráulicas.
 
 ```{r}
 #| label: fig-pluviografo
-#| fig-cap: "Funcionamiento de pluviógrafo.<br><span style='font-size:0.8em;'>Fuente: [@Sanguesa2025_PluviographDataset]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Pluviógrafo de flotador: instrumento, banda de registro y esquema. Fuente: @Sanguesa2025_PluviographDataset."
+#| fig-alt: "Fotografía de un pluviógrafo, de su tambor con la banda de papel y un esquema del embudo, el recipiente y la plumilla"
 #| echo: false
-#| class: fig-border
+#| out-width: 100%
 
 knitr::include_graphics("assets/img/pluviografo.jpg")
-
 ```
 
-### Percepción remota: radar y satélites
+::: {.callout-warning title="Cuidado"}
+El pluviómetro mide la lluvia en un punto. El viento desvía parte de las gotas alrededor de la boca, de modo que el instrumento tiende a registrar menos lluvia de la que cae, sobre todo con viento fuerte y llovizna [@wmo2018guia]. Un árbol o un edificio cercano también cambian la lectura.
+:::
 
-En las últimas décadas, el uso de tecnologías de sensores remotos ha permitido superar la limitación de los pluviómetros, que solo proporcionan medidas puntuales.
+#### Radar y satélites {#sec-fuentes-radar}
 
-- Radar Meteorológico: Emite pulsos de energía electromagnética que rebotan en las gotas de lluvia o cristales de hielo (reflectividad, $Z$). La relación entre la reflectividad y la tasa de lluvia ($R$) se rige por una ecuación de potencia:
+Los sensores remotos miden la lluvia sobre áreas extensas, que es justo lo que no da un pluviómetro.
+
+El **radar meteorológico** emite pulsos de microondas que rebotan en las gotas y los cristales de hielo. Lo que mide es la reflectividad $Z$, que se convierte en intensidad de lluvia $R$ con una relación potencial:
 
 $$
-Z = a R^b
-$$
+Z = a\,R^b
+$$ {#eq-fuentes-zr}
 
-donde $a$ y $b$ son parámetros empíricos que dependen del tipo de tormenta (por ejemplo, $a = 300$, $b = 1.4$ para lluvias convectivas). El radar ofrece una resolución espacial alta (hasta 1 km$^2$) y temporal (cada 1–15 min) sobre áreas extensas.
+donde $Z$ es la reflectividad (mm⁶/m³), $R$ es la intensidad de lluvia (mm/h), y $a$ y $b$ son coeficientes empíricos que dependen del tipo de lluvia. La relación clásica de Marshall y Palmer usa $a = 200$ y $b = 1.6$ para lluvia estratiforme [@marshall1948distribution]. Para lluvia convectiva, la red de radares de los Estados Unidos usa $a = 300$ y $b = 1.4$ [@fulton1998wsr88d]. El radar cubre radios de más de 100 km, con celdas del orden de un kilómetro y un barrido nuevo cada pocos minutos (@fig-radar). Su estimación se corrige con pluviómetros, porque los coeficientes cambian de una tormenta a otra.
 
 ```{r}
 #| label: fig-radar
-#| fig-cap: "Imagen de detección de precipitación por medio de radar.<br><span style='font-size:0.8em;'>Fuente: (Instituto Nicaragüense de Estudios Territoriales, 2020)</span>"
-#| fig-align: center
-#| out-width: 65%
+#| fig-cap: "Lluvia detectada por un radar meteorológico sobre Centroamérica. Fuente: Instituto Nicaragüense de Estudios Territoriales (2020)."
+#| fig-alt: "Imagen de radar con manchas de lluvia en verde, azul y amarillo sobre Nicaragua y el norte de Costa Rica"
 #| echo: false
-#| class: fig-border
+#| out-width: 50%
 
 knitr::include_graphics("assets/img/radar.jpg")
-
 ```
 
-- Satélites: Estiman la precipitación mediante sensores infrarrojos (correlacionando la temperatura de las nubes con la intensidad de la lluvia) y sensores de microondas, que detectan directamente las gotas de agua.
+Los **satélites** estiman la lluvia con dos tipos de sensores. Los infrarrojos miden la temperatura del tope de las nubes: las nubes más frías y altas suelen dar más lluvia. Los de microondas responden directamente a las gotas y al hielo dentro de la nube, pero pasan por un mismo sitio pocas veces al día. Productos como CHIRPS combinan ambas fuentes con datos de estaciones y entregan series diarias desde 1981 con celdas de 0.05° [@CHIRPS], unos 5.5 km en Costa Rica (@fig-satelite).
 
 ```{r}
 #| label: fig-satelite
-#| fig-cap: "Precipitación promedio multianual, por medio de detección satelital.<br><span style='font-size:0.8em;'>Fuente: [@CHIRPS]</span>"
-#| fig-align: center
-#| out-width: 70%
+#| fig-cap: "Precipitación media de mayo a agosto (1991–2020) estimada con CHIRPS. Fuente: @CHIRPS."
+#| fig-alt: "Mapa de Costa Rica con la lluvia media de mayo a agosto en tonos de verde y azul"
 #| echo: false
-#| class: fig-border
+#| out-width: 55%
 
 knitr::include_graphics("assets/img/chirps.png")
-
 ```
 
-A la representación espacial de la precipitación, se le conoce como isoyetas.
+La lluvia medida en las estaciones se representa en mapas con **isoyetas**, líneas que unen puntos de igual precipitación (@fig-isoyetas). El cálculo de la lluvia media sobre una cuenca con isoyetas y otros métodos se trata en el capítulo de precipitación.
 
 ```{r}
 #| label: fig-isoyetas
-#| fig-cap: "Mapa de isoyetas para Costa Rica.<br><span style='font-size:0.8em;'>Fuente: [@IMN_CostaRica]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Lluvia total del 28 de junio de 2022 en Costa Rica (datos preliminares). Fuente: @IMN_CostaRica."
+#| fig-alt: "Mapa de Costa Rica con la lluvia de un día en tonos de azul, con máximos de más de 150 mm en el centro del país"
 #| echo: false
-#| class: fig-border
+#| out-width: 85%
 
 knitr::include_graphics("assets/img/isoyetas.jpg")
-
 ```
 
+### Temperatura {#sec-fuentes-temperatura}
 
-### Temperatura
+La **temperatura del aire** controla la evapotranspiración, la forma en que cae la precipitación y las propiedades del agua. Al subir la temperatura baja la viscosidad del agua, lo que cambia su movimiento en el suelo y en los acuíferos (@sec-fuentes-conductividad).
 
-La temperatura es una medida de la energía interna del aire. Su importancia radica en que actúa como el motor de diversos procesos del ciclo hidrológico: condiciona la tasa de evapotranspiración, determina la forma de la precipitación (lluvia o nieve) y regula el proceso de fusión de las capas de nieve. Además, influye en las propiedades físicas del agua, como su viscosidad y densidad, afectando así el movimiento del agua tanto en la atmósfera, cauces superficiales como en acuíferos.
+Se mide con:
 
-La temperatura se mide por medio de:
+- **Termómetros de líquido en vidrio:** el de máxima usa mercurio y tiene un estrangulamiento que impide que el líquido regrese; el de mínima usa alcohol y un índice que queda en el valor más bajo.
+- **Termógrafos:** registran la temperatura en una banda de papel con una lámina bimetálica.
+- **Sensores electrónicos:** termistores o termopares conectados al registrador de una estación automática.
 
-- Termómetros de líquido en vidrio: utilizan mercurio para temperaturas máximas (con una constricción que impide el retroceso del fluido) y alcohol para las mínimas (con un índice que marca el valor más bajo alcanzado).
+Los instrumentos se colocan dentro de una caseta o pantalla ventilada que los protege del sol directo (@fig-higro). Con las lecturas se calculan estas variables:
 
-- Termógrafos: instrumentos que utilizan bandas bimetálicas o tubos de metal llenos de alcohol para registrar continuamente la temperatura en una banda de papel.
+- **Temperaturas máxima y mínima** ($T_{\text{máx}}$, $T_{\text{mín}}$): los valores extremos del día.
+- **Temperatura media diaria** ($T_{\text{media}}$): el promedio de las lecturas horarias o, cuando solo hay extremas, $T_{\text{media}} = (T_{\text{máx}} + T_{\text{mín}})/2$. Las dos definiciones no dan lo mismo, así que conviene saber cuál se usó en una serie.
+- **Temperatura media mensual y anual:** el promedio de las medias diarias del mes o del año.
+- **Temperatura de punto de rocío** ($T_d$): la temperatura a la que hay que enfriar el aire, a presión constante, para que se sature (@sec-fuentes-humedad).
 
-- Sensores electrónicos: en las estaciones automáticas modernas se utilizan termistores o termopares, que proporcionan medidas muy precisas y permiten la transmisión remota de datos hacia un datalogger.
-
-En la hidrología y la meteorología, se procesan diversas variables térmicas para caracterizar el clima de una cuenca o región:
-
-1. **Temperatura máxima** ($T_{max}$) y **temperatura mínima** ($T_{min}$): valores extremos registrados en un período de 24 horas.
-
-2. **Temperatura media diaria** ($T_{media}$): se define comúnmente como:
-
-  + El promedio aritmético de la máxima y la mínima.
-
-$$
-T_{media} = \frac{T_{max} + T_{min}}{2}
-$$
-
-  + El promedio de temperaturas horarias o continuas.
-  + El promedio de temperaturas cada 3 o 6 horas.
-  + El promedio de temperaturas en 3 momentos fijos del día.  
-
-3. **Temperatura de punto de rocío** ($T_d$): temperatura a la cual una masa de aire debe enfriarse, a presión constante, para alcanzar la saturación.
-
-4. **Temperatura media mensual** $(T_M)$: Promedio de las temperaturas medias diarias de un mes calendario.
-
-5. **Temperatura media anual** $(T_A)$: Promedio de las temperaturas medias diarias (o mensuales) de un año calendario.
-
-A la representación espacial de la temperatura, se le conoce como isotermas.
+La distribución espacial de la temperatura se representa con **isotermas**. En Costa Rica la domina el relieve: las costas son las zonas más cálidas y las cumbres de las cordilleras las más frías (@fig-isoterma).
 
 ```{r}
 #| label: fig-isoterma
-#| fig-cap: "Mapa de isotermas para Costa Rica.<br><span style='font-size:0.8em;'>Fuente: [@IMN_CostaRica]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Temperatura media anual de Costa Rica (1970–2000). Fuente: @IMN_CostaRica."
+#| fig-alt: "Mapa de Costa Rica con la temperatura media anual, roja en las costas y azul en las cordilleras"
 #| echo: false
-#| class: fig-border
+#| out-width: 80%
 
 knitr::include_graphics("assets/img/isoterma.jpg")
-
 ```
 
-### Humedad relativa
+### Humedad del aire {#sec-fuentes-humedad}
 
-La humedad relativa (HR) se define como la relación entre la cantidad de vapor de agua que el aire contiene en un momento determinado y la cantidad máxima que podría contener si estuviera totalmente saturado a la misma temperatura. Matemáticamente, se expresa como el cociente entre la presión real de vapor ($e_a$) y la presión de saturación de vapor ($e_s$) a una temperatura dada ($T$), expresado comúnmente en porcentaje:
-
-$$
-HR = 100 \, \frac{e_a}{e_s}
-$$
-
-Donde:
-
-- HR: Humedad relativa [%].
-- $e_a$: Presión real de vapor [kPa o mb].
-- $e_s$: Presión de saturación de vapor a la temperatura $T$ [kPa o mb].
-
-Para comprender la humedad relativa, es esencial distinguir entre sus componentes:
-
-1. **Presión de saturación de vapor ($e_s$)**: Es la presión parcial ejercida por las moléculas de agua cuando el aire no puede almacenar más vapor sin condensarse. Su valor depende exclusivamente de la temperatura; a mayor temperatura, el aire tiene una mayor capacidad de almacenar vapor. Una expresión aproximada ampliamente utilizada para su cálculo es la ecuación de Tetens:
+La **humedad relativa** ($HR$) compara el vapor de agua que contiene el aire con el máximo que podría contener a la misma temperatura:
 
 $$
-e_s = 0.611 \, \exp\!\left(\frac{17.27\,T}{237.3 + T}\right)
+HR = 100\,\frac{e_a}{e_s}
+$$ {#eq-fuentes-hr}
+
+donde $HR$ es la humedad relativa (%), $e_a$ es la presión real de vapor (kPa) y $e_s$ es la presión de saturación de vapor a la temperatura del aire (kPa).
+
+La **presión de saturación de vapor** depende solo de la temperatura. La FAO usa esta aproximación [@allen1998fao56]:
+
 $$
+e_s(T) = 0.6108\,\exp\!\left(\frac{17.27\,T}{T + 237.3}\right)
+$$ {#eq-fuentes-es}
 
-donde $T$ se expresa en grados Celsius y $e_s$ en kPa.
+donde $e_s$ está en kPa y $T$ en °C. La **presión real de vapor** $e_a$ mide el vapor que hay en el aire. Es igual a la presión de saturación evaluada en el punto de rocío, $e_a = e_s(T_d)$, y cambia poco durante el día. La diferencia $e_s - e_a$ es el **déficit de presión de vapor**: cuanto mayor es, más seco está el aire y más rápido evapora (@sec-fuentes-evaporacion).
 
-2. **Presión real de vapor ($e_a$)**: Es la presión parcial ejercida efectivamente por el vapor de agua presente en el aire. Representa el contenido real de humedad y suele ser más estable a lo largo del día que la humedad relativa.
+Como $e_s$ crece con la temperatura, la humedad relativa baja durante el día aunque el aire no pierda vapor. Antes del amanecer, con la temperatura mínima, la $HR$ llega a menudo a casi 100 % y se forman rocío y neblina.
 
-3. **Déficit de presión de vapor ($e_s - e_a$)**: Es la diferencia entre la presión de saturación y la presión real de vapor. Este parámetro es un indicador directo de la capacidad evaporativa de la atmósfera y resulta especialmente relevante en estudios de evapotranspiración.
+La humedad se mide con:
 
-La humedad relativa varía de forma inversa de la temperatura. Durante el día, a medida que la temperatura aumenta, la presión de saturación ($e_s$) se incrementa de forma exponencial, lo que provoca una disminución de la HR incluso si el contenido real de vapor ($e_a$) permanece prácticamente constante. Por el contrario, antes del amanecer, cuando se alcanza la temperatura mínima diaria, la HR suele presentar sus valores máximos, frecuentemente cercanos al 100 %, condición que favorece la formación de rocío y niebla.
-
-Existen varios métodos para cuantificar la humedad del aire en estaciones meteorológicas, entre los cuales destacan los siguientes:
-
-**Psicrómetros (termómetros de bulbo seco y húmedo)**
-
-Es el método clásico indirecto para la medición de la humedad. Consiste en dos termómetros: uno mide la temperatura del aire (bulbo seco) y el otro tiene su bulbo cubierto por una muselina humedecida (bulbo húmedo). La evaporación del agua en el bulbo húmedo consume calor latente, provocando un descenso de temperatura. La diferencia entre ambas lecturas se denomina depresión del bulbo húmedo y permite estimar la humedad relativa mediante tablas psicrométricas o ecuaciones empíricas.
-
-- **Psicrómetro de Assmann**: Incorpora ventilación forzada para asegurar una evaporación constante y lecturas más precisas, reduciendo la influencia de la radiación y de condiciones ambientales variables.
-
-- **Higrómetros y termohigrógrafos**
-
-  - *Mecánicos (de cabello)*: Se basan en la propiedad del cabello humano de alargarse o acortarse en función de la humedad del aire. Este movimiento se transmite mediante un sistema de palancas a una aguja o plumilla que registra la variación de la humedad en un tambor giratorio.
-  - *Electrónicos (capacitivos)*: Ampliamente utilizados en estaciones meteorológicas automáticas, emplean sensores con polímeros dieléctricos cuya capacitancia varía según el contenido de humedad del aire. Estos dispositivos permiten mediciones precisas, registro continuo y transmisión digital de datos.
-  
-Actualmente, la mayoría de los sensores electrónicos miden de manera conjunta los parámetros de temperatura y humedad.
+- **Psicrómetro:** dos termómetros, uno seco y otro con el bulbo cubierto por una muselina húmeda. La evaporación enfría el bulbo húmedo, y con la diferencia entre ambas lecturas se obtiene la humedad con tablas o ecuaciones. El **psicrómetro de Assmann** tiene un ventilador que fuerza el paso del aire y da lecturas más estables.
+- **Higrómetro de cabello:** el cabello se alarga cuando aumenta la humedad y mueve una aguja o una plumilla. Combinado con un termógrafo forma el **higrotermógrafo**.
+- **Sensor capacitivo:** un polímero cambia su capacitancia con la humedad. Es el de las estaciones automáticas, y casi siempre viene en el mismo cuerpo que el sensor de temperatura (@fig-higro).
 
 ```{r}
 #| label: fig-higro
-#| fig-cap: "Medición de temperatura y humedad.<br><span style='font-size:0.8em;'>Fuente: [@IMN_CostaRica]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Instrumentos para medir la temperatura y la humedad. Fuente: @IMN_CostaRica."
+#| fig-alt: "Higrotermógrafo, pantalla solar, termómetros de máxima y mínima y sensor electrónico de temperatura y humedad"
 #| echo: false
-#| class: fig-border
+#| out-width: 70%
 
 knitr::include_graphics("assets/img/higro.jpg")
 ```
 
-### Radiación solar
+::: {.callout-note title="Ejemplo: humedad relativa a partir del punto de rocío"}
+Una estación automática registra a las 14:00 una temperatura del aire de 26.0 °C y un punto de rocío de 18.0 °C. Calcule la presión de saturación, la presión real de vapor, la humedad relativa y el déficit de presión de vapor.
 
-La radiación se transmite en forma de ondas electromagnéticas a través del espacio. En meteorología e hidrología, se clasifica principalmente según su longitud de onda:
+**Solución:**
 
-1. <u>Radiación de onda corta</u>: Es la energía proveniente directamente del sol, con longitudes de onda entre 0.3 y 3.0 micrómetros (μm). Incluye la luz visible, la radiación ultravioleta e infrarroja cercana.  
+1. Presión de saturación a 26.0 °C, con la @eq-fuentes-es:
+$$
+e_s = 0.6108\,\exp\!\left(\frac{17.27 \times 26.0}{26.0 + 237.3}\right) = 0.6108\,\exp(1.7054) = 0.6108 \times 5.503 = 3.361\ \mathrm{kPa}
+$$
+2. Presión real de vapor, que es la de saturación a 18.0 °C:
+$$
+e_a = 0.6108\,\exp\!\left(\frac{17.27 \times 18.0}{18.0 + 237.3}\right) = 0.6108\,\exp(1.2176) = 0.6108 \times 3.379 = 2.064\ \mathrm{kPa}
+$$
+3. Humedad relativa, con la @eq-fuentes-hr: $HR = 100 \times 2.064/3.361 = 61.4\ \%$.
+4. Déficit de presión de vapor: $e_s - e_a = 3.361 - 2.064 = 1.297$ kPa.
 
-2. <u>Radiación de onda larga</u>: Es la energía térmica emitida por la superficie terrestre y la atmósfera, con longitudes de onda superiores a 3.0 o 4.0 μm. También se le conoce como radiación terrestre o infrarroja térmica.
+**Pseudocódigo**
+
+1. Definir la función de la presión de saturación.
+2. Evaluarla a la temperatura del aire para obtener $e_s$.
+3. Evaluarla en el punto de rocío para obtener $e_a$.
+4. Calcular la humedad relativa y el déficit.
 
 ```{r}
-#| label: fig-radiacion 
-#| fig-cap: "Distribución espectral de la radiación solar.<br><span style='font-size:0.8em;'>Fuente: [Seiscubos.com, 2025]</span><br><span style='font-size:0.8em;'>Modificado por: [Matarrita, 2025]"
-#| fig-align: center
-#| out-width: 100%
+#| label: ej-fuentes-humedad
+#| code-fold: false
+
+# 1) Presión de saturación de vapor (kPa), con T en °C
+presion_saturacion <- function(temp) 0.6108 * exp(17.27 * temp / (temp + 237.3))
+
+temp_aire <- 26.0    # °C
+temp_rocio <- 18.0   # °C
+
+# 2) y 3) Presiones de saturación y real
+e_s <- presion_saturacion(temp_aire)
+e_a <- presion_saturacion(temp_rocio)
+
+# 4) Humedad relativa (%) y déficit de presión de vapor (kPa)
+hr <- 100 * e_a / e_s
+deficit <- e_s - e_a
+
+round(c(e_s = e_s, e_a = e_a, hr = hr, deficit = deficit), 3)
+```
+
+**Interpretación.** A las 14:00 el aire tiene un 61 % de humedad relativa y un déficit de 1.30 kPa. Si en la madrugada la temperatura baja a 18 °C y el vapor no cambia, la humedad relativa llegará a 100 % y habrá rocío. El déficit es el término que mueve la evaporación en el método de Penman-Monteith que se usa en el capítulo de evapotranspiración.
+:::
+
+### Radiación solar y brillo solar {#sec-fuentes-radiacion}
+
+La radiación es energía que viaja como ondas electromagnéticas. En hidrología interesa por dos razones: es la fuente de energía de la evaporación y calienta el aire y el suelo. Se distinguen dos tipos según la longitud de onda (@fig-radiacion):
+
+- **Radiación de onda corta:** la que viene del Sol, con longitudes de onda de 0.3 a 3 μm. Incluye el ultravioleta, la luz visible y el infrarrojo cercano.
+- **Radiación de onda larga:** la que emiten la superficie terrestre y la atmósfera, con longitudes de onda mayores de 3 μm. También se llama radiación terrestre o infrarroja térmica.
+
+```{r}
+#| label: fig-radiacion
+#| fig-cap: "Espectro de la radiación solar en el tope de la atmósfera y en la superficie. Fuente: adaptado de Seiscubos (2025)."
+#| fig-alt: "Curvas de intensidad de la radiación solar contra longitud de onda, con las bandas ultravioleta, visible e infrarroja"
 #| echo: false
-#| class: fig-border
+#| out-width: 65%
 
 knitr::include_graphics("assets/img/radiacion.jpg")
 ```
 
-3. <u>Radiación Global</u>: Se define como la suma de la radiación solar directa que llega del disco solar y la radiación difusa dispersada por las moléculas y partículas de la atmósfera. "La radiación solar en un sitio depende de la latitud, día del año, hora del día y condiciones atmosféricas" [@Porras2025].
+La **radiación global** que llega a una superficie horizontal es la suma de la **radiación directa**, que viene del disco solar, y la **radiación difusa**, que la atmósfera y las nubes dispersan en todas las direcciones (@fig-rad2). Depende de la latitud, del día del año, de la hora y de la nubosidad [@Porras2025].
 
 ```{r}
-#| label: fig-rad2 
-#| fig-cap: "Diagrama de radiación solar: directa y difusa."
-#| fig-align: center
-#| out-width: 100%
+#| label: fig-rad2
+#| fig-cap: "Radiación solar directa y difusa."
+#| fig-alt: "Dibujo del sol, nubes y una casa, con una flecha recta de radiación directa y flechas onduladas de radiación difusa"
 #| echo: false
-#| class: fig-border
+#| out-width: 75%
 
 knitr::include_graphics("assets/img/rad2.png")
 ```
 
-La medición directa de la radiación se realiza mediante instrumentos específicos conocidos colectivamente como radiómetros. Los más comunes son:
+La radiación se mide con radiómetros (@fig-piro):
 
-- Piranómetro: Mide la radiación solar global (directa + difusa) sobre una superficie horizontal. Utiliza sensores de termopila o diodos de silicio protegidos por una bóveda de cristal.  
-
-- Pirheliómetro: Instrumento diseñado para medir exclusivamente la componente directa de la radiación solar, apuntando permanentemente hacia el sol.  
-
-- Heliógrafo: Mide el “brillo solar” o insolación, que es el tiempo durante el cual la radiación directa del sol supera un umbral crítico (generalmente 120 W/m²). El modelo más común es el de Campbell-Stokes, que utiliza una esfera de cristal para quemar una banda de papel graduada.  
-
-- Radiómetro Neto: Mide la diferencia entre la radiación total entrante y la saliente (el balance de todas las longitudes de onda).
+- **Piranómetro:** mide la radiación global sobre una superficie horizontal, con una termopila o un fotodiodo bajo una cúpula de vidrio.
+- **Pirheliómetro:** mide solo la radiación directa. Sigue al Sol y apunta siempre hacia él.
+- **Radiómetro neto:** mide la diferencia entre la radiación que llega y la que sale de la superficie, de onda corta y larga.
+- **Heliógrafo:** mide el brillo solar, que se describe más abajo.
 
 ```{r}
 #| label: fig-piro
-#| fig-cap: "Medición de radiación solar.<br><span style='font-size:0.8em;'>Fuente: [@IMN_CostaRica]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Instrumentos para medir la radiación solar. Fuente: @IMN_CostaRica."
+#| fig-alt: "Piranómetro, heliógrafo, pirheliómetro y radiómetro ultravioleta con una descripción de cada uno"
 #| echo: false
-#| class: fig-border
+#| out-width: 70%
 
 knitr::include_graphics("assets/img/piro.jpg")
 ```
 
-La intensidad de la radiación se expresa habitualmente como un flujo de energía por unidad de área y tiempo.
-
-- Unidad Estándar (SI): Vatios por metro cuadrado (W/m²) o Julios por metro cuadrado (J/m²).  
-- Reportes Diarios: Es común totalizar la energía diaria en Megajulios por metro cuadrado (MJ/m²·día).  
-- Unidad Tradicional: El Langley (Ly), donde 1 Ly = 1 cal/cm².
-
-**Estimación de la Radiación Solar (Ecuación de Angstrom)**
-
-En estaciones donde no se dispone de piranómetros, la radiación solar ($R_s$) puede estimarse a partir de las horas de brillo solar registradas por un heliógrafo mediante la fórmula de Angstrom-Prescott:
-
-$$
-R_s = R_a \left( a_s + b_s \frac{n}{N} \right)
-$$
-
-Donde:
-
-- $R_s$: Radiación solar o de onda corta [MJ/m²·día].  
-- $R_a$: Radiación extraterrestre (la que llegaría si no hubiera atmósfera, obtenida por tablas según latitud y fecha).  
-- $n$: Duración real de la insolación o brillo solar [horas].  
-- $N$: Duración máxima posible de la luz del día (insolación máxima teórica).  
-- $a_s$, $b_s$: Coeficientes empíricos locales (valores estándar recomendados: $a_s = 0.25$, $b_s = 0.50$).
+La radiación instantánea se expresa en W/m². La energía diaria se acumula en MJ/(m²·d); 1 MJ/(m²·d) equivale a 11.6 W/m² de promedio en el día. En textos antiguos aparece el langley, 1 Ly = 1 cal/cm² = 0.0419 MJ/m². La @fig-global_solar_atlas muestra la radiación global media en el mundo [@globalsolaratlas].
 
 ```{r}
 #| label: fig-global_solar_atlas
-#| fig-cap: "Promedio multianual de radiación solar global.<br><span style='font-size:0.8em;'>Fuente: [Global Solar Atlas, 2025]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Radiación solar global media diaria y anual. Fuente: @globalsolaratlas."
+#| fig-alt: "Mapa del mundo con la radiación solar global, de morado en latitudes altas a rojo en los desiertos"
 #| echo: false
-#| class: fig-border
+#| out-width: 90%
 
 knitr::include_graphics("assets/img/global_solar_atlas.png")
 ```
 
-### Brillo solar
+El **brillo solar** (o insolación, o heliofanía) es el número de horas del día en que la radiación directa supera 120 W/m², el umbral que fija la OMM [@wmo2018guia]. Se usa por dos razones: indica la nubosidad, y sirve para estimar la radiación global donde no hay piranómetro.
 
-El brillo solar, también conocido como heliofanía, insolación o duración de la insolación, se define técnicamente como el tiempo (expresado en horas) durante el cual la radiación solar directa que llega a la superficie terrestre es lo suficientemente intensa como para proyectar una sombra clara. Según la Organización Meteorológica Mundial (OMM), este umbral se sitúa en una intensidad de radiación solar directa mayor a 120 vatios por metro cuadrado $\left(\frac{W}{m^2}\right)$.
-
-El brillo solar es un parámetro importante dentro de la hidrología por dos razones fundamentales:
-
-1. Actúa como un indicador indirecto de la nubosidad: a mayor brillo solar, menor cobertura nubosa.
-
-2. Es la variable principal para estimar la radiación solar global ($R_s$) en estaciones que no disponen de piranómetros, lo cual es esencial para calcular la evapotranspiración mediante métodos como el de Penman-Monteith.
-
-El instrumento estándar para medir esta variable es el heliógrafo, siendo el modelo Campbell–Stokes el más utilizado a nivel mundial.
-
-a. Consiste en una esfera de cristal macizo (generalmente de unos 10 cm de diámetro) que actúa como una lente convergente. Esta esfera concentra los rayos solares en un punto focal que quema una banda de cartulina graduada en horas, la cual se coloca concéntricamente detrás de la esfera en un soporte metálico.  
-
-b. A medida que el sol se desplaza por el firmamento, el punto focal se mueve a lo largo de la cartulina dejando un rastro quemado. Si el sol se oculta tras una nube, el rastro se interrumpe. La duración total del brillo solar ($n$) se obtiene sumando las longitudes de los segmentos quemados.  
-
-c. Para asegurar registros precisos, el heliógrafo debe orientarse hacia el sur en el hemisferio norte y hacia el norte en el hemisferio sur, en un lugar libre de obstáculos que puedan proyectar sombras durante el día.
+El instrumento clásico es el **heliógrafo de Campbell-Stokes** (@fig-helio). Una esfera de vidrio de unos 10 cm de diámetro concentra los rayos del Sol y quema una banda de cartulina graduada en horas. Cuando una nube tapa el Sol, la quemadura se interrumpe, y la suma de los tramos quemados da las horas de brillo solar $n$. En el hemisferio norte la esfera se orienta hacia el sur, en un sitio sin sombras. Las estaciones automáticas usan sensores fotoeléctricos que hacen lo mismo.
 
 ```{r}
 #| label: fig-helio
-#| fig-cap: "Medición de brillo solar, por medio de heliógrafo.<br><span style='font-size:0.8em;'>Fuente: [Guías Prácticas, 2025]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Heliógrafo de Campbell-Stokes. Fuente: Guías Prácticas (2025)."
+#| fig-alt: "Fotografía y esquema de un heliógrafo con su esfera de cristal, el portabandas y la banda de registro"
 #| echo: false
-#| class: fig-border
+#| out-width: 60%
 
 knitr::include_graphics("assets/img/helio.jpg")
 ```
 
-En la actualidad, las estaciones meteorológicas automáticas emplean sensores fotoeléctricos o de fibra óptica rotatoria que digitalizan esta información en tiempo real.
+El brillo solar se normaliza con la **duración relativa de la insolación** $n/N$, donde $N$ es la duración astronómica del día, que depende de la latitud y de la fecha. Con cielo despejado todo el día $n/N = 1$; con cielo cubierto, $n/N = 0$. Con ella, la radiación global se estima con la ecuación de Ångström-Prescott, en la forma que recomienda la FAO [@allen1998fao56]:
 
-Para normalizar los datos de brillo solar, se utiliza el concepto de duración relativa de la insolación ($n/N$), donde:
+$$
+R_s = \left(a_s + b_s\,\frac{n}{N}\right) R_a
+$$ {#eq-fuentes-angstrom}
 
-- $n$: Duración real de la insolación (medida por el heliógrafo).  
-- $N$: Duración máxima posible de la insolación o del día (desde la salida hasta el ocaso), la cual es función de la latitud y la época del año.
+donde $R_s$ es la radiación solar global (MJ/(m²·d)), $R_a$ es la radiación extraterrestre, la que llegaría sin atmósfera (MJ/(m²·d)), $n$ es el brillo solar (h), $N$ es la duración astronómica del día (h), y $a_s$ y $b_s$ son coeficientes empíricos (adimensionales). Sin calibración local, la FAO recomienda $a_s = 0.25$ y $b_s = 0.50$. $R_a$ y $N$ se calculan con la latitud y el día del año, o se leen en las tablas de @allen1998fao56.
 
-Bajo cielos despejados, $n = N$ y la relación es igual a 1; en días totalmente cubiertos, $n = 0$. Las horas de brillo solar se pueden representar de manera espacial.
+En Costa Rica el brillo solar es mayor en el Pacífico norte y menor en las montañas y en la vertiente del Caribe, donde la nubosidad es casi permanente (@fig-brillo).
 
 ```{r}
 #| label: fig-brillo
-#| fig-cap: "Mapa de brillo solar, para Costa Rica.<br><span style='font-size:0.8em;'>Fuente: [@IMN_CostaRica]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Brillo solar anual en Costa Rica. Fuente: @IMN_CostaRica."
+#| fig-alt: "Mapa de Costa Rica con las horas de brillo solar, más altas en Guanacaste y más bajas en las montañas y el Caribe"
 #| echo: false
-#| class: fig-border
+#| out-width: 70%
 
 knitr::include_graphics("assets/img/brillo.jpg")
 ```
 
-### Presión Atmosférica
+### Presión atmosférica {#sec-fuentes-presion}
 
-La presión atmosférica se define como la fuerza por unidad de área que ejerce el peso de la columna de aire de la atmósfera sobre la superficie terrestre. En términos físicos, la presión en cualquier punto es el resultado de la masa de aire que gravita sobre dicho punto, comprimida por la acción de la gravedad.
+La **presión atmosférica** es el peso de la columna de aire sobre una unidad de área. Interesa en hidrología por dos razones. Las diferencias de presión entre regiones generan el viento, que transporta la humedad. Y la presión entra en las ecuaciones de evaporación: a igualdad de déficit de vapor y de viento, la evaporación aumenta cuando baja la presión, como ocurre en sitios altos [@chow1988appliedhydrology].
 
-El estudio de la presión es importante dentro de la hidrología por tres razones principales:
+En meteorología la presión se expresa en hectopascales (hPa), que equivalen a milibares (mb): 1 hPa = 1 mb = 100 Pa. La presión de la atmósfera estándar al nivel del mar es 1013.25 hPa, que corresponde a una columna de 760 mm de mercurio. Se mide con tres tipos de barómetro (@fig-presion):
 
-1. Motor del viento: Las diferencias horizontales de presión (gradientes) generan el movimiento del aire, el cual transporta la humedad necesaria para la precipitación.  
-2. Evaporación: Según la Ley de Dalton^[Establece que la presión total de una mezcla de gases no reaccionantes es la suma de las presiones que ejercería cada gas individualmente si estuviera solo dentro de un volumen de control, manteniendo la temperatura constante.], la tasa de evaporación es inversamente proporcional a la presión atmosférica total.  
-
-Históricamente, la presión se ha medido por la altura de una columna de mercurio (experimento de Torricelli). Al nivel del mar y a 0 °C, esta columna alcanza en promedio 760 mm de Hg.
-
-En la práctica moderna, se utilizan las siguientes unidades y equivalencias:
-
-- Hectopascal (hPa) / Milibar (mb): Son las unidades estándar en meteorología e hidrología. 1 hPa = 1 mb.  
-- Pascal (Pa): Unidad del Sistema Internacional (SI). 100 Pa = 1 hPa.  
-- Atmósfera estándar (atm): Se define como 1013.25 mb (o hPa) al nivel del mar.
-
-Existen tres tipos principales de instrumentos para medir la presión:
-
-1. Barómetro de Mercurio: Basado en el peso de una columna de mercurio.   
-2. Barómetro Aneroide: Mide la deformación que el aire ejerce sobre una cápsula metálica sellada al vacío, la cual mueve una aguja sobre una escala.  
-3. Barómetro Electrónico: Utiliza sensores digitales (comúnmente transductores de presión) integrados en estaciones meteorológicas automáticas, permitiendo registros continuos y transmisiones de datos en tiempo real.
+- **De mercurio:** mide la altura de una columna de mercurio. Ya casi no se usa por la toxicidad del mercurio.
+- **Aneroide:** una cápsula metálica sellada al vacío se deforma con la presión y mueve una aguja.
+- **Electrónico:** un transductor de presión conectado al registrador de una estación automática.
 
 ```{r}
 #| label: fig-presion
-#| fig-cap: "Medición de presión atmosférica.<br><span style='font-size:0.8em;'>Fuente: [@IMN_CostaRica]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Barómetros de mercurio, aneroide y electrónico. Fuente: @IMN_CostaRica."
+#| fig-alt: "Fotografías de un barómetro de mercurio tipo Fortín, un barómetro aneroide y un sensor electrónico, con su descripción"
 #| echo: false
-#| class: fig-border
+#| out-width: 100%
 
 knitr::include_graphics("assets/img/presion.jpg")
 ```
 
-Debido a que el aire es un fluido compresible, su densidad disminuye rápidamente conforme se aleja de la superficie terrestre. Por lo tanto, la presión siempre decrece con la altitud. Para fines de hidrología e ingeniería, esta variación se modela mediante una simplificación de la ley de los gases ideales y la ecuación hidrostática:
+La presión baja con la altitud. Si la temperatura disminuye linealmente con la altura, como en la atmósfera estándar, la presión a una altitud $z$ es [@chow1988appliedhydrology]:
 
 $$
-P = 1013.2 \left[ \frac{288 - 0.0065 z}{288}\right]^{5.256}
-$$
+p = 1013.25 \left(\frac{288.15 - 0.0065\,z}{288.15}\right)^{5.256}
+$$ {#eq-fuentes-presion}
 
-donde:
+donde $p$ es la presión atmosférica (hPa) y $z$ es la altitud sobre el nivel del mar (m). El exponente sale de $g/(\alpha R_a)$, con la gravedad $g$, el gradiente térmico $\alpha = 0.0065$ K/m y la constante del aire seco $R_a$. Con la @eq-fuentes-presion, la presión en San José, a unos 1150 m, es de unos 883 hPa, un 13 % menos que en la costa.
 
-- $P$: Presión atmosférica en milibares (mb).  
-- $z$: Altitud sobre el nivel del mar en metros (m).
+La presión también cambia en el tiempo. Además de las variaciones que traen los sistemas de alta y baja presión, hay un ciclo diario con dos máximos, cerca de las 10:00 y las 22:00, y dos mínimos, cerca de las 04:00 y las 16:00. Se llama **marea barométrica** y es más marcada en el trópico.
 
-
-**Variaciones horizontales y temporales**
-
-- <u>Variación horizontal</u>: Las diferencias de presión entre dos puntos generan una fuerza denominada fuerza del gradiente de presión. Esta fuerza impulsa el aire desde las zonas de alta presión (anticiclones) hacia las zonas de baja presión (ciclones o borrascas), originando el viento.  
-
-- <u>Variación periódica</u>: La presión presenta un ciclo diurno con dos máximos (10:00 y 22:00 horas) y dos mínimos (04:00 y 16:00 horas), fenómeno conocido como marea barométrica solar.
-
-
-A la representación espacial de la presión atmosférica, se le conoce como isobaras.
+Los mapas de presión al nivel del mar se dibujan con **isobaras**, líneas de igual presión (@fig-isobaras). El viento sopla desde las altas hacia las bajas presiones, desviado por la rotación de la Tierra.
 
 ```{r}
 #| label: fig-isobaras
-#| fig-cap: "Mapa de isobaras.<br><span style='font-size:0.8em;'>Fuente: [Agencia Estatal de Meteorológía, 2023]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Mapa de isobaras en superficie del Atlántico Norte y Europa. Fuente: Agencia Estatal de Meteorología de España (2023)."
+#| fig-alt: "Mapa del Atlántico Norte y Europa con isobaras, centros de alta y baja presión y frentes"
 #| echo: false
-#| class: fig-border
+#| out-width: 80%
 
 knitr::include_graphics("assets/img/isobaras.jpg")
-
 ```
 
-### Velocidad y dirección del viento
+### Viento {#sec-fuentes-viento}
 
-El viento se define como el aire en movimiento horizontal. Actúa como un factor que tiende a igualar las diferencias laterales de temperatura, humedad y presión en la atmósfera. Sus funciones principales incluyen:
+El **viento** es el movimiento horizontal del aire. En hidrología cumple varias funciones:
 
-- <u>Transporte de humedad</u>: Desplaza masas de aire húmedo desde los océanos hacia los continentes, permitiendo que el ciclo hidrológico continúe.  
+- **Transporta la humedad** desde los océanos hacia los continentes.
+- **Mantiene la evaporación**, porque reemplaza el aire saturado que queda sobre una superficie de agua por aire más seco.
+- **Distribuye la lluvia**, sobre todo cuando empuja el aire húmedo contra las montañas y lo obliga a subir.
 
-- <u>Motor de la evaporación</u>: Al sustituir el aire saturado sobre una superficie de agua por aire más seco, mantiene el gradiente de presión de vapor necesario para la evaporación y la transpiración.  
+Tres fuerzas controlan el viento: la diferencia de presión, que lo empuja de las altas a las bajas presiones; la fuerza de Coriolis, que por la rotación terrestre lo desvía a la derecha en el hemisferio norte y a la izquierda en el sur, y la fricción con el terreno, que lo frena cerca del suelo.
 
-- <u>Efecto en la precipitación</u>: Determina la distribución espacial de la lluvia mediante efectos orográficos.  
+El viento es un vector, así que se mide su velocidad y su dirección (@fig-viento):
 
-- <u>Agente erosivo</u>: Es el responsable de la erosión eólica, transportando partículas de suelo por rodamiento, saltación o suspensión.  
-
-El movimiento del aire es el resultado de un balance de varias fuerzas físicas:
-
-1. Fuerza del gradiente de presión: Impulsa el aire desde zonas de alta presión hacia zonas de baja presión.  
-
-2. Efecto de *Coriolis*: Fuerza aparente debida a la rotación terrestre que desvía el viento hacia la derecha en el hemisferio norte y hacia la izquierda en el sur.  
-
-3. Fuerza de rozamiento (fricción): Reduce la velocidad del aire en las capas cercanas al suelo debido a la rugosidad del terreno (árboles, edificios, relieve).  
-
-El viento es una variable vectorial que requiere la determinación de su magnitud (velocidad) y su orientación (dirección).
-
-a.  Velocidad: Se reporta comúnmente en metros por segundo (m/s), kilómetros por hora (km/h) o nudos (kn). La equivalencia estándar es $1\,\text{kn} = 0.514\,\text{m/s}$.  
-
-b.  Dirección: Se define como la dirección de donde sopla el viento y se mide en grados sexagesimales ($0^\circ$ a $360^\circ$) a partir del norte geográfico en sentido de las agujas del reloj.  
-
-La dirección y velocidad del viento se miden con:
-
-+ Anemómetro: Se utiliza para registrar la magnitud de la velocidad del viento. El modelo más común es el de copas, cuyo eje vertical gira proporcionalmente a la fuerza del viento. También existen anemómetros de hélice y sensores ultrasónicos que miden el tiempo de tránsito de pulsos de sonido para derivar la velocidad sin partes móviles.  
-
-+ Veleta: Determina la dirección horizontal de donde proviene el flujo.  
-
-+ Sensores ultrasónicos: Instrumentos que registran ambas variables de forma continua en un gráfico o memoria digital (datalogger).
+- **Velocidad:** en m/s, km/h o nudos (1 nudo = 0.514 m/s). Se mide con un **anemómetro**, por lo general de cazoletas, cuyo eje gira más rápido cuanto más fuerte es el viento. También hay anemómetros de hélice.
+- **Dirección:** la dirección *desde donde* sopla, en grados medidos desde el norte geográfico en el sentido de las agujas del reloj. Un viento del este viene de 90°. Se mide con una **veleta**.
+- **Sensores ultrasónicos:** miden las dos cosas con el tiempo de viaje de pulsos de sonido, sin partes móviles.
 
 ```{r}
 #| label: fig-viento
-#| fig-cap: "Medición de dirección y velocidad del viento.<br><span style='font-size:0.8em;'>Fuente: [@IMN_CostaRica]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Instrumentos para medir la velocidad y la dirección del viento. Fuente: @IMN_CostaRica."
+#| fig-alt: "Anemómetro de cazoletas, veleta, sensor integrado y sensor ultrasónico, con una descripción de cada uno"
 #| echo: false
-#| class: fig-border
+#| out-width: 100%
 
 knitr::include_graphics("assets/img/viento.jpg")
 ```
 
-Debido a la fricción superficial, la velocidad del viento es mínima cerca del suelo y aumenta logarítmicamente con la altura. Por esta razón, la Organización Meteorológica Mundial (OMM) ha fijado una altura estándar de 10 metros para la medición del viento en estaciones meteorológicas. Sin embargo, en estudios de evapotranspiración agrícola, se suele requerir el dato a 2 metros.
+::: {.callout-warning title="Cuidado"}
+El texto de la @fig-viento dice que 1 nudo es igual a 1.94384 m/s. Es al revés: 1 m/s = 1.944 nudos, y 1 nudo = 0.514 m/s.
+:::
 
-Para convertir la velocidad medida a una altura $z$ ($u_z$) a la altura estándar de 2 metros ($u_2$), se utiliza la siguiente relación:
-
-$$
-u_2 = u_z \, \frac{4.87}{\ln(67.8z - 5.42)}
-$$
-
-Alternativamente, se utiliza la Ley Exponencial:
+Por la fricción, el viento es más lento cerca del suelo y aumenta con la altura. La OMM fija la medición a 10 m [@wmo2018guia], pero las ecuaciones de evapotranspiración de la FAO piden el viento a 2 m. La conversión, para un perfil logarítmico sobre pasto corto, es [@allen1998fao56]:
 
 $$
-v = v_1 \left( \frac{z}{z_1} \right)^k
+u_2 = u_z\,\frac{4.87}{\ln(67.8\,z - 5.42)}
+$$ {#eq-fuentes-viento}
+
+donde $u_2$ es la velocidad a 2 m (m/s), $u_z$ es la velocidad medida a la altura $z$ (m/s) y $z$ es la altura del anemómetro (m). Para un anemómetro a 10 m, $u_2 = 0.748\,u_{10}$.
+
+En estudios de energía eólica se usa también la ley potencial:
+
 $$
+u = u_1 \left(\frac{z}{z_1}\right)^k
+$$ {#eq-fuentes-ley-potencial}
 
-donde:
+donde $u$ es la velocidad a la altura $z$, $u_1$ es la velocidad medida a la altura $z_1$, y $k$ es un exponente que depende de la rugosidad del terreno y de la estabilidad del aire. En terreno abierto con atmósfera neutra se usa a menudo $k = 1/7$ [@peterson1978power].
 
-- $k$ es un exponente que depende de la estabilidad atmosférica y la rugosidad del terreno (típicamente $1/7 \approx 0.14$ para condiciones neutrales).
-
-**Representación de datos: La Rosa de los Vientos**
-
-La Rosa de los Vientos es una representación gráfica que resume la frecuencia de las direcciones de donde proviene el viento y sus rangos de velocidad en un periodo determinado. Se divide generalmente en 8 o 16 rumbos (N, NE, E, SE, etc.).
+La **rosa de los vientos** resume un registro de viento: para cada dirección, por lo general 8 o 16 rumbos, muestra con qué frecuencia sopla el viento y con qué velocidades (@fig-rosa).
 
 ```{r}
 #| label: fig-rosa
-#| fig-cap: "Rosa de los vientos.<br><span style='font-size:0.8em;'>Fuente: [Meteoblue, 2025]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Rosa de los vientos. Fuente: Meteoblue (2025)."
+#| fig-alt: "Rosa de los vientos de 16 rumbos con barras de colores por intervalo de velocidad, dominada por vientos del suroeste"
 #| echo: false
-#| class: fig-border
+#| out-width: 55%
 
 knitr::include_graphics("assets/img/rosa.jpg")
 ```
 
+### Nubosidad {#sec-fuentes-nubosidad}
 
-### Nubosidad
+La **nubosidad** es la fracción del cielo cubierta por nubes. Las nubes son gotas de agua o cristales de hielo de unas pocas centésimas de milímetro, suspendidos en el aire. Regulan el balance de energía de la superficie con dos efectos opuestos (@fig-balance_rad):
 
-La nubosidad se refiere a la fracción del cielo cubierta por nubes. Físicamente, las nubes consisten en minúsculas gotas de agua líquida o cristales de hielo, con diámetros de apenas unas pocas milésimas de milímetro, que se mantienen en suspensión en la atmósfera a alturas variables. La nubosidad es un elemento fundamental del tiempo, ya que actúa como el principal regulador del balance energético terrestre.
-
-Las nubes afectan la temperatura de la superficie mediante dos mecanismos opuestos:
-
-1. <u>Reflexión (efecto Albedo)</u>: Las nubes reflejan una parte considerable de la radiación solar de onda corta de vuelta al espacio. La cantidad reflejada depende del espesor y tipo de nube: mientras que nubes altas y delgadas pueden reflejar menos del 20%, una capa densa de estratos a baja altura puede reflejar más del 80% de la radiación incidente.
-
-2. <u>Absorción y eeemisión (efecto invernadero)</u>: Las nubes absorben la radiación infrarroja de onda larga emitida por la Tierra y la irradian nuevamente hacia el suelo. Por esta razón, las noches nubosas tienden a ser significativamente más cálidas que las noches de cielo despejado, ya que la nubosidad actúa como una “manta” térmica que evita el enfriamiento radiactivo rápido.
+- **Reflejan** parte de la radiación solar de vuelta al espacio. Una capa gruesa y baja refleja mucho más que una nube alta y delgada.
+- **Absorben y reemiten** la radiación de onda larga que sale de la superficie. Por eso las noches nubladas son más cálidas que las despejadas: las nubes impiden que el suelo se enfríe rápido.
 
 ```{r}
 #| label: fig-balance_rad
-#| fig-cap: "Balance radiativo.<br><span style='font-size:0.8em;'>Fuente: [Le Treut, et al., 2007]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Balance de radiación medio anual de la Tierra (W/m²). Fuente: @letreut2007historical."
+#| fig-alt: "Diagrama con los flujos de radiación solar y terrestre entre el espacio, la atmósfera, las nubes y la superficie, con sus valores"
 #| echo: false
+#| out-width: 90%
 
 knitr::include_graphics("assets/img/bal_rad.png")
 ```
 
-La nubosidad se mide tradicionalmente de forma visual, estimando la fracción del cielo cubierta por nubes. Aunque en algunos contextos se utilizan octavos, el estándar descrito en la literatura técnica suele expresar la nubosidad en décimas partes del cielo ocupado. 
+La nubosidad se estima a simple vista y se reporta en **octavos** (octas) de cielo cubierto: 0 es cielo despejado y 8 cielo cubierto [@wmo2018guia]. Algunos registros antiguos la dan en décimos.
 
-```{r message=FALSE, warning=FALSE, error=FALSE}
-#| echo: false
-library(dplyr)
-library(tibble)
-library(kableExtra)
-
-tabla_nubosidad <- tribble(
-  ~`Cantidad (décimas)`, ~`Descripción verbal`,
-  "< 1",  "Claro",
-  "1 a 5","Difuso (parcialmente nuboso)",
-  "6 a 9","Desigual (nuboso)",
-  "> 9",  "Cubierto"
-)
-
-tabla_nubosidad %>%
-  kbl(
-    booktabs = TRUE,
-    align = c("c","c"),
-    format = "html",
-    escape = FALSE,
-    col.names = c(
-      "Cantidad (décimas)",
-      "Descripción verbal"
-    )
-  ) %>%
-  kable_classic(html_font = "Latin Modern Roman") %>%
-  kable_styling(
-    full_width = FALSE,
-    bootstrap_options = "hover"
-  ) %>%
-  row_spec(0, bold = TRUE)
-```
-
-<br>
-
-Un parámetro crítico para la hidrometeorología y la aviación es el techo de nubes, definido como la altura desde el suelo hasta la base de la capa nubosa más baja que cubra al menos seis décimas partes del cielo. Se mide mediante globos de velocidad ascensional conocida o, de noche, mediante proyectores de haz luminoso que permiten calcular la altura por trigonometría.
+Para la aviación interesa el **techo de nubes**: la altura de la base de la capa más baja que cubre más de la mitad del cielo. Hoy se mide con ceilómetros, que emiten pulsos de láser hacia arriba y miden el tiempo del eco. El método antiguo usaba de noche un proyector de luz y medía el ángulo con que se veía la mancha en la nube a una distancia conocida (@fig-nubes2).
 
 ```{r}
 #| label: fig-nubes2
-#| fig-cap: "Uso de reflectancia para determinar el techo de nubes.<br><span style='font-size:0.8em;'>Fuente: [@SerranoPacheco_IC0808_Hidrologia]</span>"
-#| fig-align: center
-#| out-width: 80%
+#| fig-cap: "Medición del techo de nubes con un haz de luz. Fuente: @SerranoPacheco_IC0808_Hidrologia."
+#| fig-alt: "Esquema de un proyector que ilumina la base de una nube y de un observador que mide el ángulo de elevación"
 #| echo: false
-#| class: fig-border
+#| out-width: 75%
 
 knitr::include_graphics("assets/img/nubes2.jpg")
 ```
 
-Las nubes se clasifican en tres géneros fundamentales según su apariencia y altura:
+Los nombres de las nubes combinan cuatro raíces latinas (@fig-nubes):
 
-- **Cirrus**: Nubes altas (por encima de 9 000m), tenues y fibrosas.  
-- **Cúmulus**: Masas individuales con base plana y desarrollo vertical.  
-- **Estratos**: Capas continuas que cubren gran parte del cielo.  
-- **Nimbus**: Término que se añade a cualquier género (por ejemplo, *Cumulonimbus*) para indicar que la nube está asociada a la precipitación.
-
-
+- **Cirrus:** nubes altas, tenues y fibrosas. En el trópico están por encima de unos 6000 m.
+- **Cumulus:** masas aisladas de base plana y desarrollo vertical.
+- **Stratus:** capas continuas que cubren gran parte del cielo.
+- **Nimbus:** se agrega para indicar que la nube produce precipitación, como en *nimbostratus* o *cumulonimbus*.
 
 ```{r}
 #| label: fig-nubes
-#| fig-cap: "Clasificación de tipos de nubes.<br><span style='font-size:0.8em;'>Fuente: [Dirección Meteorológica de Chile, 2020]</span><br><span style='font-size:0.8em;'>Modificado por: [Matarrita, 2025]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Clasificación de las nubes según su altura. Fuente: adaptado de Dirección Meteorológica de Chile (2020)."
+#| fig-alt: "Dibujo de los diez géneros de nubes ordenados en niveles alto, medio y bajo, con sus alturas en el trópico, latitudes medias y regiones polares"
 #| echo: false
-#| class: fig-border
+#| out-width: 95%
 
 knitr::include_graphics("assets/img/nubes.png")
 ```
 
-### Evaporación
+### Evaporación {#sec-fuentes-evaporacion}
 
-La evaporación es el proceso físico mediante el cual el agua en estado líquido o sólido (sublimación) se convierte en vapor de agua a través de la transferencia de energía térmica. Este fenómeno es el único componente hidrológico que conecta directamente el balance de masa con el balance de energía en el ciclo hidrológico.
+La **evaporación** es el paso del agua de líquido a vapor. Para que ocurra hay que aportar el **calor latente de vaporización** $\lambda$, que a 20 °C es de unos 2.45 MJ/kg [@allen1998fao56]. Evaporar 1 mm de agua sobre un metro cuadrado, es decir, 1 kg, consume entonces 2.45 MJ. Por eso la evaporación conecta el balance de agua con el balance de energía.
 
-A nivel molecular, la evaporación ocurre cuando las moléculas de agua cercanas a la superficie adquieren suficiente energía cinética para vencer las fuerzas de atracción intermolecular y escapar hacia la atmósfera. Para que este cambio de fase ocurra, se requiere el calor latente de vaporización, $\lambda$, que es la energía necesaria para evaporar una unidad de masa de agua sin cambiar su temperatura. A una temperatura de 20 °C, el valor de $\lambda$ es aproximadamente $2.45 \ \text{MJ/kg}$.
+La tasa de evaporación depende de tres condiciones (@fig-evapo):
 
-La tasa de evaporación está gobernada por tres condiciones fundamentales:
-
-1. <u>Suministro de energía</u>: Principalmente a través de la radiación solar y, en menor grado, la temperatura ambiente.  
-2. <u>Déficit de presión de vapor</u>: La diferencia entre la presión de vapor en la superficie evaporante, $e_s$, y la presión de vapor de la atmósfera circundante, $e_a$.  
-3. <u>Mecanismo de transporte</u>: La velocidad del viento, $u$, y la turbulencia, que remueven el aire saturado cerca de la superficie y lo reemplazan por aire más seco.
+1. **Energía disponible**, sobre todo la radiación solar.
+2. **Déficit de presión de vapor** entre la superficie del agua y el aire.
+3. **Transporte del vapor**: el viento y la turbulencia retiran el aire húmedo que queda sobre la superficie.
 
 ```{r}
 #| label: fig-evapo
-#| fig-cap: "Condiciones fundamentales que gobniernan la tasa de evaporación."
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Condiciones que controlan la tasa de evaporación."
+#| fig-alt: "Tres paneles: la radiación solar que calienta el agua, la diferencia de presión de vapor entre la superficie y el aire, y el viento que retira el aire húmedo"
 #| echo: false
-#| class: fig-border
+#| out-width: 100%
 
 knitr::include_graphics("assets/img/evapo.png")
 ```
 
-
-Físicamente, estos procesos se resumen en la Ley de Dalton:
+Las dos últimas condiciones se resumen en la ley de Dalton:
 
 $$
-E = c \, (e_s - e_a)
-$$
+E = C\,(e_s - e_a)
+$$ {#eq-fuentes-dalton}
 
-donde $c$ es una constante que depende, entre otros factores, de la velocidad del viento.
+donde $E$ es la evaporación (mm/d), $e_s$ es la presión de saturación de vapor a la temperatura de la superficie del agua (kPa), $e_a$ es la presión real de vapor del aire (kPa) y $C$ es un coeficiente que depende del viento (mm/(d·kPa)).
 
-En la hidrología, se utilizan dos conceptos de referencia para normalizar las estimaciones:
+Se distinguen dos magnitudes:
 
-- **Evaporación potencial ($E_o$)**: Se define como la cantidad de agua evaporada por unidad de área y tiempo desde una superficie de agua libre, extensa e idealizada, asumiendo que el agua no es un factor limitante, es decir, hay una cantidad "infinita" de agua disponible para evaporar.  
-- **Evaporación real($E_P$)**: Es la cantidad de agua que efectivamente se evapora en condiciones naturales, la cual suele ser menor que la evaporación potencial cuando la disponibilidad de agua en el suelo es limitada.
+- **Evaporación potencial:** la que ocurriría desde una superficie de agua libre extensa, sin limitación de agua.
+- **Evaporación real:** la que ocurre de verdad. Desde el suelo es menor que la potencial cuando el suelo se seca.
 
-El método más común para estimar la evaporación de cuerpos de agua es el tanque evaporímetro, siendo el tanque Clase A el estándar internacional. Consiste en un recipiente cilíndrico de hierro galvanizado de 1.21 m de diámetro y 25.4 cm de profundidad.
+El instrumento más usado es el **tanque evaporímetro clase A**: un recipiente de hierro galvanizado de 120.7 cm de diámetro y 25 cm de profundidad, montado sobre una tarima de madera [@allen1998fao56] (@fig-Evaporation_Pan).
 
 ```{r}
 #| label: fig-Evaporation_Pan
-#| fig-cap: "Tanque evaporímetro clase A.<br><span style='font-size:0.8em;'>Fuente: [@IMN_CostaRica]</span>"
-#| fig-align: center
-#| out-width: 60%
+#| fig-cap: "Tanque evaporímetro clase A. Fuente: @IMN_CostaRica."
+#| fig-alt: "Fotografía de un tanque evaporímetro circular con malla protectora, sobre una tarima en un campo, junto a un anemómetro"
 #| echo: false
-#| class: fig-border
+#| out-width: 40%
 
 knitr::include_graphics("assets/img/Evaporation_Pan.jpg")
 ```
 
-La evaporación diaria, $E$, se calcula midiendo el cambio en el nivel del agua en el tanque y corrigiéndolo por la precipitación ocurrida durante el intervalo:
+Cada día se mide el nivel y se repone el agua hasta una marca fija. La evaporación del día sale de un balance:
 
 $$
-E = P \pm \Delta d
+E = P + \Delta d
+$$ {#eq-fuentes-tanque}
+
+donde $E$ es la evaporación (mm), $P$ es la precipitación del día (mm) y $\Delta d$ es la lámina de agua agregada para volver a la marca (mm). Si llovió tanto que hubo que retirar agua, $\Delta d$ es negativa.
+
+El tanque evapora más que un lago: es pequeño, guarda poco calor y sus paredes reciben sol y viento. La evaporación del embalse se estima con un **coeficiente del tanque** $K_p$:
+
 $$
+E_L = K_p\,E_{\text{tanque}}
+$$ {#eq-fuentes-kp}
 
-donde $P$ es la precipitación y $\Delta d$ es la altura de agua añadida (+) o removida (–) para mantener el nivel estándar.
+donde $E_L$ es la evaporación del lago o embalse (mm), $E_{\text{tanque}}$ es la evaporación del tanque (mm) y $K_p$ es el coeficiente del tanque (adimensional). $K_p$ suele estar entre 0.60 y 0.85, y para valores anuales se usa a menudo 0.70 [@chow1988appliedhydrology]. El tema se amplía en el capítulo de evaporación.
 
-- **Coeficiente del tanque ($K_p$)**: Debido a que los tanques almacenan menos calor y tienen paredes expuestas al viento y a la radiación solar, suelen sobreestimar la evaporación de un lago real. Para corregir este efecto se aplica un coeficiente empírico:
+## Variables del suelo {#sec-fuentes-suelo}
 
-$$
-E_{\text{lago}} = K_p \cdot E_{\text{tanque}}
-$$
+### Humedad del suelo {#sec-fuentes-humedad-suelo}
 
-El valor típico de $K_p$ oscila entre 0.65 y 0.85, siendo 0.70 un valor promedio aceptable para estimaciones anuales.
+La **humedad del suelo** es el agua retenida en los poros por adhesión a las partículas y por cohesión entre moléculas de agua. Decide cómo se reparte la lluvia: un suelo húmedo infiltra menos y genera más escorrentía que uno seco.
 
-### Humedad del suelo
+Por encima del nivel freático está la **zona no saturada** o **vadosa**, donde los poros tienen aire y agua. Ahí el agua se presenta de tres formas:
 
-La humedad del suelo se define como el agua que se mantiene en los poros del suelo mediante fuerzas de atracción molecular, específicamente fuerzas de adhesión (atracción entre el agua y las superficies sólidas) y cohesión (atracción entre moléculas de agua). Dentro del ciclo hidrológico, esta variable es crítica porque actúa como el regulador de la partición de la precipitación entre la infiltración y la escorrentía superficial.
+1. **Agua gravitacional:** ocupa los poros grandes y drena por gravedad hacia abajo, donde recarga los acuíferos o alimenta el flujo subsuperficial.
+2. **Agua capilar:** queda retenida en los poros pequeños por capilaridad. Es la que usan las plantas.
+3. **Agua higroscópica:** una película muy delgada adherida a las partículas, retenida con tanta fuerza que ni las plantas ni la gravedad la mueven.
 
-En un perfil de suelo, el agua se distribuye principalmente en dos zonas separadas por el nivel freático: la zona de saturación, donde todos los poros están llenos de agua, y la zona de aireación o zona vadosa, donde los poros contienen simultáneamente aire y agua. Dentro de esta última se distinguen tres estados principales, definidos según la energía con la que el agua es retenida por el suelo:
+De ahí salen tres valores que describen el almacenamiento del suelo (@fig-suelo):
 
-1. <u>Agua gravitacional</u>: Corresponde al agua en exceso que ocupa los macroporos y se drena libremente bajo la acción de la gravedad, contribuyendo a la recarga de los acuíferos o al flujo subsuperficial.
-2. <u>Agua capilar</u>: Es el agua retenida en los poros pequeños por fuerzas capilares que se oponen a la gravedad; constituye la principal fuente de agua disponible para las plantas.
-3. <u>Agua higroscópica</u>: Consiste en una película muy delgada de agua fuertemente adsorbida^[La principal diferencia entre la **absorción** y la **adsorción** es que la primera implica que una sustancia penetra y se disuelve en el volumen total de otra (como una esponja absorbiendo agua), mientras que la segunda es un fenómeno superficial donde las moléculas se adhieren solo a la superficie del material (como el polvo pegándose a un vidrio), sin incorporarse en su interior.] a las partículas del suelo, retenida con una energía tan alta que no puede ser aprovechada por la vegetación ni drenada por gravedad.
-
-Para cuantificar la capacidad de almacenamiento hídrico de un suelo y su disponibilidad para la vegetación, se definen una serie de constantes hidrológicas asociadas a estados de equilibrio del agua en el perfil del suelo (véase Figura 10.1):
-
-- **Capacidad de campo (CC o FC)**: Es el contenido de humedad que permanece en el suelo después de que el agua gravitacional ha drenado, generalmente entre 2 y 3 días después de un evento de lluvia intensa.
-- **Punto de marchitez permanente (PMP o PWP)**: Es el nivel de humedad a partir del cual las plantas ya no pueden extraer agua del suelo, lo que conduce al marchitamiento irreversible.
-- **Agua disponible o agua útil**: Corresponde a la fracción de agua comprendida entre la capacidad de campo y el punto de marchitez permanente, y representa el volumen de agua potencialmente aprovechable por las plantas.
+- **Capacidad de campo** ($CC$): la humedad que queda después de que el agua gravitacional drena, por lo general dos o tres días después de una lluvia fuerte.
+- **Punto de marchitez permanente** ($PMP$): la humedad por debajo de la cual las plantas ya no pueden extraer agua y se marchitan sin recuperarse.
+- **Agua disponible:** la diferencia entre la capacidad de campo y el punto de marchitez. Es el agua que el suelo puede entregar a las plantas.
 
 ```{r}
-#| label: fig-suelo 
-#| fig-cap: "Retención y disponibilidad del agua según textura de suelo.<br><span style='font-size:0.8em;'>Fuente: [@McCuen1997]</span><br><span style='font-size:0.8em;'>Modificado por: [Matarrita, 2025]"
-#| fig-align: center
-#| out-width: 100%
+#| label: fig-suelo
+#| fig-cap: "Retención y disponibilidad de agua según la textura del suelo. Fuente: adaptado de @McCuen1997."
+#| fig-alt: "Gráfico de porosidad, agua disponible y retención específica contra tamaño de grano, junto a tres bulbos de humedad en suelos arcilloso, franco y arenoso"
 #| echo: false
-#| class: fig-border
+#| out-width: 100%
 
 knitr::include_graphics("assets/img/suelo.jpg")
 ```
 
-
-Existen dos formas estándar de expresar el contenido de agua en el suelo:
-
-1. **Humedad gravimétrica ($w$)**: Relación entre la masa de agua ($M_w$) y la masa de sólidos secos ($M_s$).
+El contenido de agua se expresa de dos formas:
 
 $$
-w = \frac{M_s}{M_w}
-$$
-
-2. **Humedad volumétrica ($\theta_v$)**: Relación entre el volumen de agua ($V_w$) y el volumen total de la muestra de suelo ($V_t$).
+w = \frac{M_w}{M_s}
+$$ {#eq-fuentes-w}
 
 $$
-\theta_v = \frac{V_t}{V_w}
+\theta = \frac{V_w}{V_t}
+$$ {#eq-fuentes-theta}
+
+donde $w$ es la humedad gravimétrica (adimensional), $M_w$ es la masa de agua (g), $M_s$ es la masa de suelo seco (g), $\theta$ es la humedad volumétrica (adimensional), $V_w$ es el volumen de agua (cm³) y $V_t$ es el volumen total de la muestra (cm³). La humedad volumétrica es la que se usa en hidrología, porque multiplicada por un espesor de suelo da una lámina de agua: $\theta = 0.25$ en 40 cm de suelo son 100 mm de agua.
+
+Las dos se relacionan con la densidad aparente del suelo $\rho_b$ (masa de suelo seco entre volumen total) y la densidad del agua $\rho_w$:
+
 $$
+\theta = w\,\frac{\rho_b}{\rho_w}
+$$ {#eq-fuentes-conversion}
 
-3. Conversión entre ambas: Se utiliza la densidad aparente del suelo ($\rho_b$) y la densidad del agua ($\rho_w \approx 1000 \ \text{kg/m}^3$).
+Un suelo con $w = 0.20$ y $\rho_b = 1.3$ g/cm³ tiene $\theta = 0.20 \times 1.3 = 0.26$.
 
-$$
-\theta_v = w \cdot \frac{\rho_w}{\rho_b}
-$$
+El método de referencia es el **gravimétrico**: se toma una muestra, se pesa húmeda, se seca en horno a 105 °C hasta peso constante (unas 24 h) y se pesa otra vez. La diferencia es el agua. Es exacto, pero destruye la muestra y da un solo dato por visita. En el campo se usan:
 
-En laboratorio, se utiliza el método directo gravinétrico es el estándar de referencia para calibrar todos los demás instrumentos. Consiste en tomar una muestra de suelo, pesarla en estado húmedo, secarla en un horno a 105 °C durante 24 horas y pesarla nuevamente. La diferencia de masa representa el agua evaporada. Es preciso, pero destructivo y laborioso.
-
-Para mediciones en campo, se utilizan comúnmente los siguientes instrumentos:
-
-- <u>Tensiómetros</u>: Miden la succión o potencial matricial del suelo, es decir, qué tan fuerte el suelo retiene el agua. Son muy precisos en rangos húmedos, pero dejan de funcionar cuando la tensión supera los 0.85 bares.
-
-- <u>Bloques de resistencia eléctrica</u>: Utilizan bloques de yeso o nylon enterrados. La resistencia eléctrica entre los electrodos internos disminuye a medida que el bloque, y el suelo circundante, se humedece.
-
-- <u>Sonda de neutrones</u>: Emite neutrones rápidos que chocan con los núcleos de hidrógeno del agua, volviéndose neutrones lentos. El conteo de estos últimos se correlaciona con la humedad volumétrica.
-
-- <u>TDR (Reflectometría en el Dominio del Tiempo)</u>: Mide la constante dieléctrica del suelo enviando un pulso electromagnético. Dado que la constante dieléctrica del agua (≈ 80) es mucho mayor que la del suelo seco (2–5), la velocidad de la señal depende directamente del contenido de agua.
+- **Tensiómetros:** miden la succión con que el suelo retiene el agua. Son precisos en suelos húmedos, pero dejan de funcionar con succiones mayores de unos 0.85 bar.
+- **Bloques de resistencia eléctrica:** bloques de yeso o nailon enterrados; su resistencia baja cuando se humedecen.
+- **Sonda de neutrones:** emite neutrones rápidos que se frenan al chocar con el hidrógeno del agua. El conteo de neutrones lentos se calibra contra la humedad volumétrica.
+- **Sondas electromagnéticas:** la reflectometría en el dominio del tiempo (TDR) y las sondas capacitivas miden la constante dieléctrica del suelo. Como la del agua, cerca de 80, es mucho mayor que la del suelo seco, de 2 a 5, la medición depende sobre todo del contenido de agua (@fig-suelo2).
 
 ```{r}
-#| label: fig-suelo2 
-#| fig-cap: "Tipos de sondas TDR.<br><span style='font-size:0.8em;'>Fuente: [Kargas & Soulis, 2012]"
-#| fig-align: center
-#| out-width: 80%
+#| label: fig-suelo2
+#| fig-cap: "Sondas electromagnéticas para medir la humedad del suelo. Fuente: @kargas2012performance."
+#| fig-alt: "Tres sondas enterradas en el suelo: dos de varillas con cable coaxial y una de tubo de acceso con sensores a 20, 30 y 40 cm"
 #| echo: false
-#| class: fig-border
+#| out-width: 65%
 
 knitr::include_graphics("assets/img/suelo2.jpg")
 ```
 
-### Infiltración
+### Infiltración {#sec-fuentes-infiltracion}
 
-En el ciclo hidrológico, la infiltración se define como el proceso mediante el cual el agua penetra desde la superficie del terreno hacia el interior del perfil del suelo. La percolación, se refiere específicamente al movimiento vertical y lateral del agua a través de los estratos del suelo hacia las zonas profundas o el nivel freático una vez que ya ha ingresado en la matriz del suelo. <span class="firebrick"><strong>¡Es importante tener presente la diferencia entre infiltración y percolación!</strong></span>  
+La **infiltración** es la entrada del agua desde la superficie al suelo. La **percolación** es el movimiento posterior del agua dentro del suelo hacia capas más profundas o hacia el nivel freático (@fig-suelo3). Son dos procesos distintos: el primero controla cuánta lluvia se convierte en escorrentía y el segundo cuánta recarga llega al acuífero.
 
 ```{r}
-#| label: fig-suelo3 
-#| fig-cap: "Proceso de movimiento del agua en el suelo."
-#| fig-align: center
-#| out-width: 80%
+#| label: fig-suelo3
+#| fig-cap: "Infiltración y percolación del agua en el suelo."
+#| fig-alt: "Corte de suelo con agua que entra desde la superficie, un frente de humedad y flechas de percolación, junto a bloques de suelo permeable e impermeable"
 #| echo: false
-#| class: fig-border
+#| out-width: 95%
 
 knitr::include_graphics("assets/img/suelo3.png")
 ```
 
-En la hidrología, la infiltración constituye la principal abstracción (o pérdida inicial) durante una tormenta, ya que determina la proporción de la precipitación que se transforma en escorrentía directa.
+En una tormenta, la infiltración es la principal pérdida, es decir, la parte de la lluvia que no llega a escurrir. Se distinguen:
 
-- **Capacidad de infiltración ($f_p$)**: Es la tasa máxima a la cual el suelo, bajo condiciones dadas, puede absorber agua.  
+- **Capacidad de infiltración** $f_p$: la tasa máxima a la que el suelo puede absorber agua en un momento dado (mm/h).
+- **Tasa de infiltración** $f$: la tasa real (mm/h). Si la intensidad de la lluvia $i$ es menor que $f_p$, toda la lluvia se infiltra y $f = i$. Si es mayor, $f = f_p$, el agua se encharca y el exceso escurre.
 
-- **Tasa de infiltración ($f$)**: Es la velocidad real a la que el agua entra en el suelo. La relación entre ambas está gobernada por la intensidad de la lluvia ($i$):
+La capacidad de infiltración baja durante la lluvia, rápido al principio y luego más despacio, hasta un valor casi constante llamado **infiltración básica**. Depende de:
 
-  - Si $i < f_p$, entonces $f = i$ (toda la lluvia se infiltra).  
-  - Si $i \geq f_p$, entonces $f = f_p$ (se produce encharcamiento y el excedente genera escorrentía).
+1. **La textura:** las arenas, con poros grandes, infiltran mucho más que las arcillas.
+2. **La humedad inicial:** un suelo seco succiona el agua y empieza infiltrando rápido; al humedecerse, la tasa baja.
+3. **La cobertura vegetal:** protege el suelo del golpe de las gotas, que forma costras que sellan los poros, y sus raíces abren macroporos.
+4. **La compactación:** la maquinaria y el pisoteo del ganado reducen los poros y la infiltración.
 
+En el campo se mide con el **infiltrómetro de doble anillo**: dos cilindros concéntricos hincados en el suelo, con el agua a nivel constante en ambos. El anillo exterior evita que el agua del interior se escape hacia los lados, así que la infiltración medida en el interior es casi vertical. La lámina de agua ejerce una presión que no existe con lluvia natural, por lo que el método tiende a sobrestimar la infiltración.
 
-La capacidad de infiltración no es constante; generalmente decrece de forma exponencial desde el inicio de la lluvia hasta alcanzar un valor casi constante denominado infiltración básica. Los factores más relevantes que influyen en este proceso son:
+Los **simuladores de lluvia** reproducen con boquillas el tamaño y la energía de las gotas sobre una parcela pequeña. Capturan el sellado de la superficie y no imponen una lámina de agua, así que se acercan más a lo que pasa en una tormenta.
 
-1. Textura del suelo: Suelos de grano grueso, como arenas, presentan poros grandes que facilitan el flujo gravitacional y altas capacidades de infiltración, mientras que suelos finos, como arcillas, presentan valores mucho menores.  
+### Conductividad hidráulica {#sec-fuentes-conductividad}
 
-2. Contenido de humedad inicial: Un suelo seco presenta una elevada succión capilar, lo que produce tasas iniciales de infiltración altas. Conforme el suelo se humedece, la succión disminuye y la tasa de infiltración se reduce.  
+La **conductividad hidráulica** $K$ mide qué tan fácil transmite el agua un suelo o una roca. Tiene unidades de velocidad (m/s, cm/s o m/d), pero no es la velocidad del agua en los poros. Depende del medio poroso (tamaño, forma y conexión de los poros) y del fluido, a través de su viscosidad y su densidad.
 
-3. Cobertura vegetal: Protege el suelo del impacto directo de las gotas de lluvia, evitando la formación de costras superficiales que sellan los poros. Además, las raíces generan macroporos que favorecen el movimiento del agua.  
+- **Conductividad saturada** $K_s$: la del suelo con todos los poros llenos de agua. En un suelo homogéneo es constante.
+- **Conductividad no saturada** $K(\theta)$: la del suelo con aire y agua en los poros. Baja muy rápido cuando el suelo se seca, porque el agua queda en los poros más pequeños y su camino se vuelve más tortuoso.
 
-4. Compactación: El tránsito de maquinaria pesada o el sobrepastoreo reducen la porosidad del suelo y disminuyen significativamente su capacidad de absorción.
-
-
-Es el método de medición en campo más utilizado, es el infiltrómetro de doble anillo. Consiste en dos cilindros concéntricos hincados en el suelo.
-
-Se mantiene un nivel constante de agua en ambos anillos. El anillo exterior minimiza el flujo lateral, asegurando que la infiltración medida en el anillo interior sea predominantemente vertical. Puede sobreestimar la infiltración real debido a la presión hidrostática ejercida por la columna de agua.
-
-Otro método de medición de la capacidad de infiltración son los simuladores de lluvia. Estos utilizan boquillas de aspersión que reproducen el tamaño de gota y la energía de impacto de la lluvia natural sobre una parcela controlada. Son especialmente útiles en estudios hidrológicos, ya que consideran el sellado superficial por impacto de gotas y no aplican una carga hidrostática artificial.
-
-
-### Conductividad hidráulica
-
-La conductividad hidráulica ($K$) es una medida de la capacidad de un medio poroso (suelo o roca) para transmitir agua a través de sus poros. Constituye un parámetro fundamental en la hidrología subterránea, ya que representa la facilidad con la que el agua fluye bajo la acción de un gradiente hidráulico.
-
-Desde el punto de vista físico, la conductividad hidráulica es un término de flujo con unidades de velocidad (típicamente m/s, cm/s o m/día), **aunque no debe confundirse con la velocidad real del agua dentro de los poros**. Su magnitud depende tanto de las propiedades intrínsecas del medio poroso (como el tamaño, la forma y la conectividad de los poros) como de las propiedades del fluido, principalmente la viscosidad y la densidad, las cuales están influenciadas por la temperatura.
-
-Es importante distinguir entre la conductividad hidráulica saturada e instaurada, ya que ambas imponen diferentes condiciones de flujo:
-
-A. **Conductividad hidráulica saturada ($K_{sat}$)**: Corresponde a la capacidad de transmisión del suelo cuando todos sus poros están completamente llenos de agua. Bajo estas condiciones, y para un suelo homogéneo, $K_{sat}$ puede considerarse constante.
-
-B. **Conductividad hidráulica insaturada**: Se presenta cuando los poros contienen simultáneamente aire y agua. En este caso, la conductividad hidráulica es una función no lineal del contenido de humedad del suelo. A medida que el suelo se seca, disminuye la sección efectiva disponible para el flujo y aumenta la resistencia, provocando una reducción drástica de $K$.
-
-El flujo de agua en medios porosos está regido por la Ley de Darcy, la cual establece que el caudal es proporcional al área transversal de flujo, a la conductividad hidráulica y al gradiente hidráulico:
+El flujo en un medio poroso sigue la **ley de Darcy**:
 
 $$
-Q = K \cdot A \cdot i
-$$
-
-Expresada en términos de velocidad de flujo:
-
-$$
-v = K \cdot i
-$$
-
-donde el gradiente hidráulico se define como:
+Q = K\,A\,i
+$$ {#eq-fuentes-darcy}
 
 $$
 i = \frac{\Delta h}{L}
-$$
+$$ {#eq-fuentes-gradiente}
 
-siendo $\Delta h$ la pérdida de carga hidráulica y $L$ la longitud del trayecto de flujo.
+donde $Q$ es el caudal (m³/s), $K$ es la conductividad hidráulica (m/s), $A$ es el área total de la sección, granos y poros (m²), $i$ es el gradiente hidráulico (adimensional), $\Delta h$ es la pérdida de carga hidráulica (m) y $L$ es la longitud del recorrido (m). El cociente $Q/A = K\,i$ es la **descarga específica** o velocidad de Darcy. El agua avanza en realidad más rápido, a $K\,i/n_e$, porque solo pasa por los poros conectados, de porosidad eficaz $n_e$.
 
-Existen muchos factores que afectan la conductividad hidráulica dentro de un medio poroso, alguno son:  
+La conductividad depende de:
 
-1. <u>Textura del suelo</u>: Los suelos de grano grueso, como arenas y gravas limpias, presentan poros grandes e interconectados que permiten valores elevados de $K$. En contraste, los suelos finos como las arcillas muestran conductividades muy bajas debido a la alta tortuosidad de sus poros y a las fuerzas de atracción molecular que retienen el agua.
+1. **La textura:** las arenas y gravas limpias tienen valores altos; las arcillas, muy bajos.
+2. **La temperatura del agua:** $K$ es inversamente proporcional a la viscosidad, y la viscosidad del agua a 32 °C (0.77 mPa·s) es la mitad que a 4 °C (1.57 mPa·s) [@chow1988appliedhydrology]. Con el mismo suelo y el mismo gradiente, el flujo se duplica.
+3. **La estructura:** las grietas, los canales de raíces y los macroporos crean flujos preferenciales que aumentan $K$; la compactación la reduce.
 
-2. <u>Propiedades del fluido</u>: La temperatura influye directamente en la viscosidad del agua. Un incremento de la temperatura reduce la viscosidad y puede aumentar significativamente la conductividad hidráulica; por ejemplo, el paso de 4 °C a 32 °C puede aproximadamente duplicar la velocidad de flujo bajo el mismo gradiente hidráulico.
+En el laboratorio, $K_s$ se mide con permeámetros [@freeze1979groundwater]:
 
-3. <u>Estructura y compactación</u>: La presencia de macroporos, grietas de desecación o canales generados por raíces puede originar flujos preferenciales, incrementando localmente la conductividad. Por el contrario, la compactación del suelo reduce la porosidad y disminuye la capacidad de transmisión.
-
-La conductividad hidráulica puede determinarse mediante ensayos de laboratorio o pruebas de campo. 
-
-Entre los ensayos de laboratorio están:
-
-A. Permeámetro de carga constante: Se utiliza en suelos de alta permeabilidad, como arenas y gravas. Se mantiene una diferencia de carga constante y se aplica directamente la Ley de Darcy:
+- **De carga constante**, para arenas y gravas. Se mantiene fija la diferencia de carga $\Delta H$ y se mide el caudal $Q$ que atraviesa la muestra. De la ley de Darcy:
 
 $$
-K = \frac{Q L}{A \Delta H}
-$$
+K = \frac{Q\,L}{A\,\Delta H}
+$$ {#eq-fuentes-carga-constante}
 
-B. Permeámetro de carga variable: Adecuado para suelos de baja permeabilidad, como arcillas. Se mide el descenso del nivel de agua en un tubo estrecho:
-
-$$
-K = \left( \frac{R^2}{r^2 L} \right) \ln \left( \frac{H_2}{H_1} \right)
-$$
-
-Dentro de las pruebas de campo, existen:
-
-A. Método del pozo barrenado (Auger Hole): Utilizado cuando el nivel freático es somero. Se extrae agua del pozo y se mide la velocidad de recuperación del nivel.
-
-B. Pruebas de bombeo: Permiten estimar un valor promedio espacial de $K$ a gran escala, a partir del abatimiento observado en pozos de observación durante el bombeo.
-
-C. Pruebas de *slug* (Slug Tests): Consisten en introducir o retirar rápidamente un cilindro sólido en el pozo, generando una perturbación instantánea del nivel y observando su recuperación.
-
-D. Permeámetro de Guelph: Instrumento portátil ampliamente utilizado para medir la conductividad hidráulica saturada por encima del nivel freático.
-
-
-## Medición de caudales
-
-El caudal, también denominado descarga o escurrimiento, se define como el volumen de agua que circula a través de una sección transversal de un cauce por unidad de tiempo, expresándose técnicamente en unidades de volumen por tiempo, como metros cúbicos por segundo ($\mathrm{m^3/s}$) o litros por segundo ($\mathrm{L/s}$). 
-
-En el ámbito de la ingeniería civil y la gestión de los recursos hídricos, el conocimiento de la magnitud y de la distribución temporal del caudal es fundamental para el diseño, dimensionamiento y operación de infraestructuras críticas, tales como centrales hidroeléctricas, puentes, vertederos de presas y sistemas de drenaje urbano. 
-
-Esta variable actúa como el indicador más representativo del estado hidrológico de una cuenca, ya que integra los efectos de la precipitación, la infiltración, el almacenamiento y la evapotranspiración. Su análisis permite evaluar tanto la disponibilidad de agua para consumo humano, agrícola o industrial, como el riesgo asociado a eventos hidrológicos extremos, tales como inundaciones y sequías.
-
-
-### Aforos
-
-El aforo es la operación de campo que tiene como objetivo determinar el caudal ($Q$) que circula por la sección transversal de un curso de agua en un instante determinado.
-
-El principio fundamental del aforo se basa en la ecuación de continuidad, que establece que para un fluido incompresible:
+- **De carga variable**, para limos y arcillas, que dejan pasar tan poca agua que el caudal no se mide bien. El agua entra desde un tubo delgado y se mide cuánto baja su nivel en un tiempo $t$:
 
 $$
-Q = A \cdot \bar{v}
+K = \frac{a\,L}{A\,t}\,\ln\!\left(\frac{H_1}{H_2}\right)
+$$ {#eq-fuentes-carga-variable}
+
+donde $a$ es el área del tubo (cm²), $A$ es el área de la muestra (cm²), $L$ es la longitud de la muestra (cm), $t$ es el tiempo de la prueba (s), $H_1$ es la carga al inicio y $H_2$ la carga al final (cm). Si $a$, $A$ y $L$ están en cm y $t$ en s, $K$ sale en cm/s.
+
+::: {.callout-note title="Ejemplo: conductividad hidráulica con el permeámetro de carga variable"}
+Una muestra de suelo de 10 cm de diámetro y 12 cm de largo se ensaya en un permeámetro de carga variable con un tubo de 1 cm de diámetro. El nivel del agua en el tubo baja de 100 cm a 60 cm en 30 min. Calcule $K_s$ en cm/s y en m/d.
+
+**Solución:**
+
+1. Áreas: $a = \pi \times 1^2/4 = 0.785$ cm² y $A = \pi \times 10^2/4 = 78.54$ cm².
+2. Tiempo: $t = 30 \times 60 = 1800$ s.
+3. Con la @eq-fuentes-carga-variable:
 $$
-
-Donde:
-
-- $Q$: Caudal ($\mathrm{m^3/s}$).
-- $A$: Área de la sección transversal mojada ($\mathrm{m^2}$).
-- $\bar{v}$: Velocidad media del flujo en la sección ($\mathrm{m/s}$).
-
-La medición de caudales es el pilar de la hidrometría y es vital para la gestión de los recursos hídricos por las siguientes razones:
-
-1. **Diseño de infraestructura**: Permite determinar el caudal de diseño para vertederos de presas, puentes, alcantarillas y sistemas de drenaje.
-2. **Balances hídricos**: Es esencial para cuantificar las salidas de agua de una cuenca y calcular la disponibilidad real del recurso.
-3. **Calibración de modelos**: Los datos de aforo permiten validar modelos de precipitación–escorrentía y transformar registros de niveles en caudales continuos mediante curvas de descarga.
-- **Prevención de desastres**: Facilita el pronóstico de crecientes y sequías para mitigar riesgos socioeconómicos.
-
-
-Los métodos de aforo se clasifican generalmente en directos e indirectos.
-
-**Métodos de aforo directo**
-
-Implican la medición *in situ* de las variables del flujo mientras este ocurre.
-
-- <u>Método volumétrico</u>: Es el más preciso, pero se limita a caudales pequeños. Consiste en medir el tiempo ($t$) que tarda el flujo en llenar un recipiente de volumen ($V$) conocido:
+K_s = \frac{0.785 \times 12}{78.54 \times 1800}\,\ln\!\left(\frac{100}{60}\right) = 6.67 \times 10^{-5} \times 0.511 = 3.41 \times 10^{-5}\ \mathrm{cm/s}
 $$
-Q = \frac{V}{t}
-$$
+4. En m/d: $3.41 \times 10^{-5} \times 0.01 \times 86\,400 = 0.029$ m/d.
 
-- <u>Método velocidad–área</u>: Es el más utilizado en ríos medianos y grandes. Se divide la sección en subsecciones (dovelas) y se mide la velocidad en cada una a diferentes profundidades (comúnmente al 20%, 60% u 80% de la profundidad total) usando un molinete o hélice. El caudal total es la suma de los productos de área y velocidad de cada dovela.
+**Pseudocódigo**
+
+1. Calcular el área del tubo y la de la muestra.
+2. Pasar el tiempo a segundos.
+3. Aplicar la @eq-fuentes-carga-variable.
+4. Convertir de cm/s a m/d.
 
 ```{r}
-#| label: fig-aforo 
-#| fig-cap: "Método de aforo por el método velocidad-área.<br><span style='font-size:0.8em;'>Basado en: [@SerranoPacheco_IC0808_Hidrologia]"
-#| fig-align: center
-#| out-width: 110%
+#| label: ej-fuentes-permeametro
+#| code-fold: false
+
+# 1) Áreas del tubo y de la muestra (cm²)
+area_tubo <- pi * 1^2 / 4
+area_muestra <- pi * 10^2 / 4
+largo_cm <- 12
+
+# 2) Tiempo (s) y cargas inicial y final (cm)
+tiempo_s <- 30 * 60
+h_1 <- 100
+h_2 <- 60
+
+# 3) Conductividad hidráulica saturada (cm/s)
+k_cms <- area_tubo * largo_cm / (area_muestra * tiempo_s) * log(h_1 / h_2)
+
+# 4) Conversión a m/d
+k_md <- k_cms / 100 * 86400
+
+signif(c(k_cms = k_cms, k_md = k_md), 3)
+```
+
+**Interpretación.** Un $K_s$ de $3.4 \times 10^{-5}$ cm/s equivale a unos 3 cm por día, o 1.2 mm/h, un valor propio de un limo. Una lluvia de 20 mm/h superaría con creces la capacidad de ese suelo una vez saturado, y casi toda escurriría.
+:::
+
+En el campo, $K$ se mide con:
+
+- **El método del pozo barrenado** (*auger hole*), cuando el nivel freático está cerca de la superficie: se extrae agua de un pozo y se mide la velocidad con que el nivel se recupera.
+- **Las pruebas de bombeo**, que dan un valor medio sobre un volumen grande de acuífero a partir del abatimiento en pozos de observación.
+- **Las pruebas de *slug***: se introduce o se retira de golpe un cilindro en el pozo y se mide cómo vuelve el nivel.
+- **El permeámetro de Guelph**, portátil, que mide $K_s$ por encima del nivel freático.
+
+## Medición de caudales {#sec-fuentes-caudales}
+
+El **caudal** es el volumen de agua que pasa por una sección de un cauce por unidad de tiempo, en m³/s o L/s. Es la variable que más se usa en el diseño de puentes, alcantarillas, vertederos de presas y drenajes, y en la evaluación de la oferta de agua. También resume el estado de la cuenca, porque integra la lluvia, la infiltración, el almacenamiento y la evapotranspiración.
+
+### Aforos {#sec-fuentes-aforos}
+
+El **aforo** es la medición del caudal en una sección y en un momento dado. Se basa en la ecuación de continuidad:
+
+$$
+Q = A\,\bar{v}
+$$ {#eq-fuentes-continuidad}
+
+donde $Q$ es el caudal (m³/s), $A$ es el área mojada de la sección (m²) y $\bar{v}$ es la velocidad media del agua en la sección (m/s).
+
+Los aforos sirven para construir la curva de descarga de una estación, calibrar modelos de lluvia y escorrentía, cerrar balances hídricos y verificar caudales de diseño. Los métodos se agrupan en directos e indirectos [@chow1988appliedhydrology; @wmo2010aforo].
+
+**Métodos directos.** Miden el flujo mientras ocurre:
+
+- **Volumétrico:** se mide el tiempo $t$ que tarda el agua en llenar un recipiente de volumen $V$, y $Q = V/t$. Es el más exacto, pero solo sirve para caudales pequeños, como manantiales o tuberías.
+- **Velocidad y área:** es el método de uso general en ríos. La sección se divide en franjas verticales y en cada vertical se mide la profundidad y la velocidad con un molinete o correntómetro (@fig-aforo-seccion). En aguas poco profundas basta medir a 0.6 de la profundidad, contada desde la superficie; en aguas más hondas se promedian las lecturas a 0.2 y 0.8 de la profundidad. El caudal es la suma de los productos de área y velocidad de cada franja.
+- **Por dilución:** se inyecta un trazador, como sal o un colorante, a una tasa constante $q$ y con concentración $C_1$. Aguas abajo, donde el trazador ya se mezcló, se mide la concentración $C_2$. Si el río ya tenía una concentración $C_0$, el caudal es el de la @eq-fuentes-dilucion. Funciona bien en ríos de montaña muy turbulentos, donde el molinete no da buenas lecturas.
+- **Acústico (ADCP):** un perfilador acústico de efecto Doppler, montado en una lancha o un flotador, mide la velocidad en toda la columna de agua y la profundidad mientras cruza el río. Un aforo toma minutos.
+
+$$
+Q = q\,\frac{C_1 - C_2}{C_2 - C_0}
+$$ {#eq-fuentes-dilucion}
+
+```{r}
+#| label: fig-aforo-seccion
+#| fig-cap: "Aforo por el método de velocidad y área. Fuente: adaptado de @SerranoPacheco_IC0808_Hidrologia."
+#| fig-alt: "Sección de un río dividida en franjas verticales, con las profundidades de medición a 0.2, 0.6 y 0.8 de la profundidad y un perfil de velocidad"
 #| echo: false
-#| class: fig-border
+#| out-width: 90%
 
 knitr::include_graphics("assets/img/aforo.png")
 ```
 
-- <u>Aforos químicos (dilución)</u>: Se inyecta un trazador (sal, colorante o material radiactivo) de concentración conocida ($C_1$) a una tasa constante ($q$). Aguas abajo se mide la concentración de equilibrio ($C_2$):
-$$
-Q = q \cdot \frac{C_1 - C_2}{C_2 - C_0}
-$$
+::: {.callout-note title="Ejemplo: aforo por velocidad y área"}
+En un río de 12 m de ancho se midieron siete verticales separadas 1.5 m. En las verticales de menos de 0.75 m de profundidad se midió la velocidad a 0.6 de la profundidad; en las demás, a 0.2 y 0.8. Calcule el caudal con el método de la sección media, en el que cada vertical representa una franja de 1.5 m de ancho centrada en ella.
 
-- <u>Aforos acústicos (ADCP)</u>: Utilizan el efecto Doppler para medir perfiles de velocidad y profundidad simultáneamente mediante ultrasonido, permitiendo mediciones rápidas desde embarcaciones.
+| Vertical | Distancia (m) | Profundidad (m) | $v_{0.6}$ (m/s) | $v_{0.2}$ (m/s) | $v_{0.8}$ (m/s) |
+|:-:|:-:|:-:|:-:|:-:|:-:|
+| 1 | 1.5 | 0.45 | 0.32 | | |
+| 2 | 3.0 | 0.80 | | 0.62 | 0.44 |
+| 3 | 4.5 | 1.10 | | 0.85 | 0.61 |
+| 4 | 6.0 | 1.25 | | 0.95 | 0.69 |
+| 5 | 7.5 | 1.15 | | 0.90 | 0.64 |
+| 6 | 9.0 | 0.90 | | 0.70 | 0.50 |
+| 7 | 10.5 | 0.50 | 0.35 | | |
 
-**Métodos de aforo indirecto**
+: Datos del aforo (datos de ejemplo). {#tbl-aforo-datos}
 
-Se basan en la medición del nivel del agua ($h$) y en el uso de relaciones matemáticas preestablecidas.
+**Solución:**
 
-- <u>Estructuras de control (vertederos y canaletas)</u>: Estructuras precalibradas donde el caudal es función exclusiva de la carga hidráulica sobre una cresta.
+1. Velocidad media de cada vertical: $v_{0.6}$ o el promedio $(v_{0.2} + v_{0.8})/2$.
+2. Área de cada franja: profundidad por 1.5 m.
+3. Caudal de cada franja: área por velocidad.
+
+| Vertical | $\bar{v}$ (m/s) | Área (m²) | Caudal (m³/s) |
+|:-:|:-:|:-:|:-:|
+| 1 | 0.32 | 0.675 | 0.216 |
+| 2 | 0.53 | 1.200 | 0.636 |
+| 3 | 0.73 | 1.650 | 1.205 |
+| 4 | 0.82 | 1.875 | 1.538 |
+| 5 | 0.77 | 1.725 | 1.328 |
+| 6 | 0.60 | 1.350 | 0.810 |
+| 7 | 0.35 | 0.750 | 0.263 |
+| Suma | | 9.225 | 5.995 |
+
+: Cálculo a mano del aforo. {#tbl-aforo-mano}
+
+4. Caudal total: $Q = 6.00$ m³/s. Área mojada: $A = 9.23$ m². Velocidad media de la sección: $\bar{v} = 6.00/9.23 = 0.65$ m/s.
+
+**Pseudocódigo**
+
+1. Escribir la profundidad y las velocidades medidas en cada vertical.
+2. Calcular la velocidad media de cada vertical.
+3. Calcular el área y el caudal de cada franja.
+4. Sumar los caudales y las áreas, y calcular la velocidad media de la sección.
 
 ```{r}
-#| label: fig-vertedor 
-#| fig-cap: "Método de aforo por el método de estructuras de control."
-#| fig-align: center
-#| out-width: 100%
+#| label: ej-fuentes-aforo
+#| code-fold: false
+
+library(tidyverse)
+
+# 1) Datos del aforo; NA donde no se midió
+ancho_franja <- 1.5   # m
+aforo <- tibble(
+  vertical = 1:7,
+  profundidad = c(0.45, 0.80, 1.10, 1.25, 1.15, 0.90, 0.50),
+  v_06 = c(0.32, NA, NA, NA, NA, NA, 0.35),
+  v_02 = c(NA, 0.62, 0.85, 0.95, 0.90, 0.70, NA),
+  v_08 = c(NA, 0.44, 0.61, 0.69, 0.64, 0.50, NA)
+)
+
+# 2) y 3) Velocidad media, área y caudal de cada franja
+aforo <- aforo %>%
+  mutate(v_media = if_else(is.na(v_06), (v_02 + v_08) / 2, v_06),
+         area = profundidad * ancho_franja,
+         caudal = area * v_media)
+
+# 4) Totales de la sección
+caudal_total <- sum(aforo$caudal)
+area_total <- sum(aforo$area)
+
+aforo %>% select(vertical, v_media, area, caudal)
+round(c(Q = caudal_total, A = area_total, v = caudal_total / area_total), 3)
+```
+
+**Interpretación.** El río lleva 6.0 m³/s con una velocidad media de 0.65 m/s. Las tres franjas centrales aportan dos tercios del caudal, así que un error en esas velocidades pesa mucho más que uno en las orillas. Por eso se recomienda que ninguna franja lleve más del 10 % del caudal total [@wmo2010aforo]; aquí la franja 4 lleva el 26 %, y un aforo real usaría más verticales.
+:::
+
+**Métodos indirectos.** Miden el nivel del agua $h$ y calculan el caudal con una relación conocida:
+
+- **Estructuras de control:** vertederos y canaletas construidos para que el caudal dependa solo de la carga sobre la cresta (@fig-vertedor y @fig-vertedor2). Se usan en cauces pequeños y en canales.
+- **Sección y pendiente:** después de una crecida se levantan las marcas de agua máxima, la geometría del cauce y la pendiente, y se estima el caudal pico con la ecuación de Manning. Sirve para crecidas que nadie aforó.
+- **Curva de descarga:** la relación entre nivel y caudal de una estación, que se describe abajo.
+
+```{r}
+#| label: fig-vertedor
+#| fig-cap: "Vertedero rectangular en un cauce pequeño."
+#| fig-alt: "Fotografía de un vertedero rectangular de concreto y madera en una quebrada, con el agua cayendo sobre la cresta"
 #| echo: false
-#| class: fig-border
+#| out-width: 70%
 
 knitr::include_graphics("assets/img/vertedor.png")
 ```
 
 ```{r}
-#| label: fig-vertedor2 
-#| fig-cap: "Ecuaciones de vertedores típicos."
-#| fig-align: center
-#| out-width: 100%
+#| label: fig-vertedor2
+#| fig-cap: "Ecuaciones de los vertederos rectangular, triangular y trapezoidal."
+#| fig-alt: "Esquemas de un vertedero rectangular, uno triangular en V y uno trapezoidal, cada uno con su ecuación de caudal"
 #| echo: false
-#| class: fig-border
+#| out-width: 75%
 
 knitr::include_graphics("assets/img/vertedor2.png")
 ```
 
-- <u>Método Sección–Pendiente</u>: Se utiliza después de una avenida extrema, estimando el caudal pico mediante las marcas de agua máxima, la geometría del cauce y la rugosidad de Manning.
+### Curva de descarga {#sec-fuentes-curva-descarga}
 
-- <u>Curva de Calibración (*rating curve*)</u>: Relación empírica $Q = f(h)$ establecida mediante múltiples aforos directos previos. Generalmente responde a una ecuación potencial:
-$$
-Q = a (h \pm h_0)^n
-$$
+Aforar todos los días es caro, pero leer el nivel del agua es fácil: basta una regla graduada (limnímetro) o un sensor de nivel (limnígrafo). Por eso cada estación tiene una **curva de descarga** o **curva de calibración**, una relación $Q = f(h)$ que se ajusta con aforos hechos a distintos niveles. Con ella, el registro continuo de niveles se convierte en un registro continuo de caudales. La forma más común es la potencial [@chow1988appliedhydrology]:
 
-```{r message=FALSE, warning=FALSE, error=FALSE}
+$$
+Q = a\,(h - h_0)^n
+$$ {#eq-fuentes-curva-descarga}
+
+donde $Q$ es el caudal (m³/s), $h$ es el nivel leído en la regla (m), $h_0$ es el nivel de caudal nulo (m), y $a$ y $n$ son coeficientes de ajuste. El nivel de caudal nulo se obtiene del levantamiento del punto más bajo del control, o se ajusta junto con $a$ y $n$. Si se toman logaritmos, la @eq-fuentes-curva-descarga se vuelve una recta, $\ln Q = \ln a + n \ln(h - h_0)$, y los coeficientes salen de una regresión lineal.
+
+::: {.callout-note title="Ejemplo: ajuste de una curva de descarga"}
+En una estación se hicieron seis aforos a distintos niveles (datos de ejemplo). El levantamiento del control dio un nivel de caudal nulo $h_0 = 0.20$ m. Ajuste la @eq-fuentes-curva-descarga y estime el caudal para un nivel de 1.60 m.
+
+| $h$ (m) | 0.45 | 0.70 | 1.00 | 1.40 | 1.85 | 2.40 |
+|:--|:-:|:-:|:-:|:-:|:-:|:-:|
+| $Q$ (m³/s) | 0.90 | 2.63 | 6.06 | 11.25 | 19.81 | 30.91 |
+
+: Aforos de la estación (datos de ejemplo). {#tbl-curva-datos}
+
+**Solución:**
+
+1. Se calculan $x = \ln(h - h_0)$ e $y = \ln Q$:
+
+| $h$ (m) | $Q$ (m³/s) | $x$ | $y$ | $x\,y$ | $x^2$ |
+|:-:|:-:|:-:|:-:|:-:|:-:|
+| 0.45 | 0.90 | −1.3863 | −0.1054 | 0.1461 | 1.9218 |
+| 0.70 | 2.63 | −0.6931 | 0.9670 | −0.6703 | 0.4805 |
+| 1.00 | 6.06 | −0.2231 | 1.8017 | −0.4020 | 0.0498 |
+| 1.40 | 11.25 | 0.1823 | 2.4204 | 0.4413 | 0.0332 |
+| 1.85 | 19.81 | 0.5008 | 2.9862 | 1.4954 | 0.2508 |
+| 2.40 | 30.91 | 0.7885 | 3.4311 | 2.7053 | 0.6217 |
+| Suma | | −0.8310 | 11.5010 | 3.7157 | 3.3577 |
+
+: Cálculo a mano de la regresión. {#tbl-curva-mano}
+
+2. Pendiente de la recta, con $N = 6$ aforos:
+$$
+n = \frac{N \sum xy - \sum x \sum y}{N \sum x^2 - \left(\sum x\right)^2} = \frac{6 \times 3.7157 - (-0.8310)(11.5010)}{6 \times 3.3577 - (-0.8310)^2} = \frac{31.852}{19.456} = 1.637
+$$
+3. Ordenada: $\ln a = \left(\sum y - n \sum x\right)/N = (11.5010 + 1.637 \times 0.8310)/6 = 2.144$, de donde $a = e^{2.144} = 8.53$.
+4. Curva: $Q = 8.53\,(h - 0.20)^{1.637}$.
+5. Para $h = 1.60$ m: $Q = 8.53 \times 1.40^{1.637} = 8.53 \times 1.735 = 14.8$ m³/s.
+
+**Pseudocódigo**
+
+1. Escribir los niveles y caudales aforados y el nivel de caudal nulo.
+2. Calcular los logaritmos de $h - h_0$ y de $Q$.
+3. Ajustar una recta por mínimos cuadrados.
+4. Recuperar $a$ y $n$.
+5. Calcular el caudal para el nivel pedido y dibujar la curva con los aforos.
+
+```{r}
 #| label: fig-curva_descarga
-#| fig-cap: "Ejemplo de curva de descarga."
-#| fig-align: center
-#| out-width: 100%
-#| class: fig-border
-# Simulación de una curva de descarga (curva nivel–caudal)
-# Estilo inspirado en curvas clásicas de aforo
+#| fig-cap: "Curva de descarga ajustada y aforos de la estación del ejemplo."
+#| fig-alt: "Puntos de seis aforos y una curva creciente de nivel contra caudal que pasa por ellos"
+#| code-fold: false
 
-library(ggplot2)
-library(dplyr)
+library(tidyverse)
 
-set.seed(123)
-
-# 1. Simular caudales (m3/s)
-Q <- seq(0.5, 60, length.out = 40)
-
-# 2. Curva teórica nivel–caudal (tipo potencial)
-# Nivel en ms.n.m.
-H_teorico <- 450 + 2.8 * log(Q + 1)
-
-# 3. Agregar dispersión a los puntos observados
-H_obs <- H_teorico + rnorm(length(Q), mean = 0, sd = 0.15)
-
-datos <- tibble(
-  Caudal = Q,
-  Nivel_obs = H_obs,
-  Nivel_teorico = H_teorico
+# 1) Aforos (datos de ejemplo) y nivel de caudal nulo
+aforos <- tibble(
+  nivel = c(0.45, 0.70, 1.00, 1.40, 1.85, 2.40),     # m
+  caudal = c(0.90, 2.63, 6.06, 11.25, 19.81, 30.91)  # m³/s
 )
+h_0 <- 0.20
 
-# 4. Gráfica con ggplot
-ggplot(datos, aes(x = Caudal)) +
-  geom_line(
-    aes(y = Nivel_teorico),
-    linewidth = 1.4,
-    color = "blue3"
-  ) +
-  geom_point(
-    aes(y = Nivel_obs),
-    size = 2,
-    shape = 21,
-    fill = "firebrick",
-    color = "black"
-  )   +
-  labs(
-    x = expression("Caudal ("*m^3*"/s)"),
-    y = "Nivel (m.s.n.m.)"
-  ) 
-  
+# 2) y 3) Recta en logaritmos
+ajuste <- lm(log(caudal) ~ log(nivel - h_0), data = aforos)
 
+# 4) Coeficientes de la curva
+a <- exp(coef(ajuste)[[1]])
+n <- coef(ajuste)[[2]]
+round(c(a = a, n = n), 3)
+
+# 5) Caudal para h = 1.60 m y gráfico
+round(a * (1.60 - h_0)^n, 1)
+
+curva <- tibble(nivel = seq(h_0, 2.6, by = 0.02)) %>%
+  mutate(caudal = a * (nivel - h_0)^n)
+
+ggplot() +
+  geom_line(data = curva, aes(caudal, nivel), color = "#1C6BA0", linewidth = 1) +
+  geom_point(data = aforos, aes(caudal, nivel), size = 2.5) +
+  labs(x = "Caudal (m³/s)", y = "Nivel en la regla (m)") +
+  theme_minimal()
 ```
 
+**Interpretación.** La curva $Q = 8.53\,(h - 0.20)^{1.637}$ pasa muy cerca de los seis aforos, y para 1.60 m da 14.8 m³/s. Solo vale dentro del rango aforado: para un nivel de 3.0 m daría 46 m³/s, pero por encima de 2.40 m el río puede desbordarse y la forma de la sección cambia.
+:::
 
-## Medición de sedimentos
+::: {.callout-warning title="Cuidado"}
+La curva de descarga cambia cuando el cauce cambia. Una crecida que erosiona o sedimenta el control, la vegetación o una obra nueva aguas abajo desplazan la curva. Por eso se siguen haciendo aforos y la curva se revisa con cada uno. Los caudales de crecida que se obtienen extrapolando la curva más allá del aforo más alto son los menos confiables del registro.
+:::
 
-El sedimento es el producto final de los procesos de erosión (hídrica, eólica o por gravedad) que ocurren en la superficie de una cuenca y en sus cauces. Dentro de la hidrología, la cuantificación del transporte de sedimentos es vital para determinar la vida útil de embalses, el diseño de canales estables y la evaluación de la calidad del agua, ya que muchos contaminantes se adhieren a las partículas sólidas.
+## Medición de sedimentos {#sec-fuentes-sedimentos}
 
-El material sólido se desplaza a través de la red de drenaje en dos formas principales, dependiendo del mecanismo físico de transporte:
+El **sedimento** es el material que la erosión desprende de las laderas y de los cauces y que el agua transporta. Medirlo sirve para estimar la vida útil de los embalses, diseñar canales estables y evaluar la calidad del agua, porque muchos contaminantes viajan pegados a las partículas finas.
 
-- **Carga de fondo (*Bed load*):** Partículas gruesas (arenas, gravas, cantos) que se desplazan rodando, deslizándose o saltando en contacto directo con el lecho.
-- **Carga en suspensión (*Suspended load*):** Partículas finas (limos, arcillas) mantenidas en el cuerpo del flujo por la turbulencia del agua.  
-  - Dentro de esta última, se denomina **carga de lavado** al material muy fino que no se encuentra en el lecho y viaja a la misma velocidad del agua sin depositarse.
-  
+El sedimento se mueve de dos formas (@fig-lavado):
+
+- **Carga de fondo:** arenas, gravas y cantos que ruedan, se deslizan o saltan en contacto con el lecho.
+- **Carga en suspensión:** limos y arcillas que la turbulencia mantiene dentro de la corriente. La parte más fina, que no se encuentra en el lecho y viaja a la misma velocidad que el agua, se llama **carga de lavado**.
+
 ```{r}
-#| label: fig-lavado 
-#| fig-cap: "Tipos de sedimento en cauce<br><span style='font-size:0.8em;'>Fuente: (Rheinheimer & Yarnell, 2017)</span>.<br><span style='font-size:0.8em;'>Modificado por: (Matarrita, 2021)</span>"
-#| fig-align: center
-#| out-width: 100%
+#| label: fig-lavado
+#| fig-cap: "Formas de transporte del sedimento en un cauce. Fuente: adaptado de @rheinheimer2017tools."
+#| fig-alt: "Corte de un cauce con partículas que ruedan y saltan sobre el lecho, una partícula en suspensión y la carga de lavado cerca de la superficie"
 #| echo: false
-#| class: fig-border
+#| out-width: 75%
 
 knitr::include_graphics("assets/img/lavado.jpg")
 ```
 
-Debido a que la concentración de sólidos varía con la profundidad y el ancho del río, no basta con una muestra superficial. Existen diferentes técnicas dependiendo del tipo de sedimento que se desea muestrear.
+La concentración de sedimento cambia con la profundidad y a lo ancho del río, así que una muestra superficial no basta:
 
-- <u>Sedimento en suspensión</u>: Se utilizan muestreadores de integración de profundidad (como el estándar DH-48 o D-74). Estos aparatos se bajan y suben a una velocidad constante para recoger una muestra representativa de toda la vertical, asegurando que la velocidad de entrada en la boquilla sea igual a la de la corriente.
+- **Sedimento en suspensión:** se usan muestreadores integradores en profundidad, como el DH-48 o el D-74, que se bajan y se suben a velocidad constante para recoger agua de toda la vertical. Su boquilla deja entrar el agua a la misma velocidad que la corriente (@fig-sediment).
+- **Carga de fondo:** es más difícil de medir. Se usan trampas o muestreadores de presión diferencial como el Helley-Smith, que se apoyan sobre el lecho durante unos minutos.
 
 ```{r}
-#| label: fig-sediment 
-#| fig-cap: "Muestreo de sedimento suspendido en cauce.<br><span style='font-size:0.8em;'>Fuente: [@usgsHydrosphere]</span>."
-#| fig-align: center
-#| out-width: 100%
+#| label: fig-sediment
+#| fig-cap: "Muestreo de sedimento en suspensión desde un puente. Fuente: @usgsHydrosphere."
+#| fig-alt: "Técnico que baja con una grúa un muestreador de sedimento en forma de pez a un río desde un puente"
 #| echo: false
-#| class: fig-border
+#| out-width: 65%
 
 knitr::include_graphics("assets/img/sediment.jpg")
 ```
 
-- <u>Carga de fondo</u>: Su medición es compleja y menos precisa. Se emplean trampas de sedimentos o muestreadores de presión diferencial como el Helley-Smith, que se colocan directamente sobre el lecho por intervalos de tiempo cortos.
+## Medición de la calidad del agua {#sec-fuentes-calidad}
 
+La **calidad del agua** es su aptitud para un uso: consumo humano, riego, industria o mantenimiento de los ecosistemas. Cantidad y calidad van juntas: en estiaje el río diluye menos los vertidos, y en crecida arrastra más sedimento y contaminantes desde las laderas.
 
-## Medición de calidad del agua
+Los indicadores se agrupan en tres tipos:
 
-El estudio del agua no puede limitarse únicamente a la cuantificación de volúmenes (hidrología física^[Es la rama de la ciencia que estudia los procesos físicos del agua en la Tierra, enfocándose en su movimiento, distribución, calidad y propiedades, desde la atmósfera hasta el subsuelo, aplicando principios de la física para entender el ciclo hidrológico y la interacción del agua con el entorno, vital para la gestión de recursos hídricos y la predicción de fenómenos como inundaciones.]), sino que debe integrar el análisis de su composición química, física y biológica. La calidad del agua se define como su idoneidad para un uso específico, ya sea consumo humano, riego agrícola, procesos industriales o mantenimiento de los ecosistemas naturales.
+1. **Físicos:** temperatura, que controla cuánto oxígeno puede disolver el agua; color; olor; turbiedad, que mide las partículas en suspensión, y conductividad eléctrica, que aumenta con los sólidos disueltos.
+2. **Químicos:**
+    - **pH:** mide la acidez. El reglamento de Costa Rica pide entre 6.5 y 8.5 para las aguas de mejor calidad [@minae2007calidad].
+    - **Oxígeno disuelto:** es el indicador más directo de la salud del río. El reglamento lo evalúa como porcentaje de saturación [@minae2007calidad].
+    - **Nutrientes** (nitrógeno y fósforo): en exceso producen eutrofización, el crecimiento desmedido de algas.
+    - **Demanda bioquímica de oxígeno** (DBO₅): el oxígeno que consumen los microorganismos al degradar la materia orgánica en cinco días.
+3. **Biológicos:** organismos patógenos, como las bacterias coliformes (*Escherichia coli*), los virus y los protozoos (*Giardia*, *Cryptosporidium*).
 
-Existe una interdependencia crítica entre la cantidad y la calidad: los caudales bajos reducen la capacidad de dilución de los ríos, mientras que los caudales altos pueden aumentar el transporte de sedimentos y contaminantes desde las laderas.
-
-Los indicadores de calidad se agrupan en tres grandes categorías fundamentales:
-
-1. **Parámetros físicos:** Incluyen la temperatura (que afecta la solubilidad del oxígeno), el color, el olor, la conductividad eléctrica (relacionada con el total de sólidos disueltos) y la turbidez (presencia de partículas en suspensión que dispersan la luz).
-
-2. **Parámetros químicos:**
-    - <u>pH</u>: Mide la actividad de iones de hidrógeno; niveles fuera del rango 6.5–8.5 pueden ser letales para la biota.
-    - <u>Oxígeno disuelto (OD)</u>: Es el indicador clave de la salud de un ecosistema acuático. Los niveles mínimos para mantener la vida piscícola suelen situarse en 5 mg/L.
-    - <u>Nutrientes (nitrógeno y fósforo)</u>: Su exceso provoca eutrofización, caracterizada por el crecimiento desmedido de algas.
-    - <u>Demanda bioquímica de oxígeno (DBO₅)</u>: Mide la cantidad de oxígeno consumida por microorganismos para degradar la materia orgánica en un período de 5 días.
-
-- **Parámetros biológicos:** Se centran en la presencia de organismos patógenos como bacterias coliformes (por ejemplo *Escherichia coli*), virus y protozoos (*Giardia*, *Cryptosporidium*).
-
-Dentro del estudio de agua y su calidad, es vital distinguir entre la concentración, que indica la intensidad del contaminante, y la carga, que representa la masa total transportada por la corriente.
-
-La concentración se define como la masa de constituyente por unidad de volumen:
+Hay que distinguir la **concentración** $C$, la masa de una sustancia por unidad de volumen de agua, de la **carga** $L$, la masa que el río transporta por unidad de tiempo:
 
 $$
-C = \frac{\text{masa del constituyente}}{\text{volumen de fluido}}
-$$
+L = C\,Q
+$$ {#eq-fuentes-carga}
 
-La tasa de carga o flujo de masa es el producto de la concentración por el caudal:
+donde $L$ es la carga (g/s), $C$ es la concentración (mg/L, que es lo mismo que g/m³) y $Q$ es el caudal (m³/s). Un río con 20 mg/L de sedimento y 6 m³/s lleva 120 g/s, unas 10 toneladas por día. Las cargas son las que se suman en los balances de masa de una cuenca o un embalse.
 
-$$
-L = C \times Q
-$$
+Las muestras se toman de tres formas:
 
-Esta relación es fundamental para realizar balances de masa en una cuenca o embalse, donde se aplica la ley de conservación de la materia.
-
-La recolección de datos de calidad del agua debe seguir protocolos estrictos para garantizar que la muestra sea representativa del sistema hidrológico analizado.
-
-- <u>Muestreo puntual</u>: Consiste en una única muestra tomada en un lugar y tiempo específicos. Es útil para caracterizar fuentes bien mezcladas o condiciones instantáneas.
-- <u>Muestreo integrado</u>: Se obtiene mediante la mezcla de volúmenes iguales tomados a diferentes profundidades o posiciones transversales del cauce, proporcionando una muestra más representativa.
-- <u>Sensores *in situ*</u>: El uso de sondas multiparamétricas permite medir en tiempo real variables como pH, conductividad, temperatura y oxígeno disuelto, reduciendo los errores asociados al transporte y almacenamiento de muestras para análisis de laboratorio.
+- **Muestra puntual:** una sola muestra en un sitio y un momento. Sirve para cuerpos de agua bien mezclados.
+- **Muestra integrada:** la mezcla de volúmenes iguales tomados a varias profundidades o a lo ancho del cauce. Representa mejor la sección.
+- **Sensores en sitio:** sondas multiparamétricas que miden pH, conductividad, temperatura y oxígeno disuelto directamente en el agua y en tiempo real (@fig-hanna). Evitan los errores del transporte y almacenamiento de las muestras.
 
 ```{r}
-#| label: fig-hanna 
-#| fig-cap: "Sensores multiparámetros para la caracterización de la calidad del agua.<br><span style='font-size:0.8em;'>Fuente: [Hanna Instruments, 2025]</span>."
-#| fig-align: center
-#| out-width: 80%
+#| label: fig-hanna
+#| fig-cap: "Sonda multiparamétrica para medir la calidad del agua. Fuente: Hanna Instruments (2025)."
+#| fig-alt: "Medidor portátil con pantalla y sonda conectada por cable, junto a su maletín, frente a un río"
 #| echo: false
-#| class: fig-border
+#| out-width: 45%
 
 knitr::include_graphics("assets/img/hanna.jpg")
 ```
 
-Estas mediciones suelen estar acompañadas por análisis más exhaustivos y detallados, realizados en laboratorios especializados. Tal es el caso del Laboratorio de Ingeniería Ambiental de la Escuela de Ingeniería Civil de la Universidad de Costa Rica. Donde las muestras recolectadas en campo, pasan por un proceso de análisis más detallado para complementar los análisis de campo.
+Los demás parámetros, como nutrientes, metales o coliformes, se analizan en laboratorio, por ejemplo en el Laboratorio de Ingeniería Ambiental de la Escuela de Ingeniería Civil de la Universidad de Costa Rica (@fig-ambiental).
 
 ```{r}
-#| label: fig-ambiental 
-#| fig-cap: "Análisis de calidad del agua en laboratorio.<br><span style='font-size:0.8em;'>Fuente: [CIEDES UCR, 2018]</span>."
-#| fig-align: center
-#| out-width: 100%
+#| label: fig-ambiental
+#| fig-cap: "Análisis de calidad del agua en laboratorio. Fuente: @CIEDES_UCR."
+#| fig-alt: "Investigadora que pesa una muestra en una balanza analítica en un laboratorio"
 #| echo: false
-#| class: fig-border
+#| out-width: 65%
 
 knitr::include_graphics("assets/img/ambiental.jpg")
 ```
 
+## La red de estaciones de Costa Rica {#sec-fuentes-red-cr}
 
-## Instrumentación hidrometeorológica en Costa Rica y desafíos asociados
-
-En Costa Rica, la observación sistemática de las variables hidrometeorológicas se realiza a través de la red hidrometeorológica y climática nacional, conformada por un conjunto de estaciones distribuidas estratégicamente en el territorio. Estas estaciones, operadas por diversas instituciones como el Instituto Meteorológico Nacional (IMN), el Instituto Costarricense de Electricidad (ICE) y universidades, permiten la medición continua o periódica de variables meteorológicas (precipitación, temperatura, humedad, viento) y variables hidrológicas, principalmente niveles y caudales en ríos. En conjunto, esta red constituye la base observacional para el análisis del clima, la gestión de los recursos hídricos y la toma de decisiones operativas en sectores como la energía, la gestión del riesgo y el abastecimiento de agua.
+En Costa Rica las estaciones meteorológicas e hidrológicas las operan sobre todo el Instituto Meteorológico Nacional (IMN) y el Instituto Costarricense de Electricidad (ICE), además de universidades y otras instituciones (@fig-cr_estaciones). Miden precipitación, temperatura, humedad, viento, radiación, niveles y caudales. Con esos datos se pronostica el tiempo, se emiten alertas, se operan los embalses y se diseñan las obras.
 
 ```{r}
 #| label: fig-cr_estaciones
-#| fig-cap: "Red de estaciones meteorológicas en Costa Rica.<br><span style='font-size:0.8em;'>Fuente: [@IMN_CostaRica]</span>"
-#| fig-align: center
-#| out-width: 80%
+#| fig-cap: "Estaciones meteorológicas del IMN y del ICE en Costa Rica. Fuente: @IMN_CostaRica."
+#| fig-alt: "Mapa de relieve de Costa Rica con puntos rojos para las estaciones del ICE y azules para las del IMN, concentradas en el centro del país"
 #| echo: false
-#| class: fig-border
+#| out-width: 70%
 
 knitr::include_graphics("assets/img/CR_IMN.jpg")
-
 ```
 
-La red hidrometeorológica tiene como objetivo principal describir y monitorear el estado del tiempo y su componente hidrológico asociado en escalas temporales cortas, lo cual resulta esencial para la atención de eventos extremos, como lluvias intensas, crecidas repentinas o sequías. 
+La principal limitación para el análisis hidrológico es que la lluvia se mide en puntos. En un país con montañas altas, pendientes fuertes y lluvias convectivas y orográficas, la lluvia cambia mucho en pocos kilómetros, y una estación no representa a toda una cuenca. Además, como se ve en la @fig-cr_estaciones, las estaciones se concentran en el centro del país y escasean en otras zonas.
 
-Desde el punto de vista hidrológico, uno de los principales retos asociados a la instrumentación en Costa Rica es la naturaleza puntual de las mediciones de precipitación. Los pluviómetros y pluviógrafos registran la lluvia únicamente en el punto donde se ubica la estación, mientras que la precipitación real presenta una variabilidad espacial muy marcada, especialmente en un país con topografía compleja, fuertes gradientes altitudinales y regímenes de lluvia convectiva y orográfica. Esta limitación implica que los datos puntuales no son directamente representativos del comportamiento espacial de la lluvia sobre una cuenca hidrográfica.
-
-Como consecuencia, el análisis hidrológico debe recurrir de forma sistemática a métodos de estadística espacial y regionalización para transformar las mediciones puntuales en estimaciones areales. Entre estos métodos se incluyen técnicas clásicas como los polígonos de Thiessen y las isoyetas, así como enfoques más avanzados basados en interpolación geoestadística, modelos de regresión con variables topográficas y la integración de información de radar y satélites. Estos procedimientos permiten reducir la incertidumbre asociada a la escasez o distribución irregular de estaciones, pero introducen supuestos adicionales que deben ser cuidadosamente evaluados.
+Por eso la lluvia de una cuenca se estima con métodos que pasan de los puntos al área: polígonos de Thiessen, isoyetas, interpolación geoestadística, regresiones con la elevación y la combinación con radar y satélites (@fig-espacial). Cada método agrega supuestos propios, y el error de la estimación crece donde hay pocas estaciones. Estos métodos se tratan en el capítulo de precipitación.
 
 ```{r}
 #| label: fig-espacial
-#| fig-cap: "Análisis de estadística espacial.<br><span style='font-size:0.8em;'>Fuente: [Biostats, 2013]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Componentes de un análisis geoestadístico. Fuente: Biostats (2013)."
+#| fig-alt: "Histograma, mapa de puntos, variograma, covariables y efecto espacial que se combinan en un mapa interpolado"
 #| echo: false
-#| class: fig-border
+#| out-width: 75%
 
 knitr::include_graphics("assets/img/espacial.png")
-
 ```
 
-En este contexto, la calidad, densidad y continuidad de la red de observación hidrometeorológica se convierten en factores críticos para la confiabilidad de los estudios hidrológicos en Costa Rica. La correcta interpretación de los datos requiere no solo conocimiento de los instrumentos y sus limitaciones, sino también el uso riguroso de herramientas estadísticas y espaciales que permitan capturar la variabilidad real de los procesos hidroclimáticos que gobiernan la respuesta de las cuencas.
-
+En Costa Rica, la cantidad de estaciones y la continuidad de sus registros limitan lo que se puede concluir en un estudio. Antes de usar una serie hay que saber qué instrumento la midió, cuántos huecos tiene y si la estación cambió de sitio. El control de calidad y el relleno de registros se tratan en el capítulo 8.
