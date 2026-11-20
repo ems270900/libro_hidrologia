@@ -26,6 +26,7 @@ La cuenca es también la unidad natural para planificar y gestionar el agua. Den
 Costa Rica se divide en 34 cuencas hidrográficas principales, que drenan hacia la vertiente del Pacífico o hacia la del Caribe (@fig-cuencascr y @tbl-cuencascr). Sobre ellas se planifica el abastecimiento de agua potable, la generación hidroeléctrica, el riego y la gestión del riesgo por inundaciones y sequías.
 
 ```{r}
+#| echo: false
 #| label: fig-cuencascr
 #| fig-cap: "Cuencas hidrográficas principales de Costa Rica. Fuente: elaboración propia con datos del SNIT [@snit2025]."
 #| fig-alt: "Mapa de Costa Rica en CRTM05 dividido en las 34 cuencas hidrográficas principales, cada una con su número, sobre el relieve sombreado"
@@ -575,6 +576,7 @@ El **histograma de elevaciones** muestra qué porcentaje del área de la cuenca 
 La @fig-histo2 muestra el histograma de la cuenca del río La Estrella, construido a partir de las áreas por debajo de cada cota obtenidas del MDE de la @fig-DEM.
 
 ```{r}
+#| echo: false
 #| label: fig-histo2
 #| fig-cap: "Histograma de elevaciones de la cuenca del río La Estrella."
 #| fig-alt: "Barras horizontales del porcentaje de área por intervalo de 100 m; la mayor parte del área está por debajo de 600 m"
@@ -1161,6 +1163,7 @@ La vegetación y el suelo regulan el agua de tres maneras:
 - **Evapotranspiración.** Las plantas toman agua del suelo y la devuelven a la atmósfera. Es una de las salidas principales del balance hídrico de la cuenca.
 
 ```{r}
+#| echo: false
 #| label: fig-cober
 #| fig-cap: "Cobertura del suelo de Costa Rica. Fuente: elaboración propia con datos del SNIT [@snit2025]."
 #| fig-alt: "Mapa de Costa Rica en CRTM05 coloreado por cobertura: bosque arbóreo, manglar, pastos, cultivos y zonas urbanas"
