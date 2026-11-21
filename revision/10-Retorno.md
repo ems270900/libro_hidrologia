@@ -29,3 +29,9 @@ Revisión hecha con `GUIA_ESTILO.md`. El capítulo se renderiza sin avisos y los
 
 - El epígrafe de Ven Te Chow se conserva, firmado "Atribuida a", por decisión del autor.
 - Se agregaron a `references.bib` Langbein (1949) y Coles (2001).
+
+## Ajustes pedidos por el autor (2026-11-21)
+
+- Se explica junto a la figura del riesgo por qué el riesgo de los periodos de retorno cortos crece más rápido (10 % contra 0.2 % anual; en 25 años, 93 % contra 5 %).
+- La nota "En la práctica" remite la crecida máxima probable a un capítulo posterior.
+- La figura de series vuelve al estilo de la versión original del autor: serie en negro, umbral rojo, excedencias en azul y máximos anuales en morado.
