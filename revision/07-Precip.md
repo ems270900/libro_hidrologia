@@ -27,7 +27,7 @@ Pedidas por el autor:
 
 ## Otros cambios
 
-- Ecuaciones etiquetadas `eq-precip-*` (9) y secciones `sec-precip-*`.
+- Ecuaciones etiquetadas `eq-precip-*` (7) y secciones `sec-precip-*`.
 - Sin `<br>`, `<span class="firebrick">` ni estilos en línea.
 - Los estudios de Costa Rica (Murillo, 1994; Maroto, 2011; Sandí, 2012) se citan desde `references.bib`.
 - El video de YouTube pasó a un recuadro "En la práctica", con título descriptivo.
