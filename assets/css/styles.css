@@ -818,3 +818,24 @@ a.video-enlace:hover {
   .portada-logos { gap: 1.5rem; }
   .portada-logos img { height: 48px; }
 }
+
+/* Pregunta al lector, al inicio de una sección (ver GUIA_ESTILO.md, sección 8) */
+.pregunta {
+  margin: 1.2rem 0 1.4rem;
+  padding: 0.9rem 1.1rem 0.9rem 3.2rem;
+  position: relative;
+  border-left: 4px solid #1C6BA0;
+  background: rgba(28, 107, 160, 0.07);
+  border-radius: 0 0.4rem 0.4rem 0;
+  font-size: 1.08em;
+  font-weight: 600;
+  text-align: left;
+  hyphens: manual;
+}
+.pregunta::before {
+  content: "?";
+  position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%);
+  width: 1.7rem; height: 1.7rem; line-height: 1.7rem; text-align: center;
+  border-radius: 50%; background: #1C6BA0; color: #fff; font-weight: 700;
+}
+.pregunta p { margin: 0; }

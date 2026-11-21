@@ -252,6 +252,7 @@ libro_un_archivo <- function(preparar = TRUE) {
   if (preparar) preparar_copia()
   cfg <- yaml::read_yaml("_quarto.yml")
   html_cfg <- cfg$format$html
+  html_cfg$`include-after-body` <- NULL   # se vuelve a poner abajo, con la navegación
 
   cuerpo <- unir_capitulos(cfg)
   encabezado <- list(
@@ -269,7 +270,8 @@ libro_un_archivo <- function(preparar = TRUE) {
       html_cfg,
       list(`embed-resources` = TRUE, `toc-location` = "left", `toc-expand` = 1L,
            # Un capítulo por pantalla, con enlaces de anterior y siguiente
-           `include-after-body` = "assets/js/paginas.html",
+           # y las herramientas de lectura (búsqueda y accesibilidad)
+           `include-after-body` = list("assets/js/paginas.html", "assets/js/accesibilidad.html"),
            `title-block-banner` = FALSE,
            # MathML: las ecuaciones se ven sin internet (Chrome, Edge, Firefox)
            `html-math-method` = "mathml")

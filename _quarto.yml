@@ -143,6 +143,8 @@ format:
     code-tools: false
     fig-cap-location: bottom
     tbl-cap-location: top
+    # Botón de accesibilidad (letra, contraste y fuente), junto al modo oscuro
+    include-after-body: assets/js/accesibilidad.html
     link-external-newwindow: true
     df-print: paged
     smooth-scroll: true

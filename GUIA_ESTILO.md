@@ -114,7 +114,7 @@ Otros patrones que delatan texto generado:
 
 ## 3. Terminología
 
-Se usa siempre el mismo término para el mismo concepto. En la primera aparición dentro de cada capítulo, el término va en **negrita** y se define.
+Se usa siempre el mismo término para el mismo concepto. En la primera aparición dentro de cada capítulo, el término se define, sin negrita si está dentro de un párrafo (sección 8).
 
 | Usar | No usar | Nota |
 |---|---|---|
@@ -263,7 +263,7 @@ Las frases al inicio de cada capítulo (`.quote-block`) se atribuyen solo si la 
 ## 8. Formato de Quarto
 
 - **Títulos** en minúscula, salvo la primera palabra y los nombres propios ("Balance hídrico a escala de cuenca"). Hasta tres niveles (`##`, `###`, `####`). Un título no termina en punto.
-- **Énfasis**: negrita para el término que se define y cursiva para palabras en otro idioma (*runoff*). No se subraya (`<u>`), porque en la web parece un enlace. Hoy hay 262 subrayados en los capítulos 1 a 19 y se cambian por negrita o por una lista.
+- **Énfasis**: la negrita se reserva para las etiquetas al inicio de un elemento de lista o de un párrafo corto ("**Troposfera.** Va de…") y para los rótulos de los ejemplos. Dentro del texto corrido no se usa negrita: el término se define con la oración misma. Cursiva para palabras en otro idioma (*runoff*). No se subraya (`<u>`), porque en la web parece un enlace. Hoy hay 262 subrayados en los capítulos 1 a 19 y se cambian por negrita o por una lista.
 - **HTML**: se evitan `<br>`, `<center>`, `<span class="firebrick">` y estilos en línea. Para separar párrafos basta una línea en blanco.
 - **Recuadros** (callouts). Se usan solo estos cuatro:
 
@@ -275,6 +275,16 @@ Las frases al inicio de cada capítulo (`.quote-block`) se atribuyen solo si la 
   | Para profundizar | Demostraciones o temas que el estudiante puede saltarse | `::: {.callout-note title="Para profundizar" collapse="true"}` |
 
   El título del ejemplo dice de qué se trata: "Ejemplo: tiempo de concentración en la cuenca del río Tárcoles", no "Ejemplo." ni "Ejemplo 2".
+
+- **Pregunta al lector**: para abrir una sección con una pregunta que despierte la curiosidad y que el texto responde enseguida. Va sola, en su propio bloque, sin negrita:
+
+  ```markdown
+  ::: {.pregunta}
+  ¿Por qué, si Nueva York y Madrid están casi en la misma latitud, los inviernos de Nueva York son mucho más fríos?
+  :::
+  ```
+
+  Se usa con moderación: una o dos por capítulo.
 
 - **Listas**: numeradas solo cuando el orden importa (pasos de un método). Cada elemento empieza con mayúscula. Termina con punto si es una oración completa.
 - **Referencias cruzadas** con `@fig-`, `@tbl-`, `@eq-` y `@sec-`. No se escribe "la figura de abajo".

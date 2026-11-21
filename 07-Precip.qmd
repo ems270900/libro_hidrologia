@@ -5,11 +5,11 @@ suppress-bibliography: true
 ---
 
 ::: {.quote-block}
-"Él atrae las gotas de las aguas, al transformarse el vapor en lluvia."\
-— *Job 36:27 (versión Reina-Valera, 1960)*
+"Algunas personas sienten la lluvia. Otras solo se mojan."\
+— *Frase popular, atribuida a Bob Marley*
 :::
 
-La **precipitación** es el agua, líquida o sólida, que se forma en las nubes y llega a la superficie. Es la entrada principal del balance hídrico de una cuenca y el dato con que empiezan casi todos los cálculos de crecidas. En el capítulo anterior se vio cómo sube y se enfría el aire (@sec-meteo-adiabatico). Este capítulo explica cómo ese enfriamiento se convierte en lluvia, cómo se reparte la lluvia en el espacio y en el tiempo, y cómo se pasa de la lluvia medida en las estaciones a la lluvia media de una cuenca.
+La precipitación es el agua, líquida o sólida, que se forma en las nubes y llega a la superficie. Es la entrada principal del balance hídrico de una cuenca y el dato con que empiezan casi todos los cálculos de crecidas. En el capítulo anterior se vio cómo sube y se enfría el aire (@sec-meteo-adiabatico). Este capítulo explica cómo ese enfriamiento se convierte en lluvia, cómo se reparte la lluvia en el espacio y en el tiempo, y cómo se pasa de la lluvia medida en las estaciones a la lluvia media de una cuenca.
 
 ## Formación de la precipitación {#sec-precip-formacion}
 
@@ -21,8 +21,8 @@ Para que el vapor de agua se convierta en lluvia se necesitan tres condiciones:
 
 La tercera condición es la más exigente. Una gota de lluvia típica tiene un radio cien veces mayor que el de una gota de nube, es decir, un volumen un millón de veces mayor (@fig-lluvia_2). La condensación sola tardaría días en hacer crecer tanto una gota, así que se necesitan otros mecanismos [@wallace2006atmospheric]:
 
-- **Colisión y coalescencia.** Las gotas más grandes caen más rápido, chocan con las pequeñas y se unen a ellas. Es el mecanismo de las **nubes cálidas**, que están completamente por encima de 0 °C, y produce buena parte de la lluvia en el trópico.
-- **Crecimiento de cristales de hielo.** En las **nubes frías** conviven gotas de agua sobreenfriada (líquida por debajo de 0 °C) y cristales de hielo. Como la presión de vapor de saturación es menor sobre el hielo que sobre el agua, los cristales crecen a costa de las gotas. Al caer se juntan en copos y, si atraviesan aire cálido, se funden y llegan como lluvia. Es el mecanismo dominante en latitudes medias y también actúa en las tormentas tropicales, cuya parte alta está muy por debajo de 0 °C.
+- **Colisión y coalescencia.** Las gotas más grandes caen más rápido, chocan con las pequeñas y se unen a ellas. Es el mecanismo de las nubes cálidas, que están completamente por encima de 0 °C, y produce buena parte de la lluvia en el trópico.
+- **Crecimiento de cristales de hielo.** En las nubes frías conviven gotas de agua sobreenfriada (líquida por debajo de 0 °C) y cristales de hielo. Como la presión de vapor de saturación es menor sobre el hielo que sobre el agua, los cristales crecen a costa de las gotas. Al caer se juntan en copos y, si atraviesan aire cálido, se funden y llegan como lluvia. Es el mecanismo dominante en latitudes medias y también actúa en las tormentas tropicales, cuya parte alta está muy por debajo de 0 °C.
 
 ```{r}
 #| label: fig-lluvia_2
@@ -97,7 +97,7 @@ La forma en que llega la precipitación depende de la temperatura dentro de la n
 La precipitación se clasifica también según lo que hace subir el aire (@fig-tipos_lluvia). La clasificación importa en hidrología porque cada tipo tiene una intensidad, una duración y un área característicos:
 
 - **Convectiva.** El calentamiento del suelo hace subir el aire con fuerza. Produce aguaceros intensos, cortos y de pocos kilómetros de extensión. Es la lluvia típica de las tardes de la época lluviosa en el Valle Central y la que más pesa en el diseño de drenajes urbanos.
-- **Orográfica.** El viento obliga al aire a subir por una cordillera. Llueve mucho en la ladera de barlovento y poco en la de sotavento, que queda en **sombra pluviométrica**. Puede durar días.
+- **Orográfica.** El viento obliga al aire a subir por una cordillera. Llueve mucho en la ladera de barlovento y poco en la de sotavento, que queda en sombra pluviométrica. Puede durar días.
 - **Frontal o ciclónica.** El aire sube sobre un frente o en el centro de un sistema de baja presión. Da lluvias de intensidad moderada, larga duración y gran extensión. En Costa Rica los temporales asociados a ondas tropicales, empujes fríos y ciclones cercanos causan muchas de las crecidas de las cuencas grandes.
 - **Por convergencia.** El aire sube donde convergen los vientos, como en la Zona de Convergencia Intertropical (ZCIT).
 
@@ -142,8 +142,8 @@ zonal <- read_csv("datos/precipitacion_zonal_gpcp.csv", show_col_types = FALSE)
 media_global <- 983   # mm/año, promedio ponderado por el área de cada banda
 
 zonas <- tibble(
-  lat = c(6, -27, 27, -50, 47, -82, 82),
-  p = c(2420, 560, 560, 1300, 1200, 380, 380),
+  lat = c(4, -24, 24, -50, 45, -82, 82),
+  p = c(2330, 430, 430, 1330, 1200, 420, 420),
   etiqueta = c("ZCIT", "Subtrópicos:\ndescenso del aire", "Subtrópicos:\ndescenso del aire",
                "Latitudes medias:\nfrentes y ciclones", "Latitudes medias:\nfrentes y ciclones",
                "Polos", "Polos")
@@ -157,13 +157,18 @@ ggplot(zonal, aes(lat, p_mm_anio)) +
   geom_area(fill = "#9CC3E0", alpha = 0.7) +
   geom_line(colour = "#1C6BA0", linewidth = 1) +
   geom_hline(yintercept = media_global, linetype = "dashed", colour = "grey40") +
-  annotate("text", x = -88, y = media_global + 110, label = "Media global: 983 mm",
-           hjust = 0, family = "serif", size = 3.4, colour = "grey30") +
-  geom_text(data = zonas, aes(lat, p, label = etiqueta), family = "serif", size = 3.3,
+  annotate("text", x = 88, y = media_global + 80, label = "Media global: 983 mm",
+           hjust = 1, family = "serif", size = 3.4, colour = "grey30") +
+  geom_text(data = zonas[-1, ], aes(lat, p, label = etiqueta), family = "serif", size = 3.3,
             lineheight = 0.9, colour = "#1C3F5E") +
-  scale_x_continuous(breaks = seq(-90, 90, 15), expand = c(0, 0),
-                     labels = function(x) ifelse(abs(x) < 1e-6, "0°",
-                                                 paste0(abs(x), "° ", ifelse(x < 0, "S", "N")))) +
+  # Máximo de la ZCIT
+  annotate("point", x = zonal$lat[which.max(zonal$p_mm_anio)], y = max(zonal$p_mm_anio),
+           colour = "#1C3F5E", size = 2.2) +
+  annotate("text", x = 3, y = max(zonal$p_mm_anio) + 120, hjust = 1, family = "serif", size = 3.4,
+           colour = "#1C3F5E", label = paste0("ZCIT: ", max(zonal$p_mm_anio), " mm a 6° N")) +
+  scale_x_continuous(breaks = seq(-75, 75, 15), expand = c(0, 0),
+                     labels = c(paste0(seq(75, 15, -15), "° S"), "Ecuador",
+                                paste0(seq(15, 75, 15), "° N"))) +
   scale_y_continuous(limits = c(0, 2600), breaks = seq(0, 2500, 500), expand = c(0, 0),
                      labels = scales::label_number(big.mark = " ")) +
   labs(x = "Latitud", y = "Precipitación media anual (mm)") +
@@ -195,7 +200,7 @@ $$
 P = a + b\,H
 $$ {#eq-precip-altitud}
 
-donde $P$ es la precipitación anual (mm), $H$ es la altitud de la estación (m) y $a$ y $b$ son coeficientes que se ajustan por regresión con las estaciones de la región. La relación no sirve de una vertiente a otra, porque a la misma altitud llueve mucho más en barlovento que en sotavento. En montañas altas, además, la lluvia aumenta hasta una **altitud de máxima precipitación** y después disminuye, porque el aire ya perdió buena parte de su vapor.
+donde $P$ es la precipitación anual (mm), $H$ es la altitud de la estación (m) y $a$ y $b$ son coeficientes que se ajustan por regresión con las estaciones de la región. La relación no sirve de una vertiente a otra, porque a la misma altitud llueve mucho más en barlovento que en sotavento. En montañas altas, además, la lluvia aumenta hasta una altitud de máxima precipitación y después disminuye, porque el aire ya perdió buena parte de su vapor.
 
 ## Distribución temporal {#sec-precip-temporal}
 
@@ -219,12 +224,12 @@ knitr::include_graphics("assets/img/niño.png")
 
 La variación estacional define el régimen de lluvias. En Costa Rica hay dos regímenes principales (@fig-estacionalidad):
 
-- **Pacífico:** época seca bien definida de diciembre a marzo o abril, y época lluviosa de mayo a noviembre con una disminución en julio y agosto, el **veranillo** (@sec-meteo-chorro).
+- **Pacífico:** época seca bien definida de diciembre a marzo o abril, y época lluviosa de mayo a noviembre con una disminución en julio y agosto, el veranillo (@sec-meteo-chorro).
 - **Caribe:** lluvia casi todo el año, con mínimos relativos en marzo y en septiembre y octubre, justo cuando el Pacífico tiene sus meses más lluviosos.
 
 ### Dentro de una tormenta {#sec-precip-tormenta}
 
-Dentro de una tormenta la intensidad cambia de un minuto a otro. Dos tormentas con la misma lámina total producen crecidas distintas si en una la lluvia se concentra en media hora y en la otra se reparte en seis. Por eso, para el diseño se estudian los **patrones de distribución temporal**: la forma típica en que se reparte la lluvia de las tormentas de una región (@fig-dist_temp).
+Dentro de una tormenta la intensidad cambia de un minuto a otro. Dos tormentas con la misma lámina total producen crecidas distintas si en una la lluvia se concentra en media hora y en la otra se reparte en seis. Por eso, para el diseño se estudian los patrones de distribución temporal: la forma típica en que se reparte la lluvia de las tormentas de una región (@fig-dist_temp).
 
 ```{r}
 #| label: fig-dist_temp
@@ -246,7 +251,7 @@ Una tormenta se describe con tres magnitudes:
 
 1. **Intensidad** ($i$): lámina de lluvia por unidad de tiempo, en mm/h.
 2. **Duración** ($d$): tiempo que se considera, ya sea el de toda la tormenta o el de un intervalo dentro de ella.
-3. **Frecuencia:** qué tan seguido se supera una intensidad dada para cierta duración. Se expresa como una probabilidad anual de excedencia $p$ o como su inverso, el **periodo de retorno** $T = 1/p$, en años.
+3. **Frecuencia:** qué tan seguido se supera una intensidad dada para cierta duración. Se expresa como una probabilidad anual de excedencia $p$ o como su inverso, el periodo de retorno $T = 1/p$, en años.
 
 La intensidad media en un intervalo es:
 
@@ -254,7 +259,7 @@ $$
 i = \frac{\Delta h}{\Delta t}
 $$ {#eq-precip-intensidad}
 
-donde $i$ es la intensidad (mm/h), $\Delta h$ es la lámina de lluvia del intervalo (mm) y $\Delta t$ es la duración del intervalo (h). La intensidad media de una tormenta disminuye cuanto mayor es la duración que se considera, porque los periodos más largos incluyen ratos de lluvia débil. La relación entre las tres magnitudes forma las **curvas de intensidad, duración y frecuencia** (curvas IDF), que se tratan en su propio capítulo.
+donde $i$ es la intensidad (mm/h), $\Delta h$ es la lámina de lluvia del intervalo (mm) y $\Delta t$ es la duración del intervalo (h). La intensidad media de una tormenta disminuye cuanto mayor es la duración que se considera, porque los periodos más largos incluyen ratos de lluvia débil. La relación entre las tres magnitudes forma las curvas de intensidad, duración y frecuencia (curvas IDF), que se tratan en su propio capítulo.
 
 ### Curva masa e hietograma {#sec-precip-graficos}
 
@@ -374,7 +379,7 @@ La intensidad máxima baja de 91.8 mm/h para 10 min a 71.8 mm/h para 30 min y a 
 
 ## Precipitación media sobre una cuenca {#sec-precip-media-cuenca}
 
-Las estaciones miden la lluvia en un punto, pero los balances hídricos y los modelos de lluvia-escorrentía necesitan la **precipitación media de la cuenca**: la lámina uniforme que, repartida sobre toda el área, daría el mismo volumen de agua que la lluvia real. En la literatura en inglés se abrevia MAP (*mean areal precipitation*). En la @sec-fuentes-puntos-area se compararon los métodos para obtenerla; aquí se aplican los más usados.
+Las estaciones miden la lluvia en un punto, pero los balances hídricos y los modelos de lluvia-escorrentía necesitan la precipitación media de la cuenca: la lámina uniforme que, repartida sobre toda el área, daría el mismo volumen de agua que la lluvia real. En la literatura en inglés se abrevia MAP (*mean areal precipitation*). En la @sec-fuentes-puntos-area se compararon los métodos para obtenerla; aquí se aplican los más usados.
 
 Todos los métodos calculan un promedio ponderado de las estaciones:
 
@@ -406,11 +411,11 @@ donde $A_i$ es el área del polígono de la estación $i$ dentro de la cuenca (k
 
 Los polígonos se construyen en tres pasos (@fig-thiessen):
 
-1. Se unen las estaciones vecinas con segmentos que forman triángulos. En un sistema de información geográfica (SIG) se usa la **triangulación de Delaunay**, en la que ningún círculo que pasa por los tres vértices de un triángulo contiene otra estación.
+1. Se unen las estaciones vecinas con segmentos que forman triángulos. En un sistema de información geográfica (SIG) se usa la triangulación de Delaunay, en la que ningún círculo que pasa por los tres vértices de un triángulo contiene otra estación.
 2. Se traza la mediatriz de cada segmento: la perpendicular que pasa por su punto medio. Todos sus puntos están a la misma distancia de las dos estaciones.
 3. Las mediatrices se cortan y forman los polígonos, que se recortan con la divisoria de la cuenca.
 
-En un SIG el resultado se llama **diagrama de Voronoi**. La @fig-thiessen3 muestra los polígonos de la cuenca del río Grande de Orosi, y la @fig-thiessen-parrita, en el capítulo anterior, los de la cuenca del río Parrita.
+En un SIG el resultado se llama diagrama de Voronoi. La @fig-thiessen3 muestra los polígonos de la cuenca del río Grande de Orosi, y la @fig-thiessen-parrita, en el capítulo anterior, los de la cuenca del río Parrita.
 
 ```{r}
 #| label: fig-thiessen
@@ -497,7 +502,7 @@ Los dos métodos dan 3.43 y 3.48 mm. La diferencia es pequeña porque las lluvia
 
 ### Isoyetas {#sec-precip-isoyetas}
 
-Las **isoyetas** son líneas que unen puntos de igual precipitación, como las curvas de nivel de un mapa topográfico (@fig-isoyetas2). Se trazan a partir de las estaciones, y quien las dibuja puede incorporar lo que sabe del relieve y de la tormenta: que llueve más en las laderas de barlovento, o que un aguacero se concentró en un sector. Por eso, con una red densa y buen criterio, es el método más fiel de los clásicos. A cambio, depende de quien lo hace y hay que trazar un mapa nuevo para cada evento.
+Las isoyetas son líneas que unen puntos de igual precipitación, como las curvas de nivel de un mapa topográfico (@fig-isoyetas2). Se trazan a partir de las estaciones, y quien las dibuja puede incorporar lo que sabe del relieve y de la tormenta: que llueve más en las laderas de barlovento, o que un aguacero se concentró en un sector. Por eso, con una red densa y buen criterio, es el método más fiel de los clásicos. A cambio, depende de quien lo hace y hay que trazar un mapa nuevo para cada evento.
 
 ```{r}
 #| label: fig-isoyetas2
@@ -567,13 +572,13 @@ La precipitación media es de 75.6 mm. El resultado depende del valor que se sup
 
 ### Inverso de la distancia {#sec-precip-idw}
 
-El método del **inverso de la distancia** (IDW, por sus siglas en inglés) estima la lluvia en un punto sin medición como un promedio de las estaciones, con pesos que bajan con la distancia [@shepard1968two]:
+El método del inverso de la distancia (IDW, por sus siglas en inglés) estima la lluvia en un punto sin medición como un promedio de las estaciones, con pesos que bajan con la distancia [@shepard1968two]:
 
 $$
 P_x = \frac{\sum_{i=1}^{n} P_i / d_i^{\,p}}{\sum_{i=1}^{n} 1 / d_i^{\,p}}
 $$ {#eq-precip-idw}
 
-donde $P_x$ es la precipitación estimada en el punto $x$ (mm), $P_i$ es la precipitación de la estación $i$ (mm), $d_i$ es la distancia del punto a la estación (km) y $p$ es un exponente. Con $p = 2$ el método se llama del **inverso del cuadrado de la distancia**, que es la opción más común. Un exponente mayor da más peso a la estación más cercana, y uno menor suaviza el campo de lluvia. Conviene escogerlo comparando, con validación cruzada, qué valor reproduce mejor las estaciones de la región.
+donde $P_x$ es la precipitación estimada en el punto $x$ (mm), $P_i$ es la precipitación de la estación $i$ (mm), $d_i$ es la distancia del punto a la estación (km) y $p$ es un exponente. Con $p = 2$ el método se llama del inverso del cuadrado de la distancia, que es la opción más común. Un exponente mayor da más peso a la estación más cercana, y uno menor suaviza el campo de lluvia. Conviene escogerlo comparando, con validación cruzada, qué valor reproduce mejor las estaciones de la región.
 
 Para obtener la media de la cuenca se cubre la cuenca con una malla, se estima la lluvia en el centro de cada celda y se promedian las celdas que caen dentro. Así lo hacen los SIG.
 

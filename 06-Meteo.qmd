@@ -13,9 +13,9 @@ La atmósfera mueve el agua del ciclo hidrológico. Evapora el agua de los océa
 
 ## Tiempo y clima {#sec-meteo-tiempo-clima}
 
-La **meteorología** estudia la atmósfera y sus fenómenos. Se ocupa del **tiempo**, que es el estado de la atmósfera en un lugar y un momento dados: la temperatura, la presión, el viento o la lluvia de esta tarde.
+La meteorología estudia la atmósfera y sus fenómenos. Se ocupa del tiempo, que es el estado de la atmósfera en un lugar y un momento dados: la temperatura, la presión, el viento o la lluvia de esta tarde.
 
-La **climatología** estudia el **clima**, que es el comportamiento del tiempo en periodos largos. Se describe con estadísticas: promedios, variabilidad y extremos. Por convención, la Organización Meteorológica Mundial (OMM) calcula las **normales climatológicas** con periodos de 30 años, por ejemplo 1991–2020. La diferencia entre ambas disciplinas se resume en el @tbl-meteovsclima.
+La climatología estudia el clima, que es el comportamiento del tiempo en periodos largos. Se describe con estadísticas: promedios, variabilidad y extremos. Por convención, la Organización Meteorológica Mundial (OMM) calcula las normales climatológicas con periodos de 30 años, por ejemplo 1991–2020. La diferencia entre ambas disciplinas se resume en el @tbl-meteovsclima.
 
 | Disciplina | Escala de tiempo | Pregunta típica | Uso en hidrología |
 |:--|:--|:--|:--|
@@ -103,7 +103,7 @@ ggplot(gases, aes(porcentaje, etiqueta)) +
         legend.position = "bottom", axis.text.x = element_text(angle = 30, hjust = 1))
 ```
 
-El **vapor de agua** es el componente que más le importa a la hidrología, y también el más variable: va de casi cero en los desiertos fríos a cerca de 4 % del volumen en el aire tropical. La mayor parte está en los primeros kilómetros sobre la superficie, porque su fuente es la evaporación de océanos, suelos y plantas, y porque el aire frío de los niveles altos lo condensa (@fig-vapor). El aire contiene además **aerosoles**, partículas sólidas y líquidas en suspensión (polvo, sal marina, humo) que sirven de núcleos de condensación para formar las gotas de las nubes.
+El vapor de agua es el componente que más le importa a la hidrología, y también el más variable: va de casi cero en los desiertos fríos a cerca de 4 % del volumen en el aire tropical. La mayor parte está en los primeros kilómetros sobre la superficie, porque su fuente es la evaporación de océanos, suelos y plantas, y porque el aire frío de los niveles altos lo condensa (@fig-vapor). El aire contiene además aerosoles, partículas sólidas y líquidas en suspensión (polvo, sal marina, humo) que sirven de núcleos de condensación para formar las gotas de las nubes.
 
 ```{r}
 #| label: fig-vapor
@@ -119,10 +119,10 @@ knitr::include_graphics("assets/img/vapor.gif")
 
 La atmósfera se divide en capas según cómo cambia la temperatura con la altura (@fig-meteo-perfil). La presión, en cambio, baja siempre: a 5.5 km ya es la mitad de la del nivel del mar, y a 50 km es menor que 1 hPa, lo que significa que el 99.9 % de la masa del aire está por debajo de esa altura.
 
-- **Troposfera.** Va de la superficie hasta la **tropopausa**, a unos 16 o 17 km en el trópico y a unos 8 km sobre los polos. Contiene entre el 75 % y el 80 % de la masa del aire y casi todo el vapor de agua, así que en ella se forman las nubes y la lluvia. La temperatura baja con la altura, en promedio 6.5 °C por kilómetro.
+- **Troposfera.** Va de la superficie hasta la tropopausa, a unos 16 o 17 km en el trópico y a unos 8 km sobre los polos. Contiene entre el 75 % y el 80 % de la masa del aire y casi todo el vapor de agua, así que en ella se forman las nubes y la lluvia. La temperatura baja con la altura, en promedio 6.5 °C por kilómetro.
 - **Estratosfera.** Va de la tropopausa hasta unos 50 km. La temperatura se mantiene constante y después sube, porque el ozono absorbe la radiación ultravioleta del Sol. Esa inversión frena los movimientos verticales: por eso las nubes de tormenta se aplanan en la tropopausa y forman el yunque.
 - **Mesosfera.** Entre 50 y 85 km. La temperatura vuelve a bajar hasta unos −90 °C en la mesopausa, el punto más frío de la atmósfera.
-- **Termosfera.** Por encima de 85 km. El aire es tan escaso que unas pocas moléculas absorben la radiación solar de mayor energía y alcanzan temperaturas de 500 a 2000 °C, según la actividad del Sol. Más allá de unos 500 km está la **exosfera**, donde los gases ligeros escapan al espacio.
+- **Termosfera.** Por encima de 85 km. El aire es tan escaso que unas pocas moléculas absorben la radiación solar de mayor energía y alcanzan temperaturas de 500 a 2000 °C, según la actividad del Sol. Más allá de unos 500 km está la exosfera, donde los gases ligeros escapan al espacio.
 
 ```{r}
 #| label: fig-meteo-perfil
@@ -184,17 +184,17 @@ La atmósfera estándar de la @fig-meteo-perfil representa condiciones medias de
 
 ## Elementos del tiempo {#sec-meteo-elementos}
 
-El estado de la atmósfera se describe con unas pocas variables, llamadas **elementos del tiempo**: temperatura, presión, humedad, viento, nubosidad y precipitación. Cómo se miden se explicó en el capítulo de fuentes de información (@sec-fuentes-meteorologicas). Aquí interesa cómo se relacionan entre sí.
+El estado de la atmósfera se describe con unas pocas variables, llamadas elementos del tiempo: temperatura, presión, humedad, viento, nubosidad y precipitación. Cómo se miden se explicó en el capítulo de fuentes de información (@sec-fuentes-meteorologicas). Aquí interesa cómo se relacionan entre sí.
 
 ### Temperatura {#sec-meteo-temperatura}
 
-La **temperatura** del aire mide la energía cinética media de sus moléculas. En la troposfera baja con la altura, en promedio 6.5 °C/km. Ese valor es el de la atmósfera estándar; el gradiente real cambia con la hora, la humedad y el tipo de masa de aire. A veces la temperatura sube con la altura en una capa, y se habla de **inversión térmica** (@sec-meteo-inversiones).
+La temperatura del aire mide la energía cinética media de sus moléculas. En la troposfera baja con la altura, en promedio 6.5 °C/km. Ese valor es el de la atmósfera estándar; el gradiente real cambia con la hora, la humedad y el tipo de masa de aire. A veces la temperatura sube con la altura en una capa, y se habla de inversión térmica (@sec-meteo-inversiones).
 
 En el trópico la variación diaria de la temperatura suele ser mayor que la variación entre meses. La máxima del día ocurre a primera hora de la tarde y la mínima poco antes de la salida del sol, porque durante la noche el suelo pierde calor por radiación infrarroja sin recibir energía solar. En latitudes medias, en cambio, domina la variación estacional: los meses más cálidos llegan uno o dos meses después del solsticio de verano, por la inercia térmica del suelo y del océano. Las regiones continentales tienen amplitudes anuales mayores que las costeras, porque el agua se calienta y se enfría más despacio que la tierra.
 
 ### Presión atmosférica {#sec-meteo-presion}
 
-La **presión atmosférica** es el peso de la columna de aire sobre una unidad de área. Al nivel del mar, en la atmósfera estándar, vale 1013.25 hPa, es decir, 101.325 kPa. Equivale a una columna de agua de 10.33 m, o a 1.033 kgf/cm².
+La presión atmosférica es el peso de la columna de aire sobre una unidad de área. Al nivel del mar, en la atmósfera estándar, vale 1013.25 hPa, es decir, 101.325 kPa. Equivale a una columna de agua de 10.33 m, o a 1.033 kgf/cm².
 
 El aire se comporta como un gas ideal. Para una masa de aire de volumen $V$ que contiene $n$ moles:
 
@@ -210,7 +210,7 @@ $$ {#eq-meteo-gas-densidad}
 
 donde $\rho$ es la densidad del aire (kg/m³) y $R_d = 287\ \mathrm{J/(kg\,K)}$ es la constante del aire seco [@wallace2006atmospheric]. Con $P = 101\,325$ Pa y $T = 288$ K da $\rho = 1.23$ kg/m³.
 
-La presión baja con la altura porque cada capa de aire sostiene el peso de las que tiene encima. En una atmósfera en reposo se cumple la **ecuación hidrostática**:
+La presión baja con la altura porque cada capa de aire sostiene el peso de las que tiene encima. En una atmósfera en reposo se cumple la ecuación hidrostática:
 
 $$
 \frac{dP}{dz} = -\rho\,g
@@ -239,7 +239,7 @@ atm_std %>%
                align = "ccc")
 ```
 
-La presión al nivel del mar cambia poco de un día a otro, unos pocos hectopascales, salvo al paso de un sistema de baja presión o de un huracán. En el trópico tiene además una oscilación de dos ciclos por día, la **marea barométrica**, con máximos cerca de las 10:00 y las 22:00 y mínimos cerca de las 04:00 y las 16:00, hora local.
+La presión al nivel del mar cambia poco de un día a otro, unos pocos hectopascales, salvo al paso de un sistema de baja presión o de un huracán. En el trópico tiene además una oscilación de dos ciclos por día, la marea barométrica, con máximos cerca de las 10:00 y las 22:00 y mínimos cerca de las 04:00 y las 16:00, hora local.
 
 ::: {.callout-note title="Ejemplo: presión atmosférica a distintas altitudes"}
 
@@ -303,7 +303,7 @@ El vapor de agua del aire se puede expresar de varias formas, que se relacionan 
 
 Como $e_s$ depende tanto de la temperatura, la humedad relativa sube en la noche y baja en la tarde aunque el aire tenga la misma cantidad de vapor. Para comparar masas de aire conviene usar el punto de rocío o la presión de vapor, que no cambian con el ciclo diario de temperatura.
 
-La pendiente de la curva de saturación la da la **ecuación de Clausius-Clapeyron**:
+La pendiente de la curva de saturación la da la ecuación de Clausius-Clapeyron:
 
 $$
 \frac{1}{e_s}\,\frac{de_s}{dT} = \frac{L_v}{R_v\,T^2}
@@ -313,13 +313,13 @@ donde $L_v = 2.5\times10^{6}\ \mathrm{J/kg}$ es el calor latente de vaporizació
 
 ### Viento {#sec-meteo-viento}
 
-El **viento** es el movimiento horizontal del aire. Los movimientos verticales se llaman **corrientes** ascendentes o descendentes. En hidrología el viento importa por dos razones: transporta el vapor desde los océanos hacia los continentes, y renueva el aire sobre una superficie que evapora, por lo que aparece en las fórmulas de evaporación.
+El viento es el movimiento horizontal del aire. Los movimientos verticales se llaman corrientes ascendentes o descendentes. En hidrología el viento importa por dos razones: transporta el vapor desde los océanos hacia los continentes, y renueva el aire sobre una superficie que evapora, por lo que aparece en las fórmulas de evaporación.
 
 Tres fuerzas controlan el viento:
 
 - **Fuerza del gradiente de presión.** Empuja el aire de las zonas de alta presión hacia las de baja presión. Es la que inicia el movimiento, y es mayor cuanto más juntas están las isobaras en un mapa.
 - **Fuerza de Coriolis.** Es una fuerza aparente que aparece porque la Tierra gira. Desvía el aire hacia la derecha en el hemisferio norte y hacia la izquierda en el sur, sin cambiar su rapidez. Su valor por unidad de masa se da en la @eq-meteo-coriolis.
-- **Fricción.** El roce con el terreno frena el viento y lo desvía hacia la baja presión. Su efecto se siente en la **capa límite**, que va de unos cientos de metros a 1 o 2 km de espesor según la hora y la rugosidad del terreno (bosques, edificios, relieve). Por eso el viento medido a 10 m de altura en una ciudad es más débil que el medido en un aeropuerto abierto.
+- **Fricción.** El roce con el terreno frena el viento y lo desvía hacia la baja presión. Su efecto se siente en la capa límite, que va de unos cientos de metros a 1 o 2 km de espesor según la hora y la rugosidad del terreno (bosques, edificios, relieve). Por eso el viento medido a 10 m de altura en una ciudad es más débil que el medido en un aeropuerto abierto.
 
 $$
 F_c = 2\,\Omega\,v\,\sin\varphi
@@ -329,15 +329,15 @@ donde $F_c$ es la aceleración de Coriolis (m/s²), $\Omega = 7.292\times10^{-5}
 
 ### Ascenso del aire y enfriamiento adiabático {#sec-meteo-adiabatico}
 
-Cuando el aire sube, encuentra menos presión, se expande y se enfría, aunque no ceda calor a su entorno. Ese enfriamiento se llama **adiabático**, y es el mecanismo que forma casi todas las nubes y casi toda la lluvia.
+Cuando el aire sube, encuentra menos presión, se expande y se enfría, aunque no ceda calor a su entorno. Ese enfriamiento se llama adiabático, y es el mecanismo que forma casi todas las nubes y casi toda la lluvia.
 
-Mientras el aire no está saturado, se enfría a razón del **gradiente adiabático seco**:
+Mientras el aire no está saturado, se enfría a razón del gradiente adiabático seco:
 
 $$
 \Gamma_d = \frac{g}{c_p} \approx 9.8\ \mathrm{^\circ C/km}
 $$ {#eq-meteo-adiabatico-seco}
 
-donde $c_p = 1004\ \mathrm{J/(kg\,K)}$ es el calor específico del aire a presión constante. Al llegar a su punto de rocío, el vapor empieza a condensarse y libera calor latente. Desde ahí el aire se enfría más despacio, con el **gradiente adiabático húmedo** $\Gamma_s$, que va de unos 4 °C/km en aire cálido a unos 7 °C/km en aire frío [@wallace2006atmospheric]. La altura donde empieza la condensación es la base de las nubes, o **nivel de condensación por ascenso**. Se estima con:
+donde $c_p = 1004\ \mathrm{J/(kg\,K)}$ es el calor específico del aire a presión constante. Al llegar a su punto de rocío, el vapor empieza a condensarse y libera calor latente. Desde ahí el aire se enfría más despacio, con el gradiente adiabático húmedo $\Gamma_s$, que va de unos 4 °C/km en aire cálido a unos 7 °C/km en aire frío [@wallace2006atmospheric]. La altura donde empieza la condensación es la base de las nubes, o nivel de condensación por ascenso. Se estima con:
 
 $$
 z_{\text{NCA}} \approx 125\,(T - T_d)
@@ -349,7 +349,7 @@ El aire sube por cuatro causas:
 
 - **Convección.** El suelo calentado por el sol calienta el aire en contacto con él, que se vuelve menos denso y sube. Es el origen de los aguaceros de la tarde en el Valle Central.
 - **Ascenso orográfico.** El viento choca con una montaña y la remonta (@fig-foehn).
-- **Frentes.** Una masa de aire frío, más densa, se mete por debajo de una cálida y la levanta (@fig-frente_frio). En Costa Rica los frentes llegan debilitados, como **empujes fríos** que entre noviembre y marzo traen lluvias al Caribe y viento fuerte al Pacífico Norte.
+- **Frentes.** Una masa de aire frío, más densa, se mete por debajo de una cálida y la levanta (@fig-frente_frio). En Costa Rica los frentes llegan debilitados, como empujes fríos que entre noviembre y marzo traen lluvias al Caribe y viento fuerte al Pacífico Norte.
 - **Convergencia.** Cuando el aire confluye en superficie, no tiene más salida que subir; cuando diverge, el aire de arriba baja a reemplazarlo (@fig-conver_diver). La Zona de Convergencia Intertropical (@sec-meteo-hadley) es el caso más importante para Costa Rica.
 
 ```{r}
@@ -372,7 +372,7 @@ knitr::include_graphics("assets/img/frente_frio.png")
 knitr::include_graphics("assets/img/conver_diver.jpg")
 ```
 
-Cuando el aire remonta una cordillera, deja buena parte de su humedad como lluvia en la ladera de barlovento. Del otro lado baja sin nubes, se calienta con el gradiente seco y llega al pie de la montaña más caliente y más seco que en el punto de partida. Ese viento cálido y seco de sotavento es el **efecto Foehn** (@fig-foehn).
+Cuando el aire remonta una cordillera, deja buena parte de su humedad como lluvia en la ladera de barlovento. Del otro lado baja sin nubes, se calienta con el gradiente seco y llega al pie de la montaña más caliente y más seco que en el punto de partida. Ese viento cálido y seco de sotavento es el efecto Foehn (@fig-foehn).
 
 ```{r}
 #| label: fig-foehn
@@ -434,13 +434,13 @@ La diferencia sale de que el aire perdió su humedad al subir: el calor latente 
 
 ### Estabilidad e inversiones térmicas {#sec-meteo-inversiones}
 
-Si el aire que sube queda más caliente que su entorno, sigue subiendo solo: la atmósfera es **inestable** y se forman nubes de gran desarrollo vertical. Si queda más frío, vuelve a bajar: la atmósfera es **estable**. La comparación se hace entre el gradiente real del entorno y los gradientes adiabáticos. Un gradiente real mayor que 9.8 °C/km es siempre inestable; uno menor que el gradiente húmedo es siempre estable.
+Si el aire que sube queda más caliente que su entorno, sigue subiendo solo: la atmósfera es inestable y se forman nubes de gran desarrollo vertical. Si queda más frío, vuelve a bajar: la atmósfera es estable. La comparación se hace entre el gradiente real del entorno y los gradientes adiabáticos. Un gradiente real mayor que 9.8 °C/km es siempre inestable; uno menor que el gradiente húmedo es siempre estable.
 
-Una **inversión térmica** es una capa en la que la temperatura sube con la altura. Es la condición más estable que existe, porque el aire frío y denso queda abajo. Las inversiones frenan los movimientos verticales, atrapan el humo y la contaminación y limitan el crecimiento de las nubes. Se forman por:
+Una inversión térmica es una capa en la que la temperatura sube con la altura. Es la condición más estable que existe, porque el aire frío y denso queda abajo. Las inversiones frenan los movimientos verticales, atrapan el humo y la contaminación y limitan el crecimiento de las nubes. Se forman por:
 
 - El enfriamiento del suelo en noches despejadas y sin viento, que enfría el aire de abajo.
 - El paso de aire cálido sobre aire frío o sobre una superficie fría.
-- El descenso del aire en los anticiclones, que lo calienta por compresión. Es la **inversión de los alisios**, que en el Caribe limita la altura de las nubes de buen tiempo.
+- El descenso del aire en los anticiclones, que lo calienta por compresión. Es la inversión de los alisios, que en el Caribe limita la altura de las nubes de buen tiempo.
 
 La tropopausa también es una inversión, a escala planetaria.
 
@@ -465,17 +465,17 @@ La energía se mueve en la atmósfera por cuatro mecanismos (@fig-calor):
 knitr::include_graphics("assets/img/calor.png")
 ```
 
-Todo cuerpo emite radiación según su temperatura. La **ley de Stefan-Boltzmann** da la energía emitida por unidad de área:
+Todo cuerpo emite radiación según su temperatura. La ley de Stefan-Boltzmann da la energía emitida por unidad de área:
 
 $$
 R = \varepsilon\,\sigma\,T^4
 $$ {#eq-meteo-stefan}
 
-donde $R$ es la radiación emitida (W/m²), $\varepsilon$ es la emisividad de la superficie (1 para un cuerpo negro; entre 0.95 y 0.99 para el agua, el suelo y la vegetación), $\sigma = 5.67\times10^{-8}\ \mathrm{W/(m^2\,K^4)}$ es la constante de Stefan-Boltzmann y $T$ es la temperatura absoluta (K). Una superficie a 15 °C (288 K) emite unos 390 W/m². Como la superficie de la Tierra es mucho más fría que la del Sol, emite en longitudes de onda más largas: el Sol emite **radiación de onda corta** (visible e infrarrojo cercano) y la Tierra **radiación de onda larga** (infrarrojo térmico).
+donde $R$ es la radiación emitida (W/m²), $\varepsilon$ es la emisividad de la superficie (1 para un cuerpo negro; entre 0.95 y 0.99 para el agua, el suelo y la vegetación), $\sigma = 5.67\times10^{-8}\ \mathrm{W/(m^2\,K^4)}$ es la constante de Stefan-Boltzmann y $T$ es la temperatura absoluta (K). Una superficie a 15 °C (288 K) emite unos 390 W/m². Como la superficie de la Tierra es mucho más fría que la del Sol, emite en longitudes de onda más largas: el Sol emite radiación de onda corta (visible e infrarrojo cercano) y la Tierra radiación de onda larga (infrarrojo térmico).
 
 ### Insolación {#sec-meteo-insolacion}
 
-La energía que llega del Sol se llama **insolación**. Fuera de la atmósfera, sobre una superficie perpendicular a los rayos y a la distancia media Tierra-Sol, vale 1361 W/m²; es la **constante solar** [@kopp2011new]. La que llega a un punto del suelo depende de cuatro factores:
+La energía que llega del Sol se llama insolación. Fuera de la atmósfera, sobre una superficie perpendicular a los rayos y a la distancia media Tierra-Sol, vale 1361 W/m²; es la constante solar [@kopp2011new]. La que llega a un punto del suelo depende de cuatro factores:
 
 - **Altura del Sol.** Cuanto más alto está el Sol, más concentrada llega la energía. Un mismo haz de rayos que cae inclinado se reparte sobre un área mayor (@fig-latitud).
 - **Espesor de atmósfera atravesado.** Con el Sol cerca del horizonte, los rayos recorren más aire y pierden más energía por absorción y dispersión.
@@ -496,13 +496,13 @@ knitr::include_graphics("assets/img/latitud.png")
 
 Para que la temperatura media de la Tierra se mantenga, la energía que entra debe ser igual a la que sale. La @fig-balance_rad, en el capítulo anterior, resume el balance medio. De cada 342 W/m² que llegan en promedio al tope de la atmósfera [@letreut2007historical]:
 
-- 107 W/m² (31 %) se reflejan al espacio, sobre todo en las nubes y en superficies claras. Esa fracción es el **albedo** de la Tierra.
+- 107 W/m² (31 %) se reflejan al espacio, sobre todo en las nubes y en superficies claras. Esa fracción es el albedo de la Tierra.
 - 67 W/m² (20 %) los absorbe la atmósfera.
 - 168 W/m² (49 %) los absorbe la superficie.
 
-La superficie devuelve esa energía a la atmósfera de tres formas: como **calor latente** en la evaporación (78 W/m², que se liberan después cuando el vapor se condensa en las nubes), como **calor sensible** por conducción y convección (24 W/m²) y como radiación de onda larga. Sin contar la radiación, unas tres cuartas partes de la energía que la superficie entrega a la atmósfera se van en evaporar agua: el ciclo hidrológico es también el principal transporte de energía del planeta.
+La superficie devuelve esa energía a la atmósfera de tres formas: como calor latente en la evaporación (78 W/m², que se liberan después cuando el vapor se condensa en las nubes), como calor sensible por conducción y convección (24 W/m²) y como radiación de onda larga. Sin contar la radiación, unas tres cuartas partes de la energía que la superficie entrega a la atmósfera se van en evaporar agua: el ciclo hidrológico es también el principal transporte de energía del planeta.
 
-El vapor de agua, el CO₂, el metano y otros gases dejan pasar casi toda la radiación solar, pero absorben la radiación de onda larga que emite la superficie y devuelven una parte hacia abajo (@fig-invernadero). Ese es el **efecto invernadero**. El ejemplo siguiente estima cuánto calienta.
+El vapor de agua, el CO₂, el metano y otros gases dejan pasar casi toda la radiación solar, pero absorben la radiación de onda larga que emite la superficie y devuelven una parte hacia abajo (@fig-invernadero). Ese es el efecto invernadero. El ejemplo siguiente estima cuánto calienta.
 
 ```{r}
 #| label: fig-invernadero
@@ -573,10 +573,10 @@ La superficie de la Tierra no se calienta igual en todas partes, y esa diferenci
 
 - **Albedo.** La nieve fresca refleja más del 80 % de la radiación solar; un bosque, entre 10 % y 20 %, y el océano, menos del 10 %.
 - **Capacidad calorífica.** El agua almacena mucho calor y lo suelta despacio. Por eso las costas tienen menos diferencia de temperatura entre el día y la noche que el interior, y por eso existen las brisas de mar y de tierra.
-- **Cobertura del suelo.** La vegetación usa parte de la energía en evapotranspirar, y así se calienta menos. Las superficies urbanas impermeables almacenan calor y lo liberan de noche, lo que forma las **islas de calor** urbanas.
+- **Cobertura del suelo.** La vegetación usa parte de la energía en evapotranspirar, y así se calienta menos. Las superficies urbanas impermeables almacenan calor y lo liberan de noche, lo que forma las islas de calor urbanas.
 
 ::: {.callout-note title="Para profundizar: los cinturones de Van Allen" collapse="true"}
-La Tierra está rodeada por dos zonas en forma de anillo donde el campo magnético atrapa protones y electrones de alta energía: los **cinturones de Van Allen** (@fig-allen). El interior está entre unos 1000 y 6000 km de altura y el exterior entre unos 13 000 y 60 000 km. Las partículas viajan en espiral de un polo magnético al otro. Cuando el viento solar es intenso, parte de ellas entra en la alta atmósfera cerca de los polos, excita los átomos de oxígeno y nitrógeno y produce las auroras. Estos cinturones no influyen en el tiempo ni en el ciclo del agua, pero muestran cómo el campo magnético desvía la mayor parte del viento solar.
+La Tierra está rodeada por dos zonas en forma de anillo donde el campo magnético atrapa protones y electrones de alta energía: los cinturones de Van Allen (@fig-allen). El interior está entre unos 1000 y 6000 km de altura y el exterior entre unos 13 000 y 60 000 km. Las partículas viajan en espiral de un polo magnético al otro. Cuando el viento solar es intenso, parte de ellas entra en la alta atmósfera cerca de los polos, excita los átomos de oxígeno y nitrógeno y produce las auroras. Estos cinturones no influyen en el tiempo ni en el ciclo del agua, pero muestran cómo el campo magnético desvía la mayor parte del viento solar.
 
 ```{r}
 #| label: fig-allen
@@ -593,7 +593,7 @@ knitr::include_graphics("assets/img/allen.png")
 
 ### Circulación general {#sec-meteo-hadley}
 
-El ecuador recibe más energía de la que emite y los polos emiten más de la que reciben. La atmósfera y los océanos llevan el excedente hacia los polos. En cada hemisferio, la atmósfera lo hace con tres grandes células de circulación: la de **Hadley**, entre el ecuador y unos 30° de latitud; la de **Ferrel**, en latitudes medias; y la **Polar** (@fig-hadley).
+El ecuador recibe más energía de la que emite y los polos emiten más de la que reciben. La atmósfera y los océanos llevan el excedente hacia los polos. En cada hemisferio, la atmósfera lo hace con tres grandes células de circulación: la de Hadley, entre el ecuador y unos 30° de latitud; la de Ferrel, en latitudes medias; y la Polar (@fig-hadley).
 
 ```{r}
 #| label: fig-hadley
@@ -607,16 +607,16 @@ knitr::include_graphics("assets/img/hadley.png")
 
 La célula de Hadley es la que gobierna el clima de Costa Rica. Funciona en cuatro pasos:
 
-1. **Ascenso cerca del ecuador.** El aire cálido y húmedo de las latitudes bajas sube en una franja de nubes de tormenta y lluvias intensas, la **Zona de Convergencia Intertropical** (ZCIT). Casi toda la lluvia de la célula cae aquí, durante el ascenso.
+1. **Ascenso cerca del ecuador.** El aire cálido y húmedo de las latitudes bajas sube en una franja de nubes de tormenta y lluvias intensas, la Zona de Convergencia Intertropical (ZCIT). Casi toda la lluvia de la célula cae aquí, durante el ascenso.
 2. **Flujo hacia los polos en altura.** Ya seco, el aire se desplaza cerca de la tropopausa hacia latitudes mayores y se enfría por radiación.
 3. **Descenso subtropical.** Cerca de los 30° de latitud el aire baja, se calienta por compresión y se seca todavía más. Así se forman los anticiclones subtropicales, como el de las Azores, y los grandes desiertos del planeta.
-4. **Retorno en superficie.** El aire vuelve hacia el ecuador cerca del suelo. La fuerza de Coriolis lo desvía y forma los **vientos alisios**, del noreste en el hemisferio norte y del sureste en el sur.
+4. **Retorno en superficie.** El aire vuelve hacia el ecuador cerca del suelo. La fuerza de Coriolis lo desvía y forma los vientos alisios, del noreste en el hemisferio norte y del sureste en el sur.
 
 La ZCIT sigue al Sol con algunas semanas de retraso: entre mayo y octubre está sobre Centroamérica o cerca de ella, y entre diciembre y marzo se retira hacia el sur. Junto con los alisios, ese vaivén define la época lluviosa y la seca de la vertiente del Pacífico de Costa Rica.
 
 ### El chorro de bajo nivel del Caribe {#sec-meteo-chorro}
 
-Sobre el mar Caribe los alisios forman una banda de vientos máximos a menos de 1 km de altura, con su núcleo cerca del nivel de 925 hPa: el **chorro de bajo nivel del Caribe** [@amador2008intra]. No debe confundirse con las corrientes en chorro de latitudes medias, que soplan a más de 30 m/s cerca de la tropopausa. El chorro del Caribe lleva grandes cantidades de vapor desde el Atlántico hacia Centroamérica (@fig-chorro).
+Sobre el mar Caribe los alisios forman una banda de vientos máximos a menos de 1 km de altura, con su núcleo cerca del nivel de 925 hPa: el chorro de bajo nivel del Caribe [@amador2008intra]. No debe confundirse con las corrientes en chorro de latitudes medias, que soplan a más de 30 m/s cerca de la tropopausa. El chorro del Caribe lleva grandes cantidades de vapor desde el Atlántico hacia Centroamérica (@fig-chorro).
 
 ```{r}
 #| label: fig-chorro
@@ -631,7 +631,7 @@ knitr::include_graphics("assets/img/chorro2.png")
 El chorro tiene dos máximos al año, uno en julio y otro, más débil, en enero y febrero [@amador2008intra]. Sus efectos en Costa Rica se ven con claridad en los registros de lluvia:
 
 - **Vertiente del Caribe.** El aire húmedo choca con las cordilleras y sube. El ascenso orográfico produce lluvias casi todo el año, así que buena parte del Caribe costarricense no tiene una estación seca definida.
-- **Vertiente del Pacífico.** Cuando el chorro se intensifica en julio y agosto, el aire baja por sotavento, se seca y frena la convección. La lluvia disminuye a mitad de la época lluviosa: es el **veranillo** o **canícula** [@magana1999midsummer]. Por eso muchas estaciones del Pacífico tienen un régimen bimodal, con un máximo en junio y otro en septiembre u octubre.
+- **Vertiente del Pacífico.** Cuando el chorro se intensifica en julio y agosto, el aire baja por sotavento, se seca y frena la convección. La lluvia disminuye a mitad de la época lluviosa: es el veranillo o canícula [@magana1999midsummer]. Por eso muchas estaciones del Pacífico tienen un régimen bimodal, con un máximo en junio y otro en septiembre u octubre.
 - **Relación con el ENOS.** En años de El Niño el chorro suele ser más intenso en julio, lo que refuerza la lluvia del Caribe y el déficit del Pacífico [@amador2008intra].
 
 ### Escalas de los fenómenos atmosféricos {#sec-meteo-escalas}
@@ -673,7 +673,11 @@ Para el diseño hidrológico, la escala de la tormenta se compara con el tamaño
 
 ## Corrientes oceánicas {#sec-meteo-corrientes}
 
-Nueva York y Madrid están casi en el mismo paralelo (@fig-meteo-nueva-york-madrid), pero en Nueva York los inviernos son mucho más fríos y nevados. La latitud define cuánta energía solar llega, pero no basta para explicar el clima: también cuenta cómo el océano y el viento transportan el calor.
+::: {.pregunta}
+¿Por qué, si Nueva York y Madrid están casi en la misma latitud, los inviernos de Nueva York son mucho más fríos y nevados que los de Madrid?
+:::
+
+Las dos ciudades están cerca del paralelo 40.5° N (@fig-meteo-nueva-york-madrid). La latitud define cuánta energía solar llega, pero no basta para explicar el clima: también cuenta cómo el océano y el viento transportan el calor.
 
 ```{r}
 #| label: fig-meteo-nueva-york-madrid
@@ -723,7 +727,7 @@ Tres razones explican la diferencia:
 knitr::include_graphics("assets/img/corrientes.png")
 ```
 
-Las **corrientes oceánicas** son flujos persistentes de agua que mueven calor desde el ecuador hacia latitudes altas. Las superficiales las ponen en marcha los vientos permanentes; la fuerza de Coriolis las desvía y las costas las encauzan en grandes giros. Las profundas se mueven por diferencias de densidad, que dependen de la temperatura y la salinidad.
+Las corrientes oceánicas son flujos persistentes de agua que mueven calor desde el ecuador hacia latitudes altas. Las superficiales las ponen en marcha los vientos permanentes; la fuerza de Coriolis las desvía y las costas las encauzan en grandes giros. Las profundas se mueven por diferencias de densidad, que dependen de la temperatura y la salinidad.
 
 El océano se calienta desde arriba, al revés que la atmósfera, y por eso su estructura térmica es estable. Tiene tres capas:
 
@@ -731,24 +735,24 @@ El océano se calienta desde arriba, al revés que la atmósfera, y por eso su e
 2. **Termoclina.** Debajo de la capa de mezcla, la temperatura baja rápido con la profundidad.
 3. **Aguas profundas.** Por debajo de unos 1000 m, el agua es fría y su temperatura casi no cambia.
 
-En el Pacífico frente a Sudamérica, y también en el golfo de Papagayo durante la época seca, el viento aparta el agua superficial y hace subir agua fría de la termoclina. Ese **afloramiento** enfría el mar y reduce la evaporación y la lluvia en la costa.
+En el Pacífico frente a Sudamérica, y también en el golfo de Papagayo durante la época seca, el viento aparta el agua superficial y hace subir agua fría de la termoclina. Ese afloramiento enfría el mar y reduce la evaporación y la lluvia en la costa.
 
 ## Variabilidad climática: El Niño-Oscilación del Sur {#sec-meteo-enos}
 
-El clima de un lugar no se repite igual cada año. En el trópico, la principal fuente de esas diferencias entre años es **El Niño-Oscilación del Sur** (ENOS), un acople entre el océano y la atmósfera del Pacífico ecuatorial que se repite sin un periodo fijo cada 2 a 7 años. Tiene dos componentes:
+El clima de un lugar no se repite igual cada año. En el trópico, la principal fuente de esas diferencias entre años es El Niño-Oscilación del Sur (ENOS), un acople entre el océano y la atmósfera del Pacífico ecuatorial que se repite sin un periodo fijo cada 2 a 7 años. Tiene dos componentes:
 
 - **Oceánico (El Niño y La Niña):** anomalías de la temperatura superficial del mar en el Pacífico ecuatorial central y oriental.
 - **Atmosférico (Oscilación del Sur):** el cambio de la diferencia de presión al nivel del mar entre Tahití, en el Pacífico central, y Darwin, en el norte de Australia.
 
-Los dos componentes están unidos por la **circulación de Walker**, una célula a lo largo del ecuador con aire que sube sobre Indonesia, donde el mar es cálido, y baja sobre el Pacífico oriental, donde el mar es frío.
+Los dos componentes están unidos por la circulación de Walker, una célula a lo largo del ecuador con aire que sube sobre Indonesia, donde el mar es cálido, y baja sobre el Pacífico oriental, donde el mar es frío.
 
-El estado del ENOS se sigue con el **Índice Oceánico de El Niño** (ONI, por sus siglas en inglés): la anomalía de la temperatura del mar en la región Niño 3.4 (5° N a 5° S, 170° O a 120° O), promediada en tres meses. Se habla de El Niño cuando el ONI es de +0.5 °C o más durante al menos cinco trimestres seguidos, y de La Niña cuando es de −0.5 °C o menos [@noaacpc2024oni]. Las fases son:
+El estado del ENOS se sigue con el Índice Oceánico de El Niño (ONI, por sus siglas en inglés): la anomalía de la temperatura del mar en la región Niño 3.4 (5° N a 5° S, 170° O a 120° O), promediada en tres meses. Se habla de El Niño cuando el ONI es de +0.5 °C o más durante al menos cinco trimestres seguidos, y de La Niña cuando es de −0.5 °C o menos [@noaacpc2024oni]. Las fases son:
 
 - **El Niño (fase cálida).** Los alisios del Pacífico se debilitan, el agua cálida se extiende hacia el este y el afloramiento frente a Perú se debilita. La lluvia del Pacífico occidental se traslada hacia el Pacífico central y oriental. Los eventos suelen llegar a su máximo hacia fin de año, entre noviembre y enero.
 - **La Niña (fase fría).** Los alisios y la circulación de Walker se refuerzan, y el Pacífico oriental se enfría más de lo normal. Los eventos de La Niña suelen durar más que los de El Niño y a veces se repiten dos o tres años seguidos.
 - **Neutra.** Ninguna de las dos condiciones.
 
-Por medio de cambios en la circulación, el ENOS altera la lluvia en regiones muy lejanas del Pacífico. Esas conexiones a distancia se llaman **teleconexiones** (@tbl-enos-impactos).
+Por medio de cambios en la circulación, el ENOS altera la lluvia en regiones muy lejanas del Pacífico. Esas conexiones a distancia se llaman teleconexiones (@tbl-enos-impactos).
 
 | Región | Durante El Niño | Durante La Niña |
 |:--|:--|:--|
@@ -770,9 +774,9 @@ El ENOS afecta casi todo el análisis hidrológico en Costa Rica:
 
 ## Cambio climático {#sec-meteo-cambio-climatico}
 
-El **cambio climático** es un cambio del clima que persiste durante décadas o más: de sus promedios, de su variabilidad o de sus extremos. No debe confundirse con la **variabilidad climática**, como el ENOS, que son oscilaciones de unos años alrededor de un mismo estado. El **calentamiento global** es una parte del cambio climático: el aumento de la temperatura media del aire y del océano. Entre 1850–1900 y 2011–2020, la temperatura media de la superficie subió 1.09 °C [@ipcc2021spm].
+El cambio climático es un cambio del clima que persiste durante décadas o más: de sus promedios, de su variabilidad o de sus extremos. No debe confundirse con la variabilidad climática, como el ENOS, que son oscilaciones de unos años alrededor de un mismo estado. El calentamiento global es una parte del cambio climático: el aumento de la temperatura media del aire y del océano. Entre 1850–1900 y 2011–2020, la temperatura media de la superficie subió 1.09 °C [@ipcc2021spm].
 
-Cualquier factor que altere el balance de energía de la @sec-meteo-balance es un **forzamiento**:
+Cualquier factor que altere el balance de energía de la @sec-meteo-balance es un forzamiento:
 
 - **Naturales:** cambios en la órbita de la Tierra, en la actividad del Sol y erupciones volcánicas que inyectan aerosoles en la estratosfera y enfrían el planeta por uno o dos años.
 - **Humanos:** sobre todo la emisión de gases de efecto invernadero (CO₂, metano y óxido nitroso) por la quema de combustibles fósiles, la deforestación y la agricultura. En 2019 la concentración de CO₂ llegó a 410 ppm, la mayor en al menos dos millones de años [@ipcc2021spm].
@@ -789,6 +793,6 @@ Por la @eq-meteo-clausius, un aire más caliente puede contener más vapor: entr
 
 ### Implicaciones para la ingeniería {#sec-meteo-cambio-ingenieria}
 
-El diseño hidrológico clásico supone que el clima es **estacionario**: que la lluvia y los caudales del pasado son una buena muestra de los del futuro. Con el cambio climático ese supuesto deja de cumplirse [@milly2008stationarity]. Una alcantarilla o un puente diseñados con las lluvias máximas de 1970–2000 pueden quedar cortos para las de 2050.
+El diseño hidrológico clásico supone que el clima es estacionario: que la lluvia y los caudales del pasado son una buena muestra de los del futuro. Con el cambio climático ese supuesto deja de cumplirse [@milly2008stationarity]. Una alcantarilla o un puente diseñados con las lluvias máximas de 1970–2000 pueden quedar cortos para las de 2050.
 
-Para estimar el clima futuro se usan **modelos climáticos globales**, que resuelven las ecuaciones físicas de la atmósfera y el océano. Se corren con **escenarios** de emisiones y desarrollo; los del sexto informe del Grupo Intergubernamental de Expertos sobre el Cambio Climático (IPCC) se llaman SSP, por *Shared Socioeconomic Pathways*. Sus resultados no son pronósticos, sino rangos de futuros posibles, y sirven para ver qué tan sensible es una cuenca o una obra a cambios plausibles del clima. Los capítulos sobre cambio climático, desde el [de definición y fundamentos](<29-Definición y fundamentos del cambio climático.qmd>), retoman el tema desde el análisis y el diseño.
+Para estimar el clima futuro se usan modelos climáticos globales, que resuelven las ecuaciones físicas de la atmósfera y el océano. Se corren con escenarios de emisiones y desarrollo; los del sexto informe del Grupo Intergubernamental de Expertos sobre el Cambio Climático (IPCC) se llaman SSP, por *Shared Socioeconomic Pathways*. Sus resultados no son pronósticos, sino rangos de futuros posibles, y sirven para ver qué tan sensible es una cuenca o una obra a cambios plausibles del clima. Los capítulos sobre cambio climático, desde el [de definición y fundamentos](<29-Definición y fundamentos del cambio climático.qmd>), retoman el tema desde el análisis y el diseño.
