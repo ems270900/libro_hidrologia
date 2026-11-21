@@ -20,7 +20,7 @@ Párrafo de entrada, de tres a cinco oraciones. Dice qué problema de ingenierí
 
 ## Concepto principal {#sec-tema-concepto}
 
-Se define el término la primera vez en **negrita**. Se explica el porqué antes que la ecuación.
+Se define el término la primera vez, sin negrita dentro del párrafo (ver la sección 8 de la guía). Se explica el porqué antes que la ecuación.
 
 $$
 Q = C \, i \, A
