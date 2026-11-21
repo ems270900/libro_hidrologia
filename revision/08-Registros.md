@@ -55,3 +55,4 @@ Searcy y Hardison (1960), Paulhus y Kohler (1952), Matalas y Jacobs (1964) y Tho
 - Figura del relleno: el panel de la serie tiene título en el eje x ("Año").
 - Figura de Thomas y Fiering: la leyenda dice "Serie sintética (100 años)" en lugar de "100 años sintéticos".
 - Referencia nueva: Boshnakov (2025), paquete `pcts`.
+- Ejercicios propuestos (aprobados por el autor): factor de ajuste de doble masa (datos hipotéticos), extensión con el término aleatorio de Matalas y Jacobs, y Thomas y Fiering con logaritmos. Cada uno con su respuesta, calculada en R con los archivos del capítulo.

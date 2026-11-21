@@ -678,3 +678,17 @@ Los coeficientes del paquete son algo menores que los calculados a mano (en juli
 ::: {.callout-tip title="En la práctica"}
 Antes de escoger un método conviene contar cuántos datos faltan y dónde. Unos pocos días o meses aislados se rellenan bien con la razón normal o con una regresión con la vecina mejor correlacionada. Si faltan años completos o una parte grande de la serie, el registro rellenado depende más del método que de la estación. En ese caso conviene decirlo en el estudio y comparar los resultados con y sin los datos rellenados. En cualquier caso, la serie entregada debe indicar qué valores son medidos y cuáles estimados.
 :::
+
+## Ejercicios propuestos {#sec-registros-ejercicios}
+
+1. En la curva de doble masa de una estación, la pendiente es 0.90 antes de un cambio de sitio en 1990 y 1.02 después (datos hipotéticos). El periodo reciente es el confiable. Calcule el factor de ajuste con la @eq-registros-factor y corrija una lluvia anual de 1500 mm medida en 1985.
+
+    *Respuesta:* $F_a = 1.02/0.90 = 1.133$; la lluvia corregida de 1985 es $1.133 \times 1500 = 1700$ mm.
+
+2. Con el archivo `datos/lluvia_mensual_dos_estaciones.csv`, rellene los 26 meses faltantes de la estación en estudio con la @eq-registros-extension, primero con $\theta = 0$ y después con $\theta = 1$. Para $\theta = 1$, use `set.seed(2026)` y genere los 26 valores de $\varepsilon_t$ con `rnorm(26)`, en orden cronológico. Compare la desviación estándar de los meses rellenados con la de los meses observados (216.4 mm) y explique la diferencia.
+
+    *Respuesta:* con $\theta = 0$ la desviación de los meses rellenados es 125.6 mm, y con $\theta = 1$ es 220.5 mm. La recta sola da una serie más suave que la real; el término aleatorio devuelve la variabilidad perdida. Con $\theta = 1$ sale un mes negativo, que se debe llevar a cero.
+
+3. Repita el relleno de caudales del ejemplo de Thomas y Fiering con los logaritmos naturales de los caudales: calcule los parámetros con $\ln Q$, rellene con $Z = 0$ y devuelva los valores a m³/s con la exponencial. Genere luego una serie sintética de 100 años con `set.seed(2026)` y cuente cuántos caudales negativos tiene.
+
+    *Respuesta:* julio de 2013 da 8.00 m³/s y agosto 9.04 m³/s, algo menos que 8.70 y 9.91 m³/s con los caudales sin transformar. La razón es que la exponencial del valor esperado del logaritmo es la mediana del caudal, que en una serie asimétrica es menor que la media. La serie sintética no tiene caudales negativos; el mínimo es 1.73 m³/s.
