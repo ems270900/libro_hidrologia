@@ -5,710 +5,645 @@ suppress-bibliography: true
 ---
 
 ::: {.quote-block}
-“Algunas personas sienten la lluvia. Otras solo se mojan.”\
-— *Bob Marley.*
+"Él atrae las gotas de las aguas, al transformarse el vapor en lluvia."\
+— *Job 36:27 (versión Reina-Valera, 1960)*
 :::
 
-La precipitación constituye el primer insumo directo del ciclo hidrológico y el vínculo natural entre los procesos atmosféricos y la respuesta hidrológica de una cuenca. Una vez comprendidos los fundamentos de la atmósfera, la circulación del aire y los mecanismos de generación de humedad, el siguiente paso lógico es analizar cómo esa humedad se transforma en precipitación, por qué ocurre en determinadas regiones y momentos, y de qué manera puede ser cuantificada y caracterizada. Este capítulo introduce la precipitación como variable hidrológica esencial, estableciendo una transición desde la hidroclimatología hacia el análisis hidrológico aplicado, y sienta las bases para su medición, descripción espacial y temporal, y uso en estudios de diseño y gestión del recurso hídrico.
+La **precipitación** es el agua, líquida o sólida, que se forma en las nubes y llega a la superficie. Es la entrada principal del balance hídrico de una cuenca y el dato con que empiezan casi todos los cálculos de crecidas. En el capítulo anterior se vio cómo sube y se enfría el aire (@sec-meteo-adiabatico). Este capítulo explica cómo ese enfriamiento se convierte en lluvia, cómo se reparte la lluvia en el espacio y en el tiempo, y cómo se pasa de la lluvia medida en las estaciones a la lluvia media de una cuenca.
 
+## Formación de la precipitación {#sec-precip-formacion}
 
-## ¿Qué es la precipitación?
+Para que el vapor de agua se convierta en lluvia se necesitan tres condiciones:
 
+1. **Saturación.** El aire debe enfriarse hasta su punto de rocío, casi siempre porque sube (@sec-meteo-adiabatico).
+2. **Núcleos de condensación.** El vapor no se condensa solo: necesita partículas diminutas de sal marina, polvo o humo sobre las cuales formar gotas.
+3. **Crecimiento de las gotas.** Las gotas de nube son tan pequeñas que el aire las sostiene. Para caer, tienen que crecer hasta pesar más de lo que las corrientes ascendentes pueden levantar.
 
-La precipitación se define técnicamente como cualquier forma de hidrometeoro, ya sea en estado líquido o sólido, que se origina en las nubes por la condensación del vapor de agua y alcanza la superficie terrestre. Desde la perspectiva de la hidrología, es la fuente primaria del suministro de agua en la Tierra y actúa como la fuerza motriz que impulsa el ciclo hidrológico.
+La tercera condición es la más exigente. Una gota de lluvia típica tiene un radio cien veces mayor que el de una gota de nube, es decir, un volumen un millón de veces mayor (@fig-lluvia_2). La condensación sola tardaría días en hacer crecer tanto una gota, así que se necesitan otros mecanismos [@wallace2006atmospheric]:
 
-## ¿Cómo se forma la precipitación? 
-
-Para que el vapor de agua atmosférico se convierta en precipitación, deben cumplirse tres condiciones simultáneas:
-
-1. La atmósfera debe alcanzar un estado de saturación (generalmente mediante el enfriamiento de la masa de aire).
-
-2. Deben existir partículas minúsculas denominadas núcleos de condensación (polvo o sales) sobre los cuales el vapor pueda condensarse.
+- **Colisión y coalescencia.** Las gotas más grandes caen más rápido, chocan con las pequeñas y se unen a ellas. Es el mecanismo de las **nubes cálidas**, que están completamente por encima de 0 °C, y produce buena parte de la lluvia en el trópico.
+- **Crecimiento de cristales de hielo.** En las **nubes frías** conviven gotas de agua sobreenfriada (líquida por debajo de 0 °C) y cristales de hielo. Como la presión de vapor de saturación es menor sobre el hielo que sobre el agua, los cristales crecen a costa de las gotas. Al caer se juntan en copos y, si atraviesan aire cálido, se funden y llegan como lluvia. Es el mecanismo dominante en latitudes medias y también actúa en las tormentas tropicales, cuya parte alta está muy por debajo de 0 °C.
 
 ```{r}
 #| label: fig-lluvia_2
-#| fig-cap: "Núcleos de condensación, como mecanismo de formación de precipitación."
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Tamaño, concentración y velocidad de caída típicos de las partículas que intervienen en la formación de la lluvia. Los círculos no están a escala. Fuente: elaboración propia con datos de @wallace2006atmospheric."
+#| fig-alt: "Cuatro círculos de tamaño creciente, de un núcleo de condensación a una gota de lluvia, unidos por flechas de condensación y de colisión y coalescencia, con el radio, la concentración y la velocidad de caída de cada uno"
 #| echo: false
-#| class: fig-border
+#| out-width: 95%
+#| fig-width: 8.5
+#| fig-height: 4.3
 
-knitr::include_graphics("assets/img/lluvia_2.png")
+library(tidyverse)
 
+# Valores típicos de cada partícula
+particulas <- tibble(
+  nombre = c("Núcleo de\ncondensación", "Gota de nube\ntípica", "Gota de nube\ngrande", "Gota de lluvia\ntípica"),
+  radio  = c("0.1 µm", "10 µm", "50 µm", "1 mm"),
+  conc   = c("1 000 000 por litro", "1 000 000 por litro", "1000 por litro", "1 por litro"),
+  vel    = c("0.000001 m/s", "0.01 m/s", "0.27 m/s", "6.5 m/s"),
+  x      = c(1, 2.6, 4.2, 6.1),
+  r_dib  = c(0.06, 0.16, 0.30, 0.62)   # radio dibujado, no a escala
+)
+circulo <- function(x0, r, n = 100) {
+  a <- seq(0, 2 * pi, length.out = n)
+  tibble(x = x0 + r * cos(a), y = 1.6 + r * sin(a))
+}
+circulos <- particulas %>%
+  mutate(d = map2(x, r_dib, circulo)) %>%
+  select(nombre, d) %>%
+  unnest(d)
+flechas <- tibble(
+  x = c(1.25, 2.9, 4.65), xend = c(2.3, 3.75, 5.35),
+  etiqueta = c("Condensación\n(vapor sobre el núcleo)", "Condensación y\nprimeras colisiones",
+               "Colisión y coalescencia\n(o crecimiento de cristales de hielo)")
+)
+filas <- tibble(y = c(0.36, 0.12, -0.12), texto = c("Tamaño", "Concentración", "Velocidad"))
+
+ggplot() +
+  geom_polygon(data = circulos, aes(x, y, group = nombre),
+               fill = "#9CC3E0", colour = "#1C6BA0", linewidth = 0.7) +
+  annotate("point", x = 1, y = 1.6, size = 1.6, colour = "#D55E00") +
+  geom_segment(data = flechas, aes(x = x, xend = xend, y = 2.55, yend = 2.55),
+               arrow = arrow(length = unit(0.18, "cm"), type = "closed"), colour = "grey35") +
+  geom_text(data = flechas, aes(x = (x + xend) / 2, y = 2.62, label = etiqueta),
+            vjust = 0, size = 3.2, family = "serif", colour = "grey20", lineheight = 0.9) +
+  geom_text(data = particulas, aes(x, 0.78, label = nombre), size = 3.7, family = "serif",
+            fontface = "bold", lineheight = 0.9, colour = "#1C3F5E") +
+  geom_text(data = particulas, aes(x, 0.36, label = paste0("Radio: ", radio)),
+            size = 3.4, family = "serif") +
+  geom_text(data = particulas, aes(x, 0.12, label = conc), size = 3.4, family = "serif") +
+  geom_text(data = particulas, aes(x, -0.12, label = paste0("Caída: ", vel)),
+            size = 3.4, family = "serif") +
+  geom_text(data = filas, aes(0.3, y, label = texto), hjust = 1, size = 3.2,
+            family = "serif", fontface = "italic", colour = "grey40") +
+  coord_equal(xlim = c(-0.9, 7), ylim = c(-0.3, 3.2), expand = FALSE) +
+  theme_void(base_family = "serif")
 ```
 
-3. Las gotas o cristales resultantes deben crecer lo suficiente para vencer las corrientes ascendentes de aire y la gravedad.
+### Formas de la precipitación {#sec-precip-formas}
 
-Existen dos mecanismos principales para este crecimiento:
+La forma en que llega la precipitación depende de la temperatura dentro de la nube y en el aire cercano al suelo [@wmo2018guia]:
 
-A.  Colisión y coalescencia: Ocurre en nubes cálidas ($T > 0\,^{\circ}\mathrm{C}$), donde las gotas de mayor tamaño descienden más rápido y absorben a las más pequeñas al chocar con ellas.
+- **Lluvia:** gotas de agua de más de 0.5 mm de diámetro.
+- **Llovizna:** gotas de menos de 0.5 mm, muy numerosas, que caen despacio. Aporta poca lámina.
+- **Lluvia engelante:** gotas sobreenfriadas que se congelan al tocar una superficie fría.
+- **Nieve:** cristales de hielo ramificados, solos o unidos en copos.
+- **Hielo granulado** (*sleet* o *ice pellets*): bolitas de hielo transparente que se forman cuando la lluvia se congela al atravesar una capa fría cerca del suelo.
+- **Granizo menudo** (*graupel*): bolitas de hielo blancas y blandas de 2 a 5 mm.
+- **Granizo:** trozos de hielo de más de 5 mm, formados por capas sucesivas en las corrientes ascendentes de un cumulonimbo. En Costa Rica cae a veces en tormentas intensas.
 
-B. Proceso de cristales de hielo: Predomina en latitudes medias y altas (nubes frías), donde coexisten gotas de agua superenfriada y cristales de hielo; estos últimos crecen rápidamente por la difusión de vapor y agregación.
+### Tipos según la causa del ascenso {#sec-precip-tipos}
 
-### Clasificación por su forma (fase)
+La precipitación se clasifica también según lo que hace subir el aire (@fig-tipos_lluvia). La clasificación importa en hidrología porque cada tipo tiene una intensidad, una duración y un área característicos:
 
-La precipitación se manifiesta en diversas formas dependiendo de la temperatura de la atmósfera y del aire cercano al suelo.
+- **Convectiva.** El calentamiento del suelo hace subir el aire con fuerza. Produce aguaceros intensos, cortos y de pocos kilómetros de extensión. Es la lluvia típica de las tardes de la época lluviosa en el Valle Central y la que más pesa en el diseño de drenajes urbanos.
+- **Orográfica.** El viento obliga al aire a subir por una cordillera. Llueve mucho en la ladera de barlovento y poco en la de sotavento, que queda en **sombra pluviométrica**. Puede durar días.
+- **Frontal o ciclónica.** El aire sube sobre un frente o en el centro de un sistema de baja presión. Da lluvias de intensidad moderada, larga duración y gran extensión. En Costa Rica los temporales asociados a ondas tropicales, empujes fríos y ciclones cercanos causan muchas de las crecidas de las cuencas grandes.
+- **Por convergencia.** El aire sube donde convergen los vientos, como en la Zona de Convergencia Intertropical (ZCIT).
 
-**A. Formas líquidas**
-
-- Lluvia: Gotas de agua con diámetros generalmente superiores a 0.5 mm.
-
-- Llovizna: Gotas muy pequeñas (diámetro < 0.5 mm) con velocidades de caída muy bajas.
-
-- Lluvia engelante (freezing rain): Gotas superenfriadas que se congelan instantáneamente al entrar en contacto con superficies frías a nivel del suelo.
-
-**B. Formas sólidas**
-
-- Nieve: Cristales de hielo complejos y ramificados formados por sublimación directa del vapor de agua.
-
-- Granizo: Bolas o formas irregulares de hielo (diámetro > 5 mm) formadas por capas concéntricas en nubes de gran desarrollo vertical como los cumulonimbos.
-
-- Sleet (cellisca): Bolitas de hielo transparentes resultantes de la congelación de gotas de lluvia al atravesar una capa de aire frío cerca de la superficie.
-
-- Graupel (bolitas de nieve): Partículas de hielo opacas de 2 a 5 mm de diámetro, más suaves que el granizo.
-
-### Tipos según el mecanismo de elevación
-
-Dentro de la hidrología y la meteorología, es vital clasificar la precipitación según el fenómeno meteorológico que provoca el ascenso del aire.
-
-- Convectiva: Producida por el calentamiento de la superficie terrestre. El aire caliente asciende violentamente, generando tormentas de alta intensidad, corta duración y áreas reducidas.
-
-- Orográfica: Ocurre cuando masas de aire húmedo son obligadas a ascender por barreras montañosas. Esto genera lluvias abundantes en la ladera de barlovento y zonas secas o sombra de lluvia en la ladera de sotavento.
-
-- Ciclónica o frontal: Asociada al encuentro de masas de aire con diferente temperatura (frentes) o a centros de baja presión. Son lluvias de larga duración, intensidad moderada y cubren grandes extensiones geográficas.
-
-- Convergencia: Se da producto de la interacción de bajas presiones y alta nubosidad cerca del ecuador donde convergen los vientos alisios del noreste y sureste.
+En la práctica los tipos se combinan: una tormenta convectiva crece más sobre una montaña, y un huracán lejano refuerza el viento que produce lluvia orográfica en el Pacífico.
 
 ```{r}
 #| label: fig-tipos_lluvia
-#| fig-cap: "Tipos de mecanismo de formación de precipitación."
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Tipos de precipitación según la causa del ascenso del aire: convectiva, orográfica, frontal y por convergencia."
+#| fig-alt: "Cuatro ilustraciones: aire que sube por calentamiento del suelo, aire que sube por una montaña, aire cálido que sube sobre un frente frío y vientos alisios que convergen en la ZCIT"
 #| echo: false
-#| class: fig-border
+#| out-width: 85%
 
 knitr::include_graphics("assets/img/tipos_lluvia.png")
-
 ```
 
-### Cuantificación de la precipitación
+### Cómo se expresa la precipitación {#sec-precip-unidades}
 
-En la hidrología, meteorología, ingeniería y muchas otras disciplinas, la precipitación se mide como una lámina de agua vertical expresada en milímetros (mm).
+La precipitación se expresa como la altura de la lámina de agua que se acumularía sobre una superficie horizontal, en milímetros. Un milímetro de lluvia equivale a un litro por metro cuadrado, o a 10 m³ por hectárea. Así, 50 mm sobre una cuenca de 10 km² son 500 000 m³ de agua.
 
-$1\ \text{mm}$ de lluvia equivale exactamente a verter $1\ \text{L}$ de agua sobre una superficie impermeable de $1\ \text{m}^2$  
-$(1\ \text{mm} \equiv 1\ \text{L m}^{-2})$.
+## Distribución espacial {#sec-precip-espacial}
 
-## Distribución geográfica de la precipitación
+### Latitud y circulación general {#sec-precip-latitud}
 
-La distribución geográfica de la precipitación es un factor determinante, ya que define la disponibilidad de agua y los riesgos de inundación en distintas regiones del planeta. Esta distribución no es uniforme y responde a una combinación de factores estáticos, como la altitud y la topografía, y factores dinámicos asociados a los patrones de circulación atmosférica.
+A escala del planeta, la lluvia sigue a la circulación general de la atmósfera (@sec-meteo-hadley). La @fig-dist_lluvia muestra la lluvia media anual por banda de latitud, promediada sobre tierra y océano:
 
-**1. Variación latitudinal y circulación global**
-
-A escala planetaria, la precipitación sigue un patrón zonal estrechamente ligado a las células de circulación atmosférica.
-
-- Zonas ecuatoriales (0°–10° N/S): Es donde se registra la mayor pluviosidad global, con promedios que pueden superar los 2000 mm anuales. El intenso calentamiento solar provoca el ascenso convectivo de masas de aire húmedo en la Zona de Convergencia Intertropical (ZCIT), lo que resulta en lluvias abundantes y frecuentes.
-
-- Zonas subtropicales (23.4°–30° N/S): Aquí la precipitación disminuye drásticamente, con valores del orden de 600 mm/año. El aire que ascendió en el ecuador desciende en estas latitudes, calentándose adiabáticamente y volviéndose extremadamente seco. Este fenómeno de subsidencia explica la ubicación de los grandes desiertos del mundo, como el Sahara o el desierto australiano.
-
-- Latitudes medias (35°–60° N/S): La precipitación vuelve a aumentar debido a la actividad de ciclones extratropicales y frentes atmosféricos, donde interactúan masas de aire polar y tropical.
-
-- Regiones polares: Presentan valores mínimos de precipitación, ya que el aire frío tiene una capacidad muy limitada para retener vapor de agua, de acuerdo con la ley de Clausius–Clapeyron.
-
+- **ZCIT.** El máximo, de más de 2000 mm al año, está entre 5° y 10° N, donde convergen los alisios y el aire sube. Costa Rica está en el borde norte de esa franja.
+- **Subtrópicos.** Hacia los 20° a 30° de latitud la lluvia baja a 600 o 700 mm, porque el aire desciende y se seca. Ahí están los grandes desiertos, como el Sahara y los de Australia.
+- **Latitudes medias.** Entre 40° y 60° la lluvia vuelve a subir, hasta unos 1000 mm, por los frentes y los ciclones extratropicales.
+- **Polos.** Llueve o nieva menos de 300 mm al año. El aire frío contiene muy poco vapor, como indica la ecuación de Clausius-Clapeyron (@eq-meteo-clausius).
 
 ```{r}
 #| label: fig-dist_lluvia
-#| fig-cap: "Distribución espacial de la precipitación, según latitud."
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Precipitación media anual por latitud, promedio de tierra y océano, 1991–2020. Fuente: elaboración propia con datos GPCP versión 2.3 [@adler2018gpcp]."
+#| fig-alt: "Curva de precipitación anual contra latitud con un máximo de unos 2200 mm cerca de 6° N, mínimos de unos 650 mm hacia 25° N y 25° S, máximos secundarios de unos 1000 mm en latitudes medias y valores menores que 300 mm en los polos; Costa Rica está marcada entre 8° y 11° N"
 #| echo: false
-#| class: fig-border
+#| out-width: 95%
+#| fig-width: 8.5
+#| fig-height: 4.8
 
-knitr::include_graphics("assets/img/dist_lluvia.png")
+# Precipitación anual por banda de latitud de 2.5° (ver datos/LEEME.md)
+zonal <- read_csv("datos/precipitacion_zonal_gpcp.csv", show_col_types = FALSE)
+media_global <- 983   # mm/año, promedio ponderado por el área de cada banda
 
+zonas <- tibble(
+  lat = c(6, -27, 27, -50, 47, -82, 82),
+  p = c(2420, 560, 560, 1300, 1200, 380, 380),
+  etiqueta = c("ZCIT", "Subtrópicos:\ndescenso del aire", "Subtrópicos:\ndescenso del aire",
+               "Latitudes medias:\nfrentes y ciclones", "Latitudes medias:\nfrentes y ciclones",
+               "Polos", "Polos")
+)
+
+ggplot(zonal, aes(lat, p_mm_anio)) +
+  annotate("rect", xmin = 8, xmax = 11.2, ymin = -Inf, ymax = Inf,
+           fill = "#D55E00", alpha = 0.15) +
+  annotate("text", x = 12.5, y = 2350, label = "Costa Rica", hjust = 0,
+           family = "serif", size = 3.5, colour = "#D55E00") +
+  geom_area(fill = "#9CC3E0", alpha = 0.7) +
+  geom_line(colour = "#1C6BA0", linewidth = 1) +
+  geom_hline(yintercept = media_global, linetype = "dashed", colour = "grey40") +
+  annotate("text", x = -88, y = media_global + 110, label = "Media global: 983 mm",
+           hjust = 0, family = "serif", size = 3.4, colour = "grey30") +
+  geom_text(data = zonas, aes(lat, p, label = etiqueta), family = "serif", size = 3.3,
+            lineheight = 0.9, colour = "#1C3F5E") +
+  scale_x_continuous(breaks = seq(-90, 90, 15), expand = c(0, 0),
+                     labels = function(x) ifelse(abs(x) < 1e-6, "0°",
+                                                 paste0(abs(x), "° ", ifelse(x < 0, "S", "N")))) +
+  scale_y_continuous(limits = c(0, 2600), breaks = seq(0, 2500, 500), expand = c(0, 0),
+                     labels = scales::label_number(big.mark = " ")) +
+  labs(x = "Latitud", y = "Precipitación media anual (mm)") +
+  theme_minimal(base_size = 12, base_family = "serif") +
+  theme(panel.grid.minor = element_blank())
 ```
 
-**2. Influencia de la continentalidad y fuentes de humedad**
+### Distancia al mar {#sec-precip-continentalidad}
 
-La distancia a una fuente de humedad, principalmente los océanos, es uno de los factores más importantes en la distribución espacial de la precipitación.
+Cerca del 85 % de la evaporación del planeta ocurre en los océanos [@trenberth2007estimates]. Por eso las costas que reciben viento del mar suelen ser húmedas, y el aire que avanza hacia el interior de un continente va perdiendo humedad. En un país angosto como Costa Rica la distancia al mar importa menos que la orientación respecto al viento dominante.
 
-- Efecto oceánico: Las regiones costeras suelen ser más húmedas, dado que aproximadamente el 85% del agua que se evapora anualmente proviene de los océanos.
+### Relieve {#sec-precip-relieve}
 
-- Interiores continentales: A medida que las masas de aire avanzan hacia el interior de los continentes, pierden progresivamente su contenido de vapor de agua, lo que da lugar a climas más secos en el centro de las grandes masas terrestres.
-
-**3. Influencias orográficas y efecto de sombra pluviométrica**
-
-La topografía actúa como una barrera mecánica que modifica de forma significativa el clima local. Cuando una masa de aire húmedo encuentra una cordillera, es obligada a ascender por la ladera de barlovento, enfriándose adiabáticamente y condensando su vapor en forma de precipitación orográfica.
-
-Al cruzar la divisoria de aguas, el aire desciende por la ladera de sotavento, se calienta y se seca, generando lo que se conoce como sombra de lluvia.
+Las montañas obligan al aire a subir, y por eso concentran la lluvia en la ladera de barlovento (@fig-orografia). Del otro lado, el aire baja seco y cálido (@sec-meteo-adiabatico). En Costa Rica este contraste es muy marcado: las laderas del Caribe de las cordilleras reciben lluvia casi todo el año, mientras que el Pacífico Norte tiene una época seca de cinco o seis meses [@IMN_CostaRica].
 
 ```{r}
 #| label: fig-orografia
-#| fig-cap: "Interacción del terreno con la precipitación.<br><span style='font-size:0.8em;'>Fuente: [@IMN_CostaRica]</span>"
-#| fig-align: center
-#| out-width: 70%
+#| fig-cap: "Nubosidad sobre Costa Rica vista por el satélite GOES-16: las nubes se acumulan en la vertiente del Caribe y el Pacífico queda despejado. Fuente: @IMN_CostaRica."
+#| fig-alt: "Imagen satelital en color natural de Costa Rica con nubes densas sobre el Caribe y las cordilleras y cielo despejado sobre el Pacífico"
 #| echo: false
-#| class: fig-border
+#| out-width: 65%
 
 knitr::include_graphics("assets/img/orografia.jpg")
-
 ```
 
-**4. Relación precipitación–altitud**
-
-En términos generales, existe una correlación positiva entre la altitud y la cantidad de precipitación registrada. Dentro de la hidrología, y para fines prácticos de diseño en cuencas de montaña, esta relación suele aproximarse mediante una ecuación lineal:
+La lluvia anual suele aumentar con la altitud. En una región homogénea, esa relación se aproxima con una recta:
 
 $$
-P = a + bH
-$$
+P = a + b\,H
+$$ {#eq-precip-altitud}
 
-donde:
+donde $P$ es la precipitación anual (mm), $H$ es la altitud de la estación (m) y $a$ y $b$ son coeficientes que se ajustan por regresión con las estaciones de la región. La relación no sirve de una vertiente a otra, porque a la misma altitud llueve mucho más en barlovento que en sotavento. En montañas altas, además, la lluvia aumenta hasta una **altitud de máxima precipitación** y después disminuye, porque el aire ya perdió buena parte de su vapor.
 
-- $P$ es la precipitación anual (mm),
-- $H$ es la altitud (m.s.n.m.),
-- $a$ y $b$ son parámetros estadísticos característicos de la región.
+## Distribución temporal {#sec-precip-temporal}
 
-No obstante, en cuencas de gran elevación (típicamente mayores a 2000 m), se ha observado la existencia de una altura óptima pluvial, a partir de la cual la precipitación puede comenzar a disminuir debido al agotamiento progresivo del contenido de humedad en la columna de aire.
+Para el diseño no basta con saber cuánta lluvia cae: también importa cuándo y con qué rapidez. La lluvia varía en tres escalas de tiempo.
 
-## Distribución temporal de la precipitación
+### Entre años {#sec-precip-interanual}
 
-Dentro de un análisis hidrológico exhaustivo, no basta con conocer la cantidad total de lluvia que cae en un área; es igualmente crítico entender cuándo y con qué rapidez ocurre. La distribución temporal de la precipitación se analiza en diversas escalas, desde fluctuaciones interanuales que duran décadas hasta variaciones de pocos minutos durante una tormenta intensa.
-
-### Escalas de variabilidad temporal
-
-La variabilidad en el tiempo se puede clasificar en tres niveles principales:
-
-- **Variación de largo plazo e interanual**: 
-
-Se refiere a cambios en los totales anuales a lo largo de décadas. Estas variaciones suelen estar ligadas a teleconexiones atmosféricas, como el fenómeno de El Niño–Oscilación del Sur (ENOS). Por ejemplo, en algunos años el flujo normal de aire se altera significativamente, modificando los balances de energía y provocando años extremadamente secos o lluviosos en distintas regiones del planeta.
+El total anual cambia de un año a otro. En Costa Rica la principal causa es El Niño-Oscilación del Sur (@sec-meteo-enos): en años de El Niño llueve menos en el Pacífico y más en el Caribe, y en años de La Niña ocurre lo contrario (@fig-precip-enos). Una serie de lluvias que cubra pocos años puede caer casi toda en una misma fase y dar promedios engañosos.
 
 ```{r}
-#| label: fig-niño
-#| fig-cap: "Perturbación periódica e irregular de las temperaturas de la superficie del oceáno.<br><span style='font-size:0.8em;'>Fuente: [@Bob2025]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| label: fig-precip-enos
+#| fig-cap: "Circulación y temperatura del Pacífico ecuatorial en condiciones normales, de El Niño y de La Niña. Fuente: @Bob2025."
+#| fig-alt: "Tres bloques del Pacífico ecuatorial con la termoclina, el agua cálida en rojo y la circulación de Walker para las condiciones normales, El Niño y La Niña"
 #| echo: false
-#| class: fig-border
+#| out-width: 95%
 
 knitr::include_graphics("assets/img/niño.png")
-
 ```
 
-- **Variación estacional**: 
+### Entre meses {#sec-precip-estacional}
 
-Define los regímenes climáticos característicos de una región, como la alternancia entre épocas secas y lluviosas. En el caso de Costa Rica, se distinguen claramente el régimen del Pacífico, con una estación seca bien definida entre diciembre y marzo, y el régimen del Caribe, lluvioso durante la mayor parte del año, con disminuciones relativas en marzo y septiembre–octubre, tal y como se mostró en la @fig-estacionalidad.
+La variación estacional define el régimen de lluvias. En Costa Rica hay dos regímenes principales (@fig-estacionalidad):
 
-- **Variación de corta duración (escala de tormenta)**: 
+- **Pacífico:** época seca bien definida de diciembre a marzo o abril, y época lluviosa de mayo a noviembre con una disminución en julio y agosto, el **veranillo** (@sec-meteo-chorro).
+- **Caribe:** lluvia casi todo el año, con mínimos relativos en marzo y en septiembre y octubre, justo cuando el Pacífico tiene sus meses más lluviosos.
 
-Resulta de eventos sinópticos, como frentes fríos o ciclones, y de fluctuaciones diurnas impulsadas por el ciclo solar. Estas variaciones son determinantes para la estimación de caudales pico utilizados en el diseño de obras de drenaje y control de inundaciones.
+### Dentro de una tormenta {#sec-precip-tormenta}
+
+Dentro de una tormenta la intensidad cambia de un minuto a otro. Dos tormentas con la misma lámina total producen crecidas distintas si en una la lluvia se concentra en media hora y en la otra se reparte en seis. Por eso, para el diseño se estudian los **patrones de distribución temporal**: la forma típica en que se reparte la lluvia de las tormentas de una región (@fig-dist_temp).
 
 ```{r}
 #| label: fig-dist_temp
-#| fig-cap: "Ejemplo de patrones de distribución temporal de la precipitación.<br><span style='font-size:0.8em;'>Fuente: [@Kimura2014FloodHyetograph]</span>"
-#| fig-align: center
-#| out-width: 70%
+#| fig-cap: "Patrones típicos de distribución temporal de la lluvia diaria. Cada panel muestra la fracción de la lluvia en cada intervalo (barras) y la lámina acumulada normalizada (curva). Fuente: @Kimura2014FloodHyetograph."
+#| fig-alt: "Diez paneles con hietogramas normalizados y curvas acumuladas, con el máximo de lluvia al inicio, al centro o al final del día"
 #| echo: false
-#| class: fig-border
+#| out-width: 75%
 
 knitr::include_graphics("assets/img/dist_temp.png")
-
 ```
 
-En Costa Rica, se han hecho algunos estudios sobre patrones caracteristicos de la precipitación. Estos estudios son sumamente valiosos para diseño y análisis en hidrología, ya que nos brindan una idea de como llueve típicamente en una región. 
+En Costa Rica hay estudios de este tipo para algunas cuencas, como los de @Murillo1994 sobre las intensidades en la cuenca del río Virilla, @Maroto2011 sobre la distribución temporal de la lluvia en el valle del Guarco y @Sandi2012 sobre la tormenta tropical Tomás en la cuenca del Virilla. Cuando existen, conviene usarlos en lugar de patrones de otros países.
 
-Algunos de estos estudios son:
+## Análisis de una tormenta {#sec-precip-analisis-tormenta}
 
-- Murillo Muñoz, R. E. (1994). *Estudio de las intensidades de lluvia en la cuenca del río Virilla*. Proyecto de graduación, Escuela de Ingeniería Civil, Universidad de Costa Rica, San José, Costa Rica.
+### Intensidad, duración y frecuencia {#sec-precip-idf}
 
-- Maroto, J. A. (2011). *Distribución temporal de la precipitación en el Valle del Guarco*. Proyecto de graduación, Escuela de Ingeniería Civil, Universidad de Costa Rica, San José, Costa Rica.
+Una tormenta se describe con tres magnitudes:
 
-- Sandí Rojas, S. G. (2012). *Generación de hidrogramas de creciente de la tormenta tropical Tomás para la evaluación de la infraestructura urbana en la cuenca del río Virilla*. Proyecto de graduación, Escuela de Ingeniería Civil, Universidad de Costa Rica, San José, Costa Rica.
+1. **Intensidad** ($i$): lámina de lluvia por unidad de tiempo, en mm/h.
+2. **Duración** ($d$): tiempo que se considera, ya sea el de toda la tormenta o el de un intervalo dentro de ella.
+3. **Frecuencia:** qué tan seguido se supera una intensidad dada para cierta duración. Se expresa como una probabilidad anual de excedencia $p$ o como su inverso, el **periodo de retorno** $T = 1/p$, en años.
 
-### Parámetros de análisis de tormentas
-
-Para cuantificar cómo se distribuye la lluvia durante un evento específico, se utilizan tres propiedades fundamentales:
-
-1. Intensidad ($i$): Tasa a la que cae el agua sobre el terreno, expresada usualmente en mm/h.
-
-2. Duración ($d$): Tiempo total durante el cual se mantiene una intensidad dada o duración completa del evento.
-
-3. Frecuencia ($F$): Número probable de años que transcurren antes de que una combinación específica de intensidad y duración vuelva a ocurrir, relacionada con el periodo de retorno $T_r$.
-
-**Ecuación fundamental de intensidad**
-
-La intensidad máxima de una tormenta se calcula a partir de los datos registrados por el pluviómetro mediante la relación:
+La intensidad media en un intervalo es:
 
 $$
 i = \frac{\Delta h}{\Delta t}
-$$
+$$ {#eq-precip-intensidad}
 
-donde:
+donde $i$ es la intensidad (mm/h), $\Delta h$ es la lámina de lluvia del intervalo (mm) y $\Delta t$ es la duración del intervalo (h). La intensidad media de una tormenta disminuye cuanto mayor es la duración que se considera, porque los periodos más largos incluyen ratos de lluvia débil. La relación entre las tres magnitudes forma las **curvas de intensidad, duración y frecuencia** (curvas IDF), que se tratan en su propio capítulo.
 
-- $i$ es la intensidad de la lluvia (mm/h),
-- $\Delta h$ es la altura de lluvia registrada en el intervalo considerado (mm),
-- $\Delta t$ es la duración del intervalo de tiempo (h).
+### Curva masa e hietograma {#sec-precip-graficos}
 
-El análisis de intensidades es uno de los principales estudios dentro de la hidrología y el diseño hidrológico de infraestructuras civiles. Este tema se verá con mayor nivel de detalle en capítulos posteriores.
+El registro de un pluviógrafo se representa de dos maneras:
 
-### Representaciones gráficas
+- **Curva masa:** la lluvia acumulada contra el tiempo. Nunca baja, y su pendiente en cada tramo es la intensidad (@fig-masa).
+- **Hietograma:** un gráfico de barras con la lámina o la intensidad de cada intervalo (@fig-hieto). Es la forma en que la lluvia entra a los modelos de lluvia-escorrentía.
 
-Existen dos herramientas gráficas esenciales para visualizar la distribución temporal de la precipitación:
+::: {.callout-note title="Ejemplo: hietograma, curva masa e intensidades máximas de una tormenta"}
 
-- Curva masa de precipitación: Representa la precipitación acumulada en función del tiempo. Es una curva no decreciente, cuya pendiente en cualquier punto corresponde a la intensidad instantánea de la lluvia.
+Un pluviógrafo registró la tormenta del @tbl-precip-tormenta en intervalos de 10 min. Construya el hietograma y la curva masa, y calcule la intensidad máxima para duraciones de 10, 30 y 60 min. Los datos son de ejemplo.
 
 ```{r}
-#| label: fig-masa
-#| fig-cap: "Ejemplo de curva de masa de precipitación.<br><span style='font-size:0.8em;'>Fuente: [@Kimura2014FloodHyetograph]</span>"
-#| fig-align: center
-#| out-width: 70%
+#| label: tbl-precip-tormenta
+#| tbl-cap: "Lluvia registrada en cada intervalo de 10 min."
 #| echo: false
-#| class: fig-border
 
-knitr::include_graphics("assets/img/masa.png")
-
+tibble(intervalo = paste0(seq(0, 110, 10), "–", seq(10, 120, 10)),
+       lamina = c(1.2, 2.5, 4.8, 9.6, 15.3, 11.0, 6.2, 3.9, 2.4, 1.5, 0.9, 0.5)) %>%
+  knitr::kable(col.names = c("Intervalo (min)", "Lluvia (mm)"), align = "cc")
 ```
 
-- Hietograma: Gráfico de barras que muestra la variación de la intensidad o de la altura de lluvia en intervalos de tiempo sucesivos. Constituye la herramienta básica para alimentar modelos de transformación lluvia–escorrentía.
+**Solución:**
+
+1. **Lámina acumulada.** Se suman los valores en orden: 1.2, 3.7, 8.5, 18.1, 33.4, 44.4, 50.6, 54.5, 56.9, 58.4, 59.3 y 59.8 mm. La tormenta dejó 59.8 mm en 2 h.
+2. **Intensidad de cada intervalo** (@eq-precip-intensidad). Como $\Delta t = 10$ min $= 1/6$ h, se multiplica cada lámina por 6. El intervalo de 40 a 50 min da $15.3 \times 6 = 91.8$ mm/h.
+3. **Máximo de 30 min.** Se suman tres intervalos seguidos y se busca la suma mayor: de 30 a 60 min, $9.6 + 15.3 + 11.0 = 35.9$ mm, así que $i = 35.9/0.5 = 71.8$ mm/h.
+4. **Máximo de 60 min.** Seis intervalos seguidos: de 20 a 80 min, $4.8 + 9.6 + 15.3 + 11.0 + 6.2 + 3.9 = 50.8$ mm, así que $i = 50.8$ mm/h.
+
+Con la curva masa el cálculo es más directo: la lluvia máxima en una duración $d$ es la mayor diferencia entre dos puntos de la curva separados por $d$.
+
+**Pseudocódigo**
+
+1. Escribir la lámina de cada intervalo y el paso de tiempo.
+2. Calcular la intensidad de cada intervalo y la lámina acumulada.
+3. Para cada duración, calcular la mayor diferencia de la lámina acumulada entre puntos separados por esa duración, y dividirla entre la duración.
+4. Graficar el hietograma y la curva masa.
+
+```{r}
+#| label: ej-precip-tormenta
+
+library(tidyverse)
+
+# 1) Lámina de cada intervalo (mm) y paso de tiempo (min)
+dt <- 10
+tormenta <- tibble(
+  fin = seq(dt, 120, by = dt),   # fin del intervalo (min)
+  lamina = c(1.2, 2.5, 4.8, 9.6, 15.3, 11.0, 6.2, 3.9, 2.4, 1.5, 0.9, 0.5)
+)
+
+# 2) Intensidad (mm/h) y lámina acumulada (mm)
+tormenta <- tormenta %>%
+  mutate(intensidad = lamina / (dt / 60),
+         acumulada = cumsum(lamina))
+
+# 3) Intensidad máxima para cada duración (mm/h)
+acum0 <- c(0, tormenta$acumulada)
+maximos <- tibble(duracion = c(10, 30, 60)) %>%
+  mutate(lamina_max = map_dbl(duracion, ~ max(diff(acum0, lag = .x / dt))),
+         i_max = lamina_max / (duracion / 60))
+
+maximos
+```
 
 ```{r}
 #| label: fig-hieto
-#| fig-cap: "Ejemplo de hietograma de precipitación.<br><span style='font-size:0.8em;'>Fuente: [@Kimura2014FloodHyetograph]</span>"
-#| fig-align: center
-#| out-width: 70%
-#| echo: false
-#| class: fig-border
+#| fig-cap: "Hietograma de la tormenta del ejemplo. Las barras anaranjadas son los 30 min de mayor intensidad."
+#| fig-alt: "Gráfico de barras de intensidad contra tiempo cada 10 minutos, con un máximo de 91.8 mm/h entre 40 y 50 minutos y las tres barras centrales resaltadas"
 
-knitr::include_graphics("assets/img/hieto.png")
+# 4a) Hietograma; se resaltan los 30 min más intensos
+tormenta <- tormenta %>%
+  mutate(maximo_30 = fin %in% c(40, 50, 60))
 
+ggplot(tormenta, aes(x = fin - dt / 2, y = intensidad, fill = maximo_30)) +
+  geom_col(width = dt, colour = "white") +
+  geom_text(aes(label = sprintf("%.1f", intensidad)), vjust = -0.4, size = 3.2,
+            family = "serif") +
+  scale_fill_manual(values = c(`FALSE` = "#1C6BA0", `TRUE` = "#D55E00"),
+                    labels = c("Resto de la tormenta", "30 min más intensos"), name = NULL) +
+  scale_x_continuous(breaks = seq(0, 120, 20), expand = c(0.02, 0)) +
+  scale_y_continuous(limits = c(0, 100), expand = c(0, 0)) +
+  labs(x = "Tiempo desde el inicio (min)", y = "Intensidad (mm/h)") +
+  theme_minimal(base_size = 12, base_family = "serif") +
+  theme(panel.grid.minor = element_blank(), panel.grid.major.x = element_blank(),
+        legend.position = "top")
 ```
 
-## Precipitación media sobre una cuenca
+```{r}
+#| label: fig-masa
+#| fig-cap: "Curva masa de la tormenta del ejemplo. La pendiente del tramo resaltado es la intensidad máxima de 30 min."
+#| fig-alt: "Curva de lluvia acumulada contra tiempo en forma de S, que llega a 59.8 mm a los 120 minutos, con el tramo de 30 a 60 minutos resaltado y su pendiente de 71.8 mm/h"
 
-Para el diseño y la gestión de recursos hídricos, la precipitación registrada en estaciones individuales representa medidas puntuales en el espacio. No obstante, para el desarrollo de estudios y modelos de simulación hidrológica, es indispensable conocer la precipitación media sobre una cuenca (MAP, por sus siglas en inglés), <span class="firebrick"><strong>la cual se define técnicamente como la lámina uniforme equivalente de agua caída sobre la totalidad de la superficie de drenaje en un intervalo de tiempo determinado</strong></span>. Este parámetro constituye la entrada principal para los modelos de lluvia–escorrentía y es el punto de partida para la mayor parte de los cálculos de balance hídrico.
+# 4b) Curva masa, con el tramo de 30 a 60 min resaltado
+masa <- tibble(t = c(0, tormenta$fin), acumulada = acum0)
+tramo <- masa %>% filter(t >= 30, t <= 60)
 
-El objetivo fundamental de los métodos de estimación es generalizar las mediciones puntuales de los pluviómetros para obtener un valor representativo de toda el área de interés. Matemáticamente, la precipitación promedio de la cuenca ($P_A$) se calcula como un promedio ponderado de los registros de las estaciones disponibles ($P_i$), siguiendo la expresión general:
+ggplot(masa, aes(t, acumulada)) +
+  geom_line(colour = "#1C6BA0", linewidth = 1) +
+  geom_point(colour = "#1C6BA0", size = 1.8) +
+  geom_line(data = tramo, colour = "#D55E00", linewidth = 1.8) +
+  annotate("segment", x = 30, xend = 60, y = 8.5, yend = 8.5, linetype = "dashed", colour = "grey40") +
+  annotate("segment", x = 60, xend = 60, y = 8.5, yend = 44.4, linetype = "dashed", colour = "grey40") +
+  annotate("text", x = 45, y = 5.5, label = "30 min", family = "serif", size = 3.4) +
+  annotate("text", x = 62, y = 26, label = "35.9 mm", hjust = 0, family = "serif", size = 3.4) +
+  annotate("text", x = 22, y = 36, label = "i = 35.9 / 0.5 = 71.8 mm/h", family = "serif",
+           size = 3.6, colour = "#D55E00") +
+  scale_x_continuous(breaks = seq(0, 120, 20), expand = c(0.01, 0)) +
+  scale_y_continuous(limits = c(0, 65), breaks = seq(0, 60, 10), expand = c(0, 0)) +
+  labs(x = "Tiempo desde el inicio (min)", y = "Lluvia acumulada (mm)") +
+  theme_minimal(base_size = 12, base_family = "serif") +
+  theme(panel.grid.minor = element_blank())
+```
 
-$$
-P_A = \sum_{i=1}^{n} w_i \, P_i
-$$
+La intensidad máxima baja de 91.8 mm/h para 10 min a 71.8 mm/h para 30 min y a 50.8 mm/h para 60 min, aunque se trate de la misma tormenta. Por eso, en el método racional la intensidad de diseño se toma para una duración igual al tiempo de concentración de la cuenca: una cuenca pequeña, con $t_c$ de 10 min, responde a los picos más cortos e intensos de la tormenta.
 
-donde $w_i$ representa el factor de peso asignado a cada estación en función de su representatividad espacial dentro de la cuenca. En la práctica de la ingeniería, los tres métodos de uso generalizado son el promedio aritmético, los polígonos de Thiessen y el método de las isoyetas.
+:::
 
-### Principales metodologías de estimación de precipitación media
+## Precipitación media sobre una cuenca {#sec-precip-media-cuenca}
 
-- **1. Método aritmético**
+Las estaciones miden la lluvia en un punto, pero los balances hídricos y los modelos de lluvia-escorrentía necesitan la **precipitación media de la cuenca**: la lámina uniforme que, repartida sobre toda el área, daría el mismo volumen de agua que la lluvia real. En la literatura en inglés se abrevia MAP (*mean areal precipitation*). En la @sec-fuentes-puntos-area se compararon los métodos para obtenerla; aquí se aplican los más usados.
 
-Es el procedimiento más elemental para estimar la precipitación media. Consiste en calcular el promedio arimético simple de las lecturas registradas en las estaciones pluviométricas situadas dentro de los límites de la cuenca.
-
-Ecuación:
-
-$$
-\bar{h}_p = \frac{1}{n} \sum_{i=1}^{n} h_{pi}
-$$
-
-Donde:
-
-- $\bar{h}_p$: Precipitación media en la cuenca (mm).  
-- $h_{pi}$: Altura de precipitación registrada en la estación $i$ (mm).  
-- $n$: Número de estaciones consideradas.
-
-Este método asigna el mismo peso a todas las estaciones, independientemente de su ubicación o del área que representan. Por lo tanto, su aplicación solo se considera aceptable bajo tres condiciones:
-
-1. La cuenca presenta una topografía suave o plana.  
-2. La red de pluviómetros es densa y está distribuida de forma homogénea.  
-3. Las variaciones entre las lecturas de las estaciones individuales son mínimas.
-
-En casos de topografía accidentada o redes de monitoreo dispersas, este método suele ser el menos preciso.
-
-
-
-- **2. Método de los polígonos de Thiessen**
-
-Este método, desarrollado por el meteorólogo estadounidense Alfred Thiessen en 1911, asigna a cada estación un área de influencia proporcional a su representatividad geográfica dentro de la cuenca. 
-
-Esta técnica se basa en una premisa geométrica fundamental: en cualquier punto de la cuenca, se asume que la precipitación es igual a la registrada en el pluviómetro más cercano. A diferencia del promedio aritmético, este enfoque es objetivo, ya que elimina la subjetividad del analista en el trazado (propia del método de isoyetas) y permite incluir estaciones localizadas fuera de los límites de la cuenca si estas se encuentran geográficamente próximas.
-
-Este método busca corregir la distribución no uniforme de los pluviómetros mediante la asignación de un factor de peso basado en el área de influencia de cada estación. Es un método objetivo y flexible, ya que, una vez determinados los pesos, el cálculo es inmediato mientras la red no cambie.
-
-Ecuación:
+Todos los métodos calculan un promedio ponderado de las estaciones:
 
 $$
-\bar{h}_p = \frac{1}{A_T} \sum_{i=1}^{n} A_i \, h_{pi}
+\bar{P} = \sum_{i=1}^{n} w_i\,P_i, \qquad \sum_{i=1}^{n} w_i = 1
+$$ {#eq-precip-media}
+
+donde $\bar{P}$ es la precipitación media de la cuenca (mm), $P_i$ es la precipitación de la estación $i$ (mm), $w_i$ es su peso (adimensional) y $n$ es el número de estaciones. Lo que cambia de un método a otro es cómo se asignan los pesos.
+
+### Promedio aritmético {#sec-precip-aritmetico}
+
+Todas las estaciones dentro de la cuenca pesan lo mismo, $w_i = 1/n$:
+
 $$
+\bar{P} = \frac{1}{n}\sum_{i=1}^{n} P_i
+$$ {#eq-precip-aritmetico}
 
-Donde:
+Solo da un resultado aceptable si el terreno es suave, las estaciones están bien repartidas y sus lecturas no difieren mucho entre sí. En cuencas de montaña o con estaciones agrupadas en una sola zona es el método menos confiable.
 
-- $A_i$: Área de influencia del polígono correspondiente a la estación $i$ (km$^2$).  
-- $A_T$: Área total de la cuenca (km$^2$).  
-- $h_{pi}$: Precipitación en la estación $i$ (mm).
+### Polígonos de Thiessen {#sec-precip-thiessen}
 
-Procedimiento de construcción
+El método de @thiessen1911precipitation supone que en cada punto de la cuenca llueve lo mismo que en la estación más cercana. El peso de cada estación es la fracción del área de la cuenca más cercana a ella que a cualquier otra:
 
-La delimitación de los polígonos, conocida matemáticamente como teselación de Voronoi, sigue un proceso geométrico riguroso:
+$$
+\bar{P} = \frac{1}{A}\sum_{i=1}^{n} A_i\,P_i, \qquad w_i = \frac{A_i}{A}
+$$ {#eq-precip-thiessen}
 
-1. **Triangulación**  
-   Se unen las estaciones adyacentes mediante líneas rectas. En sistemas de información geográfica, este paso se realiza mediante la triangulación de Delaunay, la cual garantiza que ningún vértice quede contenido dentro del círculo circunscrito de los triángulos formados.
+donde $A_i$ es el área del polígono de la estación $i$ dentro de la cuenca (km²) y $A$ es el área de la cuenca (km²). Las estaciones cercanas a la divisoria cuentan aunque estén fuera, si su polígono entra en la cuenca.
 
-2. **Trazado de mediatrices**  
-   Sobre cada segmento de unión entre estaciones se dibujan líneas perpendiculares en su punto medio (perpendiculares bisectrices).
+Los polígonos se construyen en tres pasos (@fig-thiessen):
 
-3. **Cierre de polígonos**  
-   Las intersecciones de estas mediatrices definen los vértices de los polígonos. Los límites finales de cada zona de influencia quedan determinados por dichas mediatrices y la divisoria de aguas de la cuenca.
+1. Se unen las estaciones vecinas con segmentos que forman triángulos. En un sistema de información geográfica (SIG) se usa la **triangulación de Delaunay**, en la que ningún círculo que pasa por los tres vértices de un triángulo contiene otra estación.
+2. Se traza la mediatriz de cada segmento: la perpendicular que pasa por su punto medio. Todos sus puntos están a la misma distancia de las dos estaciones.
+3. Las mediatrices se cortan y forman los polígonos, que se recortan con la divisoria de la cuenca.
+
+En un SIG el resultado se llama **diagrama de Voronoi**. La @fig-thiessen3 muestra los polígonos de la cuenca del río Grande de Orosi, y la @fig-thiessen-parrita, en el capítulo anterior, los de la cuenca del río Parrita.
 
 ```{r}
 #| label: fig-thiessen
-#| fig-cap: "Ejemplo de construcción de polígonos de Thiessen."
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Construcción de los polígonos de Thiessen: estaciones, triangulación y trazado de las mediatrices."
+#| fig-alt: "Tres paneles: seis estaciones como puntos, las mismas unidas por triángulos y los polígonos formados por las mediatrices de los lados"
 #| echo: false
-#| class: fig-border
+#| out-width: 90%
 
 knitr::include_graphics("assets/img/thiessen.png")
-
 ```
-
-
-La precipitación media sobre la cuenca se calcula como un promedio ponderado, donde el factor de peso corresponde a la fracción del área total representada por cada polígono:
-
-$$
-P_A = \frac{1}{A_T} \sum_{i=1}^{n} A_i \, P_i
-$$
-
-O, de forma equivalente, expresado mediante coeficientes de peso:
-
-$$
-P_A = \sum_{i=1}^{n} w_i \, P_i
-$$
-
-Donde: 
-
-- $P_A$: Precipitación media sobre la cuenca (mm).  
-- $P_i$: Precipitación registrada en la estación $i$ (mm).  
-- $A_i$: Área del polígono asociado a la estación $i$ (km$^2$).  
-- $A_T$: Área total de la cuenca (km$^2$).  
-- $w_i$: Factor de peso definido como $w_i = A_i / A_T$, cumpliendo que $\sum w_i=1$
 
 ```{r}
 #| label: fig-thiessen3
-#| fig-cap: "Ejemplo de construcción de polígonos de Thiessen, caso cuenca río Grande de Orosi."
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Estaciones meteorológicas y polígonos de Thiessen de la cuenca del río Grande de Orosi."
+#| fig-alt: "Dos mapas de la cuenca del río Grande de Orosi sobre imagen satelital: a la izquierda las estaciones y a la derecha la cuenca dividida en polígonos"
 #| echo: false
-#| class: fig-border
+#| out-width: 95%
 
 knitr::include_graphics("assets/img/thiessen3.png")
-
 ```
 
+Una vez calculados, los pesos sirven para cualquier evento mientras no cambie la red. Esa es su ventaja. Sus limitaciones son tres: no considera el relieve, crea saltos bruscos de lluvia en los bordes de los polígonos, y hay que rehacerlo cada vez que falta el dato de una estación.
 
-::: {.callout-note title="Ejemplo"}
-Considere una cuenca de 175 km² con cinco estaciones pluviométricas. Los pesos obtenidos mediante el método de los polígonos de Thiessen y los registros de precipitación asociados se muestran en la siguiente tabla.
+::: {.callout-note title="Ejemplo: precipitación media con polígonos de Thiessen"}
+
+En una cuenca de 175 km² hay cinco estaciones. El área de cada polígono dentro de la cuenca y la lluvia de un evento se dan en el @tbl-thiessen-ejemplo. Calcule la precipitación media con los polígonos de Thiessen y compárela con el promedio aritmético.
 
 ```{r}
 #| label: tbl-thiessen-ejemplo
-#| tbl-cap: "Cálculo de la precipitación media mediante el método de los polígonos de Thiessen."
+#| tbl-cap: "Lluvia del evento y área de cada polígono de Thiessen."
 #| echo: false
-#| message: false
-#| warning: false
 
-library(dplyr)
-library(tibble)
-library(kableExtra)
-
-tabla_thiessen <- tribble(
-  ~Estación, ~`Lluvia (mm)`, ~`Área de influencia (km²)`, ~`Peso`, ~`Aporte ponderado (mm)`,
-  "A", 3.90, 25.0, 0.143, 0.558,
-  "B", 3.35, 20.8, 0.119, 0.399,
-  "C", 3.55, 61.3, 0.350, 1.243,
-  "D", 3.50, 11.0, 0.063, 0.221,
-  "E", 3.10, 56.9, 0.325, 1.008,
-  "Total", NA, 175.0, 1.000, 3.43
-)
-
-tabla_thiessen %>%
-  kbl(
-    booktabs = TRUE,
-    align = c("c", "c", "c", "c", "c"),
-    format = "html",
-    escape = FALSE
-  ) %>%
-  kable_classic(html_font = "Latin Modern Roman") %>%
-  kable_styling(
-    full_width = FALSE,
-    bootstrap_options = "hover"
-  ) %>%
-  row_spec(0, bold = TRUE)
+tibble(estacion = c("A", "B", "C", "D", "E"),
+       lluvia = c(3.90, 3.35, 3.55, 3.50, 3.10),
+       area = c(25.0, 20.8, 61.3, 11.0, 56.9)) %>%
+  knitr::kable(col.names = c("Estación", "Lluvia (mm)", "Área del polígono (km²)"),
+               align = "ccc")
 ```
 
+**Solución:**
 
-Resultado: La precipitación media sobre la cuenca es de 3.43 mm. Nótese que, si se hubiera aplicado el promedio aritmético simple, el valor obtenido sería de 3.48 mm, ignorando que la estación C representa casi el triple del área de influencia de la estación B.
+1. **Pesos** (@eq-precip-thiessen). Para la estación A, $w_A = 25.0/175 = 0.143$. Igual para las demás: $w_B = 0.119$, $w_C = 0.350$, $w_D = 0.063$ y $w_E = 0.325$. Los pesos suman 1.
+2. **Aportes.** $0.143 \times 3.90 = 0.558$ mm para A; para las demás, 0.399, 1.243, 0.221 y 1.008 mm.
+3. **Precipitación media:** $\bar{P} = 0.558 + 0.399 + 1.243 + 0.221 + 1.008 = 3.43$ mm.
+4. **Promedio aritmético:** $(3.90 + 3.35 + 3.55 + 3.50 + 3.10)/5 = 3.48$ mm.
+
+**Pseudocódigo**
+
+1. Escribir la lluvia y el área del polígono de cada estación.
+2. Calcular el peso de cada estación como su área entre el área total.
+3. Multiplicar cada lluvia por su peso y sumar.
+4. Calcular el promedio aritmético para comparar.
+
+```{r}
+#| label: ej-precip-thiessen
+
+library(tidyverse)
+
+# 1) Datos de las estaciones
+thiessen <- tibble(
+  estacion = c("A", "B", "C", "D", "E"),
+  lluvia = c(3.90, 3.35, 3.55, 3.50, 3.10),   # mm
+  area = c(25.0, 20.8, 61.3, 11.0, 56.9)      # km²
+)
+
+# 2) y 3) Pesos y aporte de cada estación
+thiessen <- thiessen %>%
+  mutate(peso = area / sum(area),
+         aporte = peso * lluvia)
+thiessen
+
+# Precipitación media (mm)
+p_thiessen <- sum(thiessen$aporte)
+
+# 4) Promedio aritmético (mm)
+p_aritmetico <- mean(thiessen$lluvia)
+
+round(c(thiessen = p_thiessen, aritmetico = p_aritmetico), 2)
+```
+
+Los dos métodos dan 3.43 y 3.48 mm. La diferencia es pequeña porque las lluvias son parecidas, pero viene de que el promedio aritmético le da a la estación A, la más lluviosa, el mismo peso que a la C, cuyo polígono es más del doble de grande. Con lluvias más contrastadas, como las de una cuenca de montaña, la diferencia crece.
 
 :::
 
+### Isoyetas {#sec-precip-isoyetas}
 
-**Ventajas**
-
-- Eficiencia: Una vez determinados los pesos (áreas de influencia), estos permanecen constantes mientras no cambie la red de estaciones, lo que facilita el análisis de múltiples eventos de lluvia.
-- Objetividad: Proporciona un resultado único y reproducible, independiente del analista que realice el procedimiento geométrico.
-
-**Limitaciones**
-
-- Orografía: No considera explícitamente los efectos de la altitud y del relieve sobre la precipitación, asumiendo una variación lineal entre estaciones, lo cual resulta inadecuado en cuencas montañosas.
-- Rigidez: Cualquier modificación en la red de estaciones obliga a reconstruir el diagrama de Thiessen y recalcular las áreas de influencia.
-- Discontinuidad: Genera un modelo espacial de lluvia por zonas con cambios abruptos en los límites de los polígonos, que no siempre representa fielmente la continuidad física del fenómeno.
-
-
-
-- **3. Método de las isoyetas**
-
-Es considerado el método más preciso y riguroso en hidrología, especialmente en regiones montañosas. Se basa en el trazado de isoyetas, que son líneas que unen puntos de igual precipitación, de forma análoga a las curvas de nivel en topografía.
+Las **isoyetas** son líneas que unen puntos de igual precipitación, como las curvas de nivel de un mapa topográfico (@fig-isoyetas2). Se trazan a partir de las estaciones, y quien las dibuja puede incorporar lo que sabe del relieve y de la tormenta: que llueve más en las laderas de barlovento, o que un aguacero se concentró en un sector. Por eso, con una red densa y buen criterio, es el método más fiel de los clásicos. A cambio, depende de quien lo hace y hay que trazar un mapa nuevo para cada evento.
 
 ```{r}
 #| label: fig-isoyetas2
-#| fig-cap: "Mapa de isoyetas de Costa Rica del 24 al 28 de octubre del 2025.<br><span style='font-size:0.8em;'>Fuente: [@IMN_CostaRica]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Lluvia acumulada en Costa Rica del 24 al 28 de octubre de 2025 (datos preliminares). Fuente: @IMN_CostaRica."
+#| fig-alt: "Mapa de Costa Rica con franjas de colores según la lluvia acumulada, con los mayores valores, de 600 a 1200 mm, en el Pacífico Sur"
 #| echo: false
-#| class: fig-border
+#| out-width: 85%
 
 knitr::include_graphics("assets/img/isoyetas2.jpeg")
-
 ```
 
-Ecuación: 
+La precipitación media es el promedio de la lluvia de cada franja entre isoyetas, ponderado por su área:
 
 $$
-\bar{h}_p = \frac{1}{A_T} \sum_{i=1}^{n'} A_i' \, \bar{h}_{pi}
-$$
+\bar{P} = \frac{1}{A}\sum_{j=1}^{m} A_j\,\bar{P}_j
+$$ {#eq-precip-isoyetas}
 
-Donde:
+donde $A_j$ es el área de la franja $j$ dentro de la cuenca (km²), $\bar{P}_j$ es su precipitación representativa (mm), que suele tomarse como el promedio de las dos isoyetas que la limitan, y $m$ es el número de franjas.
 
-- $A_i'$: Área comprendida entre dos isoyetas sucesivas (km$^2$).  
-- $\bar{h}_{pi}$: Precipitación promedio entre las dos isoyetas limítrofes (mm).  
-- $n'$: Número de franjas o áreas parciales consideradas.
+::: {.callout-note title="Ejemplo: precipitación media con isoyetas"}
 
-**Ventajas**
+En una cuenca de 50 km² se trazaron las isoyetas de 40, 60, 80 y 100 mm de un evento. Las áreas entre isoyetas, medidas sobre el mapa recortado con la divisoria, son 12 km² entre 40 y 60 mm, 18 km² entre 60 y 80 mm, 14 km² entre 80 y 100 mm, y 6 km² en la zona central por encima de 100 mm, donde se supone un valor máximo de 120 mm. Calcule la precipitación media.
 
-Este método permite al hidrólogo aplicar su juicio profesional e incorporar conocimientos sobre la morfología de la tormenta y los efectos del relieve. Con una red densa y experiencia del analista, es posible representar patrones de lluvia mucho más realistas que los obtenidos por interpolaciones puramente geométricas.
+**Solución:**
 
-**Limitaciones**
+1. **Verificación de áreas:** $12 + 18 + 14 + 6 = 50$ km², igual al área de la cuenca.
+2. **Lluvia representativa de cada franja** (promedio de sus isoyetas): 50, 70, 90 y 110 mm.
+3. **Productos área por lluvia:** $12 \times 50 = 600$; $18 \times 70 = 1260$; $14 \times 90 = 1260$; $6 \times 110 = 660$. Suman 3780 km²·mm.
+4. **Precipitación media** (@eq-precip-isoyetas): $\bar{P} = 3780/50 = 75.6$ mm.
 
-Su principal desventaja es que es el método más laborioso, ya que el mapa de isoyetas debe elaborarse nuevamente para cada evento de precipitación analizado.
+**Pseudocódigo**
 
-::: {.callout-note title="Ejemplo"}
-Se desea estimar la precipitación media sobre una cuenca de área total $A_T=50\ \text{km}^2$ para un evento de lluvia. Con base en los datos de estaciones y el trazado de isoyetas, se obtuvieron las siguientes isoyetas (en mm): 40, 60, 80 y 100. El mapa de isoyetas, recortado al límite de la cuenca, permite medir las áreas comprendidas entre isoyetas sucesivas (franjas isoyetales) según:
-
-- Área entre 40–60 mm: $A_1=12\ \text{km}^2$
-- Área entre 60–80 mm: $A_2=18\ \text{km}^2$
-- Área entre 80–100 mm: $A_3=14\ \text{km}^2$
-- Área entre 100–120 mm: $A_4=6\ \text{km}^2$ (zona interna por encima de 100 mm; se asume isoyeta superior de 120 mm)
-
-Verifique que $\sum A_i = A_T$ y calcule la precipitación media $P_A$ mediante el método de isoyetas.
-
-
-- Paso 1. Verificación de áreas
-
-$$
-\sum_{i=1}^{4} A_i = 12 + 18 + 14 + 6 = 50\ \text{km}^2 = A_T
-$$
-
-- Paso 2. Precipitación representativa por franja (promedio entre isoyetas)
-
-En cada franja, la precipitación representativa se aproxima como el promedio de las dos isoyetas limítrofes:
-
-  - Franja 40–60: $\bar{P}_1=\frac{40+60}{2}=50\ \text{mm}$
-  - Franja 60–80: $\bar{P}_2=\frac{60+80}{2}=70\ \text{mm}$
-  - Franja 80–100: $\bar{P}_3=\frac{80+100}{2}=90\ \text{mm}$
-  - Franja 100–120: $\bar{P}_4=\frac{100+120}{2}=110\ \text{mm}$
+1. Escribir los límites y el área de cada franja.
+2. Verificar que las áreas sumen el área de la cuenca.
+3. Calcular la lluvia representativa de cada franja y el producto por su área.
+4. Dividir la suma de los productos entre el área de la cuenca.
 
 ```{r}
-#| label: tbl-isoyetas-calculo
-#| tbl-cap: "Cálculo de precipitación media areal (método de isoyetas)."
-#| message: false
-#| warning: false
+#| label: ej-precip-isoyetas
 
-library(dplyr)
-library(tibble)
-library(kableExtra)
+library(tidyverse)
 
-# Datos del enunciado
-A_T <- 50
+# 1) Franjas entre isoyetas (mm) y su área (km²)
+area_cuenca <- 50
+franjas <- tibble(
+  p_inferior = c(40, 60, 80, 100),
+  p_superior = c(60, 80, 100, 120),
+  area = c(12, 18, 14, 6)
+)
 
-tabla_isoyetas <- tribble(
-  ~`Franja (mm)`, ~`A_i (km²)`, ~`P_inf (mm)`, ~`P_sup (mm)`,
-  "40–60",  12,  40,  60,
-  "60–80",  18,  60,  80,
-  "80–100", 14,  80, 100,
-  "100–120", 6, 100, 120
-) %>%
-  mutate(
-    `P̄_i (mm)` = (`P_inf (mm)` + `P_sup (mm)`) / 2,
-    `A_i · P̄_i` = `A_i (km²)` * `P̄_i (mm)`
-  )
+# 2) Verificación de áreas
+sum(franjas$area) == area_cuenca
 
-P_A <- sum(tabla_isoyetas$`A_i · P̄_i`) / A_T
+# 3) Lluvia representativa y producto por el área
+franjas <- franjas %>%
+  mutate(p_media = (p_inferior + p_superior) / 2,
+         producto = area * p_media)
+franjas
 
-tabla_isoyetas %>%
-  kbl(
-    booktabs = TRUE,
-    align = c("c","c","c","c","c","c"),
-    format = "html",
-    escape = FALSE,
-    col.names = c("Franja", "Área (km²)", "Isoyeta inferior (mm)", "Isoyeta superior (mm)", "Precipitación media (mm)", "Producto área·precip (km²·mm)")
-  ) %>%
-  kable_classic(html_font = "Latin Modern Roman") %>%
-  kable_styling(full_width = FALSE, bootstrap_options = "hover") %>%
-  row_spec(0, bold = TRUE)
-
+# 4) Precipitación media de la cuenca (mm)
+sum(franjas$producto) / area_cuenca
 ```
 
-
-- Paso 3. Aplicación de la ecuación del método de isoyetas
-
-$$
-P_A=\frac{1}{A_T}\sum_{i=1}^{n'} A_i\,\bar{P}_i
-$$
-
-Sustituyendo:
-
-$$
-P_A=\frac{1}{50}\left(12\cdot 50 + 18\cdot 70 + 14\cdot 90 + 6\cdot 110\right)
-$$
-
-Cálculo del numerador:
-
-- $12\cdot 50 = 600$
-- $18\cdot 70 = 1260$
-- $14\cdot 90 = 1260$
-- $6\cdot 110 = 660$
-
-$$
-\sum A_i\bar{P}_i = 600 + 1260 + 1260 + 660 = 3780
-$$
-
-Por tanto:
-
-$$
-P_A=\frac{3780}{50}=75.6\ \text{mm}
-$$
-
-
-La precipitación media estimada por el método de isoyetas es:
-
-$$
-P_A=75.6\ \text{mm}
-$$
-
-
-
-
-
-
+La precipitación media es de 75.6 mm. El resultado depende del valor que se supuso para la zona central (120 mm): si fuera 110 mm, la media bajaría a 75.0 mm. Cuando la isoyeta mayor encierra un área grande, conviene estimar ese valor con la estación que está dentro y no con una isoyeta supuesta.
 
 :::
 
+### Inverso de la distancia {#sec-precip-idw}
 
-- **4. Método del inverso del cuadrado de la distancia (IDW)**
-
-Este procedimiento es una técnica de interpolación espacial ampliamente utilizada en implementaciones computacionales y sistemas de información geográfica. Se basa en la premisa de que la influencia de una estación sobre un punto disminuye a medida que aumenta la distancia entre ellos.
-
-Ecuación general de interpolación en un punto $j$:
+El método del **inverso de la distancia** (IDW, por sus siglas en inglés) estima la lluvia en un punto sin medición como un promedio de las estaciones, con pesos que bajan con la distancia [@shepard1968two]:
 
 $$
-P_j =
-\frac{\sum_{i=1}^{n} \left( \frac{P_i}{d_{ij}^{p}} \right)}
-{\sum_{i=1}^{n} \left( \frac{1}{d_{ij}^{p}} \right)}
-$$
+P_x = \frac{\sum_{i=1}^{n} P_i / d_i^{\,p}}{\sum_{i=1}^{n} 1 / d_i^{\,p}}
+$$ {#eq-precip-idw}
 
-Donde:
+donde $P_x$ es la precipitación estimada en el punto $x$ (mm), $P_i$ es la precipitación de la estación $i$ (mm), $d_i$ es la distancia del punto a la estación (km) y $p$ es un exponente. Con $p = 2$ el método se llama del **inverso del cuadrado de la distancia**, que es la opción más común. Un exponente mayor da más peso a la estación más cercana, y uno menor suaviza el campo de lluvia. Conviene escogerlo comparando, con validación cruzada, qué valor reproduce mejor las estaciones de la región.
 
-- $P_j$: Precipitación estimada en el punto de interés $j$ (mm).  
-- $P_i$: Precipitación observada en la estación de referencia $i$ (mm).  
-- $d_{ij}$: Distancia entre la estación $i$ y el punto $j$.  
-- $p$: Exponente de ponderación (usualmente $p = 2$).
+Para obtener la media de la cuenca se cubre la cuenca con una malla, se estima la lluvia en el centro de cada celda y se promedian las celdas que caen dentro. Así lo hacen los SIG.
 
-Es importante mencionar que aunque comúnmente se utiliza un exponente de ponderación $p=2$, se puede usar cualquier valor de inverso de exponente que suavice y represente mejor la transferencia de información entre estaciones (puntos con información) hacia puntos de la cuenca sin medición.
+::: {.callout-note title="Ejemplo: lluvia en un punto con el inverso del cuadrado de la distancia"}
 
-Para obtener la precipitación media de la cuenca con este método, el área se divide en una cuadrícula regular. Se estima $P_j$ en cada celda y luego se calcula el promedio aritmético de todas las celdas contenidas dentro de la cuenca.
+Estime la lluvia media anual en un punto sin estación que está a 2 km de la estación 1 (1500 mm), a 4 km de la estación 2 (2200 mm) y a 5 km de la estación 3 (1100 mm). Use $p = 2$. Los datos son de ejemplo.
 
+**Solución:**
 
-::: {.callout-note title="Ejemplo"} 
+1. **Pesos sin normalizar:** $1/2^2 = 0.250$; $1/4^2 = 0.0625$; $1/5^2 = 0.040$. Suman 0.3525.
+2. **Numerador:** $0.250 \times 1500 + 0.0625 \times 2200 + 0.040 \times 1100 = 375 + 137.5 + 44 = 556.5$.
+3. **Estimación** (@eq-precip-idw): $P_x = 556.5/0.3525 = 1579$ mm.
 
-Considere el mapa de una cuenca, como la que se muestra en la siguiente figura. 
+La estación 1, la más cercana, se lleva el 71 % del peso ($0.250/0.3525$).
+
+**Pseudocódigo**
+
+1. Escribir la lluvia de cada estación y su distancia al punto.
+2. Calcular los pesos $1/d^p$.
+3. Dividir la suma de lluvias ponderadas entre la suma de pesos.
+
+```{r}
+#| label: ej-precip-idw
+
+# 1) Lluvia anual (mm) y distancia al punto (km)
+lluvia <- c(1500, 2200, 1100)
+distancia <- c(2, 4, 5)
+p <- 2
+
+# 2) Pesos y fracción de cada estación
+pesos <- 1 / distancia^p
+round(pesos / sum(pesos), 3)
+
+# 3) Lluvia estimada en el punto (mm)
+sum(pesos * lluvia) / sum(pesos)
+```
+
+El punto recibe 1579 mm, cerca de la lluvia de la estación 1. El promedio aritmético de las tres estaciones daría 1600 mm, pero dejaría que la estación 2, la más lejana, pesara lo mismo que la más cercana.
+
+:::
+
+### Ejercicio propuesto {#sec-precip-ejercicio}
+
+La @fig-cuenca_ejemplo muestra una cuenca sobre una cuadrícula de 1 km de lado, con siete estaciones. La estación 5 está en el punto de control. El @tbl-precip-promedio-multianual da la lluvia media anual de cada estación en un registro de 25 años.
 
 ```{r}
 #| label: fig-cuenca_ejemplo
-#| fig-cap: "Ejemplo de cuenca para estimación de precipitación promedio"
-#| fig-align: center
-#| out-width: 80%
+#| fig-cap: "Cuenca del ejercicio sobre una cuadrícula de 1 km, con siete estaciones y el punto X."
+#| fig-alt: "Cuenca hexagonal con su red de drenaje sobre una cuadrícula, siete estaciones numeradas en los vértices y el centro, y una X roja cerca de la estación 1"
 #| echo: false
-#| class: fig-border
+#| out-width: 55%
 
 knitr::include_graphics("assets/img/cuenca_ejemplo.png")
-
 ```
 
-La cuadrícula que se muestra en la figura anterior tiene cuadrados con lados de 1 km y área de 1 $km^2$. En el mapa se muestra la ubicación de 7 estaciones pluviométricas marcadas del 1 al 7. El pluviómetro del punto 5 está ubicado en el punto de control de la cuenca. Adicionalmente, en el siguiente cuadro se muestran sus correspondientes valores de precipitación promedio multianual de los últimos 25 años.
+| Estación | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+|:--|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| Lluvia media anual (mm) | 1500 | 2200 | 1100 | 1750 | 1600 | 800 | 1200 |
 
-```{r error=FALSE}
-#| label: tbl-precip-promedio-multianual
-#| tbl-cap: "Datos de precipitación promedio multianual."
-#| echo: false
-#| message: false
-#| warning: false
+: Lluvia media anual de las estaciones del ejercicio. {#tbl-precip-promedio-multianual}
 
-library(tibble)
-library(kableExtra)
+Con estos datos:
 
-tabla_precip <- tribble(
-  ~Estación, ~`P (mm)`,
-  1, 1500,
-  2, 2200,
-  3, 1100,
-  4, 1750,
-  5, 1600,
-  6,  800,
-  7, 1200
-)
+a) Trace las isoyetas y calcule la lluvia media anual de la cuenca. Puede medir el área entre isoyetas contando cuadros.
+b) Estime la lluvia media anual en el punto X con el inverso del cuadrado de la distancia.
+c) Construya los polígonos de Thiessen y calcule la lluvia media anual de la cuenca.
+d) Compare los tres resultados con el promedio aritmético de las siete estaciones y explique las diferencias.
 
-tabla_precip %>%
-  kbl(
-    booktabs = TRUE,
-    align = c("c", "c"),
-    format = "html",
-    col.names = c("Estación", "Precipitación promedio anual (mm)")
-  ) %>%
-  kable_classic(html_font = "Latin Modern Roman") %>%
-  kable_styling(
-    full_width = FALSE,
-    bootstrap_options = c("hover", "condensed")
-  ) %>%
-  row_spec(0, bold = TRUE)
+::: {.callout-tip title="En la práctica"}
+En los estudios profesionales los polígonos de Thiessen, las isoyetas y las mallas de inverso de la distancia se construyen con un SIG, como QGIS, o con R. El capítulo de fuentes de información muestra cómo hacerlo en R con el paquete `sf` (@fig-thiessen-parrita). El video siguiente muestra el procedimiento en un SIG.
 
-```
-
-Para la cuenca mostrada, estime y documente detalladamente la **memoria de cálculo** de los siguientes procedimientos hidrológicos, utilizando la información de precipitación promedio multianual presentada en el cuadro anterior:
-
-a) **Método de las isoyetas**  
-   Estime y trace las isoyetas resultantes de la distribución espacial de la precipitación sobre la cuenca. A partir de ellas, calcule la precipitación media anual sobre el área de drenaje (puede aproximar el área entre curvas a partir del conteo de cuadrículas).
-
-b) **Método del inverso del cuadrado de la distancia (IDW)**  
-   Estime la precipitación media anual en el punto X, donde no existen mediciones directas de lluvia, utilizando como referencia las estaciones pluviométricas disponibles.
-
-c) **Método de los polígonos de Thiessen**  
-   Construya los polígonos de Thiessen asociados a la red de estaciones pluviométricas y determine la precipitación media anual sobre la cuenca mediante un promedio ponderado por áreas de influencia.
-
-
-
-::: 
-
-La construcción de los métodos descritos anteriormente no suele hacerse de manera manual dentro de la práctica profesional, sino que es muy común utilizar Sistemas de Información Geográfica (SIG) para el desarollo de estos insumos. Una pequeña guía para la construcción de estos elementos, aplicando (SIG) se muestra a continuación:
-
-
-<iframe width="650" height="515"
-  src="https://www.youtube.com/embed/Te5QsFMGFuY"
-  title="YouTube video player"
-  frameborder="1"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-  allowfullscreen>
-</iframe>
-
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Te5QsFMGFuY" title="Construcción de polígonos de Thiessen e isoyetas en un SIG" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+:::
