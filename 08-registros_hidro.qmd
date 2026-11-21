@@ -369,17 +369,17 @@ $$ {#eq-registros-extension}
 
 donde $s_x$ y $s_y$ son las desviaciones estándar de las dos series en el periodo común (mm), $\varepsilon_t$ es un número aleatorio normal con media cero y varianza uno, y $\theta$ vale 0 para rellenar (y la ecuación se vuelve la recta de la @eq-registros-regresion) o 1 para extender.
 
-::: {.callout-note title="Ejemplo: relleno de la lluvia mensual de El Destierro con Tres de Junio"}
+::: {.callout-note title="Ejemplo: relleno de lluvia mensual con una estación vecina"}
 
-Las estaciones 73039 Tres de Junio (2747 m) y 73037 El Destierro (2020 m) están en la cuenca alta del río Reventazón y las opera el Instituto Costarricense de Electricidad (ICE). El archivo `datos/lluvia_mensual_tres_junio_destierro.csv` tiene su lluvia mensual de 1986 a 2010. Tres de Junio está completa; a El Destierro le faltan 26 meses, entre ellos todo 2000 y de enero a agosto de 2001. Rellene El Destierro con una regresión lineal, si la correlación lo justifica.
+El archivo `datos/lluvia_mensual_dos_estaciones.csv` tiene la lluvia mensual de dos estaciones vecinas de montaña de Costa Rica de 1986 a 2010. Los datos son ilustrativos y no se identifican las estaciones. La estación base está completa; a la estación en estudio le faltan 26 meses, entre ellos todo 2000 y de enero a agosto de 2001. Rellene la estación en estudio con una regresión lineal, si la correlación lo justifica.
 
 **Solución:**
 
 1. **Periodo común.** Hay $n = 274$ meses con dato en las dos estaciones.
-2. **Estadísticos.** Tres de Junio: $\bar{x} = 279.3$ mm, $s_x = 161.0$ mm. El Destierro: $\bar{y} = 561.4$ mm, $s_y = 216.4$ mm. Correlación: $r = 0.706$.
+2. **Estadísticos.** Estación base: $\bar{x} = 279.3$ mm, $s_x = 161.0$ mm. Estación en estudio: $\bar{y} = 561.4$ mm, $s_y = 216.4$ mm. Correlación: $r = 0.706$.
 3. **Recta** (@eq-registros-regresion): $b_1 = r\,s_y/s_x = 0.7055 \times 216.4/161.0 = 0.9486$ y $b_0 = 561.4 - 0.9486 \times 279.3 = 296.4$ mm. Entonces $\hat{y} = 296.4 + 0.9486\,x$.
 4. **Prueba de la correlación** (@eq-registros-t-r): $t_c = 0.706\sqrt{272}/\sqrt{1 - 0.706^2} = 11.64/0.709 = 16.4$, mucho mayor que $t_{0.975;\,272} = 1.97$. La correlación es significativa, aunque $r^2 = 0.50$: la recta explica la mitad de la varianza.
-5. **Relleno.** En enero de 2000, Tres de Junio registró 346.0 mm, así que en El Destierro $\hat{y} = 296.4 + 0.9486 \times 346.0 = 624.6$ mm. Los demás meses se calculan igual.
+5. **Relleno.** En enero de 2000, la estación base registró 346.0 mm, así que en la estación en estudio $\hat{y} = 296.4 + 0.9486 \times 346.0 = 624.6$ mm. Los demás meses se calculan igual.
 
 **Pseudocódigo**
 
@@ -393,36 +393,36 @@ Las estaciones 73039 Tres de Junio (2747 m) y 73037 El Destierro (2020 m) están
 
 library(tidyverse)
 
-# 1) Lluvia mensual (mm) de 73039 Tres de Junio y 73037 El Destierro
-lluvia <- read_csv("datos/lluvia_mensual_tres_junio_destierro.csv")
+# 1) Lluvia mensual (mm) de la estación base y de la estación en estudio
+lluvia <- read_csv("datos/lluvia_mensual_dos_estaciones.csv")
 
 # 2) Recta con el periodo común
-comun <- lluvia %>% filter(!is.na(destierro_mm))
-ajuste <- lm(destierro_mm ~ tres_junio_mm, data = comun)
+comun <- lluvia %>% filter(!is.na(estudio_mm))
+ajuste <- lm(estudio_mm ~ base_mm, data = comun)
 coef(ajuste)
 
 # 3) Correlación y prueba t
 n <- nrow(comun)
-r <- cor(comun$tres_junio_mm, comun$destierro_mm)
+r <- cor(comun$base_mm, comun$estudio_mm)
 t_c <- r * sqrt(n - 2) / sqrt(1 - r^2)
 round(c(n = n, r = r, r2 = r^2, t_c = t_c, t_crit = qt(0.975, n - 2)), 3)
 
 # 4) Relleno de los meses faltantes
 lluvia <- lluvia %>%
-  mutate(relleno = is.na(destierro_mm),
-         destierro_completo = if_else(relleno,
+  mutate(relleno = is.na(estudio_mm),
+         estudio_completo = if_else(relleno,
                                       predict(ajuste, newdata = lluvia),
-                                      destierro_mm))
+                                      estudio_mm))
 
 lluvia %>% filter(relleno, anio == 2000) %>%
-  select(anio, mes, tres_junio_mm, destierro_completo) %>%
-  mutate(destierro_completo = round(destierro_completo, 1))
+  select(anio, mes, base_mm, estudio_completo) %>%
+  mutate(estudio_completo = round(estudio_completo, 1))
 ```
 
 ```{r}
 #| label: fig-registros-regresion
-#| fig-cap: "Relleno de la lluvia mensual de El Destierro. Izquierda: relación con Tres de Junio en el periodo común y recta ajustada. Derecha: serie de 1998–2002 con los meses rellenados."
-#| fig-alt: "A la izquierda, nube de 274 puntos con una recta creciente. A la derecha, la lluvia mensual de El Destierro de 1998 a 2002 como línea azul, con los meses de 2000 y 2001 marcados con puntos anaranjados"
+#| fig-cap: "Relleno de la lluvia mensual de la estación en estudio. Izquierda: relación con la estación base en el periodo común y recta ajustada. Derecha: serie de 1998–2002 con los meses rellenados."
+#| fig-alt: "A la izquierda, nube de 274 puntos con una recta creciente. A la derecha, la lluvia mensual de la estación en estudio de 1998 a 2002 como línea azul, con los meses de 2000 y 2001 marcados con puntos anaranjados"
 #| echo: false
 #| out-width: 95%
 #| fig-width: 9
@@ -430,21 +430,21 @@ lluvia %>% filter(relleno, anio == 2000) %>%
 
 library(patchwork)
 
-g1 <- ggplot(comun, aes(tres_junio_mm, destierro_mm)) +
+g1 <- ggplot(comun, aes(base_mm, estudio_mm)) +
   geom_point(color = "#1C6BA0", alpha = 0.6, size = 1.4) +
   geom_smooth(method = "lm", formula = y ~ x, se = FALSE, color = "#E07B39", linewidth = 0.9) +
   annotate("text", x = 20, y = 1150, hjust = 0, family = "serif", size = 3.6,
            label = sprintf("y = %.1f + %.3f x\nr² = %.2f", coef(ajuste)[1], coef(ajuste)[2], r^2)) +
-  labs(x = "Tres de Junio (mm/mes)", y = "El Destierro (mm/mes)") +
+  labs(x = "Estación base (mm/mes)", y = "Estación en estudio (mm/mes)") +
   theme_minimal(base_family = "serif", base_size = 12)
 
 tramo <- lluvia %>% filter(anio >= 1998, anio <= 2002) %>%
   mutate(fecha = as.Date(sprintf("%d-%02d-15", anio, mes)))
 
-g2 <- ggplot(tramo, aes(fecha, destierro_completo)) +
+g2 <- ggplot(tramo, aes(fecha, estudio_completo)) +
   geom_line(color = "#1C6BA0", linewidth = 0.6) +
   geom_point(data = filter(tramo, relleno), color = "#E07B39", size = 2) +
-  labs(x = NULL, y = "El Destierro (mm/mes)") +
+  labs(x = NULL, y = "Estación en estudio (mm/mes)") +
   theme_minimal(base_family = "serif", base_size = 12)
 
 g1 + g2 + plot_layout(widths = c(1, 1.4))
