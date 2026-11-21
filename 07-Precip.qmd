@@ -202,6 +202,90 @@ $$ {#eq-precip-altitud}
 
 donde $P$ es la precipitación anual (mm), $H$ es la altitud de la estación (m) y $a$ y $b$ son coeficientes que se ajustan por regresión con las estaciones de la región. La relación no sirve de una vertiente a otra, porque a la misma altitud llueve mucho más en barlovento que en sotavento. En montañas altas, además, la lluvia aumenta hasta una altitud de máxima precipitación y después disminuye, porque el aire ya perdió buena parte de su vapor.
 
+::: {.callout-note title="Ejemplo: lluvia y altitud en la cuenca del río Grande de Tárcoles"}
+
+El archivo `datos/lluvia_normal_tarcoles_imn.csv` tiene la lluvia normal mensual y anual de diez estaciones del IMN en la cuenca del río Grande de Tárcoles, entre 437 y 1250 m de altitud (@tbl-precip-tarcoles). Las normales se obtuvieron de los boletines meteorológicos mensuales de 2017 y 2018 [@imn2017boletin; @imn2018boletin]: cada boletín da la lluvia del mes y su anomalía, y la normal del mes es la diferencia entre las dos. Ajuste la @eq-precip-altitud y diga si la altitud explica la lluvia anual en esta cuenca.
+
+```{r}
+#| label: tbl-precip-tarcoles
+#| tbl-cap: "Altitud y lluvia normal anual de las estaciones del ejemplo. Fuente: elaboración propia con datos de los boletines del IMN de 2017 y 2018."
+#| echo: false
+
+library(tidyverse)
+library(kableExtra)
+
+read_csv("datos/lluvia_normal_tarcoles_imn.csv", show_col_types = FALSE) %>%
+  select(estacion, altitud_m, anual_mm) %>%
+  kbl(col.names = c("Estación", "Altitud (m)", "Lluvia normal anual (mm)"),
+      align = c("l", "c", "c")) %>%
+  kable_styling(full_width = FALSE, bootstrap_options = c("condensed", "hover"))
+```
+
+**Solución:**
+
+1. **Medias.** Altitud: $\bar{H} = 1005.6$ m. Lluvia: $\bar{P} = 1912.5$ mm.
+2. **Sumas de cuadrados.** $\sum (H_i - \bar{H})^2 = 516\,948$ m², $\sum (H_i - \bar{H})(P_i - \bar{P}) = 405\,863$ m·mm y $\sum (P_i - \bar{P})^2 = 2\,497\,306$ mm².
+3. **Recta.** $b = 405\,863/516\,948 = 0.785$ mm/m y $a = 1912.5 - 0.785 \times 1005.6 = 1123$ mm, así que $P = 1123 + 0.785\,H$.
+4. **Correlación.** $r = 405\,863/\sqrt{516\,948 \times 2\,497\,306} = 0.357$ y $r^2 = 0.128$.
+5. **Prueba de la correlación.** $t_c = 0.357\sqrt{8}/\sqrt{1 - 0.357^2} = 1.08$, menor que $t_{0.975;\,8} = 2.31$. La correlación no es significativa.
+
+**Pseudocódigo**
+
+1. Leer la altitud y la lluvia normal anual de las estaciones.
+2. Ajustar la recta de la lluvia contra la altitud por mínimos cuadrados.
+3. Calcular $r$ y probar si es distinto de cero.
+4. Graficar las estaciones con la recta.
+
+```{r}
+#| label: ej-precip-altitud
+
+library(tidyverse)
+
+# 1) Altitud (m) y lluvia normal anual (mm) de diez estaciones del IMN
+estaciones <- read_csv("datos/lluvia_normal_tarcoles_imn.csv")
+
+# 2) Recta P = a + b H
+ajuste <- lm(anual_mm ~ altitud_m, data = estaciones)
+coef(ajuste)
+
+# 3) Correlación y prueba t (n - 2 grados de libertad)
+n <- nrow(estaciones)
+r <- cor(estaciones$altitud_m, estaciones$anual_mm)
+t_c <- r * sqrt(n - 2) / sqrt(1 - r^2)
+round(c(r = r, r2 = r^2, t_c = t_c, t_crit = qt(0.975, n - 2)), 3)
+```
+
+```{r}
+#| label: fig-precip-altitud
+#| fig-cap: "Lluvia normal anual contra altitud en diez estaciones del IMN de la cuenca del río Grande de Tárcoles, con la recta ajustada. Fuente: elaboración propia con datos de los boletines del IMN de 2017 y 2018."
+#| fig-alt: "Diez puntos de lluvia anual contra altitud; ocho están entre 1180 y 1970 mm sin tendencia clara y dos, La Luisa y Santa Lucía, quedan muy por encima, con 3108 y 2438 mm a unos 1200 m; la recta tiene una pendiente leve"
+#| echo: false
+#| out-width: 80%
+#| fig-width: 7
+#| fig-height: 4.3
+
+etiquetas <- estaciones %>%
+  mutate(corto = case_when(
+    str_detect(estacion, "Luisa") ~ "La Luisa",
+    str_detect(estacion, "Santa Luc") ~ "Santa Lucía",
+    str_detect(estacion, "Atenas") ~ "UTN Atenas",
+    str_detect(estacion, "Bel") ~ "Belén",
+    TRUE ~ NA_character_))
+
+ggplot(estaciones, aes(altitud_m, anual_mm)) +
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE, color = "#E07B39", linewidth = 0.8) +
+  geom_point(color = "#1C6BA0", size = 2.6) +
+  geom_text(data = etiquetas, aes(label = corto), nudge_x = -25, hjust = 1,
+            family = "serif", size = 3.5, na.rm = TRUE) +
+  scale_x_continuous(limits = c(300, 1300)) +
+  labs(x = "Altitud (m)", y = "Lluvia normal anual (mm)") +
+  theme_minimal(base_family = "serif", base_size = 12)
+```
+
+La altitud explica solo el 13 % de la variación de la lluvia entre estaciones, y la pendiente no es distinta de cero con estos datos. La razón se ve en la @fig-precip-altitud: las ocho estaciones del fondo del valle reciben entre 1180 y 1970 mm sin una tendencia clara con la altitud, mientras que La Luisa y Santa Lucía, en las faldas de la cordillera Volcánica Central, reciben mucho más a una altitud parecida. En esta cuenca pesa más la posición respecto de la cordillera que la altitud. Antes de usar la @eq-precip-altitud conviene agrupar las estaciones por vertiente y exposición, y revisar que la relación sea significativa. Las normales de los boletines son preliminares y algunas estaciones tienen registros cortos, así que el ejemplo sirve para el método, no como valor de diseño.
+
+:::
+
 ## Distribución temporal {#sec-precip-temporal}
 
 Para el diseño no basta con saber cuánta lluvia cae: también importa cuándo y con qué rapidez. La lluvia varía en tres escalas de tiempo.
@@ -619,6 +703,107 @@ sum(pesos * lluvia) / sum(pesos)
 El punto recibe 1579 mm, cerca de la lluvia de la estación 1. El promedio aritmético de las tres estaciones daría 1600 mm, pero dejaría que la estación 2, la más lejana, pesara lo mismo que la más cercana.
 
 :::
+
+### Factor de reducción por área {#sec-precip-reduccion-area}
+
+Las curvas IDF de una estación dan la lluvia en un punto. Una tormenta intensa, en cambio, no cubre toda la cuenca con la misma lámina: el núcleo cae en una parte y alrededor llueve menos. Por eso la lluvia media de una cuenca para una duración y un periodo de retorno dados es menor que la lluvia puntual con esas mismas duración y frecuencia. El factor de reducción por área ($FRA$) es el cociente entre las dos:
+
+$$
+FRA = \frac{P_A}{P_0}
+$$ {#eq-precip-fra-def}
+
+donde $P_A$ es la lámina media sobre el área $A$ (mm) y $P_0$ es la lámina puntual para la misma duración y el mismo periodo de retorno (mm).
+
+El factor baja cuando el área crece y sube cuando la duración crece. Una lluvia de 1 h suele venir de una celda convectiva de pocos kilómetros, mientras que una de 24 h abarca sistemas más extensos. Las curvas más usadas son las del Technical Paper 29 del Servicio Meteorológico de Estados Unidos [@usweatherbureau1957tp29], que se obtuvieron con redes densas de pluviómetros para áreas de hasta unos 1000 km² y duraciones de 1 a 24 h. @leclerc1972derivation las ajustaron con esta expresión, que aquí se escribe con el área en km² [@allen2002reevaluation]:
+
+$$
+FRA = 1 - e^{-1.1\,t^{0.25}} + e^{-1.1\,t^{0.25} - 0.003863\,A}
+$$ {#eq-precip-fra}
+
+donde $t$ es la duración de la lluvia (h) y $A$ es el área de la cuenca (km²). La @fig-precip-fra muestra el factor para cuatro duraciones.
+
+```{r}
+#| label: fig-precip-fra
+#| fig-cap: "Factor de reducción por área según la ecuación de Leclerc y Schaake para las curvas del Technical Paper 29."
+#| fig-alt: "Cuatro curvas del factor de reducción por área contra el área de 0 a 1000 km², para 1, 3, 6 y 24 horas; todas empiezan en 1, la de 1 hora baja hasta 0.67 y la de 24 horas hasta 0.91"
+#| echo: false
+#| out-width: 85%
+#| fig-width: 7.5
+#| fig-height: 4.3
+
+library(tidyverse)
+
+fra <- function(t, a) 1 - exp(-1.1 * t^0.25) + exp(-1.1 * t^0.25 - 0.003863 * a)
+
+curvas <- expand_grid(t = c(1, 3, 6, 24), a = seq(0, 1000, 5)) %>%
+  mutate(fra = fra(t, a),
+         duracion = factor(paste(t, "h"), levels = paste(c(1, 3, 6, 24), "h")))
+
+etiquetas <- curvas %>% filter(a == 1000)
+
+ggplot(curvas, aes(a, fra, color = duracion)) +
+  geom_line(linewidth = 0.9) +
+  geom_text(data = etiquetas, aes(label = duracion), hjust = -0.2,
+            size = 3.6, family = "serif", show.legend = FALSE) +
+  scale_color_viridis_d(end = 0.78, guide = "none") +
+  scale_x_continuous(breaks = seq(0, 1000, 200), limits = c(0, 1060)) +
+  scale_y_continuous(limits = c(0.6, 1), breaks = seq(0.6, 1, 0.1)) +
+  labs(x = "Área (km²)", y = "Factor de reducción por área") +
+  theme_minimal(base_family = "serif", base_size = 12)
+```
+
+Para 25 km² y 1 h el factor es 0.97, de modo que en cuencas pequeñas la corrección casi no cambia el resultado. Para 300 km² y 1 h ya es 0.77: usar la lluvia puntual sin reducir sobrestima en un 30 % la lluvia de la cuenca y, con ella, el caudal de diseño.
+
+::: {.callout-note title="Ejemplo: lluvia de diseño sobre una cuenca de 300 km²"}
+
+La curva IDF de una estación dentro de una cuenca de 300 km² da, para un periodo de retorno de 50 años, láminas puntuales de 80 mm en 1 h, 115 mm en 3 h, 140 mm en 6 h y 200 mm en 24 h. Los valores son de ejemplo. Calcule la lámina media sobre la cuenca para cada duración con la @eq-precip-fra.
+
+**Solución:**
+
+Para 24 h:
+
+1. $t^{0.25} = 24^{0.25} = 2.2134$, y $1.1 \times 2.2134 = 2.4347$.
+2. $e^{-2.4347} = 0.0876$.
+3. $0.003863 \times 300 = 1.1589$, y $e^{-(2.4347 + 1.1589)} = e^{-3.5936} = 0.0275$.
+4. $FRA = 1 - 0.0876 + 0.0275 = 0.940$.
+5. $P_A = 0.940 \times 200 = 188.0$ mm.
+
+Para 1 h, $t^{0.25} = 1$, $e^{-1.1} = 0.3329$ y $e^{-2.2589} = 0.1045$, así que $FRA = 1 - 0.3329 + 0.1045 = 0.772$ y $P_A = 0.772 \times 80 = 61.7$ mm. Las duraciones de 3 y 6 h se calculan igual.
+
+**Pseudocódigo**
+
+1. Escribir el área de la cuenca y las láminas puntuales de cada duración.
+2. Calcular el factor de reducción para cada duración.
+3. Multiplicar cada lámina puntual por su factor.
+
+```{r}
+#| label: ej-precip-fra
+
+library(tidyverse)
+
+# 1) Área (km²) y láminas puntuales de 50 años (mm)
+area <- 300
+lluvia <- tibble(t_h = c(1, 3, 6, 24),
+                 p_punto = c(80, 115, 140, 200))
+
+# 2) Factor de reducción por área (Leclerc y Schaake, A en km²)
+fra <- function(t, a) 1 - exp(-1.1 * t^0.25) + exp(-1.1 * t^0.25 - 0.003863 * a)
+
+# 3) Lámina media sobre la cuenca (mm)
+lluvia %>%
+  mutate(fra = round(fra(t_h, area), 3),
+         p_cuenca = round(p_punto * fra, 1))
+```
+
+La reducción va de 23 % en 1 h a 6 % en 24 h. Si el tiempo de concentración de la cuenca es de unas 3 h, la lluvia que entra al cálculo del caudal no es la puntual de 115 mm, sino unos 97 mm. Esa diferencia se traslada casi completa al caudal pico.
+
+:::
+
+::: {.callout-warning title="Cuidado"}
+Las curvas del Technical Paper 29 se obtuvieron con estaciones de Estados Unidos y son un solo juego para todos los periodos de retorno. Estudios posteriores encontraron que, en cuencas de más de unos 500 km², el factor baja más para periodos de retorno largos que para el de 2 años, al que se parecen las curvas originales [@allen2002reevaluation]. Si en la región hay una red densa de pluviómetros, conviene calcular el factor con datos locales. Además, el factor se aplica a la lluvia de diseño de una cuenca, no a la tormenta real de una fecha, que tiene su propia distribución espacial.
+:::
+
+La precipitación máxima probable, que se usa para el diseño de presas y vertedores de gran tamaño, sigue otra metodología y se trata en un capítulo aparte.
 
 ### Ejercicio propuesto {#sec-precip-ejercicio}
 
