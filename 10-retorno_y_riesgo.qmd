@@ -107,7 +107,7 @@ El periodo de retorno de diseño depende de lo que se pierde si la obra es super
 : Periodos de retorno de diseño de referencia para obras viales y de drenaje urbano. Fuente: adaptado de @chow1988appliedhydrology. {#tbl-ret-criterios}
 
 ::: {.callout-tip title="En la práctica"}
-Los valores del @tbl-ret-criterios son criterios de Estados Unidos y sirven como orden de magnitud. En cada proyecto se aplica el periodo de retorno que fija la norma, el reglamento o el cartel de la institución que contrata la obra, que puede ser distinto. Las presas y sus vertedores no se diseñan con estos valores: se usan periodos de retorno de miles de años o la crecida máxima probable, que se trata en un capítulo aparte.
+Los valores del @tbl-ret-criterios son criterios de Estados Unidos y sirven como orden de magnitud. En cada proyecto se aplica el periodo de retorno que fija la norma, el reglamento o el cartel de la institución que contrata la obra, que puede ser distinto. Las presas y sus vertedores no se diseñan con estos valores: se usan periodos de retorno de miles de años o la crecida máxima probable, que se tratará en un capítulo posterior.
 :::
 
 ## Riesgo hidrológico {#sec-ret-riesgo}
@@ -158,6 +158,8 @@ ggplot(riesgo, aes(n, r, color = t_lab)) +
   labs(x = "Vida útil de la obra (años)", y = "Riesgo") +
   theme_minimal(base_family = "serif", base_size = 12)
 ```
+
+Las curvas de periodo de retorno corto suben mucho más rápido. El evento de 10 años tiene una probabilidad de 10 % de ocurrir cada año; el de 500 años, de solo 0.2 %. Cada año de vida útil es una oportunidad más de que el evento ocurra, y esas oportunidades se acumulan según la @eq-ret-riesgo. Con una probabilidad anual alta, pocas oportunidades bastan para que el evento casi seguro aparezca; con una baja, hacen falta muchísimas. En 25 años, por ejemplo, el riesgo es de 93 % para $T = 10$ años y de apenas 5 % para $T = 500$ años. Por eso, cuanto más larga es la vida útil de una obra o más graves son las consecuencias de que falle, mayor debe ser el periodo de retorno de diseño.
 
 ::: {.callout-note title="Ejemplo: riesgo de una alcantarilla y periodo de retorno para un riesgo dado"}
 
@@ -299,24 +301,32 @@ table(factor(excedencias$anio, levels = 1992:2012))   # eventos por año
 
 ```{r}
 #| label: fig-ret-series
-#| fig-cap: "Caudal medio mensual de 1992–2012 en la estación del ejemplo. Los puntos azules son los máximos anuales; los anaranjados, los eventos de la serie de excedencias sobre 18 m³/s (línea punteada)."
-#| fig-alt: "Serie mensual de caudal con picos anuales; una línea horizontal punteada en 18 m³/s; puntos azules en el máximo de cada año y puntos anaranjados en los picos sobre el umbral, algunos de ellos en años con dos o tres picos"
+#| fig-cap: "Caudal medio mensual de 1992–2012 en la estación del ejemplo, con el umbral de 18 m³/s (línea roja), la serie de excedencias (puntos azules) y la serie de máximos anuales (círculos morados)."
+#| fig-alt: "Serie mensual de caudal en negro con una línea roja punteada en 18 m³/s; puntos azules en los picos sobre el umbral y círculos morados en el máximo de cada año. Seis años tienen su máximo por debajo de la línea roja y algunos años tienen dos o tres puntos azules"
 #| echo: false
 #| out-width: 95%
 #| fig-width: 9
-#| fig-height: 3.8
+#| fig-height: 4
 
 caudal_f <- caudal %>% mutate(fecha = as.Date(sprintf("%d-%02d-15", anio, mes)))
-anual_f <- anual %>% mutate(fecha = as.Date(sprintf("%d-%02d-15", anio, mes)))
-exc_f <- excedencias %>% mutate(fecha = as.Date(sprintf("%d-%02d-15", anio, mes)))
+puntos <- bind_rows(
+  excedencias %>% mutate(serie = "Serie de excedencias"),
+  anual %>% mutate(serie = "Máximo anual")
+) %>%
+  mutate(fecha = as.Date(sprintf("%d-%02d-15", anio, mes)),
+         serie = factor(serie, levels = c("Serie de excedencias", "Máximo anual")))
 
 ggplot(caudal_f, aes(fecha, q)) +
-  geom_line(color = "grey55", linewidth = 0.4) +
-  geom_hline(yintercept = umbral, linetype = "dashed", color = "grey30") +
-  geom_point(data = exc_f, color = "#E07B39", size = 3) +
-  geom_point(data = anual_f, color = "#1C6BA0", size = 1.6) +
+  geom_line(linewidth = 0.4, alpha = 0.8) +
+  geom_hline(yintercept = umbral, linetype = "dashed", linewidth = 0.9, color = "red") +
+  geom_point(data = puntos, aes(color = serie, shape = serie, size = serie), stroke = 1.1) +
+  scale_color_manual(values = c("Serie de excedencias" = "#1E90FF", "Máximo anual" = "#CD00CD"), name = NULL) +
+  scale_shape_manual(values = c("Serie de excedencias" = 16, "Máximo anual" = 1), name = NULL) +
+  scale_size_manual(values = c("Serie de excedencias" = 2.4, "Máximo anual" = 3.8), name = NULL) +
+  scale_x_date(breaks = as.Date(paste0(seq(1992, 2012, 2), "-01-01")), date_labels = "%Y") +
   labs(x = "Año", y = "Caudal medio mensual (m³/s)") +
-  theme_minimal(base_family = "serif", base_size = 12)
+  theme_minimal(base_family = "serif", base_size = 12) +
+  theme(panel.grid.minor = element_blank(), legend.position = "top")
 ```
 
 Las dos series tienen 21 valores, pero no son los mismos. La serie de excedencias cambia los seis máximos de años secos, todos de 18 m³/s o menos, por segundas y terceras crecidas de años lluviosos, más altas. Por eso su valor mínimo es 19.0 m³/s y el de la serie anual, 13.9 m³/s. Para estimar caudales de 2 a 5 años la serie de excedencias representa mejor los eventos frecuentes; para 50 o 100 años las dos dan casi lo mismo (@eq-ret-langbein).
