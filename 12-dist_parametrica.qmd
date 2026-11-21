@@ -3445,7 +3445,7 @@ ggplot(df_ci, aes(x = `T (años)`)) +
 
 ### Distribución Generalizada de Pareto (GP)
 
-En el análisis de frecuencias hidrológicas, el enfoque clásico se basa en las Series de Máximos Anuales (AMS), donde se selecciona únicamente el mayor evento observado en cada año hidrológico. Aunque este enfoque es conceptualmente simple y está sólidamente respaldado por la teoría de valores extremos, presenta una limitación importante: puede descartar información hidrológicamente relevante. Por ejemplo, el segundo o tercer evento más grande de un año muy húmedo puede ser mayor que el máximo anual de un año seco, pero queda excluido del análisis AMS. Un ejemplo de esto se vio en secciones anteriores y en la @fig-plot128.
+En el análisis de frecuencias hidrológicas, el enfoque clásico se basa en las Series de Máximos Anuales (AMS), donde se selecciona únicamente el mayor evento observado en cada año hidrológico. Aunque este enfoque es conceptualmente simple y está sólidamente respaldado por la teoría de valores extremos, presenta una limitación importante: puede descartar información hidrológicamente relevante. Por ejemplo, el segundo o tercer evento más grande de un año muy húmedo puede ser mayor que el máximo anual de un año seco, pero queda excluido del análisis AMS. Un ejemplo de esto se vio en la @sec-ret-series (@fig-ret-series).
 
 Para superar esta limitación, la hidrología moderna adopta el enfoque de Series Parciales o Picos Sobre un Umbral (POT), cuyo sustento teórico es la **Distribución Generalizada de Pareto (GP)**. Este enfoque permite aprovechar un mayor número de eventos extremos y es especialmente ventajoso cuando se analizan eventos frecuentes o registros relativamente cortos.
 
