@@ -23,12 +23,12 @@ Revisión hecha con `GUIA_ESTILO.md`. Los cuatro ejemplos se ejecutaron y el cap
 ## Datos
 
 - `datos/lluvia_mensual_tres_junio_destierro.csv`: lluvia mensual de las estaciones 73039 Tres de Junio y 73037 El Destierro (ICE), 1986–2010. Antes estaba escrita dentro del capítulo, dos veces.
-- `datos/caudal_mensual_tapanti.csv`: caudal medio mensual de la estación 0922 Tapantí Arriba, 1992–2023.
+- `datos/caudal_mensual_estacion_montana.csv`: caudal medio mensual de una estación de montaña, 32 años. Por pedido del autor, la estación no se identifica (los datos son de una institución y no deben usarse sin su permiso).
 
 ## Figuras y ejemplos
 
 - Se conservó la figura de relleno y extensión (`fig-datos`).
-- Figuras nuevas hechas en R: curvas de doble masa de C y D con la corrección, relleno de El Destierro (dispersión y serie) y relleno y generación en Tapantí.
+- Figuras nuevas hechas en R: curvas de doble masa de C y D con la corrección, relleno de El Destierro (dispersión y serie) y relleno y generación de caudales en la estación de montaña.
 - Ejemplos: doble masa (C y D), relleno de un mes con tres métodos (antes eran tres ejemplos separados con datos distintos), regresión lineal y Thomas y Fiering. Todos con "Solución:", pseudocódigo, código e interpretación.
 - Se quitaron el ejemplo con datos simulados, que repetía el de las estaciones A a E, y el script final de Thomas y Fiering, que repetía el del ejemplo.
 
@@ -45,5 +45,4 @@ Searcy y Hardison (1960), Paulhus y Kohler (1952), Matalas y Jacobs (1964) y Tho
 
 ## Pendiente para el autor
 
-- Confirmar la institución que opera la estación 0922 Tapantí Arriba y el periodo exacto del registro, para citarlo en el ejemplo.
-- Los datos de las estaciones A a E y del ejemplo de relleno son de ejemplo. Si vienen de otro libro, hay que citarlo.
+- Resuelto (2026-11-20): la estación de caudales quedó anónima y los datos de las estaciones A a E y del ejemplo de relleno se presentan como hipotéticos, según el autor.
