@@ -43,9 +43,16 @@ Adler et al. (2018) y Trenberth et al. (2007).
 - Se quitaron 15 negritas dentro de párrafos y listas.
 - Figura 7.3: se marcó el máximo de la ZCIT (2213 mm a 6° N), el eje dice "Ecuador" en lugar de 0°, y se movieron las etiquetas que tocaban la curva y la línea de la media global.
 
-## Qué le falta al capítulo
+## Tercera entrega (observaciones del autor, PR #25)
 
-El capítulo cubre lo que se necesita antes de los capítulos de estadística e IDF. Lo que se podría agregar, en orden de utilidad para el diseño:
+- **Factor de reducción por área** (sección nueva): definición, ecuación de Leclerc y Schaake (1972) para las curvas del Technical Paper 29 en unidades métricas (Allen y DeGaetano, 2002), figura del factor contra el área para 1, 3, 6 y 24 h, ejemplo resuelto (cuenca de 300 km²) y recuadro "Cuidado" sobre sus límites.
+- **Ejemplo de lluvia contra altitud** con diez estaciones del IMN en la cuenca del río Grande de Tárcoles. Las normales se obtuvieron de los boletines meteorológicos mensuales de 2017 y 2018 (lluvia del mes menos anomalía); los datos están en `datos/lluvia_normal_tarcoles_imn.csv`. Resultado: $r = 0.36$, no significativo; en esta cuenca pesa más la posición respecto de la cordillera que la altitud.
+- **Precipitación máxima probable:** queda como capítulo aparte (ver `pendientes.md`); el capítulo 7 la menciona en una oración.
+- Referencias nuevas: U.S. Weather Bureau (1957), Leclerc y Schaake (1972), Allen y DeGaetano (2002) e IMN (2017, 2018).
+
+## Qué le faltaba al capítulo (segunda entrega)
+
+El capítulo cubre lo que se necesita antes de los capítulos de estadística e IDF. Lo que se podía agregar, en orden de utilidad para el diseño (los puntos 1 y 2 se hicieron en la tercera entrega y el 3 pasó a un capítulo aparte):
 
 1. **Factor de reducción por área.** La lluvia de diseño de una estación es puntual; en cuencas de más de unos 25 km² la lluvia media de la misma tormenta es menor. Falta explicar el factor y dar un ejemplo.
 2. **Ejemplo de regresión lluvia-altitud** con estaciones reales de una cuenca de Costa Rica (@eq-precip-altitud), con el inventario de `datos/mapas/estaciones_cr.gpkg` y lluvias de una fuente publicada.
