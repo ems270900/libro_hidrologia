@@ -14,6 +14,10 @@
   .nav-capitulos .nav-sig { margin-left: auto; text-align: right; }
   .nav-capitulos small { display: block; color: #6c757d; }
   /* Índice del capítulo actual, en la columna derecha */
+  /* Quarto deja la columna derecha detrás del contenido (z-index -1) y los
+     enlaces no recibían el clic */
+  #quarto-margin-sidebar { z-index: 2 !important; }
+  #quarto-document-content section { scroll-margin-top: 0.8rem; }
   #toc-capitulo { font-size: 0.82rem; line-height: 1.3; padding-top: 1rem; max-height: calc(100vh - 2rem); overflow-y: auto; }
   #toc-capitulo .toc-cap-titulo { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #6c757d; margin-bottom: 0.5rem; }
   #toc-capitulo ul { list-style: none; padding-left: 0; margin: 0; }
@@ -137,6 +141,13 @@ document.addEventListener("DOMContentLoaded", function () {
       var a = document.createElement("a");
       a.href = "#" + sec.id;
       a.innerHTML = h.innerHTML.replace(/<a[^>]*class="anchorjs-link[^>]*>.*?<\/a>/g, "");
+      // Al tocar un título se baja suavemente hasta esa parte del capítulo
+      a.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        sec.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (history.pushState) history.pushState(null, "", "#" + sec.id);
+      });
       li.appendChild(a);
       enlacesCap.push({ a: a, sec: sec });
       return li;

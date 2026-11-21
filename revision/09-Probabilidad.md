@@ -20,7 +20,7 @@ Revisión hecha con `GUIA_ESTILO.md`. El capítulo se renderiza sin avisos y los
 4. **FDA.** La integral $P(a \le Y \le b)$ estaba debajo de la propiedad "no decreciente", sin relación con ella, y las propiedades estaban repetidas en dos listas. Quedó una sola lista de cuatro propiedades, y la probabilidad de un intervalo se explica con la FDP.
 5. **Robustez y resistencia.** El texto decía que un método robusto "no es óptimo, pero funciona bien", y ponía de ejemplo la media con datos normales, que trata de otra cosa. Se rehízo con la definición de Wilks (2019).
 6. **Moda.** Se quitó "en un hietograma corresponde a la clase con mayor altura", que confunde un histograma con un hietograma.
-7. **Epígrafe.** La frase atribuida a Gumbel ("Es imposible que lo improbable nunca ocurra") circula sin fuente. Se reemplazó por la de Laplace en el *Ensayo filosófico sobre las probabilidades* (1814).
+7. **Epígrafe.** La frase de Gumbel ("Es imposible que lo improbable nunca ocurra") circula sin fuente verificable. Por decisión del autor se conserva, firmada como "atribuida a" Gumbel.
 8. Se quitaron dos afirmaciones sin fuente: que las series de menos de 20 a 25 años "suelen ser insuficientes" y que un registro de 30 a 50 años "caracteriza de forma confiable" la población. El texto muestra la idea con los datos del capítulo.
 9. Se quitaron un `\color{red}` que no se convertía en la web, cuatro `<u>` y la instalación automática de `DiagrammeR` dentro de un bloque.
 

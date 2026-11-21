@@ -881,3 +881,31 @@ a.video-enlace:hover {
   border-left-color: #10199e !important;
 }
 #TOC > ul > li.toc-actual > a > .header-section-number { color: #10199e; }
+
+/* === Modo oscuro: el azul oscuro del libro no se lee sobre fondo negro === */
+body.quarto-dark .sidebar-title,
+body.quarto-dark .highlight-blue,
+body.quarto-dark .portada-ficha-titulo,
+body.quarto-dark #TOC > ul > li.toc-parte > a,
+body.quarto-dark .sidebar .sidebar-section > .sidebar-item-container > .sidebar-item-text,
+body.quarto-dark .sidebar nav[role=doc-toc] ul > li > ul > li > a.active,
+body.quarto-dark #quarto-sidebar .sidebar-item-container a.active .sidebar-item-text,
+body.quarto-dark #quarto-sidebar .sidebar-item-container a.active .menu-text,
+body.quarto-dark #quarto-sidebar .sidebar-item-container a.active .chapter-number,
+body.quarto-dark #quarto-sidebar .sidebar-item-container a.active .chapter-title,
+body.quarto-dark #TOC > ul > li.toc-actual > a,
+body.quarto-dark #TOC > ul > li.toc-actual > a > .header-section-number,
+body.quarto-dark #toc-capitulo a:hover,
+body.quarto-dark #toc-capitulo a.activo,
+body.quarto-dark .datos-ejemplo a.boton-datos {
+  color: #8fb8ff !important;
+}
+body.quarto-dark #quarto-sidebar .sidebar-item-container a.active,
+body.quarto-dark #TOC > ul > li.toc-actual > a,
+body.quarto-dark #toc-capitulo a.activo {
+  border-left-color: #8fb8ff !important;
+  background-color: rgba(143, 184, 255, 0.12) !important;
+}
+body.quarto-dark #toc-capitulo a { color: #c3c7cf; border-left-color: #444; }
+body.quarto-dark .datos-ejemplo a.boton-datos { border-color: #8fb8ff; }
+body.quarto-dark .datos-ejemplo a.boton-datos:hover { background: #8fb8ff; color: #111 !important; }
