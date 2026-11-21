@@ -6,481 +6,333 @@ suppress-bibliography: true
 
 ::: {.quote-block}
 “La hidrología es una ciencia de probabilidades. Diseñamos para el evento de 100 años, no porque ocurrirá exactamente cada 100 años, sino porque tiene un 1% de probabilidad de ser igualado o excedido en cualquier año.”\
-— *Ven Te Chow, (Hidrólogo e ingeniero civil)*
+— *Atribuida a Ven Te Chow, hidrólogo e ingeniero civil*
 :::
 
-Para el diseño y la planeación de obras hidráulicas, el ingeniero o ingeniera debe enfrentarse a la incertidumbre asociada a eventos futuros que no pueden predecirse con exactitud mediante leyes físicas puramente deterministas. En este contexto, la estadística hidrológica proporciona el marco conceptual y matemático necesario para cuantificar la aleatoriedad inherente a fenómenos como las crecidad extremas y las sequías. A continuación, se presentan los conceptos fundamentales que permiten transformar datos observados en parámetros de diseño.
- 
+Una obra hidráulica se diseña para un evento que puede no haber ocurrido nunca en el registro. Para escogerlo se necesitan tres ideas: la probabilidad de que un valor se exceda en un año, el periodo de retorno, que traduce esa probabilidad a años, y el riesgo, que es la probabilidad de que la obra sea superada durante su vida útil. Este capítulo define las tres y explica cómo se arman las series de datos con que se estiman.
 
-## Probabilidad de excedencia
+## Probabilidad de excedencia {#sec-ret-excedencia}
 
-La probabilidad de excedencia, denotada como $q$ o $p$, se define como la probabilidad de que un evento de una magnitud y duración especificadas sea **igualado o superado** en un intervalo de tiempo dado, el cual en la práctica hidrológica suele asumirse como un año.
-
-Si $X$ representa una variable aleatoria (por ejemplo, el caudal máximo anual) y $x$ es un valor específico de diseño, la probabilidad de excedencia se expresa como el complemento de la función de distribución acumulada $F_X(x)$:
+La probabilidad de excedencia $p$ de un valor $x$ es la probabilidad de que la variable lo iguale o lo supere en un intervalo de tiempo, casi siempre un año. Si $X$ es, por ejemplo, el caudal máximo anual, $p$ es el complemento de la función de distribución acumulada (@sec-prob-fda):
 
 $$
-q \;=\; P(X \geq x) \;=\; 1 - F_X(x)
-$$
+p = P(X \ge x) = 1 - F(x)
+$$ {#eq-ret-excedencia}
 
-donde $F_X(x)$ corresponde a la **probabilidad de no excedencia**. En ingeniería hidráulica, este valor cuantifica el **riesgo anual** de que una estructura sea superada por un evento natural de magnitud $x$.
+donde $F(x)$ es la probabilidad de no excedencia. Para una variable continua da lo mismo escribir $X \ge x$ o $X > x$, porque la probabilidad de un valor exacto es cero.
 
-## Periodo de retorno (T) y evento de T años
+## Periodo de retorno {#sec-ret-periodo}
 
-El periodo de retorno $T$ (o intervalo de recurrencia) se define como el tiempo promedio, expresado en años, entre las ocurrencias de un evento hidrológico que iguala o excede una magnitud determinada. Existe una relación recíproca fundamental entre la probabilidad anual de excedencia $q$ y el periodo de retorno $T$:
-
-$$
-T \;=\; \frac{1}{q}
-$$
-
-Un error común consiste en interpretar que un evento con periodo de retorno de 100 años ocurrirá exactamente una vez cada siglo. En realidad, el periodo de retorno es una **expectativa estadística a largo plazo**. Un evento de 100 años tiene una probabilidad anual de ocurrencia de $q = 0.01$, independientemente de cuándo ocurrió el último evento de esa magnitud.
-
-
-
-## Nivel de retorno
-
-El nivel de retorno (o cuantil), denotado como $x_T$, es el valor de la variable aleatoria asociado a un periodo de retorno específico $T$. Por ejemplo, el nivel de retorno para $T = 50$ años corresponde a la magnitud del caudal cuya probabilidad anual de excedencia es $q = 0.02$.
-
-Este valor se obtiene mediante la inversión de la función de distribución acumulada de la distribución de probabilidad seleccionada:
+El periodo de retorno $T$ es el tiempo promedio, en años, entre dos ocurrencias de un evento que iguala o excede una magnitud dada. Es el inverso de la probabilidad anual de excedencia:
 
 $$
-x_T \;=\; F_X^{-1}(1 - q)
-$$
+T = \frac{1}{p}
+$$ {#eq-ret-periodo}
 
-El nivel de retorno constituye uno de los parámetros fundamentales para el dimensionamiento y la verificación de obras hidráulicas. En la práctica profesional, numerosos carteles de licitación, pliegos de condiciones y especificaciones técnicas de diseño establecen explícitamente que las obras deben ser concebidas para resistir o conducir eventos asociados a un nivel de retorno específico (por ejemplo, 25, 50, 100 o más años), el cual define el grado de seguridad hidráulica exigido. De esta manera, el nivel de retorno se convierte en un criterio normativo que traduce el riesgo hidrológico aceptable en parámetros cuantitativos de diseño.
-
-Típicamente se tienen estos niveles de retorno para diseño:
-
-A. Puentes y drenajes mayores: 100 años de periodo de retorno.
-
-B. Alcantarillas y pasos transversales: 50 años de periodo de retorno.
-
-C. Drenajes menores, alcantarillado pluvial, desfogues y disipadores de energía: entre 10 y 25 años de periodo de retorno.
-
-## Riesgo 
-
-Para realizar un optimo análisis y diseño de obras hidráulicas, es imprescindible reconocer que los procesos hidrológicos en los cuales se basan están dominados por la aleatoriedad. La precipitación, los caudales y las sequías no siguen patrones deterministas, sino que responden a leyes probabilísticas. En consecuencia, las obras de ingeniería no se diseñan para garantizar una seguridad absoluta, sino para operar dentro de un nivel de riesgo aceptable, explícitamente cuantificado y técnicamente justificado.
-
-Mientras que el periodo de retorno $T$ describe la frecuencia media con la que un evento extremo es igualado o excedido, el concepto de riesgo hidrológico, usualmente denotado como $R$ (o $J$ en algunas literaturas), representa la probabilidad de que dicho evento ocurra al menos una vez durante la vida útil o el horizonte de planeación de una estructura. Este enfoque es fundamental, pues reconoce que la magnitud real de las crecientes o déficits hídricos durante la vida económica de una obra es inherentemente incierta y debe evaluarse de forma probabilística para garantizar la confiabilidad del sistema.
-
-Desde una perspectiva estadística, la ocurrencia anual de un evento hidrológico extremo puede modelarse como un proceso estocástico del tipo ensayo de Bernoulli, de forma más específica, se puede modelar según una distribución Geométrica. Cada año constituye un experimento independiente con dos posibles resultados: que el evento sea excedido (éxito) o que no lo sea (fracaso). Si se diseña una estructura para un periodo de retorno $T$, la probabilidad anual de excedencia es
+La relación sale de contar cuántos años pasan hasta que el evento ocurre. Si cada año es independiente de los demás y el evento tiene probabilidad $p$, el número de años $\tau$ hasta la primera excedencia sigue una distribución geométrica: el evento no ocurre en los primeros $k - 1$ años y ocurre en el año $k$. La probabilidad de ese caso y el valor esperado de $\tau$ son [@chow1988appliedhydrology]:
 
 $$
-p = \frac{1}{T},
-$$
+P(\tau = k) = (1 - p)^{k-1}\, p,
+\qquad
+E(\tau) = \sum_{k=1}^{\infty} k\,(1 - p)^{k-1}\, p = \frac{1}{p} = T
+$$ {#eq-ret-geometrica}
 
-y, en consecuencia, la probabilidad de no excedencia en un año dado es
+::: {.pregunta}
+Si el año pasado ocurrió la crecida de 100 años, ¿es menos probable que ocurra este año?
+:::
 
-$$
-q = 1 - p = 1 - \frac{1}{T}.
-$$
+No. El periodo de retorno es un promedio sobre muchos siglos, no un calendario. Si los años son independientes, la crecida de 100 años tiene una probabilidad de 0.01 cada año, haya ocurrido el año anterior o no. Dos crecidas de 100 años en años seguidos son raras ($0.01 \times 0.01$), pero que ocurra una justo después de otra no es más raro que en cualquier otro par de años.
 
-Si se asume independencia entre años consecutivos, la probabilidad de que el evento de diseño no ocurra durante $n$ años consecutivos es el producto de las probabilidades individuales, es decir,
+### Nivel de retorno {#sec-ret-nivel}
 
-$$
-P(\text{no excedencia en } n \text{ años}) = \left(1 - \frac{1}{T}\right)^n.
-$$
-
-
-El riesgo hidrológico $R$, definido como la probabilidad de que el evento sea excedido al menos una vez durante la vida útil de la obra, se obtiene como el complemento de esta probabilidad:
+El nivel de retorno $x_T$ es el valor de la variable que corresponde a un periodo de retorno $T$; en estadística se llama cuantil. Se obtiene al invertir la función de distribución acumulada:
 
 $$
-R = 1 - \left(1 - \frac{1}{T}\right)^n.
+x_T = F^{-1}\!\left(1 - \frac{1}{T}\right)
+$$ {#eq-ret-nivel}
+
+El caudal de 50 años, por ejemplo, es el que tiene una probabilidad anual de excedencia de $1/50 = 0.02$, es decir, una probabilidad de no excedencia de 0.98.
+
+::: {.callout-note title="Ejemplo: lluvia anual de 10 y de 50 años"}
+
+En el capítulo anterior, la lluvia anual de la estación base (1986–2010) se representó con una distribución normal de media $\bar{x} = 3298.3$ mm y desviación estándar $s = 487.5$ mm (@sec-prob-fdp). Calcule la lluvia anual de 10 y de 50 años, y el periodo de retorno de un año con 4000 mm o más.
+
+**Solución:**
+
+1. **Lluvia de 10 años.** La probabilidad de no excedencia es $1 - 1/10 = 0.90$. En la tabla de la normal estándar, $z_{0.90} = 1.282$. Entonces $x_{10} = 3298.3 + 1.282 \times 487.5 = 3923$ mm.
+2. **Lluvia de 50 años.** Con $1 - 1/50 = 0.98$, $z_{0.98} = 2.054$ y $x_{50} = 3298.3 + 2.054 \times 487.5 = 4300$ mm.
+3. **Periodo de retorno de 4000 mm.** $z = (4000 - 3298.3)/487.5 = 1.44$, $F = 0.925$, $p = 0.075$ (@eq-ret-excedencia) y $T = 1/0.075 = 13$ años (@eq-ret-periodo).
+
+**Pseudocódigo**
+
+1. Definir la media y la desviación de la distribución.
+2. Calcular el cuantil de no excedencia $1 - 1/T$ para cada periodo de retorno.
+3. Calcular la probabilidad de excedencia de 4000 mm y su periodo de retorno.
+
+```{r}
+#| label: ej-ret-nivel
+
+# 1) Distribución normal de la lluvia anual (mm), del capítulo anterior
+media <- 3298.3
+desv <- 487.5
+
+# 2) Lluvia de 10 y de 50 años
+t_ret <- c(10, 50)
+x_t <- qnorm(1 - 1 / t_ret, mean = media, sd = desv)
+round(x_t)
+
+# 3) Periodo de retorno de 4000 mm
+p_exc <- 1 - pnorm(4000, mean = media, sd = desv)
+round(c(p = p_exc, T = 1 / p_exc), 3)
+```
+
+En 25 años de registro hubo tres años con más de 4000 mm, más de lo que esperaría la normal (un año cada 13). La lluvia de 50 años (4300 mm) queda apenas por debajo del máximo observado, 4380.7 mm en 2008. Con 25 datos, la diferencia entre un valor de 50 años y uno observado no se puede juzgar a simple vista; para eso sirven el ajuste de distribuciones y las pruebas de bondad de ajuste de los capítulos siguientes.
+
+:::
+
+### Periodos de retorno de diseño {#sec-ret-diseno}
+
+El periodo de retorno de diseño depende de lo que se pierde si la obra es superada. El @tbl-ret-criterios resume valores de referencia que reúnen @chow1988appliedhydrology para obras viales y de drenaje.
+
+| Obra | Periodo de retorno (años) |
+|:--|:-:|
+| Alcantarillas de carreteras de poco tránsito | 5–10 |
+| Alcantarillas de carreteras de tránsito intermedio | 10–25 |
+| Alcantarillas de carreteras de mucho tránsito | 50–100 |
+| Puentes de carreteras secundarias | 10–50 |
+| Puentes de carreteras principales | 50–100 |
+| Alcantarillado pluvial en ciudades pequeñas | 2–25 |
+| Alcantarillado pluvial en ciudades grandes | 25–50 |
+
+: Periodos de retorno de diseño de referencia para obras viales y de drenaje urbano. Fuente: adaptado de @chow1988appliedhydrology. {#tbl-ret-criterios}
+
+::: {.callout-tip title="En la práctica"}
+Los valores del @tbl-ret-criterios son criterios de Estados Unidos y sirven como orden de magnitud. En cada proyecto se aplica el periodo de retorno que fija la norma, el reglamento o el cartel de la institución que contrata la obra, que puede ser distinto. Las presas y sus vertedores no se diseñan con estos valores: se usan periodos de retorno de miles de años o la crecida máxima probable, que se trata en un capítulo aparte.
+:::
+
+## Riesgo hidrológico {#sec-ret-riesgo}
+
+El periodo de retorno dice qué tan frecuente es un evento, pero no qué tan probable es que la obra lo enfrente. Para eso se usa el riesgo $R$: la probabilidad de que el evento de diseño se iguale o se exceda al menos una vez durante los $n$ años de vida útil de la obra.
+
+Si cada año es un ensayo independiente con probabilidad $p = 1/T$ de que el evento ocurra, el número de excedencias en $n$ años sigue una distribución binomial. La probabilidad de que ocurran exactamente $k$ excedencias es
+
 $$
+P(K = k) = \binom{n}{k}\, p^{k}\, (1 - p)^{n-k}
+$$ {#eq-ret-binomial}
 
-
-Donde:
-
-- $T$: Es el periodo de retorno para el cual se analiza el riesgo.
-- $n$: Cantidad de años consecutivos donde la obra no es excedida. 
-
-Esta expresión constituye una de las relaciones más importantes del análisis hidrológico aplicado al diseño, ya que permite vincular directamente el periodo de retorno con la vida útil de la estructura y el nivel de riesgo asumido. La ecuación anterior conduce a conclusiones de gran relevancia práctica. 
-
-::: {.callout-note title="Ejemplo"}
-
-Si una obra se diseña para un periodo de retorno de $T=50$ años y se espera que funcione durante $n=50$ años, el riesgo de que el evento de diseño sea excedido al menos una vez es
+La probabilidad de que no ocurra ninguna es $(1 - p)^n$, y el riesgo es su complemento [@chow1988appliedhydrology]:
 
 $$
-R = 1 - \left(1 - \frac{1}{50}\right)^{50} \approx 0.634,
-$$
+R = 1 - \left(1 - \frac{1}{T}\right)^{n}
+$$ {#eq-ret-riesgo}
 
-lo que implica un riesgo cercano al $63.4\%$. Este resultado suele sorprender a quienes interpretan erróneamente el periodo de retorno como una garantía de seguridad durante $T$ años.
+donde $T$ es el periodo de retorno de diseño (años) y $n$ es la vida útil de la obra (años). El complemento del riesgo, $1 - R = (1 - 1/T)^n$, es la confiabilidad: la probabilidad de que la obra no sea superada en toda su vida útil.
 
-De manera inversa, si se desea limitar el riesgo de falla a un valor máximo admisible $R_{admis}$ durante una vida útil $n$, la ecuación puede despejarse para determinar el periodo de retorno requerido:
-
-$$
-T = \frac{1}{1 - (1 - R_{admis})^{1/n}}.
-$$
-
-Por ejemplo, si se exige que el riesgo no supere el $10\%$ durante $n=25$ años, el periodo de retorno necesario es aproximadamente
+Si se fija un riesgo admisible $R$ para una vida útil $n$, al despejar la @eq-ret-riesgo se obtiene el periodo de retorno necesario:
 
 $$
-T \approx 238 \text{ años},
-$$
+T = \frac{1}{1 - (1 - R)^{1/n}}
+$$ {#eq-ret-periodo-riesgo}
 
-lo que evidencia que niveles bajos de riesgo requieren diseños asociados a eventos extremadamente raros.
+La @fig-ret-riesgo muestra la @eq-ret-riesgo para varios periodos de retorno. Una obra diseñada para $T$ años y que dura $T$ años tiene un riesgo de casi 64 %, sea $T$ de 25, 50 o 100 años: cuando $T$ es grande, $(1 - 1/T)^T$ se acerca a $e^{-1} = 0.368$.
 
-::: 
-
-El complemento del riesgo, $1-R$, se denomina confiabilidad del sistema y suele representarse como $Q$ o $p_s$. Esta magnitud expresa la probabilidad de que la estructura cumpla satisfactoriamente su función sin ser superada por el evento extremo durante todo su periodo de servicio:
-
-$$
-Q = 1 - R = \left(1 - \frac{1}{T}\right)^n.
-$$
-
-En la práctica profesional, la selección del nivel de riesgo aceptable constituye un problema de optimización técnica, económica y ética. No resulta razonable aplicar los mismos criterios de riesgo a una obra menor, como una alcantarilla vial, donde una falla puede generar únicamente inundaciones temporales o molestias al tránsito, que a una infraestructura crítica, como el vertedero de una gran presa ubicada aguas arriba de un centro poblado, cuyo colapso podría ocasionar pérdidas catastróficas de vidas humanas y daños irreversibles.
-
-Por esta razón, en estructuras de bajo impacto suelen adoptarse periodos de retorno del orden de $10$ a $50$ años, mientras que en obras estratégicas o de alto riesgo social se emplean periodos de retorno de $1{,}000$ años o superiores. En casos extremos, se recurre al análisis de la Creciente Máxima Probable (CMP), donde el riesgo teórico tiende a valores extremadamente bajos, cercanos a cero.
-
-Finalmente, el hidrólogo debe ser consciente de que los cálculos de riesgo basados en registros históricos se basan en la hipótesis de estacionariedad, es decir, que las propiedades estadísticas del ciclo hidrológico permanecen constantes en el tiempo. 
-
-El cambio climático, la urbanización y las alteraciones en el uso del suelo odifican la intensidad y frecuencia de los eventos extremos, introduciendo una incertidumbre adicional que desafía esta hipótesis. En este contexto, el análisis del riesgo hidrológico exige la incorporación de enfoques no estacionarios, factores de escala climática y evaluaciones de resiliencia, con el fin de asegurar que las obras hidráulicas mantengan niveles adecuados de seguridad y desempeño frente a los escenarios futuros.
-
-
-
-## Series de máximos anuales (AMS)
-
-El muestreo de datos para el análisis de frecuencias puede realizarse mediante distintos esquemas. La serie de máximos anuales (*Annual Maximum Series, AMS*) es el método más utilizado y consiste en seleccionar el evento de mayor magnitud registrado en cada año hidrológico.
-
-**Ventajas**:
-
-- Simplicidad conceptual y computacional.
-
-- Garantiza, en general, la independencia estadística entre eventos.
-
-- Facilita el ordenamiento cronológico y el análisis de frecuencias.
-
-**Desventajas**:
-
-- Puede descartar eventos relevantes. Por ejemplo, el segundo o tercer mayor evento de un año muy lluvioso podría ser superior al máximo anual de un año seco y, aun así, no ser considerado. Por ejemplo en la siguiente gráfica, se muestran en puntos sólidos: máximo anual (AMS) y en círculos huecos: 2º y 3º mayor del año (eventos descartados por AMS).
-
-
-```{r message=FALSE, warning=FALSE, error=FALSE}
+```{r}
+#| label: fig-ret-riesgo
+#| fig-cap: "Riesgo de que el evento de diseño se iguale o se exceda al menos una vez durante la vida útil de la obra, para cinco periodos de retorno."
+#| fig-alt: "Cinco curvas crecientes de riesgo contra vida útil de 0 a 100 años. La de 10 años llega casi a 1 antes de los 40 años; la de 500 años apenas pasa de 0.18 a los 100 años"
 #| echo: false
-#| label: fig-plot124
-#| fig-cap: "Análisis de AMS"
-#| class: fig-border
-# ============================================================
-# Ilustración profesional de AMS (Annual Maximum Series)
-# - Genera una serie diaria sintética (varios años)
-# - Extrae el máximo anual (AMS) y muestra eventos "descartados"
-#   (2º y 3º mayor del año) para evidenciar la desventaja.
-# ============================================================
+#| out-width: 75%
+#| fig-width: 7
+#| fig-height: 4.2
 
 library(tidyverse)
-library(lubridate)
-library(ggplot2)
 
-set.seed(20260207)
+riesgo <- expand_grid(t_ret = c(10, 25, 50, 100, 500), n = 1:100) %>%
+  mutate(r = 1 - (1 - 1 / t_ret)^n,
+         t_lab = factor(paste(t_ret, "años"), levels = paste(c(10, 25, 50, 100, 500), "años")))
 
-# ------------------------------------------------------------
-# 1) Serie diaria sintética (puedes reemplazar por tus datos reales)
-# ------------------------------------------------------------
-n_years <- 8
-dates <- seq.Date(as.Date("2012-01-01"), by = "day", length.out = 365 * n_years)
+ggplot(riesgo, aes(n, r, color = t_lab)) +
+  geom_line(linewidth = 0.8) +
+  scale_color_viridis_d(end = 0.85, name = "Periodo de retorno") +
+  scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.2)) +
+  labs(x = "Vida útil de la obra (años)", y = "Riesgo") +
+  theme_minimal(base_family = "serif", base_size = 12)
+```
 
-# Señal estacional + ruido + picos extremos (para simular crecidas)
-df <- tibble(
-  fecha = dates,
-  anio  = year(fecha),
-  doy   = yday(fecha),
-  # "caudal" (o lluvia) base con estacionalidad suave
-  base  = 6 + 2 * sin(2 * pi * doy / 365),
-  ruido = rnorm(length(fecha), 0, 0.9),
-  # picos raros (extremos): mezcla lognormal activada al azar
-  pico  = if_else(runif(length(fecha)) < 0.02, rlnorm(length(fecha), meanlog = 1.8, sdlog = 0.35), 0),
-  Q     = pmax(base + ruido + pico, 0.01)
-) %>%
-  select(fecha, anio, Q)
+::: {.callout-note title="Ejemplo: riesgo de una alcantarilla y periodo de retorno para un riesgo dado"}
 
-# Forzar un año "muy lluvioso" con varios eventos grandes (para que se note la desventaja)
-anio_intenso <- sort(unique(df$anio))[3]
-df <- df %>%
-  mutate(
-    Q = if_else(
-      anio == anio_intenso & month(fecha) %in% c(9, 10),
-      Q + if_else(runif(n()) < 0.06, rlnorm(n(), 2.0, 0.25), 0),
-      Q
-    )
-  )
+Una alcantarilla se diseña para el caudal de 50 años y tendrá una vida útil de 50 años. Calcule el riesgo de que su capacidad se exceda al menos una vez, y la probabilidad de que se exceda exactamente una vez y dos veces o más. Calcule además el periodo de retorno necesario para que el riesgo en 25 años no pase de 10 %.
 
-# ------------------------------------------------------------
-# 2) AMS y eventos "descartados" (top-3 por año)
-# ------------------------------------------------------------
-topk <- df %>%
+**Solución:**
+
+1. **Riesgo** (@eq-ret-riesgo): $(1 - 1/50)^{50} = 0.98^{50} = 0.364$, así que $R = 1 - 0.364 = 0.636$.
+2. **Una excedencia** (@eq-ret-binomial): $P(K = 1) = 50 \times 0.02 \times 0.98^{49} = 0.372$.
+3. **Dos o más:** $P(K \ge 2) = 1 - P(K = 0) - P(K = 1) = 1 - 0.364 - 0.372 = 0.264$.
+4. **Periodo de retorno para $R = 0.10$ en 25 años** (@eq-ret-periodo-riesgo): $(1 - 0.10)^{1/25} = 0.9^{0.04} = 0.99579$, y $T = 1/(1 - 0.99579) = 238$ años.
+
+**Pseudocódigo**
+
+1. Definir el periodo de retorno y la vida útil.
+2. Calcular el riesgo con la @eq-ret-riesgo.
+3. Calcular las probabilidades de 1 y de 2 o más excedencias con la binomial.
+4. Calcular el periodo de retorno para el riesgo admisible.
+
+```{r}
+#| label: ej-ret-riesgo
+
+# 1) Datos de la obra
+t_ret <- 50     # periodo de retorno de diseño (años)
+n <- 50         # vida útil (años)
+p <- 1 / t_ret
+
+# 2) Riesgo con la ecuación del texto
+r <- 1 - (1 - p)^n
+
+# 3) Número de excedencias en la vida útil
+p_una <- n * p * (1 - p)^(n - 1)
+p_dos_o_mas <- 1 - (1 - p)^n - p_una
+
+# 4) Periodo de retorno para un riesgo de 10 % en 25 años
+t_req <- 1 / (1 - (1 - 0.10)^(1 / 25))
+
+round(c(riesgo = r, una = p_una, dos_o_mas = p_dos_o_mas, t_requerido = t_req), 3)
+```
+
+Las mismas probabilidades salen de las funciones de la distribución binomial de R, que sirven también para cualquier número de excedencias:
+
+```{r}
+#| label: ej-ret-riesgo-binomial
+
+1 - dbinom(0, size = 50, prob = 1 / 50)   # riesgo: al menos una excedencia
+dbinom(0:3, size = 50, prob = 1 / 50)     # probabilidad de 0, 1, 2 y 3 excedencias
+1 - pbinom(1, size = 50, prob = 1 / 50)   # dos o más excedencias
+```
+
+Diseñar para 50 años una obra que dura 50 años deja casi dos posibilidades en tres de que el caudal de diseño se exceda al menos una vez, y una en cuatro de que se exceda dos veces o más. Para bajar el riesgo a 10 % en 25 años hay que diseñar para unos 240 años. El periodo de retorno no es una garantía de que la obra no falle durante ese tiempo.
+
+:::
+
+::: {.callout-warning title="Cuidado"}
+La @eq-ret-riesgo supone que los años son independientes y que la probabilidad anual no cambia con el tiempo (estacionariedad). La urbanización de una cuenca, la deforestación o el cambio climático pueden hacer que un caudal que hoy es de 50 años se vuelva más frecuente durante la vida de la obra. En ese caso el riesgo real es mayor que el calculado, y conviene revisar la sensibilidad del diseño a periodos de retorno más altos.
+:::
+
+## Series para el análisis de frecuencia {#sec-ret-series}
+
+El análisis de frecuencia necesita una muestra de valores independientes de la variable extrema que interesa. Hay dos formas de armarla a partir de un registro continuo:
+
+- **Serie de máximos anuales.** Se toma el mayor valor de cada año hidrológico. Es la más usada porque es sencilla y sus valores, al estar en años distintos, suelen ser independientes. Su desventaja es que descarta información: el segundo evento de un año muy lluvioso puede ser mayor que el máximo de un año seco y no entra en la serie.
+- **Serie de duración parcial.** Se toman todos los eventos independientes que superan un umbral, sin importar cuántos caigan en un año. Si el umbral se escoge de modo que el número de eventos sea igual al número de años del registro, se llama serie de excedencias anuales.
+
+En una serie de duración parcial hay que asegurar que dos valores sobre el umbral sean eventos distintos y no parte de la misma crecida. Para eso se exige un tiempo mínimo entre picos y que el caudal baje lo suficiente entre ellos; con datos mensuales, como en el ejemplo siguiente, basta con contar como un solo evento los meses seguidos sobre el umbral.
+
+Los periodos de retorno de las dos series no son iguales, porque la serie parcial cuenta todas las excedencias y la anual solo los años con alguna. Si las excedencias siguen un proceso de Poisson, el periodo de retorno $T_E$ de la serie de excedencias y el $T$ de la serie anual se relacionan así [@langbein1949annual; @chow1988appliedhydrology]:
+
+$$
+T = \frac{1}{1 - e^{-1/T_E}}
+$$ {#eq-ret-langbein}
+
+Para $T_E = 1$ año, $T = 1.58$ años; para $T_E = 2$ años, $T = 2.54$ años; para $T_E = 10$ años, $T = 10.5$ años. La diferencia solo importa en los periodos de retorno cortos. Por eso la serie parcial se prefiere para eventos frecuentes, como los de diseño de drenaje urbano, y la anual, para los de 10 años o más.
+
+La versión moderna de la serie parcial es el método de picos sobre umbral: la ocurrencia de las excedencias se modela con un proceso de Poisson y su magnitud con una distribución de Pareto generalizada [@coles2001introduction]. Aprovecha mejor la información de registros cortos, pero exige escoger el umbral con cuidado.
+
+::: {.callout-note title="Ejemplo: serie de máximos anuales y serie de excedencias anuales"}
+
+El archivo `datos/caudal_mensual_estacion_montana.csv` tiene el caudal medio mensual (m³/s) de una estación fluviográfica de montaña (datos ilustrativos, @sec-registros-thomas-fiering). Con los 21 años completos, de 1992 a 2012, arme la serie de máximos anuales y una serie de excedencias anuales con el umbral de 18 m³/s, contando como un solo evento los meses seguidos sobre el umbral. Compare las dos series.
+
+```{r}
+#| echo: false
+
+source("R/ver_datos.R")
+ver_datos("datos/caudal_mensual_estacion_montana.csv",
+          nombres = c("Año", "Ene", "Feb", "Mar", "Abr", "May", "Jun",
+                      "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"))
+```
+
+**Solución:**
+
+1. **Máximos anuales.** Se toma el mayor caudal mensual de cada año: 18.0 m³/s en 1992 (septiembre), 16.8 en 1993, 14.7 en 1994, y así hasta 23.3 en 2012. La serie tiene 21 valores, entre 13.9 y 47.4 m³/s.
+2. **Excedencias.** Hay 38 meses sobre 18 m³/s. Los meses seguidos forman un solo evento, del que se toma el mayor valor. En 1995, por ejemplo, septiembre (22.3) y octubre (20.9) son un evento de 22.3 m³/s; de septiembre a diciembre de 1999 hay otro de 28.8 m³/s. Quedan 21 eventos, tantos como años.
+3. **Comparación.** Seis años no tienen ningún evento sobre el umbral (1992, 1993, 1994, 2001, 2006 y 2009), y sus máximos anuales, entre 13.9 y 18.0 m³/s, no entran en la serie de excedencias. A cambio, entran eventos de 1996, 1998, 2003, 2005 y 2008, años con dos o tres crecidas, como 19.6 m³/s en febrero de 1996 y 19.8 en julio de 2008.
+
+**Pseudocódigo**
+
+1. Leer la serie mensual y quedarse con los años completos.
+2. Serie anual: el máximo de cada año.
+3. Serie de excedencias: marcar los meses sobre el umbral, agrupar los consecutivos y tomar el máximo de cada grupo.
+4. Contar los eventos por año y comparar las dos series.
+
+```{r}
+#| label: ej-ret-series
+
+library(tidyverse)
+
+# 1) Caudal medio mensual (m³/s) de los años completos
+caudal <- read_csv("datos/caudal_mensual_estacion_montana.csv") %>%
+  pivot_longer(-anio, names_to = "mes_txt", values_to = "q") %>%
+  mutate(mes = match(mes_txt, c("ene", "feb", "mar", "abr", "may", "jun",
+                                "jul", "ago", "sep", "oct", "nov", "dic"))) %>%
+  filter(anio <= 2012) %>%
+  arrange(anio, mes)
+
+# 2) Serie de máximos anuales
+anual <- caudal %>%
   group_by(anio) %>%
-  arrange(desc(Q), .by_group = TRUE) %>%
-  mutate(rank_anual = row_number()) %>%
+  slice_max(q, n = 1, with_ties = FALSE) %>%
   ungroup()
 
-ams <- topk %>% filter(rank_anual == 1)
-top2_3 <- topk %>% filter(rank_anual %in% 2:3)
-
-# Tabla corta para anotar casos donde 2º/3º > máximo de otro año (desventaja)
-max_por_anio <- ams %>% select(anio, Q_max = Q)
-
-comparacion <- top2_3 %>%
-  crossing(max_por_anio %>% rename(anio_ref = anio, Q_max_ref = Q_max)) %>%
-  filter(anio != anio_ref, Q > Q_max_ref) %>%
-  arrange(desc(Q)) %>%
-  slice_head(n = 1)
-
-# Texto de anotación (si existe caso)
-txt_anot <- if (nrow(comparacion) == 1) {
-  glue::glue(
-    "Ejemplo de desventaja:\n",
-    "Un evento rank {comparacion$rank_anual} del año {comparacion$anio}\n",
-    "({round(comparacion$Q, 2)}) supera el máximo anual del año {comparacion$anio_ref}\n",
-    "({round(comparacion$Q_max_ref, 2)}), pero AMS lo descarta."
-  )
-} else {
-  "Ejemplo: en AMS solo se conserva el máximo anual;\nlos siguientes mayores eventos del año se descartan."
-}
-
-# ------------------------------------------------------------
-# 3) Gráfico 1: Serie diaria + AMS + (2º,3º) como eventos descartados
-# ------------------------------------------------------------
-ggplot(df, aes(x = fecha, y = Q)) +
-  geom_line(linewidth = 0.35, alpha = 0.8) +
-  geom_point(
-    data = top2_3,
-    aes(x = fecha, y = Q),
-    size = 1.6,
-    alpha = 0.9,
-    shape = 1,
-    stroke = 0.9
-  ) +
-  geom_point(
-    data = ams,
-    aes(x = fecha, y = Q),
-    size = 2.3,
-    shape = 16
-  ) +
-  labs(
-    title = "Serie diaria y selección AMS (máximo anual)",
-    x = NULL,
-    y = "Magnitud (caudal o lluvia)") +
-  theme_minimal(base_size = 12) +
-  theme(
-    plot.title.position = "plot",
-    legend.position = "none",
-    panel.grid.minor = element_blank()
-  )
-```
-
-
-```{r message=FALSE, warning=FALSE, error=FALSE}
-#| echo: false
-#| label: fig-plot125
-#| fig-cap: "Análisis de AMS"
-#| class: fig-border
-# ------------------------------------------------------------
-# 4) Gráfico 2: Comparación por año (barras top-3) para evidenciar descartes
-# ------------------------------------------------------------
-top3 <- topk %>%
-  filter(rank_anual <= 3) %>%
-  mutate(
-    rank_lab = factor(rank_anual, levels = c(1, 2, 3),
-                      labels = c("AMS (máximo)", "2º mayor", "3º mayor"))
-  )
-
-# ggplot(top3, aes(x = factor(anio), y = Q, fill = rank_lab)) +
-#   geom_col(position = position_dodge(width = 0.72), width = 0.65) +
-#   labs(
-#     title = "Por año: AMS vs eventos descartados (top-3)",
-#     subtitle = "AMS conserva únicamente el máximo anual, aunque el 2º/3º mayor pueda ser relevante",
-#     x = "Año",
-#     y = "Magnitud",
-#     fill = NULL
-#   ) +
-#   theme_minimal(base_size = 12) +
-#   theme(
-#     plot.title.position = "plot",
-#     panel.grid.minor = element_blank(),
-#     legend.position = "top"
-#   )
-```
-
-Si nos fijamos en un año en particular, por ejemplo el año 2014, vemos como de los 365 datos maximos, únicamente estamos trabajando con uno, mientras que se descartan otros que pueden ser de interés, como por ejemplo, el segundo y tercer máximo anual.
-
-
-```{r message=FALSE, warning=FALSE, error=FALSE}
-#| echo: false
-#| label: fig-plot126
-#| fig-cap: "Análisis de AMS para el año 2014"
-#| class: fig-border
-# ------------------------------------------------------------
-# 5) Gráfico 3 (opcional): “Zoom” del año intenso (muestra varios eventos grandes)
-# ------------------------------------------------------------
-df_zoom <- df %>% filter(anio == anio_intenso)
-
-ggplot(df_zoom, aes(x = fecha, y = Q)) +
-  geom_line(linewidth = 0.55) +
-  geom_point(
-    data = top3 %>% filter(anio == anio_intenso),
-    aes(x = fecha, y = Q),
-    size = 2.4
-  ) +
-  labs(
-    title = paste0("Zoom del año ", anio_intenso, ": múltiples eventos grandes"),
-    x = NULL,
-    y = "Magnitud"
-  ) +
-  theme_minimal(base_size = 12) +
-  theme(
-    plot.title.position = "plot",
-    panel.grid.minor = element_blank()
-  )
-
-
-```
-
-**Método de picos sobre umbral (POT)**
-
-El método de picos sobre umbral (*Peaks Over Threshold, POT*) es una formulación específica del análisis mediante series de duración parcial. Consiste en identificar todos los picos independientes que exceden un nivel de truncamiento seleccionado. Este enfoque tiene los siguientes aspectos clave.
-
-- <u>Modelado</u>: 
-
-La ocurrencia de eventos suele modelarse mediante un proceso de Poisson para la tasa de llegada, mientras que las magnitudes de los excedentes se ajustan comúnmente con una distribución Generalizada de Pareto (GPD).
-
-- <u>Relación con AMS</u>: 
-
-Para periodos de retorno grandes (típicamente mayores a 10 años), los resultados obtenidos mediante AMS y POT tienden a converger, produciendo estimaciones similares para el diseño de grandes obras hidráulicas.
-
-Este enfoque ofrece una utilización más eficiente de la información disponible, especialmente en registros extensos y de alta resolución temporal.
-
-La **serie de duración parcial** (*Partial Duration Series, PDS*) incluye todos los eventos independientes que superan un umbral predefinido, sin limitarse a un único evento por año. Cuando el número total de eventos seleccionados coincide con el número de años del registro, se habla de una **serie de excedencias anuales**.
-
-Este enfoque resulta especialmente adecuado para el análisis de eventos frecuentes, asociados a periodos de retorno pequeños (menores a 5 o 10 años), donde la serie de máximos anuales puede no capturar adecuadamente la variabilidad del proceso hidrológico.
-
-Por ejemplo, para la serie anual mostrada anteriormente, si en lugar de seleccionar un único valor máximo anual, definimos un umbral de excedencia la cantidad de información disponible aumenta.
-
-```{r message=FALSE, warning=FALSE, error=FALSE}
-#| echo: false
-#| label: fig-plot128
-#| fig-cap: "Análisis de PDS"
-#| class: fig-border
-
-# ============================================================
-# Ilustración profesional de Series Parciales o de Excedencias (PDS)
-# - Serie diaria sintética de caudales
-# - Definición de umbral
-# - Identificación de eventos independientes sobre umbral
-# - Comparación conceptual con AMS
-# ============================================================
-
-library(tidyverse)
-library(lubridate)
-library(ggplot2)
-
-set.seed(20260207)
-
-# ------------------------------------------------------------
-# 1) Generar serie diaria sintética (puede reemplazarse por datos reales)
-# ------------------------------------------------------------
-n_years <- 8
-fechas <- seq.Date(as.Date("2012-01-01"), by = "day", length.out = 365 * n_years)
-
-datos <- tibble(
-  Fecha = fechas,
-  Año   = year(Fecha),
-  doy   = yday(Fecha),
-  # señal estacional
-  base  = 5 + 2 * sin(2 * pi * doy / 365),
-  ruido = rnorm(length(Fecha), 0, 0.8),
-  # eventos extremos frecuentes
-  pico  = if_else(runif(length(Fecha)) < 0.03,
-                  rlnorm(length(Fecha), meanlog = 1.6, sdlog = 0.4), 0),
-  Caudal = pmax(base + ruido + pico, 0.01)
-) %>%
-  select(Fecha, Año, Caudal)
-
-# ------------------------------------------------------------
-# 2) Definir umbral para PDS
-#    (ejemplo: percentil 90 de la serie)
-# ------------------------------------------------------------
-umbral <- quantile(datos$Caudal, probs = 0.90, na.rm = TRUE)
-
-# ------------------------------------------------------------
-# 3) Identificar excedencias (PDS)
-#    Nota: para fines didácticos se asume independencia temporal;
-#    en aplicaciones reales debe imponerse un tiempo de separación.
-# ------------------------------------------------------------
-pds <- datos %>%
-  filter(Caudal > umbral)
-
-# ------------------------------------------------------------
-# 4) Extraer AMS para comparación conceptual
-# ------------------------------------------------------------
-ams <- datos %>%
-  group_by(Año) %>%
-  slice_max(Caudal, n = 1, with_ties = FALSE) %>%
+# 3) Serie de excedencias: meses seguidos sobre el umbral = un evento
+umbral <- 18
+excedencias <- caudal %>%
+  mutate(sobre = q > umbral,
+         evento = cumsum(sobre & !lag(sobre, default = FALSE))) %>%
+  filter(sobre) %>%
+  group_by(evento) %>%
+  slice_max(q, n = 1, with_ties = FALSE) %>%
   ungroup()
 
-# ------------------------------------------------------------
-# 5) Gráfico principal: Serie diaria + umbral + PDS + AMS
-# ------------------------------------------------------------
-ggplot(datos, aes(x = Fecha, y = Caudal)) +
-  geom_line(linewidth = 0.4, alpha = 0.8) +
-  geom_hline(
-    yintercept = umbral,
-    linetype = "dashed",
-    linewidth = 1.0,
-    color      = "red"   # ← umbral en rojo
-  ) +
-  geom_point(
-    data = pds,
-    aes(x = Fecha, y = Caudal),
-    color= "#1E90FF",
-    size = 1.8,
-    alpha = 0.9
-  ) +
-  geom_point(
-    data = ams,
-    aes(x = Fecha, y = Caudal),
-    color="#CD00CD",
-    size = 2.5,
-    shape = 16
-  ) +
-  labs(
-    title = "Serie de duración parcial (PDS) y comparación con AMS",
-    x = NULL,
-    y = "Caudal") +
-  theme_minimal(base_size = 12) +
-  theme(
-    plot.title.position = "plot",
-    panel.grid.minor = element_blank(),
-    legend.position = "none"
-  )
+# 4) Comparación
+c(anios = nrow(anual), eventos = nrow(excedencias))
+range(anual$q)
+range(excedencias$q)
+table(factor(excedencias$anio, levels = 1992:2012))   # eventos por año
 ```
 
-Habiendo hecho este análisis, podemos ver que ahora en lugar de un único valor por año, se pasa a tener múltiples valores por año, lo que aumenta la robustez del diseño. 
-
-```{r message=FALSE, warning=FALSE, error=FALSE}
+```{r}
+#| label: fig-ret-series
+#| fig-cap: "Caudal medio mensual de 1992–2012 en la estación del ejemplo. Los puntos azules son los máximos anuales; los anaranjados, los eventos de la serie de excedencias sobre 18 m³/s (línea punteada)."
+#| fig-alt: "Serie mensual de caudal con picos anuales; una línea horizontal punteada en 18 m³/s; puntos azules en el máximo de cada año y puntos anaranjados en los picos sobre el umbral, algunos de ellos en años con dos o tres picos"
 #| echo: false
-#| label: fig-plot129
-#| fig-cap: "Cantidad de valores por año, a partir de análisis de PDS"
-#| class: fig-border
-# ------------------------------------------------------------
-# 6) Gráfico auxiliar: Número de eventos PDS por año
-# ------------------------------------------------------------
-pds %>%
-  count(Año) %>%
-  ggplot(aes(x = factor(Año), y = n)) +
-  geom_col(width = 0.7) +
-  labs(
-    title = "Número de excedencias por año (PDS)",
-    subtitle = "A diferencia de AMS, pueden existir múltiples eventos relevantes en un mismo año",
-    x = "Año",
-    y = "Número de eventos sobre el umbral"
-  ) +
-  theme_minimal(base_size = 12) +
-  theme(
-    plot.title.position = "plot",
-    panel.grid.minor = element_blank()
-  )
+#| out-width: 95%
+#| fig-width: 9
+#| fig-height: 3.8
 
+caudal_f <- caudal %>% mutate(fecha = as.Date(sprintf("%d-%02d-15", anio, mes)))
+anual_f <- anual %>% mutate(fecha = as.Date(sprintf("%d-%02d-15", anio, mes)))
+exc_f <- excedencias %>% mutate(fecha = as.Date(sprintf("%d-%02d-15", anio, mes)))
 
+ggplot(caudal_f, aes(fecha, q)) +
+  geom_line(color = "grey55", linewidth = 0.4) +
+  geom_hline(yintercept = umbral, linetype = "dashed", color = "grey30") +
+  geom_point(data = exc_f, color = "#E07B39", size = 3) +
+  geom_point(data = anual_f, color = "#1C6BA0", size = 1.6) +
+  labs(x = "Año", y = "Caudal medio mensual (m³/s)") +
+  theme_minimal(base_family = "serif", base_size = 12)
 ```
 
+Las dos series tienen 21 valores, pero no son los mismos. La serie de excedencias cambia los seis máximos de años secos, todos de 18 m³/s o menos, por segundas y terceras crecidas de años lluviosos, más altas. Por eso su valor mínimo es 19.0 m³/s y el de la serie anual, 13.9 m³/s. Para estimar caudales de 2 a 5 años la serie de excedencias representa mejor los eventos frecuentes; para 50 o 100 años las dos dan casi lo mismo (@eq-ret-langbein).
 
+:::
 
+## Ejercicios propuestos {#sec-ret-ejercicios}
+
+1. Un puente se diseña para el caudal de 100 años y tendrá una vida útil de 75 años. Calcule el riesgo de que el caudal de diseño se exceda al menos una vez y la confiabilidad del puente. ¿Qué periodo de retorno haría falta para que el riesgo fuera de 20 %?
+
+    *Respuesta:* $R = 1 - 0.99^{75} = 0.529$ y la confiabilidad es 0.471. Para $R = 0.20$, $T = 1/(1 - 0.8^{1/75}) = 337$ años.
+
+2. Calcule la probabilidad de que la crecida de 10 años no ocurra en 10 años seguidos y la de que ocurra en el primer año después de construir la obra. ¿Cuál es el número esperado de años hasta la primera ocurrencia?
+
+    *Respuesta:* $0.9^{10} = 0.349$; en el primer año, $p = 0.10$ (@eq-ret-geometrica con $k = 1$). El número esperado de años es $T = 10$.
+
+3. Con el archivo `datos/caudal_mensual_estacion_montana.csv` (años 1992 a 2012), arme la serie de excedencias con un umbral de 20 m³/s, contando como un solo evento los meses seguidos sobre el umbral. ¿Cuántos eventos tiene y cuál es su periodo de retorno medio $T_E$? Use la @eq-ret-langbein para calcular el periodo de retorno equivalente en la serie anual.
+
+    *Respuesta:* 17 eventos en 21 años, así que el umbral se excede en promedio $17/21 = 0.81$ veces por año y $T_E = 21/17 = 1.24$ años. Con la @eq-ret-langbein, $T = 1/(1 - e^{-17/21}) = 1.80$ años.
