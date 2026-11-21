@@ -207,6 +207,13 @@ donde $P$ es la precipitación anual (mm), $H$ es la altitud de la estación (m)
 El archivo `datos/lluvia_normal_tarcoles_imn.csv` tiene la lluvia normal mensual y anual de diez estaciones del IMN en la cuenca del río Grande de Tárcoles, entre 437 y 1250 m de altitud (@tbl-precip-tarcoles). Las normales se obtuvieron de los boletines meteorológicos mensuales de 2017 y 2018 [@imn2017boletin; @imn2018boletin]: cada boletín da la lluvia del mes y su anomalía, y la normal del mes es la diferencia entre las dos. Ajuste la @eq-precip-altitud y diga si la altitud explica la lluvia anual en esta cuenca.
 
 ```{r}
+#| echo: false
+
+source("R/ver_datos.R")
+ver_datos("datos/lluvia_normal_tarcoles_imn.csv", tabla = FALSE)
+```
+
+```{r}
 #| label: tbl-precip-tarcoles
 #| tbl-cap: "Altitud y lluvia normal anual de las estaciones del ejemplo. Fuente: elaboración propia con datos de los boletines del IMN de 2017 y 2018."
 #| echo: false
@@ -253,6 +260,9 @@ n <- nrow(estaciones)
 r <- cor(estaciones$altitud_m, estaciones$anual_mm)
 t_c <- r * sqrt(n - 2) / sqrt(1 - r^2)
 round(c(r = r, r2 = r^2, t_c = t_c, t_crit = qt(0.975, n - 2)), 3)
+
+# 3b) La misma prueba con cor.test(), que además da el valor p
+cor.test(estaciones$altitud_m, estaciones$anual_mm)
 ```
 
 ```{r}
@@ -282,7 +292,7 @@ ggplot(estaciones, aes(altitud_m, anual_mm)) +
   theme_minimal(base_family = "serif", base_size = 12)
 ```
 
-La altitud explica solo el 13 % de la variación de la lluvia entre estaciones, y la pendiente no es distinta de cero con estos datos. La razón se ve en la @fig-precip-altitud: las ocho estaciones del fondo del valle reciben entre 1180 y 1970 mm sin una tendencia clara con la altitud, mientras que La Luisa y Santa Lucía, en las faldas de la cordillera Volcánica Central, reciben mucho más a una altitud parecida. En esta cuenca pesa más la posición respecto de la cordillera que la altitud. Antes de usar la @eq-precip-altitud conviene agrupar las estaciones por vertiente y exposición, y revisar que la relación sea significativa. Las normales de los boletines son preliminares y algunas estaciones tienen registros cortos, así que el ejemplo sirve para el método, no como valor de diseño.
+La altitud explica solo el 13 % de la variación de la lluvia entre estaciones, y la pendiente no es distinta de cero con estos datos: `cor.test()` da el mismo $t = 1.08$, con un valor p de 0.31, y un intervalo de confianza de 95 % para $r$ que va de −0.35 a 0.81 e incluye el cero. La razón se ve en la @fig-precip-altitud: las ocho estaciones del fondo del valle reciben entre 1180 y 1970 mm sin una tendencia clara con la altitud, mientras que La Luisa y Santa Lucía, en las faldas de la cordillera Volcánica Central, reciben mucho más a una altitud parecida. En esta cuenca pesa más la posición respecto de la cordillera que la altitud. Antes de usar la @eq-precip-altitud conviene agrupar las estaciones por vertiente y exposición, y revisar que la relación sea significativa. Las normales de los boletines son preliminares y algunas estaciones tienen registros cortos, así que el ejemplo sirve para el método, no como valor de diseño.
 
 :::
 

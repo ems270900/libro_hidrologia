@@ -88,6 +88,23 @@ document.addEventListener("DOMContentLoaded", function () {
     p.push(nav);
   });
 
+  // Resalta en la tabla de contenidos el capítulo que se está viendo
+  // (la página puede tener el título de una parte y su primer capítulo)
+  function marcarEnIndice(p) {
+    if (!toc) return;
+    var ids = [];
+    p.forEach(function (el) {
+      if (el.tagName === "SECTION" && el.classList.contains("level1")) ids.push(el.id);
+      else if (el.querySelectorAll) Array.prototype.forEach.call(el.querySelectorAll("section.level1"), function (s) { ids.push(s.id); });
+    });
+    Array.prototype.forEach.call(toc.querySelectorAll(":scope > ul > li"), function (li) {
+      var a = li.querySelector(":scope > a");
+      var es = !!a && ids.indexOf(decodeURIComponent(a.getAttribute("href").slice(1))) >= 0 &&
+               !li.classList.contains("toc-parte");
+      li.classList.toggle("toc-actual", es);
+    });
+  }
+
   var actual = -1;
   function mostrar(i, destino) {
     if (i !== actual) {
@@ -95,6 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
         p.forEach(function (el) { el.classList.toggle("pagina-oculta", k !== i); });
       });
       actual = i;
+      marcarEnIndice(paginas[i]);
       window.dispatchEvent(new Event("resize"));   // recalcula el índice lateral
     }
     if (destino) destino.scrollIntoView();

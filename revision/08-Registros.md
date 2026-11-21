@@ -46,3 +46,12 @@ Searcy y Hardison (1960), Paulhus y Kohler (1952), Matalas y Jacobs (1964) y Tho
 ## Pendiente para el autor
 
 - Resuelto (2026-11-20): las estaciones de caudal y de lluvia quedaron anónimas y los datos de las estaciones A a E y del ejemplo de relleno se presentan como hipotéticos, según el autor.
+
+## Segunda entrega (observaciones del autor, 2026-11-20)
+
+- Datos de los ejemplos: cada ejemplo que usa un archivo CSV muestra un botón para descargarlo (el archivo va incrustado en la página y funciona sin internet) y, en este capítulo, una vista previa paginada de la tabla. La función está en `R/ver_datos.R` (paquetes `xfun` y `DT`). También se agregó el botón al ejemplo de Tárcoles del capítulo 7.
+- Prueba $t$ de la correlación: se conserva el cálculo con la fórmula y se agrega `cor.test()`, que da el mismo $t$, el valor p y el intervalo de confianza de $r$ (también en el capítulo 7).
+- Thomas y Fiering: se conserva la versión paso a paso y se agrega la solución con el paquete `pcts` (PAR(1) con `fitPM()` y `sim_pc()`). Sus coeficientes son algo menores; julio de 2013 da 8.95 m³/s en lugar de 8.70.
+- Figura del relleno: el panel de la serie tiene título en el eje x ("Año").
+- Figura de Thomas y Fiering: la leyenda dice "Serie sintética (100 años)" en lugar de "100 años sintéticos".
+- Referencia nueva: Boshnakov (2025), paquete `pcts`.
