@@ -248,8 +248,24 @@ unir_capitulos <- function(cfg) {
   salida
 }
 
-libro_un_archivo <- function(preparar = TRUE) {
+libro_un_archivo <- function(preparar = TRUE, limpiar = FALSE) {
   if (preparar) preparar_copia()
+
+  # Caché de knitr: los bloques de R que no cambiaron no se vuelven a ejecutar,
+  # así que la segunda corrida y las siguientes tardan mucho menos. La caché
+  # se borra si cambian los datos o las funciones de apoyo (la caché de knitr
+  # solo mira el código de cada bloque), o con limpiar = TRUE.
+  cache_dir <- file.path(PUB_DIR, "Hidrologia_Aplicada_cache")
+  fuentes <- c(list.files("datos", recursive = TRUE, full.names = TRUE),
+               list.files("R", full.names = TRUE), "herramientas/mapas_cr.R",
+               "references.bib")
+  firma <- paste(tools::md5sum(fuentes[file.exists(fuentes)]), collapse = "")
+  firma_archivo <- file.path(PUB_DIR, ".firma_cache")
+  if (limpiar || !file.exists(firma_archivo) || !identical(readLines(firma_archivo), firma)) {
+    unlink(cache_dir, recursive = TRUE)
+    writeLines(firma, firma_archivo)
+  }
+
   cfg <- yaml::read_yaml("_quarto.yml")
   html_cfg <- cfg$format$html
   html_cfg$`include-after-body` <- NULL   # se vuelve a poner abajo, con la navegación
@@ -276,7 +292,8 @@ libro_un_archivo <- function(preparar = TRUE) {
            # MathML: las ecuaciones se ven sin internet (Chrome, Edge, Firefox)
            `html-math-method` = "mathml")
     )),
-    execute  = cfg$execute
+    execute  = c(cfg$execute, list(cache = TRUE)),
+    knitr    = list(opts_chunk = c(cfg$knitr$opts_chunk, list(autodep = TRUE)))
   )
   texto <- c("---", yaml::as.yaml(encabezado, handlers = list(
                logical = function(x) { v <- ifelse(x, "true", "false"); class(v) <- "verbatim"; v })), "---", "",
