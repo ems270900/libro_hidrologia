@@ -373,6 +373,14 @@ donde $s_x$ y $s_y$ son las desviaciones estándar de las dos series en el perio
 
 El archivo `datos/lluvia_mensual_dos_estaciones.csv` tiene la lluvia mensual de dos estaciones vecinas de montaña de Costa Rica de 1986 a 2010. Los datos son ilustrativos y no se identifican las estaciones. La estación base está completa; a la estación en estudio le faltan 26 meses, entre ellos todo 2000 y de enero a agosto de 2001. Rellene la estación en estudio con una regresión lineal, si la correlación lo justifica.
 
+```{r}
+#| echo: false
+
+source("R/ver_datos.R")
+ver_datos("datos/lluvia_mensual_dos_estaciones.csv",
+          nombres = c("Año", "Mes", "Estación base (mm)", "Estación en estudio (mm)"))
+```
+
 **Solución:**
 
 1. **Periodo común.** Hay $n = 274$ meses con dato en las dos estaciones.
@@ -406,6 +414,10 @@ n <- nrow(comun)
 r <- cor(comun$base_mm, comun$estudio_mm)
 t_c <- r * sqrt(n - 2) / sqrt(1 - r^2)
 round(c(n = n, r = r, r2 = r^2, t_c = t_c, t_crit = qt(0.975, n - 2)), 3)
+
+# 3b) La misma prueba con cor.test(), que además da el valor p
+#     y el intervalo de confianza de r
+cor.test(comun$base_mm, comun$estudio_mm)
 
 # 4) Relleno de los meses faltantes
 lluvia <- lluvia %>%
@@ -444,13 +456,13 @@ tramo <- lluvia %>% filter(anio >= 1998, anio <= 2002) %>%
 g2 <- ggplot(tramo, aes(fecha, estudio_completo)) +
   geom_line(color = "#1C6BA0", linewidth = 0.6) +
   geom_point(data = filter(tramo, relleno), color = "#E07B39", size = 2) +
-  labs(x = NULL, y = "Estación en estudio (mm/mes)") +
+  labs(x = "Año", y = "Estación en estudio (mm/mes)") +
   theme_minimal(base_family = "serif", base_size = 12)
 
 g1 + g2 + plot_layout(widths = c(1, 1.4))
 ```
 
-La correlación es significativa, pero con $r^2 = 0.50$ cada mes rellenado tiene un error típico de unos 154 mm, la desviación estándar de los residuos. Para estimar totales anuales o la normal de la estación el relleno sirve, porque los errores de los meses se compensan en parte. Para un análisis de sequías mes a mes conviene saber qué meses son rellenados, y por eso la serie completa guarda la columna `relleno`.
+La función `cor.test()` confirma la prueba hecha con la fórmula: $t = 16.4$ con 272 grados de libertad, un valor p prácticamente nulo y un intervalo de confianza de 95 % para $r$ de 0.64 a 0.76. La correlación es significativa, pero con $r^2 = 0.50$ cada mes rellenado tiene un error típico de unos 154 mm, la desviación estándar de los residuos. Para estimar totales anuales o la normal de la estación el relleno sirve, porque los errores de los meses se compensan en parte. Para un análisis de sequías mes a mes conviene saber qué meses son rellenados, y por eso la serie completa guarda la columna `relleno`.
 
 :::
 
@@ -482,6 +494,15 @@ Con $Z$ normal el modelo puede producir caudales negativos en los meses secos de
 ::: {.callout-note title="Ejemplo: relleno de caudales mensuales con Thomas y Fiering"}
 
 El archivo `datos/caudal_mensual_estacion_montana.csv` tiene 32 años de caudal medio mensual (m³/s) de una estación fluviográfica de montaña de Costa Rica. Los datos son ilustrativos y no se identifica la estación. Faltan 28 meses, todos desde 2013. Rellene los faltantes con el método de Thomas y Fiering con $Z = 0$ y genere después 100 años sintéticos para comprobar que el modelo conserva la media y la desviación de cada mes.
+
+```{r}
+#| echo: false
+
+source("R/ver_datos.R")
+ver_datos("datos/caudal_mensual_estacion_montana.csv",
+          nombres = c("Año", "Ene", "Feb", "Mar", "Abr", "May", "Jun",
+                      "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"))
+```
 
 **Solución:**
 
@@ -589,9 +610,9 @@ g1 <- ggplot(reciente, aes(fecha, q_completo)) +
 
 comp_largo <- bind_rows(
   comparacion %>% transmute(mes, serie = "Registro 1992–2023", media, desv),
-  comparacion %>% transmute(mes, serie = "100 años sintéticos", media = media_sint, desv = desv_sint)
+  comparacion %>% transmute(mes, serie = "Serie sintética (100 años)", media = media_sint, desv = desv_sint)
 )
-comp_largo$serie <- factor(comp_largo$serie, levels = c("Registro 1992–2023", "100 años sintéticos"))
+comp_largo$serie <- factor(comp_largo$serie, levels = c("Registro 1992–2023", "Serie sintética (100 años)"))
 
 g2 <- ggplot(comp_largo, aes(mes, media, color = serie, fill = serie)) +
   geom_ribbon(aes(ymin = media - desv, ymax = media + desv), alpha = 0.15, color = NA) +
@@ -610,6 +631,47 @@ g1 / g2
 ```
 
 Los meses rellenados siguen el ciclo anual del río, pero no reproducen picos como el de noviembre de 2010 (33.7 m³/s): con $Z = 0$ cada valor rellenado es un caudal esperado, no un caudal posible. La serie sintética, en cambio, sí tiene la variabilidad del registro: sus medias y desviaciones mensuales difieren de las observadas en menos de 1 m³/s. De los 1200 meses generados, 6 salieron negativos (en febrero, abril, mayo y diciembre); en un estudio real se trabajaría con los logaritmos de los caudales para evitarlo. Esa es la diferencia práctica entre rellenar un registro para calcular su media y generar series para estudiar qué tan probable es una sequía que el registro no alcanzó a mostrar.
+
+**Con un paquete.** El modelo de Thomas y Fiering es un autorregresivo periódico de orden uno, PAR(1): un coeficiente autorregresivo, una media y una varianza del ruido para cada mes. El paquete `pcts` [@boshnakov2025pcts] ajusta ese modelo con `fitPM()` y genera series con `sim_pc()`. Se llaman con el prefijo `pcts::` para que el paquete no cambie otras funciones de la sesión.
+
+```{r}
+#| label: ej-registros-thomas-fiering-pcts
+
+# install.packages("pcts")   # una sola vez
+
+# 1) Serie mensual como objeto de pcts (12 estaciones por año)
+serie <- pcts::pcts(ts(caudal$q, start = c(min(caudal$anio), 1), frequency = 12))
+
+# 2) Ajuste del PAR(1): un coeficiente por mes
+modelo <- pcts::fitPM(1, serie)
+phi <- pcts::filterCoef(modelo)$ar[, 1]   # coeficiente de cada mes con el anterior
+mu  <- pcts::pcMean(modelo)               # media de cada mes (m³/s)
+s2  <- pcts::sigmaSq(modelo)              # varianza del ruido de cada mes
+
+tibble(mes = 1:12, media = mu, phi = phi, desv_ruido = sqrt(s2)) %>%
+  mutate(across(-mes, ~ round(.x, 3)))
+
+# 3) Relleno en cadena con Z = 0, con los parámetros del paquete
+q_pcts <- caudal$q
+for (i in which(is.na(q_pcts))) {
+  j <- caudal$mes[i]
+  k <- if (j == 1) 12 else j - 1          # mes anterior
+  q_pcts[i] <- mu[j] + phi[j] * (q_pcts[i - 1] - mu[k])
+}
+round(q_pcts[caudal$anio == 2013 & caudal$relleno], 2)
+
+# 4) Serie sintética de 100 años con sim_pc()
+set.seed(2026)
+ruido <- rnorm(1200) * sqrt(rep(s2, 100))
+q_sint_pcts <- as.numeric(pcts::sim_pc(list(phi = matrix(phi, ncol = 1), p = 1, q = 0, period = 12),
+                                       n = 1200, eps = ruido, nmean = mu))
+
+tibble(mes = rep(1:12, 100), q = q_sint_pcts) %>%
+  group_by(mes) %>%
+  summarise(media_sint = round(mean(q), 2), desv_sint = round(sd(q), 2))
+```
+
+Los coeficientes del paquete son algo menores que los calculados a mano (en julio, 0.447 contra 0.494), porque `fitPM()` los estima con otro procedimiento y trata de otra forma los meses faltantes. El relleno cambia poco: julio de 2013 da 8.95 m³/s en lugar de 8.70, y agosto 10.11 en lugar de 9.91. Las medias de la serie sintética difieren de las del registro en menos de 0.5 m³/s y las desviaciones en menos de 0.9 m³/s, y 9 de los 1200 meses salieron negativos. Las dos versiones llevan a la misma conclusión: la anterior muestra cada paso del método y la del paquete conviene para probar modelos de orden mayor o compararlos.
 
 :::
 
