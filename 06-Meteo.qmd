@@ -5,1037 +5,790 @@ suppress-bibliography: true
 ---
 
 ::: {.quote-block}
-“Para comprender el clima, primero debemos comprender el movimiento del aire.”\
-— *Carl-Gustaf Rossby, meteorólogo, pionero en el estudio de los movimientos a gran escala del aire y las corrientes oceánicas*
+"Los remolinos grandes tienen remolinos pequeños que se alimentan de su velocidad, y los pequeños tienen otros menores, y así hasta la viscosidad."\
+— *Lewis Fry Richardson, Weather Prediction by Numerical Process (1922)*
 :::
 
-Dentro de la hidrología, es fundamental comprender el comportamiento de la atmósfera, ya que esta actúa como la fuerza motriz del ciclo hidrológico. 
+La atmósfera mueve el agua del ciclo hidrológico. Evapora el agua de los océanos, la transporta miles de kilómetros y la devuelve como lluvia cuando el aire sube y se enfría. Para interpretar un registro de lluvia o de temperatura, o para entender por qué el Caribe y el Pacífico de Costa Rica tienen regímenes tan distintos, hace falta conocer cómo funciona la atmósfera. Este capítulo reúne los principios que se usan después en los capítulos de precipitación, evaporación y balance hídrico.
 
-## Principios de Meteorología y Climatología
+## Tiempo y clima {#sec-meteo-tiempo-clima}
 
-La meteorología y la climatología constituyen disciplinas fundamentales para la hidrología, ya que permiten comprender y cuantificar los procesos atmosféricos que controlan la disponibilidad, distribución y variabilidad del agua en la superficie terrestre. Ambas ciencias estudian el comportamiento de la atmósfera, pero lo hacen desde escalas temporales y objetivos distintos, los cuales resultan complementarios en el análisis hidrológico.
+La **meteorología** estudia la atmósfera y sus fenómenos. Se ocupa del **tiempo**, que es el estado de la atmósfera en un lugar y un momento dados: la temperatura, la presión, el viento o la lluvia de esta tarde.
 
-La <span class="firebrick"><strong>meteorología</strong></span> es la ciencia que trata del estudio de la atmósfera y sus fenómenos. Se centra en las variaciones de corto plazo que tienen lugar en el aire; es decir, describe el estado físico de la atmósfera en un momento y lugar determinados, lo que comúnmente llamamos *tiempo*.
+La **climatología** estudia el **clima**, que es el comportamiento del tiempo en periodos largos. Se describe con estadísticas: promedios, variabilidad y extremos. Por convención, la Organización Meteorológica Mundial (OMM) calcula las **normales climatológicas** con periodos de 30 años, por ejemplo 1991–2020. La diferencia entre ambas disciplinas se resume en el @tbl-meteovsclima.
 
+| Disciplina | Escala de tiempo | Pregunta típica | Uso en hidrología |
+|:--|:--|:--|:--|
+| Meteorología | Horas a días | ¿Cuánto lloverá mañana en la cuenca? | Pronóstico de crecidas y operación de embalses |
+| Climatología | Décadas | ¿Qué lluvia diaria se supera en promedio una vez cada 50 años? | Diseño de obras, balances hídricos, estudios de disponibilidad |
 
-Por su parte, la <span class="firebrick"><strong>climatología</strong></span> se refiere a las condiciones de la atmósfera durante periodos prolongados en áreas extensas. Se puede definir de forma concisa como las propiedades estadísticas del tiempo, incluyendo promedios, normales y extremos registrados durante décadas (usualmente periodos de 30 años).
+: Diferencias entre meteorología y climatología. {#tbl-meteovsclima}
 
-```{r}
-#| label: tbl-meteovsclima
-#| tbl-cap: "Comparación conceptual entre meteorología y climatología."
-#| echo: false
-#| message: false
-#| warning: false
+Ambas se apoyan en las mismas leyes físicas: la conservación de la masa (del aire y del vapor de agua), la conservación de la energía (radiación, calor sensible y calor latente) y las leyes del movimiento, que gobiernan el viento.
 
-library(dplyr)
-library(tibble)
-library(kableExtra)
+En hidrología, la meteorología y la climatología sirven para:
 
-tabla_meteo_clima <- tribble(
-  ~Concepto, ~`Enfoque Temporal`, ~`Objetivo Principal`,
-  "Meteorología", "Horas o días (corto plazo)", "Pronóstico del tiempo y estudio de fenómenos momentáneos",
-  "Climatología", "Décadas (largo plazo)", "Caracterización de regímenes regionales y estadísticas de diseño"
-)
+- Interpretar los registros de las estaciones y reconocer datos dudosos.
+- Elegir el método para rellenar datos faltantes, por ejemplo con una estación vecina de la misma vertiente y no de la opuesta.
+- Juzgar si una estación representa la cuenca o solo su entorno inmediato.
+- Diseñar obras que toleren la variabilidad del clima y los cambios esperados.
 
-tabla_meteo_clima %>%
-  kbl(
-    booktabs = TRUE,
-    align = c("c","c","c"),
-    format = "html",
-    col.names = c(
-      "Concepto",
-      "Enfoque temporal",
-      "Objetivo principal"
-    )
-  ) %>%
-  kable_classic(html_font = "Latin Modern Roman") %>%
-  kable_styling(
-    full_width = FALSE,
-    bootstrap_options = "hover"
-  ) %>%
-  row_spec(0, bold = TRUE)
-```
+## La atmósfera {#sec-meteo-atmosfera}
 
+### Composición {#sec-meteo-composicion}
 
-Desde una perspectiva física, ambas disciplinas se sustentan en principios comunes derivados de las leyes fundamentales de la física, en particular:
+La atmósfera tiene una masa de unos $5.1\times10^{18}$ kg [@trenberth2005mass]. El aire seco es una mezcla de nitrógeno (78 %), oxígeno (21 %) y argón (0.9 %), con trazas de otros gases (@tbl-atmosfera). Por la turbulencia, esas proporciones se mantienen casi constantes hasta unos 100 km de altura [@wallace2006atmospheric].
 
-- La <u>conservación de la masa</u>, aplicada al vapor de agua y a los gases atmosféricos.
+| Gas | Fórmula | Volumen (%) | ppm | Papel en el clima y el ciclo del agua |
+|:----------------|:-------:|----------:|---------:|:----------------------------------------|
+| Nitrógeno | N₂ | 78.08 | 780 800 | Casi inerte; no absorbe radiación solar ni terrestre |
+| Oxígeno | O₂ | 20.95 | 209 500 | Absorbe radiación ultravioleta en la alta atmósfera y da origen al ozono |
+| Argón | Ar | 0.934 | 9340 | Gas noble, inerte |
+| Dióxido de carbono | CO₂ | 0.041 | 410 | Gas de efecto invernadero; aumenta por la quema de combustibles fósiles |
+| Neón | Ne | 0.0018 | 18 | Gas noble, inerte |
+| Helio | He | 0.0005 | 5.2 | Gas noble, inerte |
+| Metano | CH₄ | 0.0002 | 1.9 | Gas de efecto invernadero |
+| Kriptón | Kr | 0.0001 | 1.1 | Gas noble, inerte |
+| Hidrógeno | H₂ | 0.00005 | 0.5 | Sin efecto apreciable |
+| Óxido nitroso | N₂O | 0.00003 | 0.33 | Gas de efecto invernadero |
+| Xenón | Xe | 0.000009 | 0.09 | Gas noble, inerte |
+| Vapor de agua | H₂O | 0 a 4 | 0 a 40 000 | Principal gas de efecto invernadero; forma las nubes y la lluvia |
+| Ozono | O₃ | Variable | Hasta 10 | Absorbe la radiación ultravioleta; se concentra en la estratosfera |
 
-- La <u>conservación de la energía</u>, que explica los intercambios radiativos y térmicos entre la superficie terrestre y la atmósfera.
+: Composición de la atmósfera en fracción de volumen y en partes por millón (ppm). Los valores de CO₂, CH₄ y N₂O son los de 2019; el vapor de agua varía con el lugar y el momento. Fuente: @wallace2006atmospheric y @ipcc2021spm. {#tbl-atmosfera}
 
-- Las <u>leyes del movimiento</u>, que gobiernan la circulación atmosférica y la generación del viento.
-
-Un aspecto clave en meteorología y climatología es el balance energético de la Tierra, controlado principalmente por la radiación solar entrante y la radiación terrestre saliente. Las diferencias espaciales y temporales en la radiación solar generan gradientes de temperatura y presión que impulsan la circulación atmosférica, el transporte de humedad y la formación de sistemas nubosos y precipitantes. Estos procesos determinan, en última instancia, cuándo, dónde y en qué forma ocurre la precipitación, principal entrada del balance hídrico de una cuenca.
-
-En el contexto de la hidrología, el conocimiento integrado de la meteorología y la climatología permite:
-
-A. Interpretar adecuadamente los registros de estaciones hidrometeorológicas.
-
-B. Seleccionar métodos apropiados para la estimación de variables climáticas faltantes, es decir, completar registros incompletos.
-
-C. Evaluar la representatividad espacial y temporal de los datos.
-
-D. Diseñar infraestructuras resilientes frente a la variabilidad natural del clima y a escenarios futuros de cambio climático.
-
-Por lo tanto, los principios de meteorología y climatología constituyen la base conceptual sobre la cual se construyen los análisis hidrológicos, los modelos de simulación y las decisiones de gestión sostenible de los recursos hídricos.
-
-## Atmósfera como sistema de transporte
-
-El aire que respiramos es una mezcla de gases cuya masa total se estima en $5.8\times10^{14}$ toneladas. Esta mezcla se compone principalmente de nitrógeno (78 %) y oxígeno (21 %), los cuales se mantienen en proporciones constantes hasta aproximadamente 60 km de altura. El 1 % restante incluye gases como el argón, el dióxido de carbono ($\mathrm{CO_2}$) y trazas de ozono, metano y gases nobles.
-
-Es importante destacar que el contenido de vapor de agua es extremadamente variable; mientras que en algunas zonas es casi nulo, en otras puede alcanzar hasta el 4 % del volumen. 
+Los gases que siguen a los tres principales suman menos del 0.05 % del aire, pero entre ellos están el dióxido de carbono, el metano y el óxido nitroso, que controlan buena parte del efecto invernadero (@sec-meteo-balance). Como las fracciones van de 78 % a menos de una cienmilésima, la @fig-atmosfera las muestra en escala logarítmica.
 
 ```{r}
-#| echo: false
-#| label: tbl-atmosfera
-#| tbl-cap: "Composición de la atmósfera."
-#| message: false
-#| warning: false
-
-library(dplyr)
-library(tibble)
-library(kableExtra)
-library(ggplot2)
-library(scales)
-
-# -----------------------------
-# Tabla: Gases permanentes de la atmósfera (porcentaje en volumen)
-# -----------------------------
-gases_atmosfera <- tribble(
-  ~Constituyente,      ~Fórmula,                 ~`Porcentaje en volumen`,
-  "Nitrógeno",         "N<sub>2</sub>",          78.08,
-  "Oxígeno",           "O<sub>2</sub>",          20.95,
-  "Argón",             "Ar",                      0.93,
-  "Dióxido de carbono","CO<sub>2</sub>",          0.036,
-  "Neón",              "Ne",                      0.002,
-  "Helio",             "He",                      0.0005,
-  "Kriptón",           "Kr",                      0.001,
-  "Xenón",             "Xe",                      0.00009,
-  "Hidrógeno",         "H<sub>2</sub>",           0.00005
-)
-
-gases_atmosfera %>%
-  kbl(
-    booktabs = TRUE,
-    align = c("l","c","c"),
-    format = "html",
-    escape = FALSE,
-    col.names = c("Constituyente", "Fórmula", "Porcentaje en volumen (%)")
-  ) %>%
-  kable_classic(html_font = "Latin Modern Roman") %>%
-  kable_styling(full_width = FALSE, bootstrap_options = "hover") %>%
-  row_spec(0, bold = TRUE) %>%
-  column_spec(3, width = "6.5em") %>%
-  footnote(
-    general = "Valores típicos de gases permanentes (aprox.) expresados como porcentaje en volumen. El vapor de agua no se incluye por ser altamente variable.",
-    general_title = ""
-  )
-```
-
-
-```{r}
-#| echo: false
 #| label: fig-atmosfera
-#| fig-cap: "Composición de la atmósfera"
-#| fig-align: center
-#| out-width: 100%
-#| class: fig-border
-#| message: false
-#| warning: false
+#| fig-cap: "Fracción en volumen de los gases del aire seco, en escala logarítmica. Los puntos anaranjados son gases de efecto invernadero. Fuente: elaboración propia con datos de @wallace2006atmospheric y @ipcc2021spm."
+#| fig-alt: "Gráfico de puntos horizontal con once gases ordenados de mayor a menor fracción, desde el nitrógeno con 78 % hasta el xenón con 0.0000087 %, en escala logarítmica"
+#| echo: false
+#| out-width: 85%
+#| fig-width: 8
+#| fig-height: 5
 
+library(tidyverse)
 
-# -----------------------------
-# Alternativa (recomendada para docencia): dos paneles (mayores vs trazas)
-# con colores diferenciados por gas (escala TURBO)
-# -----------------------------
+gases <- tribble(
+  ~gas, ~formula, ~porcentaje,
+  "Nitrógeno", "N₂", 78.08,
+  "Oxígeno", "O₂", 20.95,
+  "Argón", "Ar", 0.934,
+  "Dióxido de carbono", "CO₂", 0.041,
+  "Neón", "Ne", 0.00182,
+  "Helio", "He", 0.000524,
+  "Metano", "CH₄", 0.00019,
+  "Kriptón", "Kr", 0.000114,
+  "Hidrógeno", "H₂", 0.00005,
+  "Óxido nitroso", "N₂O", 0.000033,
+  "Xenón", "Xe", 0.0000087
+) %>%
+  mutate(etiqueta = fct_reorder(paste0(gas, " (", formula, ")"), porcentaje),
+         invernadero = gas %in% c("Dióxido de carbono", "Metano", "Óxido nitroso"))
 
-library(viridis)
-
-gases_plot2 <- gases_atmosfera %>%
-  mutate(
-    Grupo = if_else(`Porcentaje en volumen` >= 0.1, "Mayoritarios", "Trazas"),
-    Constituyente = factor(
-      Constituyente,
-      levels = Constituyente[order(`Porcentaje en volumen`, decreasing = TRUE)]
-    )
-  )
-
-ggplot(
-  gases_plot2,
-  aes(
-    x = Constituyente,
-    y = `Porcentaje en volumen`,
-    fill = Constituyente
-  )
-) +
-  geom_col(width = 0.75, color = "black", linewidth = 0.2) +
-  facet_wrap(~Grupo, scales = "free_y") +
-  scale_fill_viridis_d(option = "turbo", guide = "none") +
-  scale_y_continuous(labels = label_number(accuracy = 0.001)) +
-  labs(
-    x = NULL,
-    y = "Porcentaje en volumen (%)"
-  ) +
-  theme(
-    panel.grid.minor = element_blank(),
-    axis.text.x = element_text(angle = 35, hjust = 1)
-  )
-
+ggplot(gases, aes(porcentaje, etiqueta)) +
+  geom_segment(aes(x = 1e-6, xend = porcentaje, yend = etiqueta), colour = "grey75") +
+  geom_point(aes(colour = invernadero), size = 3.2) +
+  geom_text(aes(label = format(porcentaje, scientific = FALSE, drop0trailing = TRUE)),
+            hjust = -0.25, size = 3.3, family = "serif") +
+  scale_x_log10(limits = c(1e-6, 1000), breaks = 10^(-6:2),
+                labels = c("0.000001", "0.00001", "0.0001", "0.001", "0.01",
+                           "0.1", "1", "10", "100")) +
+  scale_colour_manual(values = c(`FALSE` = "#1C6BA0", `TRUE` = "#D55E00"),
+                      labels = c("Otros gases", "Gases de efecto invernadero"), name = NULL) +
+  labs(x = "Fracción en volumen del aire seco (%)", y = NULL) +
+  theme_minimal(base_size = 12, base_family = "serif") +
+  theme(panel.grid.minor = element_blank(), panel.grid.major.y = element_blank(),
+        legend.position = "bottom", axis.text.x = element_text(angle = 30, hjust = 1))
 ```
 
-
-A pesar de ser más ligero que otros gases, el 90 % del vapor de agua se concentra en los primeros kilómetros cerca del suelo, debido a que su fuente principal son los océanos y a que las bajas temperaturas en niveles superiores favorecen su condensación. Además, el aire contiene aerosoles, que son partículas sólidas y líquidas en suspensión (polvo, sales marinas, humo) que actúan como núcleos de condensación para la formación de nubes.
-
+El **vapor de agua** es el componente que más le importa a la hidrología, y también el más variable: va de casi cero en los desiertos fríos a cerca de 4 % del volumen en el aire tropical. La mayor parte está en los primeros kilómetros sobre la superficie, porque su fuente es la evaporación de océanos, suelos y plantas, y porque el aire frío de los niveles altos lo condensa (@fig-vapor). El aire contiene además **aerosoles**, partículas sólidas y líquidas en suspensión (polvo, sal marina, humo) que sirven de núcleos de condensación para formar las gotas de las nubes.
 
 ```{r}
 #| label: fig-vapor
-#| fig-cap: "Movimiento de masas de vapor de agua en la atmósfera.<br><span style='font-size:0.8em;'>Fuente: [@NOAA_OSPO]</span>"
-#| fig-align: center
-#| out-width: 80%
+#| fig-cap: "Vapor de agua en la atmósfera visto desde satélite. Fuente: @NOAA_OSPO."
+#| fig-alt: "Animación de imágenes satelitales del canal de vapor de agua, con masas húmedas en blanco que se desplazan sobre fondo oscuro"
 #| echo: false
-#| class: fig-border
+#| out-width: 60%
 
 knitr::include_graphics("assets/img/vapor.gif")
-
 ```
 
+### Capas de la atmósfera {#sec-meteo-capas}
 
-**Estructura y Estratos de la Atmósfera**
+La atmósfera se divide en capas según cómo cambia la temperatura con la altura (@fig-meteo-perfil). La presión, en cambio, baja siempre: a 5.5 km ya es la mitad de la del nivel del mar, y a 50 km es menor que 1 hPa, lo que significa que el 99.9 % de la masa del aire está por debajo de esa altura.
 
-La atmósfera se organiza en una serie de capas o esferas concéntricas definidas por su perfil térmico.
-
-- <u>Troposfera</u>: Es la capa más baja, extendiéndose desde la superficie hasta unos 8 km en los polos y 18 km en el ecuador. Contiene cerca del 75 % de la masa atmosférica y es donde ocurren los fenómenos meteorológicos de interés hidrológico. Aquí, la temperatura disminuye con la altura a una tasa promedio llamada *gradiente térmico vertical*.
+- **Troposfera.** Va de la superficie hasta la **tropopausa**, a unos 16 o 17 km en el trópico y a unos 8 km sobre los polos. Contiene entre el 75 % y el 80 % de la masa del aire y casi todo el vapor de agua, así que en ella se forman las nubes y la lluvia. La temperatura baja con la altura, en promedio 6.5 °C por kilómetro.
+- **Estratosfera.** Va de la tropopausa hasta unos 50 km. La temperatura se mantiene constante y después sube, porque el ozono absorbe la radiación ultravioleta del Sol. Esa inversión frena los movimientos verticales: por eso las nubes de tormenta se aplanan en la tropopausa y forman el yunque.
+- **Mesosfera.** Entre 50 y 85 km. La temperatura vuelve a bajar hasta unos −90 °C en la mesopausa, el punto más frío de la atmósfera.
+- **Termosfera.** Por encima de 85 km. El aire es tan escaso que unas pocas moléculas absorben la radiación solar de mayor energía y alcanzan temperaturas de 500 a 2000 °C, según la actividad del Sol. Más allá de unos 500 km está la **exosfera**, donde los gases ligeros escapan al espacio.
 
 ```{r}
-#| label: fig-troposfera
-#| fig-cap: "Troposfera.<br><span style='font-size:0.8em;'>Fuente: [WorldAtlas, 2025]</span>"
-#| fig-align: center
-#| out-width: 70%
+#| label: fig-meteo-perfil
+#| fig-cap: "Temperatura y presión de la atmósfera estándar hasta 100 km. Por encima de 85 km el perfil es solo indicativo. Fuente: elaboración propia con datos de @noaa1976standard."
+#| fig-alt: "Perfil vertical de temperatura que baja en la troposfera, sube en la estratosfera, baja en la mesosfera y sube en la termosfera, con las capas sombreadas y la presión anotada a la derecha"
 #| echo: false
-#| class: fig-border
+#| out-width: 75%
+#| fig-width: 7
+#| fig-height: 6.5
 
-knitr::include_graphics("assets/img/troposfera.jpg")
+# Atmósfera estándar de 1976: temperatura en la base de cada capa (K)
+# y gradiente vertical (K/km), con la altitud en km
+capas_std <- tibble(
+  z_base = c(0, 11, 20, 32, 47, 51, 71),
+  t_base = c(288.15, 216.65, 216.65, 228.65, 270.65, 270.65, 214.65),
+  gradiente = c(-6.5, 0, 1.0, 2.8, 0, -2.8, -2.0)
+)
+perfil <- tibble(z = seq(0, 84.85, by = 0.05)) %>%
+  mutate(i = findInterval(z, capas_std$z_base),
+         t_c = capas_std$t_base[i] + capas_std$gradiente[i] * (z - capas_std$z_base[i]) - 273.15)
+# Termosfera: solo la tendencia
+termosfera <- tibble(z = seq(84.85, 100, by = 0.05)) %>%
+  mutate(t_c = -86.3 + 0.004 * (z - 84.85)^2.6)
 
+bandas <- tibble(capa = c("Troposfera", "Estratosfera", "Mesosfera", "Termosfera"),
+                 z0 = c(0, 11, 50, 85), z1 = c(11, 50, 85, 100),
+                 relleno = c("#DCEAF5", "#EEF4FA", "#DCEAF5", "#EEF4FA"))
+pausas <- tibble(z = c(11, 50, 85), nombre = c("Tropopausa", "Estratopausa", "Mesopausa"))
+# Presión de la atmósfera estándar a algunas alturas
+presion <- tibble(z = c(1, 5.5, 16, 32, 45, 65, 80),
+                  etiqueta = c("899 hPa", "505 hPa", "103 hPa", "8.7 hPa",
+                               "1.4 hPa", "0.1 hPa", "0.009 hPa"))
+
+ggplot() +
+  geom_rect(data = bandas, aes(xmin = -Inf, xmax = Inf, ymin = z0, ymax = z1),
+            fill = bandas$relleno) +
+  geom_hline(data = pausas, aes(yintercept = z), colour = "grey55",
+             linetype = "dashed", linewidth = 0.4) +
+  geom_text(data = pausas, aes(x = -118, y = z, label = nombre), vjust = -0.4, hjust = 0,
+            size = 3.3, colour = "grey30", family = "serif", fontface = "italic") +
+  geom_text(data = bandas, aes(x = 38, y = (z0 + z1) / 2, label = capa), hjust = 1,
+            size = 4.2, family = "serif", fontface = "bold", colour = "#1C3F5E") +
+  geom_path(data = perfil, aes(t_c, z), colour = "#1C6BA0", linewidth = 1.2) +
+  geom_path(data = termosfera, aes(t_c, z), colour = "#1C6BA0", linewidth = 1.2,
+            linetype = "22") +
+  geom_text(data = presion, aes(x = 78, y = z, label = etiqueta), hjust = 1, size = 3.2,
+            family = "serif", colour = "#D55E00") +
+  annotate("text", x = 78, y = 97.5, label = "Presión", hjust = 1, size = 3.4,
+           family = "serif", colour = "#D55E00", fontface = "bold") +
+  scale_x_continuous(limits = c(-120, 80), breaks = seq(-120, 80, 20), expand = c(0, 0)) +
+  scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, 10), expand = c(0, 0)) +
+  labs(x = "Temperatura (°C)", y = "Altitud (km)") +
+  theme_minimal(base_size = 12, base_family = "serif") +
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(colour = "white", linewidth = 0.3))
 ```
 
-- <u>Estratósfera</u>: Se extiende desde la tropopausa hasta los 50 km. Se caracteriza por ser inicialmente isoterma y luego presentar un aumento de temperatura (inversión) debido a la absorción de radiación ultravioleta por la capa de ozono.
+La atmósfera estándar de la @fig-meteo-perfil representa condiciones medias de latitudes medias, con la tropopausa a 11 km. Sobre Costa Rica la tropopausa está más alta, cerca de 16 km, y por eso las tormentas tropicales pueden crecer mucho más en vertical que las de latitudes medias.
 
-```{r}
-#| label: fig-estratosfera
-#| fig-cap: "Estratósfera.<br><span style='font-size:0.8em;'>Fuente: [WorldAtlas, 2025]</span>"
-#| fig-align: center
-#| out-width: 70%
-#| echo: false
-#| class: fig-border
+## Elementos del tiempo {#sec-meteo-elementos}
 
-knitr::include_graphics("assets/img/estratosfera.jpg")
+El estado de la atmósfera se describe con unas pocas variables, llamadas **elementos del tiempo**: temperatura, presión, humedad, viento, nubosidad y precipitación. Cómo se miden se explicó en el capítulo de fuentes de información (@sec-fuentes-meteorologicas). Aquí interesa cómo se relacionan entre sí.
 
-```
+### Temperatura {#sec-meteo-temperatura}
 
-- <u>Mesosfera</u>: Situada entre los 50 y 80 km, la temperatura vuelve a disminuir hasta alcanzar aproximadamente $-95\ ^\circ\mathrm{C}$ en la mesopausa.
+La **temperatura** del aire mide la energía cinética media de sus moléculas. En la troposfera baja con la altura, en promedio 6.5 °C/km. Ese valor es el de la atmósfera estándar; el gradiente real cambia con la hora, la humedad y el tipo de masa de aire. A veces la temperatura sube con la altura en una capa, y se habla de **inversión térmica** (@sec-meteo-inversiones).
 
-```{r}
-#| label: fig-mesosfera
-#| fig-cap: "Mesosfera.<br><span style='font-size:0.8em;'>Fuente: [WorldAtlas, 2025]</span>"
-#| fig-align: center
-#| out-width: 70%
-#| echo: false
-#| class: fig-border
+En el trópico la variación diaria de la temperatura suele ser mayor que la variación entre meses. La máxima del día ocurre a primera hora de la tarde y la mínima poco antes de la salida del sol, porque durante la noche el suelo pierde calor por radiación infrarroja sin recibir energía solar. En latitudes medias, en cambio, domina la variación estacional: los meses más cálidos llegan uno o dos meses después del solsticio de verano, por la inercia térmica del suelo y del océano. Las regiones continentales tienen amplitudes anuales mayores que las costeras, porque el agua se calienta y se enfría más despacio que la tierra.
 
-knitr::include_graphics("assets/img/mesosfera.jpg")
+### Presión atmosférica {#sec-meteo-presion}
 
-```
+La **presión atmosférica** es el peso de la columna de aire sobre una unidad de área. Al nivel del mar, en la atmósfera estándar, vale 1013.25 hPa, es decir, 101.325 kPa. Equivale a una columna de agua de 10.33 m, o a 1.033 kgf/cm².
 
-- <u>Termosfera</u>: Por encima de los 80 km, las temperaturas aumentan rápidamente por la absorción de radiación de alta energía, llegando hasta valores cercanos a $1000\ ^\circ\mathrm{C}$.
-
-```{r}
-#| label: fig-termosfera
-#| fig-cap: "Termosfera.<br><span style='font-size:0.8em;'>Fuente: [WorldAtlas, 2025]</span>"
-#| fig-align: center
-#| out-width: 70%
-#| echo: false
-#| class: fig-border
-
-knitr::include_graphics("assets/img/termosfera.jpg")
-
-```
-
-- <u>Exosfera</u>: Es la región más externa (por encima de los 600 km), donde los gases ligeros escapan progresivamente al espacio exterior.
-
-```{r}
-#| label: fig-exosfera
-#| fig-cap: "Exosfera.<br><span style='font-size:0.8em;'>Fuente: [WorldAtlas, 2025]</span>"
-#| fig-align: center
-#| out-width: 70%
-#| echo: false
-#| class: fig-border
-
-knitr::include_graphics("assets/img/exosfera.jpg")
-
-```
-
-El gradiente de temperatura en las capas de la atmósfera se muestra en la siguiente figura.
-
-```{r}
-#| label: fig-capas3
-#| fig-cap: "Gradiente térmico en capas de la atmósfera.<br><span style='font-size:0.8em;'>Fuente: [Dana Desonie, Ph.D., 2025]</span>"
-#| fig-align: center
-#| out-width: 100%
-#| echo: false
-#| class: fig-border
-
-knitr::include_graphics("assets/img/capas_atmosfera3.png")
-
-```
-
-## Elementos del tiempo
-
-El estado físico momentáneo de la atmósfera, el cual es esencialmente dinámico y cambia de un día a otro, o incluso de una hora a otra, se define a través de las variables o elementos del tiempo.
-
-A. <u>Temperatura</u>
-
-La temperatura mide la energía interna del aire. El gradiente térmico normal es de aproximadamente $6.5\ ^\circ\mathrm{C}$ por cada kilómetro de ascenso. Sin embargo, existen situaciones de inversión térmica, donde la temperatura aumenta con la altitud, creando condiciones de gran inestabilidad atmosférica.
-
-B. <u>Presión Atmosférica</u>
-
-Se define como el peso de la columna de aire que gravita sobre una unidad de área. Al nivel del mar, la presión estándar es de $1013.2$ mb. La presión disminuye rápidamente con la altura debido a que el aire es compresible y la gravedad concentra la mayor densidad cerca de la superficie. La relación entre presión ($P$), volumen ($V$), masa ($m$) y temperatura ($T$) se rige por la **Ley de los Gases Ideales**:
+El aire se comporta como un gas ideal. Para una masa de aire de volumen $V$ que contiene $n$ moles:
 
 $$
-PV = nRT
-$$
+P\,V = n\,R^*\,T
+$$ {#eq-meteo-gases}
 
-O, expresada en función de la densidad ($\rho$):
-
-$$
-P = \rho RT
-$$
-
-C. <u>Humedad</u>
-
-La humedad puede expresarse de varias formas:
-
-  + Humedad absoluta ($\rho_v$): Masa de vapor de agua por unidad de volumen de aire.  
-  - Humedad relativa (HR): Relación porcentual entre la presión real de vapor ($e_a$) y la presión de saturación ($e_s$) a la misma temperatura.  
-  - Punto de rocío ($T_d$): Temperatura a la cual una masa de aire debe enfriarse, a presión constante, para alcanzar la saturación.
-
-D. <u>Viento</u>
-
-El viento es el aire en movimiento horizontal, generado por diferencias en el gradiente de presión. Su dirección se ve afectada por la rotación terrestre mediante la Fuerza de Coriolis^[Es una fuerza inercial que afecta a objetos en movimiento dentro de un sistema en rotación, como la Tierra, desviando su trayectoria hacia la derecha en el hemisferio norte y hacia la izquierda en el sur, debido a la rotación del planeta, lo que causa fenómenos como la formación de huracanes y patrones de viento], que desvía los vientos hacia la derecha en el hemisferio norte y hacia la izquierda en el hemisferio sur.
-
-E. <u>Procesos Adiabáticos y Estabilidad</u>
-
-Cuando una masa de aire asciende, se expande por la menor presión y se enfría sin intercambiar calor con su entorno. Las masas de aire puede ascender por efectos orográficos, conocidos también como **Efecto Foehn**.^[El efecto Foehn es un fenómeno meteorológico donde una masa de aire húmedo es forzada a ascender por una montaña, enfriándose y condensando su humedad para producir lluvia en la ladera de barlovento (húmeda y fresca), mientras que al descender por la ladera opuesta, la sotavento, el aire se calienta y se vuelve seco, creando un clima cálido y despejado, con efectos locales como sequías, incendios forestales o incluso impactos en la salud humana y animal.]
-
-- **Gradiente adiabático seco**: El aire no saturado se enfría a una tasa de aproximadamente $10\ ^\circ\mathrm{C/km}$.  
-- **Gradiente adiabático húmedo**: Si el aire está saturado, la condensación libera calor latente, reduciendo la tasa de enfriamiento a unos $6\ ^\circ\mathrm{C/km}$.
-
-```{r}
-#| label: fig-foehn
-#| fig-cap: "Efecto Foehn de gradientes de presión.<br><span style='font-size:0.8em;'>Fuente: [Instituto Geográfico Nacional, Centro Nacional de Información Geográfica, UNAM; 2024]</span>"
-#| fig-align: center
-#| out-width: 100%
-#| echo: false
-
-knitr::include_graphics("assets/img/foehn2.png")
-```
-
-
-
-
-Los elementos del tiempo no deben ser analizados como entidades aisladas, sino como los componentes de un sistema dinámico e interrelacionado, donde la temperatura actúa como el motor fundamental que impulsa las variaciones en la humedad, la presión y, en consecuencia, el viento y la precipitación. Dentro de la hidrología, la comprensión y medición precisa de estas variables momentáneas representan la materia prima para el modelado de procesos como la escorrentía superficial y la evapotranspiración. 
-
-Al registrar estos datos de forma continua y someterlos a un análisis estadístico de largo plazo (típicamente mediante el cálculo de las *normales climatológicas*^[Las normales climatológicas son promedios de datos meteorológicos (como temperatura y precipitación) calculados para períodos de 30 años consecutivos.] de 30 años) se logra la transición conceptual y metodológica del estudio del tiempo meteorológico al de la climatología.
-
-## Cinturones de radiación
-
-Antes de entrar en la dinámica del calor troposférico, es necesario comprender los mecanismos de protección energética de nuestro planeta. La Tierra posee cinturones de radiación, conocidos como **cinturones de Van Allen**, que consisten en concentraciones densas de protones y electrones de alta energía atrapados por el campo magnético terrestre.
-
-- <u>Estructura</u>: Se organizan en dos zonas principales con forma de *cuarto creciente*, localizadas aproximadamente a 3 200 km y 16 000 km sobre la superficie terrestre.
-
-- <u>Dinámica</u>: Las partículas cargadas se desplazan en trayectorias helicoidales entre los hemisferios Norte y Sur, confinadas por las líneas del campo magnético de la Tierra.
-
-- <u>Fenómenos asociados</u>: Cuando parte de estas partículas penetra en la atmósfera superior, interactúa con los gases atmosféricos y produce las auroras boreales y australes. Este fenómeno se intensifica durante períodos de alta actividad solar, cuando flujos energéticos de electrones y protones son emitidos al espacio, perturbando el campo magnético terrestre y suministrando energía lumínica a la alta atmósfera mediante procesos de ionización.
-
-```{r}
-#| label: fig-allen
-#| fig-cap: "Diagrama de anillos de Van Allen.<br><span style='font-size:0.8em;'>Fuente: [https://www.astronomynotes.com]</span><br><span style='font-size:0.8em;'>Modificado por (Matarrita,2025)"
-#| fig-align: center
-#| out-width: 110%
-#| echo: false
-#| class: fig-border
-
-knitr::include_graphics("assets/img/allen.png")
-```
-
-## Procesos de Transmisión de Calor
-
-La energía calorífica se distribuye en la atmósfera mediante cuatro procesos físicos fundamentales. Estos mecanismos controlan procesos clave como la evaporación, la estabilidad atmosférica y la formación de nubes y tormentas.
-
-1. <u>Radiación</u>  
-Es la transferencia de energía a través de ondas electromagnéticas, sin necesidad de un medio material. Es el único mecanismo mediante el cual la energía solar alcanza la Tierra. La radiación emitida por un cuerpo depende de su temperatura absoluta, según la ley de Stefan–Boltzmann^[La Ley de Stefan-Boltzmann establece que la radiación térmica total emitida por un objeto (un cuerpo negro) es directamente proporcional a la cuarta potencia de su temperatura absoluta ($T^{4}$).]:
+donde $P$ es la presión (Pa), $V$ es el volumen (m³), $n$ es el número de moles, $R^* = 8.314\ \mathrm{J/(mol\,K)}$ es la constante universal de los gases y $T$ es la temperatura absoluta (K). En meteorología es más cómodo escribirla con la densidad:
 
 $$
-R = \sigma T^4
+P = \rho\,R_d\,T
+$$ {#eq-meteo-gas-densidad}
+
+donde $\rho$ es la densidad del aire (kg/m³) y $R_d = 287\ \mathrm{J/(kg\,K)}$ es la constante del aire seco [@wallace2006atmospheric]. Con $P = 101\,325$ Pa y $T = 288$ K da $\rho = 1.23$ kg/m³.
+
+La presión baja con la altura porque cada capa de aire sostiene el peso de las que tiene encima. En una atmósfera en reposo se cumple la **ecuación hidrostática**:
+
 $$
+\frac{dP}{dz} = -\rho\,g
+$$ {#eq-meteo-hidrostatica}
 
-donde $\sigma$ es la constante de Stefan–Boltzmann y $T$ la temperatura absoluta del cuerpo.
+donde $z$ es la altitud (m) y $g = 9.81\ \mathrm{m/s^2}$ es la aceleración de la gravedad. Si se integra con la @eq-meteo-gas-densidad y se supone que la temperatura baja 6.5 °C/km desde 15 °C al nivel del mar, se obtiene la presión de la atmósfera estándar [@noaa1976standard]:
 
-2. <u>Conducción</u>  
-Es la transmisión de calor por contacto directo entre moléculas. Dado que el aire es un mal conductor térmico, este proceso solo es relevante en una capa muy delgada de aire en contacto directo con la superficie del suelo o del agua.
+$$
+P = 1013.25 \left( \frac{288.15 - 0.0065\,z}{288.15} \right)^{5.256}
+$$ {#eq-meteo-presion-altitud}
 
-3. <u>Convección</u>  
-Corresponde al transporte vertical de calor mediante el movimiento de masas de fluido (aire o agua). El aire calentado en la superficie se expande, disminuye su densidad y asciende, siendo reemplazado por aire más frío y denso que desciende. Este mecanismo es fundamental en la formación de nubes convectivas y tormentas.
-
-4. <u>Advección</u>  
-Se refiere al transporte horizontal de calor debido al movimiento del aire. Es el principal proceso responsable de la redistribución de energía desde las regiones ecuatoriales hacia latitudes medias y polares.
-
-```{r}
-#| label: fig-calor
-#| fig-cap: "Mecanismos de transferencia de calor."
-#| fig-align: center
-#| out-width: 100%
-#| echo: false
-#| class: fig-border
-
-knitr::include_graphics("assets/img/calor.png")
-```
-
-## La Insolación y el Calentamiento Atmosférico
-
-La energía radiante que llega del Sol recibe el nombre de **insolación**. Esta energía alcanza la superficie terrestre principalmente en forma de radiación de onda corta, para la cual la atmósfera es mayoritariamente transparente. Esta transferencia de energía se detalló en la @fig-balance_rad.
-
-- **Geometría Tierra–Sol**: Debido a la curvatura de la Tierra, la inclinación de su eje de rotación y su movimiento de traslación, los rayos solares inciden sobre la superficie con ángulos variables según la latitud y la época del año. Cuanto mayor es el ángulo de incidencia (rayos más perpendiculares), mayor es la concentración de energía por unidad de superficie y, por lo tanto, mayor el calentamiento.
+donde $P$ está en hPa y $z$ en metros. Vale en la troposfera, hasta 11 km. El @tbl-meteo-atm-estandar da algunos valores.
 
 ```{r}
-#| label: fig-latitud
-#| fig-cap: "Distribución de la radiación debido a la curvatura de la Tierra."
-#| fig-align: center
-#| out-width: 100%
+#| label: tbl-meteo-atm-estandar
+#| tbl-cap: "Presión y temperatura de la atmósfera estándar. Fuente: elaboración propia con la ecuación de la atmósfera estándar [@noaa1976standard]."
 #| echo: false
-#| class: fig-border
 
-knitr::include_graphics("assets/img/latitud.png")
+atm_std <- tibble(z = c(0, 500, 1000, 1500, 2000, 3000, 4000)) %>%
+  mutate(p = 1013.25 * ((288.15 - 0.0065 * z) / 288.15)^5.256,
+         t = 15 - 0.0065 * z)
+
+atm_std %>%
+  mutate(z = as.character(z), p = sprintf("%.1f", p), t = sprintf("%.1f", t)) %>%
+  knitr::kable(col.names = c("Altitud (m)", "Presión (hPa)", "Temperatura (°C)"),
+               align = "ccc")
 ```
 
-- **Rol del vapor de agua y otros gases**: Aunque la radiación solar calienta directamente la superficie, la atmósfera se calienta principalmente desde abajo. La superficie terrestre absorbe la radiación de onda corta y la reemite como radiación infrarroja de onda larga. El vapor de agua y el dióxido de carbono absorben esta radiación, reteniendo el calor en las capas bajas de la atmósfera, esto se conoce como efecto invernadero. Sin este efecto invernadero natural, la temperatura media de la Tierra sería cercana a −40 °C, haciendo inviable la vida tal como se conoce.
+La presión al nivel del mar cambia poco de un día a otro, unos pocos hectopascales, salvo al paso de un sistema de baja presión o de un huracán. En el trópico tiene además una oscilación de dos ciclos por día, la **marea barométrica**, con máximos cerca de las 10:00 y las 22:00 y mínimos cerca de las 04:00 y las 16:00, hora local.
+
+::: {.callout-note title="Ejemplo: presión atmosférica a distintas altitudes"}
+
+Con la @eq-meteo-presion-altitud, estime la presión atmosférica a 0 m, 1150 m (más o menos la elevación de San José) y 3400 m (cerca de la cima del cerro de la Muerte). Después calcule la constante psicrométrica $\gamma = 0.665\times10^{-3}\,P$, con $P$ en kPa y $\gamma$ en kPa/°C, que entra en el cálculo de la evapotranspiración de referencia [@allen1998fao56].
+
+**Solución:**
+
+Para $z = 1150$ m:
+
+1. Base: $(288.15 - 0.0065 \times 1150)/288.15 = 280.675/288.15 = 0.97406$.
+2. Potencia: $0.97406^{5.256} = 0.87097$.
+3. Presión: $P = 1013.25 \times 0.87097 = 882.5$ hPa $= 88.25$ kPa.
+4. Constante psicrométrica: $\gamma = 0.665\times10^{-3} \times 88.25 = 0.0587$ kPa/°C.
+
+Para $z = 3400$ m, la base es $266.05/288.15 = 0.92330$, la potencia da $0.65745$ y $P = 666.2$ hPa, con $\gamma = 0.0443$ kPa/°C. Al nivel del mar, $P = 1013.25$ hPa y $\gamma = 0.0674$ kPa/°C.
+
+**Pseudocódigo**
+
+1. Definir las altitudes.
+2. Calcular la presión con la ecuación de la atmósfera estándar.
+3. Pasar la presión a kPa y calcular $\gamma$.
+4. Calcular cuánto baja la presión respecto al nivel del mar.
 
 ```{r}
-#| label: fig-invernadero
-#| fig-cap: "Efecto invernadero."
-#| fig-align: center
-#| out-width: 100%
-#| echo: false
-#| class: fig-border
+#| label: ej-meteo-presion
 
-knitr::include_graphics("assets/img/invernadero.png")
+library(tidyverse)
+
+# 1) Altitudes (m)
+sitios <- tibble(
+  sitio = c("Nivel del mar", "San José (aprox.)", "Cerro de la Muerte (aprox.)"),
+  z = c(0, 1150, 3400)
+)
+
+sitios <- sitios %>%
+  mutate(
+    # 2) Presión de la atmósfera estándar (hPa)
+    p_hpa = 1013.25 * ((288.15 - 0.0065 * z) / 288.15)^5.256,
+    # 3) Constante psicrométrica (kPa/°C), con P en kPa
+    gamma = 0.665e-3 * p_hpa / 10,
+    # 4) Reducción respecto al nivel del mar (%)
+    reduccion = 100 * (1 - p_hpa / 1013.25)
+  )
+
+sitios
 ```
 
-En regiones tropicales, por ejemplo, la nubosidad convectiva reduce la radiación directa, mientras que en zonas áridas la atmósfera limpia favorece una mayor insolación.
+La presión a 3400 m es un 34 % menor que al nivel del mar. Con ella baja la constante psicrométrica, y eso cambia la evapotranspiración que se calcula con la ecuación de Penman-Monteith. Por eso en una cuenca de montaña se usa la presión de la elevación de la estación, no la del nivel del mar.
 
-- **Espesor atmosférico atravesado por la radiación**  
-  Cuando el Sol se encuentra cerca del horizonte, los rayos solares recorren una mayor longitud dentro de la atmósfera, aumentando los procesos de absorción, dispersión y reflexión. En consecuencia, la energía que alcanza la superficie es menor que cuando el Sol se encuentra próximo al cenit.
+:::
 
-- **Duración de la insolación diaria**  
-  En un lugar determinado, la duración del día varía a lo largo del año, siendo mayor en verano y menor en invierno. En latitudes medias y altas, esta variación puede ser del doble o más entre estaciones, afectando directamente la cantidad total de energía recibida y condicionando los regímenes climáticos e hidrológicos.
+### Humedad {#sec-meteo-humedad}
 
-## Balance Térmico de la Tierra
+El vapor de agua del aire se puede expresar de varias formas, que se relacionan entre sí con la temperatura:
 
-Para que el clima global se mantenga estable, debe existir un equilibrio entre la energía entrante y saliente del sistema Tierra–atmósfera. De forma aproximada:
+- **Presión de vapor** ($e$): la parte de la presión del aire que se debe al vapor de agua (kPa).
+- **Presión de vapor de saturación** ($e_s$): la presión de vapor máxima que admite el aire a una temperatura dada. Crece casi exponencialmente con la temperatura (@eq-fuentes-es).
+- **Humedad relativa** ($HR$): el cociente $100\,e/e_s$, en porcentaje (@eq-fuentes-hr).
+- **Humedad absoluta** ($\rho_v$): masa de vapor por unidad de volumen de aire (g/m³).
+- **Punto de rocío** ($T_d$): temperatura a la que hay que enfriar el aire, sin cambiar su presión ni su contenido de vapor, para que se sature.
 
-- Entre un 28 % y 34 % de la insolación es reflejada directamente al espacio (albedo terrestre), principalmente por las nubes y superficies claras.
-- Del resto, la superficie terrestre absorbe aproximadamente entre 47 % y 51 % de la radiación solar incidente.
-- La energía absorbida se transfiere nuevamente a la atmósfera mediante:
-  - Calor latente, asociado a la evaporación del agua y liberado durante la condensación en las nubes.
-  - Radiación infrarroja emitida por el suelo.
-  - Intercambio turbulento, que combina procesos de conducción y convección.
-  
-## Calentamiento irregular de la atmósfera
+Como $e_s$ depende tanto de la temperatura, la humedad relativa sube en la noche y baja en la tarde aunque el aire tenga la misma cantidad de vapor. Para comparar masas de aire conviene usar el punto de rocío o la presión de vapor, que no cambian con el ciclo diario de temperatura.
 
-La mayor parte de los cambios y fenómenos del tiempo que ocurren en la atmósfera son consecuencia directa del hecho de que la superficie terrestre y la atmósfera que la rodea no se calientan de manera uniforme. Esta distribución desigual de la energía solar constituye el motor fundamental de la circulación atmosférica y, por extensión, de los procesos hidrometeorológicos que gobiernan el ciclo hidrológico.
+La pendiente de la curva de saturación la da la **ecuación de Clausius-Clapeyron**:
 
-El calentamiento irregular de la atmósfera es clave para comprender la generación de gradientes de temperatura y presión que controlan la formación de vientos, la convección atmosférica, el desarrollo de nubes y la ocurrencia de la precipitación.
+$$
+\frac{1}{e_s}\,\frac{de_s}{dT} = \frac{L_v}{R_v\,T^2}
+$$ {#eq-meteo-clausius}
 
-Esta falta de uniformidad en el calentamiento se debe principalmente a dos grandes grupos de factores:
+donde $L_v = 2.5\times10^{6}\ \mathrm{J/kg}$ es el calor latente de vaporización, $R_v = 461.5\ \mathrm{J/(kg\,K)}$ es la constante del vapor de agua y $T$ es la temperatura (K). A 288 K el lado derecho vale 0.065 K⁻¹: por cada grado de calentamiento, el aire saturado puede contener entre 6 % y 7 % más vapor. Esa cifra explica buena parte de lo que se espera de la lluvia intensa con el cambio climático (@sec-meteo-cambio-climatico).
 
-1. <u>Factores sistemáticos</u> que afectan la cantidad de insolación disponible para su absorción por la superficie terrestre.
+### Viento {#sec-meteo-viento}
 
-2. <u>Variaciones en la naturaleza de la propia superficie</u>, que determinan diferencias en la capacidad de absorción, almacenamiento y liberación del calor.
+El **viento** es el movimiento horizontal del aire. Los movimientos verticales se llaman **corrientes** ascendentes o descendentes. En hidrología el viento importa por dos razones: transporta el vapor desde los océanos hacia los continentes, y renueva el aire sobre una superficie que evapora, por lo que aparece en las fórmulas de evaporación.
 
+Tres fuerzas controlan el viento:
 
-Además de la cantidad de energía incidente, el calentamiento atmosférico depende en gran medida de las características de la superficie que recibe la radiación:
+- **Fuerza del gradiente de presión.** Empuja el aire de las zonas de alta presión hacia las de baja presión. Es la que inicia el movimiento, y es mayor cuanto más juntas están las isobaras en un mapa.
+- **Fuerza de Coriolis.** Es una fuerza aparente que aparece porque la Tierra gira. Desvía el aire hacia la derecha en el hemisferio norte y hacia la izquierda en el sur, sin cambiar su rapidez. Su valor por unidad de masa se da en la @eq-meteo-coriolis.
+- **Fricción.** El roce con el terreno frena el viento y lo desvía hacia la baja presión. Su efecto se siente en la **capa límite**, que va de unos cientos de metros a 1 o 2 km de espesor según la hora y la rugosidad del terreno (bosques, edificios, relieve). Por eso el viento medido a 10 m de altura en una ciudad es más débil que el medido en un aeropuerto abierto.
 
-- <u>Albedo superficial</u>  
-  Superficies claras, como la nieve o los suelos secos, reflejan una fracción significativa de la radiación solar, mientras que superficies oscuras, como bosques densos o cuerpos de agua, absorben mayor energía. Este contraste influye directamente en la temperatura del aire cercano y en los flujos de calor sensible y latente.
+$$
+F_c = 2\,\Omega\,v\,\sin\varphi
+$$ {#eq-meteo-coriolis}
 
-- <u>Capacidad térmica y conductividad</u>  
-  Los cuerpos de agua poseen una alta capacidad calorífica, lo que les permite almacenar grandes cantidades de energía y liberarla lentamente. Esto explica el efecto moderador de lagos y océanos sobre el clima local y regional, así como la menor amplitud térmica diaria en zonas costeras.
+donde $F_c$ es la aceleración de Coriolis (m/s²), $\Omega = 7.292\times10^{-5}\ \mathrm{rad/s}$ es la velocidad angular de la Tierra, $v$ es la velocidad del viento (m/s) y $\varphi$ es la latitud. A 10° N, la latitud de Costa Rica, $\sin\varphi = 0.17$, y la fuerza es apenas la cuarta parte de la que hay a 45°. Por eso cerca del ecuador el viento no se ajusta a las isobaras como en latitudes medias, y los huracanes casi nunca se forman a menos de 5° del ecuador, donde el giro no alcanza a organizarse [@wallace2006atmospheric].
 
-- <u>Cobertura vegetal y uso del suelo</u>  
-  La vegetación intercepta radiación, da sombra al suelo y favorece la evapotranspiración, proceso que consume energía en forma de calor latente. En contraste, superficies urbanas impermeables tienden a almacenar calor y liberarlo rápidamente, intensificando el calentamiento del aire y alterando los balances hidrológicos locales.
+### Ascenso del aire y enfriamiento adiabático {#sec-meteo-adiabatico}
 
-El calentamiento irregular de la atmósfera tiene consecuencias directas sobre los procesos hidrológicos:
+Cuando el aire sube, encuentra menos presión, se expande y se enfría, aunque no ceda calor a su entorno. Ese enfriamiento se llama **adiabático**, y es el mecanismo que forma casi todas las nubes y casi toda la lluvia.
 
-a. Genera gradientes térmicos que impulsan la circulación atmosférica y el transporte de vapor de agua.
+Mientras el aire no está saturado, se enfría a razón del **gradiente adiabático seco**:
 
-b. Controla la intensidad y distribución espacial de la evaporación y la evapotranspiración.
+$$
+\Gamma_d = \frac{g}{c_p} \approx 9.8\ \mathrm{^\circ C/km}
+$$ {#eq-meteo-adiabatico-seco}
 
-c. Favorece la formación de sistemas convectivos responsables de lluvias intensas y eventos extremos.
+donde $c_p = 1004\ \mathrm{J/(kg\,K)}$ es el calor específico del aire a presión constante. Al llegar a su punto de rocío, el vapor empieza a condensarse y libera calor latente. Desde ahí el aire se enfría más despacio, con el **gradiente adiabático húmedo** $\Gamma_s$, que va de unos 4 °C/km en aire cálido a unos 7 °C/km en aire frío [@wallace2006atmospheric]. La altura donde empieza la condensación es la base de las nubes, o **nivel de condensación por ascenso**. Se estima con:
 
-d. Determina patrones climáticos regionales que condicionan la disponibilidad hídrica a largo plazo.
+$$
+z_{\text{NCA}} \approx 125\,(T - T_d)
+$$ {#eq-meteo-nca}
 
-## Temperatura del aire
+donde $z_{\text{NCA}}$ es la altura sobre el punto de partida (m), $T$ es la temperatura del aire (°C) y $T_d$ es su punto de rocío (°C) [@lawrence2005relationship].
 
-La temperatura del aire constituye uno de los elementos fundamentales del tiempo atmosférico. Como consecuencia de la distribución irregular de la energía solar incidente (insolación) sobre la superficie terrestre, la temperatura presenta variaciones espaciales y temporales significativas, las cuales influyen directamente en otros elementos meteorológicos como la presión, la humedad, el viento y la precipitación. 
+El aire sube por cuatro causas:
 
-### Variaciones térmicas diurnas y estacionales
-
-La temperatura del aire presenta una variación diurna de carácter periódico. Generalmente, la temperatura máxima se alcanza durante las primeras horas de la tarde, mientras que la mínima ocurre poco antes de la salida del sol. Esta oscilación diaria está estrechamente ligada al balance radiativo: durante la noche, tanto la superficie terrestre como la atmósfera pierden calor por radiación infrarroja, alcanzándose el mínimo térmico poco antes de que comience el calentamiento solar matutino.
-
-A escala anual, la temperatura también exhibe una variación estacional marcada. En los continentes, las temperaturas máximas suelen registrarse uno o dos meses después del solsticio de verano, mientras que las mínimas ocurren uno o dos meses después del solsticio de invierno. Este desfase responde a la inercia térmica del sistema superficie–atmósfera. En regiones continentales, donde la capacidad térmica del suelo es relativamente baja, las oscilaciones térmicas anuales son más pronunciadas que en regiones marítimas, donde la influencia moderadora de los océanos reduce la amplitud térmica.
-
-Estas variaciones controlan la estacionalidad de la evapotranspiración, la disponibilidad de agua en el suelo y el régimen de caudales en cuencas con influencia nival o glaciar.
-
-### Inversiones térmicas
-
-En determinadas condiciones, la temperatura del aire puede aumentar con la altura en lugar de disminuir. Esta situación, conocida como inversión térmica, representa una condición de gran inestabilidad atmosférica. Las inversiones pueden originarse por diversos mecanismos:
-
-- Enfriamiento intenso del aire cercano al suelo durante noches despejadas y calmadas.
-
-- Desplazamiento de una masa de aire cálido sobre una masa de aire frío.
-
-- Subsidencia atmosférica asociada a sistemas de alta presión.
-
-- Reducción de la turbulencia vertical.
-
-Las inversiones térmicas inhiben los movimientos verticales del aire, dificultan la dispersión de contaminantes y pueden tener efectos significativos sobre la calidad del aire y los procesos hidrológicos urbanos. La tropopausa constituye un ejemplo de inversión térmica a escala planetaria, separando la troposfera de la estratósfera.
-
-### Efectos del movimiento vertical del aire sobre la temperatura
-
-Además del movimiento horizontal de aire, que genera vientos y circulación atmosférica del aire por gradientes térmicos, la atmósfera experimenta movimientos verticales frecuentes que influyen directamente en la temperatura del aire. Estos movimientos pueden ser ascendentes o descendentes y están controlados por diversas causas físicas.
-
-- **Calentamiento o enfriamiento local**
-
-El aire en contacto con una superficie más cálida se calienta, se expande y asciende; por el contrario, el aire enfriado se vuelve más denso y desciende.
-
-- **Ascenso orográfico**
-
-Cuando una masa de aire se aproxima a una cordillera o relieve elevado, es forzada a ascender por la ladera expuesta al viento, enfriándose y favoreciendo la condensación y la precipitación. Este efecto se puede observar en la @fig-foehn.
-
-- **Frentes y cuñas de aire frío**: En los sistemas frontales, el aire frío, más denso, se introduce por debajo del aire cálido, obligándolo a ascender y generando nubosidad y precipitación.
+- **Convección.** El suelo calentado por el sol calienta el aire en contacto con él, que se vuelve menos denso y sube. Es el origen de los aguaceros de la tarde en el Valle Central.
+- **Ascenso orográfico.** El viento choca con una montaña y la remonta (@fig-foehn).
+- **Frentes.** Una masa de aire frío, más densa, se mete por debajo de una cálida y la levanta (@fig-frente_frio). En Costa Rica los frentes llegan debilitados, como **empujes fríos** que entre noviembre y marzo traen lluvias al Caribe y viento fuerte al Pacífico Norte.
+- **Convergencia.** Cuando el aire confluye en superficie, no tiene más salida que subir; cuando diverge, el aire de arriba baja a reemplazarlo (@fig-conver_diver). La Zona de Convergencia Intertropical (@sec-meteo-hadley) es el caso más importante para Costa Rica.
 
 ```{r}
 #| label: fig-frente_frio
-#| fig-cap: "Esquema de frente frío."
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Frente frío: el aire frío avanza por debajo del aire cálido y lo obliga a subir."
+#| fig-alt: "Bloque esquemático con una cuña de aire frío que levanta aire cálido y forma un cumulonimbo con lluvia sobre el frente"
 #| echo: false
-#| class: fig-border
+#| out-width: 75%
 
 knitr::include_graphics("assets/img/frente_frio.png")
 ```
 
-- **Convergencia y divergencia**
-
-La convergencia del flujo de aire induce ascensos, mientras que la divergencia provoca subsidencia.
-
 ```{r}
 #| label: fig-conver_diver
-#| fig-cap: "Esquema de movimiento convergente y divergente del aire."
-#| fig-align: center
-#| out-width: 70%
+#| fig-cap: "Convergencia y divergencia del aire en superficie, con las isobaras de un centro de alta (A) y uno de baja (B) presión."
+#| fig-alt: "Esquema con aire que converge y sube sobre una baja presión y aire que baja y diverge sobre una alta presión"
 #| echo: false
-#| class: fig-border
+#| out-width: 55%
 
 knitr::include_graphics("assets/img/conver_diver.jpg")
 ```
 
-
-## Presión atmosférica
-
-La presión atmosférica es uno de los elementos fundamentales en el estudio de la meteorología y la hidrología, ya que actúa como el motor que impulsa la circulación general de la atmósfera y condiciona fenómenos como la evaporación y la precipitación.
-
-Físicamente, la presión atmosférica se define como la fuerza por unidad de superficie que ejerce la columna de aire que gravita sobre un área determinada. Esta fuerza es el resultado del número y la velocidad de las moléculas de aire al chocar contra una superficie; por lo tanto, un aumento en la densidad de moléculas en un volumen dado incrementará la presión.
-
-Desde una perspectiva hidrostática, puede considerarse que la superficie terrestre se encuentra en el fondo de un “océano de aire” que presiona sobre todo lo que nos rodea con un peso aproximado de 1.033 kg/cm² al nivel del mar. En hidrología, esta variable actúa como un indicador del comportamiento atmosférico: cuando la presión aumenta, el aire es más pesado y tiende a descender (condiciones estables); cuando disminuye, el aire es más ligero y tiende a ascender, favoreciendo la condensación y la ocurrencia de tiempo inestable.
-
-
-En una atmósfera en reposo, la relación entre presión \(p\) y elevación \(z\) está gobernada por la ecuación hidrostática:
-
-$$
-\frac{dp}{dz} = -\rho g
-$$
-
-donde $\rho$ es la densidad del aire y $g$ la aceleración de la gravedad. Al combinar esta relación con la ley de los gases ideales $P = \rho RT$, se obtiene una expresión práctica para estimar la presión en función de la altitud:
-
-$$
-P = 1013.2 \left[ \frac{288 - 0.0065 z}{288} \right]^{5.256}
-$$
-
-Esta ecuación es fundamental en hidrología para ajustar registros meteorológicos de estaciones ubicadas a diferentes elevaciones.
-
-
+Cuando el aire remonta una cordillera, deja buena parte de su humedad como lluvia en la ladera de barlovento. Del otro lado baja sin nubes, se calienta con el gradiente seco y llega al pie de la montaña más caliente y más seco que en el punto de partida. Ese viento cálido y seco de sotavento es el **efecto Foehn** (@fig-foehn).
 
 ```{r}
+#| label: fig-foehn
+#| fig-cap: "Efecto Foehn: el aire se enfría con el gradiente húmedo al subir por barlovento y se calienta con el gradiente seco al bajar por sotavento. Fuente: Instituto Geográfico Nacional de España."
+#| fig-alt: "Montaña con nubes y lluvia en la ladera izquierda y aire cálido y seco que baja por la derecha, con escalas de temperatura a ambos lados"
 #| echo: false
-### Tabla de referencia: atmósfera estándar
-
-library(dplyr)
-library(tibble)
-library(kableExtra)
-
-atm_estandar <- tribble(
-  ~`Altitud (m)`, ~`Presión (mb/hPa)`, ~`Temperatura (°C)`,
-  0,    1013.2, 15.0,
-  500,   954.6, 11.8,
-  1000,  898.8,  8.5,
-  2000,  795.0,  2.0
-)
-
-atm_estandar %>%
-  kbl(
-    booktabs = TRUE,
-    align = c("c","c","c"),
-    format = "html",
-    col.names = c(
-      "Altitud (m)",
-      "Presión (mb / hPa)",
-      "Temperatura (°C)"
-    )
-  ) %>%
-  kable_classic(html_font = "Latin Modern Roman") %>%
-  kable_styling(
-    full_width = FALSE,
-    bootstrap_options = "hover"
-  ) %>%
-  row_spec(0, bold = TRUE)
-
-```
-
-[**Fuente:** Adaptado de la Atmósfera Estándar U.S.]{style="font-size: 0.8em;"}
-
-
-**Distribución global y ciclos periódicos**
-
-La presión atmosférica presenta oscilaciones periódicas conocidas como **mareas barométricas solares**, caracterizadas por dos máximos diarios (aproximadamente a las 10:00 y 22:00 h) y dos mínimos (alrededor de las 04:00 y 16:00 h).
-
-A escala planetaria, la presión se organiza en cinturones latitudinales:
-
-- Depresión ecuatorial: Zona de bajas presiones cercana a los 0° de latitud, asociada a convergencia de vientos y elevada nubosidad.
-- Cinturones subtropicales de alta presión: Ubicados alrededor de los 30° N y S, vinculados a climas secos y regiones desérticas.
-- Altas polares: Centros persistentes de alta presión sobre el Ártico y la Antártida.
-
-
-## Viento
-
-Dentro de la hidrología, el viento no es simplemente el movimiento del aire; es el agente responsable del transporte de humedad desde los océanos hacia los continentes y un factor determinante en la cuantificación de la evaporación y la evapotranspiración. Físicamente, el viento se define como el movimiento horizontal del aire, mientras que los movimientos verticales se denominan corrientes.
-
-El aire se mueve como respuesta a desequilibrios de energía y presión en la atmósfera. Las principales fuerzas involucradas en la generación y modificación del viento son las siguientes:
-
-- **Fuerza del gradiente de presión**
-
-Es la fuerza impulsora inicial del movimiento del aire. El viento siempre tiende a desplazarse desde las zonas de alta presión hacia las zonas de baja presión, buscando restablecer el equilibrio atmosférico.
-
-- **Fuerza de Coriolis**
-
-Es una fuerza aparente originada por la rotación de la Tierra. Desvía el movimiento del aire hacia la derecha en el hemisferio norte y hacia la izquierda en el hemisferio sur. Su magnitud se expresa mediante la aceleración de Coriolis $G$:
-
-$$
-G = 2 v \, \omega \, \sin \varphi
-$$
-
-donde:
-
-- $v$ es la velocidad del viento
-- $\omega$ es la velocidad angular de rotación de la Tierra 
-- $\varphi$ es la latitud. 
-
-Esta fuerza no genera viento por sí misma, sino que modifica su dirección.
-
-- **Fuerza de fricción**: El rozamiento del aire con la superficie terrestre reduce la velocidad del viento y altera su dirección, especialmente en las capas inferiores de la atmósfera. Esta influencia define la denominada *capa de fricción*, que se extiende aproximadamente hasta los primeros 500–600 m de altura y depende de la rugosidad del terreno (vegetación, edificaciones, relieve).
-
-### La células de circulación general de la atmósfera
-
-A escala planetaria, la atmósfera funciona como una gran máquina térmica impulsada por el calentamiento desigual entre el ecuador y los polos. Este sistema de redistribución de energía se organiza, en cada hemisferio, en tres grandes células de circulación: la célula de Hadley (tropical), la célula de Ferrel (latitudes medias) y la célula Polar.
-
-```{r}
-#| label: fig-hadley
-#| fig-cap: "Células de circulación atmosférica.<br><span style='font-size:0.8em;'>Fuente: [CEUPE, 2025]</span>"
-#| fig-align: center
-#| out-width: 100%
-#| echo: false
-#| class: fig-border
-
-knitr::include_graphics("assets/img/hadley.png")
-
-```
-
-
-La célula de Hadley constituye el componente más intenso y organizado de la circulación atmosférica global en las regiones tropicales. Su funcionamiento puede describirse mediante un ciclo cerrado de cuatro etapas principales:
-
-1. <u>Ascenso ecuatorial</u>: En las proximidades del ecuador, la intensa radiación solar calienta el aire cercano a la superficie, disminuyendo su densidad y provocando su ascenso. Este movimiento genera una banda persistente de bajas presiones conocida como la *Zona de Convergencia Intertropical* (ZCIT).
-
-2. <u>Divergencia en altura</u>: Al alcanzar la tropopausa, el aire ascendente se desplaza horizontalmente hacia latitudes mayores. Durante este trayecto se enfría progresivamente y pierde gran parte de su humedad en forma de precipitaciones intensas, característica de las regiones tropicales húmedas.
-
-3. <u>Subsidencia subtropical</u>: Aproximadamente a los $30^\circ$ de latitud norte y sur, el aire ya enfriado y más denso desciende hacia la superficie. Este descenso produce un calentamiento adiabático que reduce la humedad relativa del aire, dando origen a los cinturones de altas presiones subtropicales y explicando la localización de los principales desiertos del planeta.
-
-4. <u>Vientos alisios</u>: Para cerrar el sistema, el aire fluye en superficie desde las altas presiones subtropicales hacia la baja presión ecuatorial. Debido al efecto de Coriolis, este flujo se desvía, formando los vientos alisios del noreste en el hemisferio norte y del sureste en el hemisferio sur.
-  
-5. <u>Chorro de Bajo Nivel del Caribe</u>: es uno de los componentes atmosféricos más influyentes en el transporte de humedad y en la modulación de las lluvias en Centroamérica y el norte de Sudamérica. Su comportamiento controla de manera directa la distribución espacial y temporal de la precipitación, con implicaciones hidrológicas significativas a escala regional.
-
-```{r}
-#| label: fig-chorro
-#| fig-cap: "Chorro de bajo nivel del Caribe.<br><span style='font-size:0.8em;'>Fuente: [@Cigefi]</span>"
-#| fig-align: center
 #| out-width: 80%
-#| echo: false
-#| class: fig-border
 
-knitr::include_graphics("assets/img/chorro2.png")
-
+knitr::include_graphics("assets/img/foehn2.png")
 ```
 
-  A diferencia de las corrientes *jet* de la alta tropósfera, que se desplazan cerca de la tropopausa a grandes velocidades (entre 30 y 135 m/s), los chorros de bajo nivel corresponden a bandas de vientos máximos localizadas en la tropósfera inferior, generalmente por debajo de los 3 km de altura. Estas corrientes transportan grandes volúmenes de vapor de agua y tienen una interacción directa con la topografía y la superficie terrestre.
+::: {.callout-note title="Ejemplo: aire que cruza la cordillera de Talamanca"}
 
-  El chorro del Caribe está estrechamente vinculado a la intensidad y persistencia de los vientos alisios del noreste. Estos vientos se originan en los cinturones subtropicales de alta presión y se desplazan hacia la zona de bajas presiones ecuatoriales, siguiendo el esquema de la circulación de Hadley.
+El viento alisio lleva aire del Caribe a 26 °C, con punto de rocío de 19 °C, hacia la cordillera de Talamanca. El aire remonta la cordillera hasta 3000 m y baja por la vertiente del Pacífico hasta un valle a 700 m. Suponga un gradiente seco de 9.8 °C/km, un gradiente húmedo constante de 6.0 °C/km y que toda el agua que se condensa cae como lluvia en barlovento. Estime la temperatura del aire en la cima y en el valle, y compárela con la que tendría el aire a 700 m en la ladera del Caribe. Los datos son de ejemplo.
 
-  - **Intensificación estacional**: Entre los meses de julio y agosto, el viento alisio experimenta un fortalecimiento notable. Esta aceleración del flujo actúa como una verdadera cinta transportadora de humedad, impulsando grandes masas de vapor de agua desde el océano Atlántico tropical hacia el istmo centroamericano.
+**Solución:**
 
-  - **Influencia del ENOS**: Durante la fase cálida del fenómeno El Niño–Oscilación del Sur (ENOS), el viento alisio tiende a intensificarse aún más, particularmente en los meses de mayo y julio. Este fortalecimiento incrementa la nubosidad y las precipitaciones en la vertiente del Caribe. Por el contrario, durante episodios de La Niña, el alisio suele debilitarse entre julio y septiembre, modificando los patrones de precipitación regional.
+1. Base de las nubes (@eq-meteo-nca): $z_{\text{NCA}} = 125 \times (26 - 19) = 875$ m.
+2. De 0 a 875 m el aire sube seco: $T = 26 - 9.8 \times 0.875 = 17.4$ °C.
+3. De 875 a 3000 m sube saturado: $T = 17.4 - 6.0 \times 2.125 = 4.7$ °C en la cima.
+4. Baja seco de 3000 a 700 m: $T = 4.7 + 9.8 \times 2.30 = 27.2$ °C en el valle.
+5. En la ladera del Caribe, a 700 m, el aire todavía no se ha saturado: $T = 26 - 9.8 \times 0.70 = 19.1$ °C.
 
-  - **Vertiente del Caribe**: Al impactar contra las barreras montañosas, como la Cordillera de Talamanca, las masas de aire húmedo son forzadas a ascender. Este ascenso provoca un enfriamiento adiabático, la condensación del vapor de agua y precipitaciones orográficas intensas. Este mecanismo explica por qué amplias zonas del Caribe costarricense y centroamericano carecen de una estación seca bien definida y presentan lluvias prácticamente continuas a lo largo del año.
+El aire llega al valle de sotavento 8.1 °C más caliente que a la misma altura en barlovento.
 
-  - **Vertiente del Pacífico**: Durante los períodos de máxima intensificación del chorro (julio y agosto), se produce un efecto de subsidencia a sotavento de las montañas. El descenso del aire inhibe la formación de nubosidad convectiva, dando lugar al fenómeno conocido como *veranillo* o *canícula*, caracterizado por una disminución relativa de las lluvias en plena estación lluviosa del Pacífico.
+**Pseudocódigo**
 
-
-## Escalas de circulación atmosférica
-
-La atmósfera funciona como una gigantesca máquina térmica alimentada por la energía solar y el campo gravitatorio terrestre, donde el movimiento del aire busca redistribuir el calor desde el ecuador hacia los polos. Esta redistribución se manifiesta en diferentes dimensiones espaciales y temporales, desde sistemas que abarcan todo el globo hasta pequeños remolinos que afectan la evaporación a nivel del suelo.
-
-1. **Escala planetaria o global** ($\geq 10^{4}\ \text{km}^{2}$):  
-   Incluye los grandes patrones de circulación general de la atmósfera, como las Células de Hadley, Ferrel y Polar, así como los cinturones de vientos dominantes y la distribución latitudinal de la radiación solar. Estos sistemas tienen escalas temporales de meses a años y definen los regímenes climáticos permanentes del planeta.
-
-2. **Macroescala o escala sinóptica** ($\sim 10^{3}\ \text{km}^{2}$):  
-   Corresponde a la escala de los mapas del tiempo utilizados en la predicción hidrometeorológica. Incluye sistemas de alta y baja presión, ciclones extratropicales, ondas frontales y huracanes, con tiempos característicos de evolución que van desde varios días hasta algunas semanas. Esta escala controla la disponibilidad regional de humedad y la ocurrencia de eventos de precipitación extensos.
+1. Definir la temperatura, el punto de rocío, los gradientes y las altitudes.
+2. Calcular la base de las nubes.
+3. Calcular la temperatura en la base, en la cima y en el valle de sotavento.
+4. Calcular la temperatura a la misma altura en barlovento y comparar.
 
 ```{r}
-#| label: fig-sinop
-#| fig-cap: "Escala sinóptica de circulación atmosférica.<br><span style='font-size:0.8em;'>Fuente: [@NOAA_OSPO]</span>"
-#| fig-align: center
-#| out-width: 60%
-#| echo: false
-#| class: fig-border
+#| label: ej-meteo-foehn
 
-knitr::include_graphics("assets/img/sinop.jfif")
+# 1) Datos (°C, m y °C/km)
+t0 <- 26; td <- 19
+gamma_seco <- 9.8; gamma_humedo <- 6.0
+z_cima <- 3000; z_valle <- 700
 
+# 2) Nivel de condensación por ascenso (m)
+z_nca <- 125 * (t0 - td)
+
+# 3) Temperaturas a lo largo del recorrido
+t_nca   <- t0 - gamma_seco * z_nca / 1000
+t_cima  <- t_nca - gamma_humedo * (z_cima - z_nca) / 1000
+t_valle <- t_cima + gamma_seco * (z_cima - z_valle) / 1000
+
+# 4) Misma altura en barlovento (debajo de la base de las nubes)
+t_barlovento <- t0 - gamma_seco * z_valle / 1000
+
+round(c(z_nca = z_nca, t_nca = t_nca, t_cima = t_cima, t_valle = t_valle,
+        t_barlovento = t_barlovento, diferencia = t_valle - t_barlovento), 1)
 ```
 
-3. **Mesoescala** ($10^{0}$ a $10^{2}\ \text{km}^{2}$ ):  
-   Comprende fenómenos de especial relevancia para cuencas pequeñas y medianas, tales como tormentas convectivas, líneas de turbonada, sistemas convectivos de mesoescala y brisas mar–tierra o valle–montaña. Aunque su duración suele limitarse a minutos u horas, estos sistemas pueden generar precipitaciones intensas y concentradas, responsables de inundaciones repentinas.
-   
-```{r}
-#| label: fig-lluvia
-#| fig-cap: "Mesoescala de circulación atmosférica.<br><span style='font-size:0.8em;'>Fuente: [@NOAA_OSPO]</span>"
-#| fig-align: center
-#| out-width: 60%
-#| echo: false
-#| class: fig-border
-
-knitr::include_graphics("assets/img/lluvia.jpg")
-
-```   
-
-4. **Microescala** ($\leq 10^{-1}\ \text{km}^{2}$):  
-   Se refiere a procesos muy locales que ocurren cerca de la superficie, como la turbulencia atmosférica, los remolinos, la difusión de vapor de agua y el intercambio de energía entre el suelo, la vegetación y el aire. Aunque su escala temporal es del orden de segundos a minutos, estos procesos son determinantes para la evapotranspiración y el balance hídrico local.
-
-```{r}
-#| label: tbl-escala
-#| tbl-cap: "Resumen de escala de circulación atmosférica."
-#| echo: false
-#| message: false
-#| warning: false
-
-### Resumen de escalas de variabilidad atmosférica relevantes para la hidrología
-
-library(dplyr)
-library(tibble)
-library(kableExtra)
-
-tabla_escalas <- tribble(
-  ~Escala, ~`Dimensión espacial`, ~`Ejemplos de procesos`,
-  "Planetaria", "≥ 10,000 km", "Radiación solar entrante, Células de Hadley, Corrientes jet",
-  "Macroescala", "≈ 1,000 km", "Sistemas de latitudes medias, huracanes, frentes",
-  "Mesoescala", "1 – 100 km", "Brisas marinas, vientos de valle, tormentas convectivas",
-  "Microescala", "≤ 0.1 km", "Turbulencia, intercambio suelo–atmósfera, vegetación"
-)
-
-tabla_escalas %>%
-  kbl(
-    booktabs = TRUE,
-    align = c("c", "c", "l"),
-    format = "html",
-    escape = FALSE,
-    col.names = c(
-      "Escala",
-      "Dimensión espacial",
-      "Ejemplos de procesos atmosféricos"
-    )
-  ) %>%
-  kable_classic(html_font = "Latin Modern Roman") %>%
-  kable_styling(
-    full_width = FALSE,
-    bootstrap_options = "hover"
-  ) %>%
-  row_spec(0, bold = TRUE)
-```
-
-
-## Corrientes oceánicas
-
-::: {.callout-tip appearance="minimal" icon="false"}
-**¿Por qué en Nueva York nieva y hace frío parte del año, pero en España (a latitudes similares) hace calor casi todo el año?**
-
+La diferencia sale de que el aire perdió su humedad al subir: el calor latente que liberó la condensación se queda en el aire. Es la razón de que en Costa Rica la vertiente que da al viento dominante sea mucho más lluviosa que la opuesta. En el análisis de una cuenca de montaña conviene revisar en qué vertiente está cada estación antes de usarla para rellenar o interpolar datos de otra.
 
 :::
 
+### Estabilidad e inversiones térmicas {#sec-meteo-inversiones}
+
+Si el aire que sube queda más caliente que su entorno, sigue subiendo solo: la atmósfera es **inestable** y se forman nubes de gran desarrollo vertical. Si queda más frío, vuelve a bajar: la atmósfera es **estable**. La comparación se hace entre el gradiente real del entorno y los gradientes adiabáticos. Un gradiente real mayor que 9.8 °C/km es siempre inestable; uno menor que el gradiente húmedo es siempre estable.
+
+Una **inversión térmica** es una capa en la que la temperatura sube con la altura. Es la condición más estable que existe, porque el aire frío y denso queda abajo. Las inversiones frenan los movimientos verticales, atrapan el humo y la contaminación y limitan el crecimiento de las nubes. Se forman por:
+
+- El enfriamiento del suelo en noches despejadas y sin viento, que enfría el aire de abajo.
+- El paso de aire cálido sobre aire frío o sobre una superficie fría.
+- El descenso del aire en los anticiclones, que lo calienta por compresión. Es la **inversión de los alisios**, que en el Caribe limita la altura de las nubes de buen tiempo.
+
+La tropopausa también es una inversión, a escala planetaria.
+
+## Energía del sistema Tierra-atmósfera {#sec-meteo-energia}
+
+### Transmisión del calor {#sec-meteo-calor}
+
+La energía se mueve en la atmósfera por cuatro mecanismos (@fig-calor):
+
+- **Radiación.** Transferencia por ondas electromagnéticas, sin necesidad de un medio. Es la única forma en que la energía del Sol llega a la Tierra.
+- **Conducción.** Transferencia por contacto entre moléculas. El aire conduce mal el calor, así que solo cuenta en los primeros milímetros sobre el suelo o el agua.
+- **Convección.** Transporte vertical de calor por el movimiento del aire o del agua.
+- **Advección.** Transporte horizontal de calor y de humedad por el viento. Lleva la energía del ecuador hacia los polos y el vapor del mar hacia la tierra.
+
 ```{r}
-#| label: fig-lat_españa
-#| fig-cap: "Misma latitud entre New York y Madrid."
-#| fig-align: center
-#| out-width: 100%
+#| label: fig-calor
+#| fig-cap: "Mecanismos de transmisión del calor en la atmósfera."
+#| fig-alt: "Cuatro paneles con ilustraciones de radiación, convección, conducción y advección"
 #| echo: false
-#| class: fig-border
+#| out-width: 80%
 
-knitr::include_graphics("assets/img/latitud_españa.png")
-
+knitr::include_graphics("assets/img/calor.png")
 ```
 
-Aunque Nueva York y muchas zonas de España se ubican en rangos de latitud parecidos, la latitud por sí sola no determina el clima. La diferencia principal está en cómo se transporta y se conserva el calor a escala regional y global.
+Todo cuerpo emite radiación según su temperatura. La **ley de Stefan-Boltzmann** da la energía emitida por unidad de área:
+
+$$
+R = \varepsilon\,\sigma\,T^4
+$$ {#eq-meteo-stefan}
+
+donde $R$ es la radiación emitida (W/m²), $\varepsilon$ es la emisividad de la superficie (1 para un cuerpo negro; entre 0.95 y 0.99 para el agua, el suelo y la vegetación), $\sigma = 5.67\times10^{-8}\ \mathrm{W/(m^2\,K^4)}$ es la constante de Stefan-Boltzmann y $T$ es la temperatura absoluta (K). Una superficie a 15 °C (288 K) emite unos 390 W/m². Como la superficie de la Tierra es mucho más fría que la del Sol, emite en longitudes de onda más largas: el Sol emite **radiación de onda corta** (visible e infrarrojo cercano) y la Tierra **radiación de onda larga** (infrarrojo térmico).
+
+### Insolación {#sec-meteo-insolacion}
+
+La energía que llega del Sol se llama **insolación**. Fuera de la atmósfera, sobre una superficie perpendicular a los rayos y a la distancia media Tierra-Sol, vale 1361 W/m²; es la **constante solar** [@kopp2011new]. La que llega a un punto del suelo depende de cuatro factores:
+
+- **Altura del Sol.** Cuanto más alto está el Sol, más concentrada llega la energía. Un mismo haz de rayos que cae inclinado se reparte sobre un área mayor (@fig-latitud).
+- **Espesor de atmósfera atravesado.** Con el Sol cerca del horizonte, los rayos recorren más aire y pierden más energía por absorción y dispersión.
+- **Duración del día.** A 10° N el día dura entre 11.4 y 12.6 horas a lo largo del año; a 45° N, entre 8.6 y 15.4 horas (calculado con las ecuaciones de @allen1998fao56). Por eso en Costa Rica la radiación cambia poco de un mes a otro, salvo por la nubosidad.
+- **Nubosidad.** Las nubes reflejan la radiación solar. En la época lluviosa de Costa Rica, la radiación que llega al suelo puede ser menor que en la época seca, aunque el Sol esté más alto.
+
+```{r}
+#| label: fig-latitud
+#| fig-cap: "Distribución de la radiación solar según la latitud: cerca del ecuador los rayos llegan más perpendiculares y concentran más energía por unidad de área."
+#| fig-alt: "Esquema del Sol y la Tierra con rayos paralelos que se reparten en áreas pequeñas cerca del ecuador y en áreas grandes cerca de los polos"
+#| echo: false
+#| out-width: 80%
+
+knitr::include_graphics("assets/img/latitud.png")
+```
+
+### Balance de energía y efecto invernadero {#sec-meteo-balance}
+
+Para que la temperatura media de la Tierra se mantenga, la energía que entra debe ser igual a la que sale. La @fig-balance_rad, en el capítulo anterior, resume el balance medio. De cada 342 W/m² que llegan en promedio al tope de la atmósfera [@letreut2007historical]:
+
+- 107 W/m² (31 %) se reflejan al espacio, sobre todo en las nubes y en superficies claras. Esa fracción es el **albedo** de la Tierra.
+- 67 W/m² (20 %) los absorbe la atmósfera.
+- 168 W/m² (49 %) los absorbe la superficie.
+
+La superficie devuelve esa energía a la atmósfera de tres formas: como **calor latente** en la evaporación (78 W/m², que se liberan después cuando el vapor se condensa en las nubes), como **calor sensible** por conducción y convección (24 W/m²) y como radiación de onda larga. Sin contar la radiación, unas tres cuartas partes de la energía que la superficie entrega a la atmósfera se van en evaporar agua: el ciclo hidrológico es también el principal transporte de energía del planeta.
+
+El vapor de agua, el CO₂, el metano y otros gases dejan pasar casi toda la radiación solar, pero absorben la radiación de onda larga que emite la superficie y devuelven una parte hacia abajo (@fig-invernadero). Ese es el **efecto invernadero**. El ejemplo siguiente estima cuánto calienta.
+
+```{r}
+#| label: fig-invernadero
+#| fig-cap: "Efecto invernadero: la radiación solar de onda corta atraviesa la atmósfera y los gases de efecto invernadero retienen parte de la radiación infrarroja que emite la superficie."
+#| fig-alt: "Ilustración del Sol y la Tierra con flechas amarillas de radiación solar y flechas rojas de radiación infrarroja que rebotan en una capa de gases"
+#| echo: false
+#| out-width: 75%
+
+knitr::include_graphics("assets/img/invernadero.png")
+```
+
+::: {.callout-note title="Ejemplo: temperatura de la Tierra sin efecto invernadero"}
+
+Estime la temperatura que tendría la superficie de la Tierra si la atmósfera no absorbiera radiación de onda larga. Use una constante solar $S_0 = 1361$ W/m², un albedo $\alpha = 0.30$ y suponga que la Tierra emite como un cuerpo negro. Compare con la temperatura media observada, de unos 15 °C.
+
+**Solución:**
+
+La Tierra intercepta la radiación solar con un disco de área $\pi r^2$, pero la emite desde toda su esfera, de área $4\pi r^2$. En equilibrio:
+
+$$
+S_0\,(1 - \alpha)\,\pi r^2 = \sigma\,T_e^4\,4\pi r^2
+\quad\Rightarrow\quad
+T_e = \left[\frac{S_0\,(1-\alpha)}{4\,\sigma}\right]^{1/4}
+$$ {#eq-meteo-temperatura-equilibrio}
+
+donde $T_e$ es la temperatura de equilibrio (K).
+
+1. Energía absorbida por unidad de área de la esfera: $1361 \times (1 - 0.30)/4 = 238.2$ W/m².
+2. Cociente: $238.2 / 5.67\times10^{-8} = 4.201\times10^{9}$ K⁴.
+3. Raíz cuarta: $T_e = 254.6$ K $= -18.6$ °C.
+4. Diferencia con la temperatura observada: $15 - (-18.6) = 33.6$ °C.
+
+**Pseudocódigo**
+
+1. Definir $S_0$, $\alpha$ y $\sigma$.
+2. Calcular la energía absorbida por unidad de área.
+3. Despejar la temperatura con la ley de Stefan-Boltzmann.
+4. Restar la temperatura de equilibrio a la temperatura observada.
+
+```{r}
+#| label: ej-meteo-equilibrio
+
+# 1) Datos
+s0 <- 1361        # constante solar (W/m²)
+albedo <- 0.30
+sigma <- 5.67e-8  # W/(m² K⁴)
+
+# 2) Energía absorbida por unidad de área de la esfera (W/m²)
+absorbida <- s0 * (1 - albedo) / 4
+
+# 3) Temperatura de equilibrio (K y °C)
+t_e <- (absorbida / sigma)^(1 / 4)
+t_e_c <- t_e - 273.15
+
+# 4) Calentamiento debido al efecto invernadero (°C)
+efecto <- 15 - t_e_c
+
+round(c(absorbida = absorbida, t_e_k = t_e, t_e_c = t_e_c, efecto = efecto), 1)
+```
+
+Sin efecto invernadero, la superficie estaría unos 33 °C más fría y casi toda el agua del planeta estaría congelada. El resultado también muestra la sensibilidad del sistema: un cambio de solo 1 % en la energía absorbida mueve la temperatura de equilibrio unos 0.6 °C.
+
+:::
+
+### Calentamiento desigual {#sec-meteo-calentamiento}
+
+La superficie de la Tierra no se calienta igual en todas partes, y esa diferencia es la que pone en marcha el viento, la convección y la lluvia. Además de la latitud y la nubosidad, influyen las propiedades de la superficie:
+
+- **Albedo.** La nieve fresca refleja más del 80 % de la radiación solar; un bosque, entre 10 % y 20 %, y el océano, menos del 10 %.
+- **Capacidad calorífica.** El agua almacena mucho calor y lo suelta despacio. Por eso las costas tienen menos diferencia de temperatura entre el día y la noche que el interior, y por eso existen las brisas de mar y de tierra.
+- **Cobertura del suelo.** La vegetación usa parte de la energía en evapotranspirar, y así se calienta menos. Las superficies urbanas impermeables almacenan calor y lo liberan de noche, lo que forma las **islas de calor** urbanas.
+
+::: {.callout-note title="Para profundizar: los cinturones de Van Allen" collapse="true"}
+La Tierra está rodeada por dos zonas en forma de anillo donde el campo magnético atrapa protones y electrones de alta energía: los **cinturones de Van Allen** (@fig-allen). El interior está entre unos 1000 y 6000 km de altura y el exterior entre unos 13 000 y 60 000 km. Las partículas viajan en espiral de un polo magnético al otro. Cuando el viento solar es intenso, parte de ellas entra en la alta atmósfera cerca de los polos, excita los átomos de oxígeno y nitrógeno y produce las auroras. Estos cinturones no influyen en el tiempo ni en el ciclo del agua, pero muestran cómo el campo magnético desvía la mayor parte del viento solar.
+
+```{r}
+#| label: fig-allen
+#| fig-cap: "Cinturones de radiación de Van Allen y desvío del viento solar por el campo magnético terrestre. Fuente: adaptado de astronomynotes.com."
+#| fig-alt: "Esquema de la Tierra con las líneas del campo magnético, dos cinturones de radiación a cada lado y partículas del viento solar que se desvían"
+#| echo: false
+#| out-width: 85%
+
+knitr::include_graphics("assets/img/allen.png")
+```
+:::
+
+## Circulación de la atmósfera {#sec-meteo-circulacion}
+
+### Circulación general {#sec-meteo-hadley}
+
+El ecuador recibe más energía de la que emite y los polos emiten más de la que reciben. La atmósfera y los océanos llevan el excedente hacia los polos. En cada hemisferio, la atmósfera lo hace con tres grandes células de circulación: la de **Hadley**, entre el ecuador y unos 30° de latitud; la de **Ferrel**, en latitudes medias; y la **Polar** (@fig-hadley).
+
+```{r}
+#| label: fig-hadley
+#| fig-cap: "Células de circulación general de la atmósfera y vientos dominantes en superficie. Fuente: CEUPE (2025)."
+#| fig-alt: "Globo terrestre con las células de Hadley, Ferrel y polares a cada lado y flechas de los alisios, los vientos del oeste y los polares del este"
+#| echo: false
+#| out-width: 75%
+
+knitr::include_graphics("assets/img/hadley.png")
+```
+
+La célula de Hadley es la que gobierna el clima de Costa Rica. Funciona en cuatro pasos:
+
+1. **Ascenso cerca del ecuador.** El aire cálido y húmedo de las latitudes bajas sube en una franja de nubes de tormenta y lluvias intensas, la **Zona de Convergencia Intertropical** (ZCIT). Casi toda la lluvia de la célula cae aquí, durante el ascenso.
+2. **Flujo hacia los polos en altura.** Ya seco, el aire se desplaza cerca de la tropopausa hacia latitudes mayores y se enfría por radiación.
+3. **Descenso subtropical.** Cerca de los 30° de latitud el aire baja, se calienta por compresión y se seca todavía más. Así se forman los anticiclones subtropicales, como el de las Azores, y los grandes desiertos del planeta.
+4. **Retorno en superficie.** El aire vuelve hacia el ecuador cerca del suelo. La fuerza de Coriolis lo desvía y forma los **vientos alisios**, del noreste en el hemisferio norte y del sureste en el sur.
+
+La ZCIT sigue al Sol con algunas semanas de retraso: entre mayo y octubre está sobre Centroamérica o cerca de ella, y entre diciembre y marzo se retira hacia el sur. Junto con los alisios, ese vaivén define la época lluviosa y la seca de la vertiente del Pacífico de Costa Rica.
+
+### El chorro de bajo nivel del Caribe {#sec-meteo-chorro}
+
+Sobre el mar Caribe los alisios forman una banda de vientos máximos a menos de 1 km de altura, con su núcleo cerca del nivel de 925 hPa: el **chorro de bajo nivel del Caribe** [@amador2008intra]. No debe confundirse con las corrientes en chorro de latitudes medias, que soplan a más de 30 m/s cerca de la tropopausa. El chorro del Caribe lleva grandes cantidades de vapor desde el Atlántico hacia Centroamérica (@fig-chorro).
+
+```{r}
+#| label: fig-chorro
+#| fig-cap: "Chorro de bajo nivel del Caribe sobre Costa Rica. Fuente: @Cigefi."
+#| fig-alt: "Bloque de Costa Rica con el viento del este que llega del Caribe, sube por la cordillera con nubes y lluvia y baja seco hacia el Pacífico"
+#| echo: false
+#| out-width: 75%
+
+knitr::include_graphics("assets/img/chorro2.png")
+```
+
+El chorro tiene dos máximos al año, uno en julio y otro, más débil, en enero y febrero [@amador2008intra]. Sus efectos en Costa Rica se ven con claridad en los registros de lluvia:
+
+- **Vertiente del Caribe.** El aire húmedo choca con las cordilleras y sube. El ascenso orográfico produce lluvias casi todo el año, así que buena parte del Caribe costarricense no tiene una estación seca definida.
+- **Vertiente del Pacífico.** Cuando el chorro se intensifica en julio y agosto, el aire baja por sotavento, se seca y frena la convección. La lluvia disminuye a mitad de la época lluviosa: es el **veranillo** o **canícula** [@magana1999midsummer]. Por eso muchas estaciones del Pacífico tienen un régimen bimodal, con un máximo en junio y otro en septiembre u octubre.
+- **Relación con el ENOS.** En años de El Niño el chorro suele ser más intenso en julio, lo que refuerza la lluvia del Caribe y el déficit del Pacífico [@amador2008intra].
+
+### Escalas de los fenómenos atmosféricos {#sec-meteo-escalas}
+
+Los movimientos del aire van desde la circulación general, que abarca el planeta, hasta remolinos de pocos centímetros. Cada escala tiene su tiempo característico y afecta a la hidrología de otra forma (@tbl-escala). Los límites entre escalas son convencionales; los del cuadro siguen la propuesta de @orlanski1975rational.
+
+| Escala | Tamaño horizontal | Duración típica | Ejemplos | Importancia hidrológica |
+|:--|:--|:--|:--|:--|
+| Planetaria | Más de 10 000 km | Semanas a años | Células de Hadley, ZCIT, ENOS | Régimen de lluvias y años secos o húmedos |
+| Sinóptica | 2000 a 10 000 km | Días a una semana | Anticiclones, ondas tropicales, empujes fríos | Temporales de varios días sobre cuencas grandes |
+| Mesoescala | 2 a 2000 km | Horas a días | Huracanes, sistemas convectivos, tormentas, brisas | Lluvias intensas y crecidas súbitas en cuencas pequeñas |
+| Microescala | Menos de 2 km | Segundos a minutos | Turbulencia, remolinos, intercambio suelo-aire | Evaporación y evapotranspiración |
+
+: Escalas de los fenómenos atmosféricos. Fuente: adaptado de @orlanski1975rational. {#tbl-escala}
+
+Los mapas del tiempo de escala sinóptica muestran los grandes sistemas, como los huracanes de la @fig-sinop. Las tormentas de mesoescala, en cambio, pueden concentrar la lluvia en franjas de pocos kilómetros (@fig-lluvia).
+
+```{r}
+#| label: fig-sinop
+#| fig-cap: "Huracanes en el Atlántico vistos desde satélite. Fuente: @NOAA_OSPO."
+#| fig-alt: "Imagen satelital del Atlántico y el Caribe con dos huracanes de ojo bien definido"
+#| echo: false
+#| out-width: 70%
+
+knitr::include_graphics("assets/img/sinop.jfif")
+```
+
+```{r}
+#| label: fig-lluvia
+#| fig-cap: "Tormenta convectiva, con la lluvia concentrada en una franja de pocos kilómetros. Fuente: @NOAA_OSPO."
+#| fig-alt: "Fotografía en blanco y negro de una cortina de lluvia intensa que cae de una nube sobre un valle"
+#| echo: false
+#| out-width: 70%
+
+knitr::include_graphics("assets/img/lluvia.jpg")
+```
+
+Para el diseño hidrológico, la escala de la tormenta se compara con el tamaño de la cuenca. Una tormenta convectiva puede cubrir por completo una cuenca urbana de 5 km² y dejar seca la estación vecina, mientras que en una cuenca de 2000 km² las crecidas grandes suelen venir de sistemas sinópticos que llueven varios días seguidos.
+
+## Corrientes oceánicas {#sec-meteo-corrientes}
+
+Nueva York y Madrid están casi en el mismo paralelo (@fig-meteo-nueva-york-madrid), pero en Nueva York los inviernos son mucho más fríos y nevados. La latitud define cuánta energía solar llega, pero no basta para explicar el clima: también cuenta cómo el océano y el viento transportan el calor.
+
+```{r}
+#| label: fig-meteo-nueva-york-madrid
+#| fig-cap: "Nueva York y Madrid, casi en el mismo paralelo, a ambos lados del Atlántico Norte."
+#| fig-alt: "Mapa del Atlántico Norte con una línea discontinua en el paralelo 40.5° N que pasa por Nueva York y por Madrid"
+#| echo: false
+#| out-width: 85%
+#| fig-width: 8
+#| fig-height: 4.6
+
+mundo <- map_data("world")
+ciudades <- tibble(nombre = c("Nueva York", "Madrid"),
+                   lon = c(-74.01, -3.70), lat = c(40.71, 40.42))
+
+ggplot() +
+  geom_polygon(data = mundo, aes(long, lat, group = group),
+               fill = "grey88", colour = "white", linewidth = 0.2) +
+  geom_hline(yintercept = 40.5, colour = "#1C6BA0", linetype = "dashed") +
+  geom_point(data = ciudades, aes(lon, lat), shape = 21, fill = "#D55E00",
+             colour = "white", size = 3.5, stroke = 0.8) +
+  geom_text(data = ciudades, aes(lon, lat, label = nombre), vjust = -1.1,
+            family = "serif", size = 4, fontface = "bold") +
+  annotate("text", x = -40, y = 41.8, label = "Paralelo 40.5° N",
+           family = "serif", colour = "#1C6BA0", size = 3.6) +
+  coord_quickmap(xlim = c(-95, 20), ylim = c(20, 62), expand = FALSE) +
+  scale_x_continuous(labels = function(x) paste0(abs(x), "°", ifelse(x < 0, " O", ifelse(x > 0, " E", "")))) +
+  scale_y_continuous(labels = function(y) paste0(y, "° N")) +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(base_size = 12, base_family = "serif") +
+  theme(panel.background = element_rect(fill = "#EEF4FA", colour = NA),
+        panel.grid = element_line(colour = "white"))
+```
+
+Tres razones explican la diferencia:
+
+- **Corrientes oceánicas.** La corriente del Golfo y su continuación, la deriva del Atlántico Norte, llevan agua cálida desde el Caribe hacia Europa (@fig-corrientes).
+- **Vientos dominantes.** En latitudes medias soplan los vientos del oeste. En Europa llegan después de cruzar el Atlántico y traen aire templado y húmedo. En Nueva York llegan después de cruzar el continente, y en invierno traen aire frío de Canadá.
+- **Influencia marítima o continental.** El océano amortigua los extremos de temperatura. La costa este de Norteamérica recibe sobre todo aire continental, con inviernos más fríos y veranos más cálidos.
 
 ```{r}
 #| label: fig-corrientes
-#| fig-cap: "Corrientes oceánicas globales.<br><span style='font-size:0.8em;'>Fuente: [EOM.com, 2026]</span>"
-#| fig-align: center
-#| out-width: 100%
+#| fig-cap: "Corrientes oceánicas superficiales cálidas (rojo) y frías (azul). Fuente: EOM (2026)."
+#| fig-alt: "Planisferio con flechas rojas y azules que muestran los giros de las corrientes oceánicas en cada océano"
 #| echo: false
-#| class: fig-border
+#| out-width: 85%
 
 knitr::include_graphics("assets/img/corrientes.png")
-
 ```
 
-- <u>Influencia del océano (marítimo vs. continental):</u>  
-  La vertiente Atlántica de Europa recibe una fuerte influencia del océano, que amortigua los extremos térmicos: inviernos menos fríos y veranos menos extremos. En cambio, Nueva York está más expuesta a masas de aire continentales, y la tierra se enfría y calienta más rápido que el mar.
+Las **corrientes oceánicas** son flujos persistentes de agua que mueven calor desde el ecuador hacia latitudes altas. Las superficiales las ponen en marcha los vientos permanentes; la fuerza de Coriolis las desvía y las costas las encauzan en grandes giros. Las profundas se mueven por diferencias de densidad, que dependen de la temperatura y la salinidad.
 
-- <u>Corrientes oceánicas (calor “importado”):</u>  
-  El Atlántico nororiental se ve favorecido por la circulación oceánica asociada a la *Corriente del Golfo / Deriva del Atlántico Norte*, que transporta agua relativamente cálida hacia Europa. Esto contribuye a inviernos más templados en comparación con regiones del oeste del Atlántico a latitudes similares.
+El océano se calienta desde arriba, al revés que la atmósfera, y por eso su estructura térmica es estable. Tiene tres capas:
 
-- <u>Vientos dominantes (Oestes):</u>  
-  En latitudes medias predominan los *vientos del oeste*, que en Europa suelen traer aire cálido y húmedo desde el Atlántico hacia el continente. En la costa este de Norteamérica, esos mismos patrones pueden favorecer entradas de aire frío continental, además de la influencia de masas polares desde Canadá.
+1. **Capa de mezcla.** Desde la superficie hasta unas decenas de metros o hasta 200 m. El viento la mezcla y su temperatura sigue los cambios del tiempo y de las estaciones.
+2. **Termoclina.** Debajo de la capa de mezcla, la temperatura baja rápido con la profundidad.
+3. **Aguas profundas.** Por debajo de unos 1000 m, el agua es fría y su temperatura casi no cambia.
 
+En el Pacífico frente a Sudamérica, y también en el golfo de Papagayo durante la época seca, el viento aparta el agua superficial y hace subir agua fría de la termoclina. Ese **afloramiento** enfría el mar y reduce la evaporación y la lluvia en la costa.
 
-Dentro de la hidrometeorología, las corrientes oceánicas representan flujos persistentes de agua que se desplazan principalmente en sentido horizontal a través de los océanos, cumpliendo una función vital como reguladores térmicos de la superficie terrestre. Al transportar calor desde las regiones ecuatoriales hacia las latitudes altas, estas corrientes modifican el balance de energía global y condicionan los patrones de clima y humedad que el ingeniero hidrólogo debe analizar.
+## Variabilidad climática: El Niño-Oscilación del Sur {#sec-meteo-enos}
 
-**Origen y factores que determinan el movimiento**
+El clima de un lugar no se repite igual cada año. En el trópico, la principal fuente de esas diferencias entre años es **El Niño-Oscilación del Sur** (ENOS), un acople entre el océano y la atmósfera del Pacífico ecuatorial que se repite sin un periodo fijo cada 2 a 7 años. Tiene dos componentes:
 
-El sistema de corrientes oceánicas es el resultado de una compleja interacción entre la atmósfera y la hidrosfera. Los principales factores que las originan y dirigen son:
+- **Oceánico (El Niño y La Niña):** anomalías de la temperatura superficial del mar en el Pacífico ecuatorial central y oriental.
+- **Atmosférico (Oscilación del Sur):** el cambio de la diferencia de presión al nivel del mar entre Tahití, en el Pacífico central, y Darwin, en el norte de Australia.
 
-a. <u>Fricción del viento</u>: La totalidad de las grandes corrientes superficiales se pone en movimiento debido a la presencia de vientos permanentes que ejercen un esfuerzo cortante sobre la superficie del océano.
+Los dos componentes están unidos por la **circulación de Walker**, una célula a lo largo del ecuador con aire que sube sobre Indonesia, donde el mar es cálido, y baja sobre el Pacífico oriental, donde el mar es frío.
 
-b. <u>Efecto de Coriolis</u>: Debido a la rotación de la Tierra, el movimiento del agua experimenta una desviación aparente hacia la derecha de su trayectoria en el hemisferio norte y hacia la izquierda en el hemisferio sur.
+El estado del ENOS se sigue con el **Índice Oceánico de El Niño** (ONI, por sus siglas en inglés): la anomalía de la temperatura del mar en la región Niño 3.4 (5° N a 5° S, 170° O a 120° O), promediada en tres meses. Se habla de El Niño cuando el ONI es de +0.5 °C o más durante al menos cinco trimestres seguidos, y de La Niña cuando es de −0.5 °C o menos [@noaacpc2024oni]. Las fases son:
 
-c. <u>Gradientes de densidad</u>: Las diferencias en temperatura y salinidad generan variaciones de densidad que impulsan la circulación profunda.
+- **El Niño (fase cálida).** Los alisios del Pacífico se debilitan, el agua cálida se extiende hacia el este y el afloramiento frente a Perú se debilita. La lluvia del Pacífico occidental se traslada hacia el Pacífico central y oriental. Los eventos suelen llegar a su máximo hacia fin de año, entre noviembre y enero.
+- **La Niña (fase fría).** Los alisios y la circulación de Walker se refuerzan, y el Pacífico oriental se enfría más de lo normal. Los eventos de La Niña suelen durar más que los de El Niño y a veces se repiten dos o tres años seguidos.
+- **Neutra.** Ninguna de las dos condiciones.
 
-d. <u>Configuración de las costas</u>: Las masas continentales actúan como barreras físicas que deflectan y encauzan las corrientes, obligándolas a seguir trayectorias específicas.
+Por medio de cambios en la circulación, el ENOS altera la lluvia en regiones muy lejanas del Pacífico. Esas conexiones a distancia se llaman **teleconexiones** (@tbl-enos-impactos).
 
-A diferencia de la atmósfera, que se calienta mayoritariamente *desde abajo* por la superficie terrestre, el océano recibe el calor principalmente en su superficie. Esto genera una estructura térmica característica dividida en tres estratos principales:
+| Región | Durante El Niño | Durante La Niña |
+|:--|:--|:--|
+| Costa de Perú y Ecuador | Lluvias intensas e inundaciones | Condiciones más secas que lo normal |
+| Sur de Estados Unidos | Inviernos más húmedos | Inviernos más secos y cálidos |
+| Costa Rica, vertiente del Pacífico | Déficit de lluvia y sequía | Exceso de lluvia e inundaciones |
+| Costa Rica, vertiente del Caribe | Exceso de lluvia | Déficit de lluvia |
+| Indonesia y Australia | Sequías e incendios forestales | Lluvias intensas e inundaciones |
 
-1. Capa de mezcla (capa activa): 
+: Efectos típicos de las fases del ENOS. No todos los eventos los producen. Fuente: @IMN_ClimaVariabilidadCC y @wallace2006atmospheric. {#tbl-enos-impactos}
 
-Se extiende desde la superficie hasta aproximadamente 200 m de profundidad. En esta zona, la temperatura presenta variaciones estacionales, horizontales y verticales constantes debido a la interacción directa con la atmósfera.
+::: {.callout-tip title="En la práctica"}
+El ENOS afecta casi todo el análisis hidrológico en Costa Rica:
 
-2. Termoclina: 
+- **Disponibilidad de agua.** Los caudales de estiaje de los ríos del Pacífico bajan en años de El Niño, y eso afecta embalses, riego y acueductos. Al evaluar una fuente conviene revisar los caudales de los años El Niño del registro.
+- **Análisis de frecuencia.** Una serie corta que cae casi toda en años de una misma fase da lluvias o caudales de diseño sesgados. Antes de ajustar una distribución, conviene ver qué fases del ENOS cubre el registro.
+- **Pronóstico estacional.** El Instituto Meteorológico Nacional (IMN) publica perspectivas climáticas basadas en el estado del ENOS, útiles para planificar la operación de embalses y sistemas de abastecimiento.
+:::
 
-Capa de transición situada debajo de la capa de mezcla, donde la temperatura disminuye rápidamente con la profundidad.
+## Cambio climático {#sec-meteo-cambio-climatico}
 
-3. Zona profunda: Se localiza por debajo de la termoclina (generalmente a profundidades mayores a 500–1000 m), donde las temperaturas son bajas, estables y presentan cambios mínimos.
+El **cambio climático** es un cambio del clima que persiste durante décadas o más: de sus promedios, de su variabilidad o de sus extremos. No debe confundirse con la **variabilidad climática**, como el ENOS, que son oscilaciones de unos años alrededor de un mismo estado. El **calentamiento global** es una parte del cambio climático: el aumento de la temperatura media del aire y del océano. Entre 1850–1900 y 2011–2020, la temperatura media de la superficie subió 1.09 °C [@ipcc2021spm].
 
+Cualquier factor que altere el balance de energía de la @sec-meteo-balance es un **forzamiento**:
 
+- **Naturales:** cambios en la órbita de la Tierra, en la actividad del Sol y erupciones volcánicas que inyectan aerosoles en la estratosfera y enfrían el planeta por uno o dos años.
+- **Humanos:** sobre todo la emisión de gases de efecto invernadero (CO₂, metano y óxido nitroso) por la quema de combustibles fósiles, la deforestación y la agricultura. En 2019 la concentración de CO₂ llegó a 410 ppm, la mayor en al menos dos millones de años [@ipcc2021spm].
 
-## Variabilidad climática: el fenómeno ENOS
+### Efectos en el ciclo del agua {#sec-meteo-cambio-ciclo}
 
-La interacción entre las corrientes oceánicas y la atmósfera no es estática. El fenómeno **El Niño–Oscilación del Sur (ENOS)** constituye el ejemplo más representativo de cómo una anomalía térmica en las corrientes del Pacífico ecuatorial puede debilitar o incluso invertir la circulación atmosférica asociada (Celdas de Walker). Estas alteraciones tienen un impacto directo sobre el ciclo hidrológico global, generando inundaciones severas en algunas regiones y sequías extremas en otras.
+Por la @eq-meteo-clausius, un aire más caliente puede contener más vapor: entre 6 % y 7 % más por grado. Ese vapor extra alimenta las tormentas, y por eso la lluvia más intensa tiende a crecer a una tasa parecida, aunque la lluvia total del planeta crezca mucho menos [@trenberth2003changing]. Las consecuencias para la hidrología son:
 
-Dentro del análisis hidrológico, no basta con comprender los promedios estadísticos del clima, es necesario analizar la variabilidad climática interanual, cuya fuente más influyente en las regiones tropicales es el fenómeno **ENOS (El Niño–Oscilación del Sur)**. 
+- **Redistribución de la lluvia.** En general, las regiones húmedas tienden a recibir más lluvia y las secas menos, aunque con grandes diferencias regionales.
+- **Extremos más intensos.** Aguaceros más fuertes, con más crecidas súbitas, y a la vez sequías más largas por la mayor evaporación.
+- **Calidad del agua.** El agua más caliente disuelve menos oxígeno.
+- **Glaciares y nieve.** En las cuencas que dependen del deshielo, el caudal máximo llega antes en la primavera y el estiaje se vuelve más severo.
+- **Nivel del mar.** El nivel medio subió 1.3 mm/año entre 1901 y 1971 y 3.7 mm/año entre 2006 y 2018, por la expansión térmica del agua y el deshielo [@ipcc2021spm]. Eso aumenta la intrusión salina en los acuíferos costeros y el nivel de las crecidas en las desembocaduras.
 
-Este fenómeno corresponde a un sistema acoplado océano–atmósfera que altera el balance energético global y distorsiona de forma significativa el ciclo hidrológico.
+### Implicaciones para la ingeniería {#sec-meteo-cambio-ingenieria}
 
-El ENOS no es un evento meteorológico aislado, sino una oscilación climática aperiódica cuyo ciclo típico varía entre **2 y 7 años**. Se compone de dos subsistemas que interactúan continuamente:
+El diseño hidrológico clásico supone que el clima es **estacionario**: que la lluvia y los caudales del pasado son una buena muestra de los del futuro. Con el cambio climático ese supuesto deja de cumplirse [@milly2008stationarity]. Una alcantarilla o un puente diseñados con las lluvias máximas de 1970–2000 pueden quedar cortos para las de 2050.
 
-1. Componente oceánico (El Niño / La Niña):  
-
-Asociado a las anomalías de la temperatura superficial del mar (TSM) en el océano Pacífico ecuatorial.
-
-2. Componente atmosférico (Oscilación del Sur):
-
-Representa las fluctuaciones interanuales de la presión atmosférica a nivel del mar entre el Pacífico oriental (Tahiti) y el Pacífico occidental (Darwin, Australia).
-
-Ambos componentes están físicamente vinculados mediante la circulación de Walker, que controla el transporte zonal de calor y humedad en el Pacífico tropical.
-
-**Fases del fenómeno ENOS**
-
-El sistema ENOS oscila entre tres estados bien definidos: 
-
-A. Fase cálida: El Niño
-
-Durante un evento El Niño, el flujo normal de aire y agua desde el este hacia el oeste del Pacífico ecuatorial se debilita o se invierte, produciendo un calentamiento anómalo de las aguas superficiales frente a las costas de Ecuador y Perú.
-
-- <u>Mecánica</u>: El gradiente de presión de la circulación de Walker disminuye, reduciendo la surgencia de aguas frías y redistribuyendo las zonas de convección y precipitación a escala global.
-
-- <u>Características</u>: Un evento típico de El Niño presenta una duración media de **15.6 meses** y suele alcanzar su máxima intensidad entre **septiembre y diciembre**.
-
-B. Fase fría: La Niña
-
-La Niña corresponde al estado opuesto, caracterizado por temperaturas superficiales del mar más frías de lo normal en el Pacífico ecuatorial.
-
-- <u>Mecánica</u>: La circulación de Walker se intensifica, fortaleciendo los vientos alisios y acumulando aguas cálidas en el Pacífico occidental.
-
-- <u>Características</u>: Los eventos La Niña suelen ser más persistentes, con una duración promedio de 19.6 meses, y tienden a generar anomalías hidrológicas más extremas en regiones tropicales.
-
-C. Fase neutra: El sistema global se encuentra en una especia de "equilibrio inestable".
-
-El ENOS influye en regiones remotas mediante teleconexiones atmosféricas, alterando la posición e intensidad de las corrientes en chorro (como el chorro de bajo nivel del Caribe) y modificando las trayectorias de los sistemas de tormenta.
-
-```{r}
-#| label: tbl-enos-impactos
-#| tbl-cap: "Impactos hidrológicos y climáticos asociados a las fases del fenómeno ENOS."
-#| echo: false
-#| message: false
-#| warning: false
-
-library(dplyr)
-library(tibble)
-library(kableExtra)
-
-tabla_enos <- tribble(
-  ~Región, ~`Impacto durante El Niño`, ~`Impacto durante La Niña`,
-  "Sudamérica (Perú / Ecuador)",
-  "Lluvias intensas e inundaciones costeras",
-  "Condiciones más secas de lo habitual",
-
-  "Norteamérica",
-  "Sur de EE. UU. más húmedo; norte más cálido",
-  "Sur de EE. UU. más cálido y seco; aumento del riesgo de sequía",
-
-  "Centroamérica (Costa Rica)",
-  "Sequía en la vertiente del Pacífico; exceso de lluvia en el Caribe",
-  "Inundaciones en el Pacífico; déficit de precipitación en el Caribe",
-
-  "Asia y Australia",
-  "Sequías severas, incendios forestales y monzones debilitados",
-  "Inundaciones generalizadas y monzones intensificados"
-)
-
-tabla_enos %>%
-  kbl(
-    booktabs = TRUE,
-    align = c("c", "c", "c"),
-    format = "html",
-    escape = FALSE,
-    col.names = c(
-      "Región",
-      "Impacto durante El Niño",
-      "Impacto durante La Niña"
-    )
-  ) %>%
-  kable_classic(html_font = "Latin Modern Roman") %>%
-  kable_styling(
-    full_width = FALSE,
-    bootstrap_options = c("hover", "condensed")
-  ) %>%
-  row_spec(0, bold = TRUE)
-```
-
-
-El ENOS es un factor clave para la gestión de riesgos y el diseño de infraestructura, que debe ser tomado en cuenta dentro de los análsis hidrológicos cuando se quiere evaluar la condición futura, ya que influye en:
-
-- Predicción de caudales:  
-
-En regiones del sur el ENOS puede llegar a explicar hasta el 40% de la variabilidad interanual de la precipitación, siendo determinante en la operación de embalses y captación de agua para consumo.
-
-- Análisis de frecuencia de inundaciones:  
-
-Las curvas de frecuencia de crecientes presentan diferencias significativas según la fase del ENOS. Ignorar esta variabilidad puede conducir a la subestimación del riesgo de crecidas súbitas en años La Niña o de sequías severas en años El Niño.
-
-- Ajuste de la precipitación de diseño:  
-
-Las anomalías térmicas asociadas al ENOS, amplificadas por el cambio climático, incrementan la capacidad de la atmósfera para retener vapor de agua. En Costa Rica, aproximadamente el 80% de los años La Niña han coincidido con eventos de inundación severa en el Pacífico Norte.
-
-## Cambio climático
-
-El estudio de la hidrología moderna no puede ser estático, ya que nos encontramos en una era donde el clima está experimentando transformaciones profundas debido a la actividad humana. Para el análisis hidrológico, el cambio climático representa el mayor desafío de diseño, pues invalida el supuesto tradicional de "estacionariedad", el cual dicta que el pasado es una guía confiable para el futuro.
-
-El cambio climático se define como cualquier variación sistemática y persistente de las propiedades del tiempo (como la temperatura, la presión o los vientos) que se mantiene durante varias décadas o periodos más largos. Es fundamental diferenciarlo de la variabilidad climática, la cual se refiere a oscilaciones naturales de corto o mediano plazo, como el fenómeno de El Niño (ENOS), que ocurren dentro de un estado climático dado.  
-
-A menudo se utiliza el término calentamiento global como sinónimo, pero técnicamente este último se refiere específicamente al incremento observado de las temperaturas medias de la atmósfera y los océanos, el cual es el principal motor del cambio climático actual.
-
-**Las Causas del Cambio: Forzamientos Naturales y Antropogénicos**
-
-El clima de la Tierra depende del balance entre la energía solar que entra y la energía infrarroja que sale del planeta. Cualquier factor que altere este balance se denomina "forzamiento". Entre estos existen:
-
-1. Forzamientos Naturales: 
-
-Incluyen variaciones en la órbita terrestre, fluctuaciones en la actividad del Sol y erupciones volcánicas masivas que inyectan aerosoles en la estratosfera, enfriando temporalmente el planeta.
-
-2. Forzamientos Antropogénicos: 
-
-Son causados por el hombre, principalmente mediante la emisión de Gases de Efecto Invernadero (GEI) como el dióxido de carbono (CO₂), el metano (CH₄) y el óxido nitroso (N₂O). Estos gases provienen de la quema de combustibles fósiles, la deforestación y prácticas agrícolas intensivas.
-
-### El efecto invernadero 
-
-La atmósfera es mayoritariamente transparente a la luz solar de onda corta. Sin embargo, los GEI absorben la radiación térmica de onda larga emitida por la superficie terrestre, atrapando el calor y reemitiéndolo hacia abajo. Sin este proceso natural, la Tierra sería unos 30 °C más fría y hostil para la vida; el problema actual radica en que el aumento descontrolado de estos gases está sobrecalentando el sistema.
-
-
-### Intensificación del ciclo hidrológico 
-
-El impacto más directo del calentamiento es la intensificación del ciclo del agua. Una atmósfera más cálida tiene una mayor capacidad de retener humedad, relación descrita por la Ecuación de Clausius-Clapeyron.  
-
-Por cada 1 °C que aumenta la temperatura de la atmósfera, su capacidad para retener vapor de agua se incrementa en aproximadamente un 7 %.  
-
-Esto conlleva tres consecuencias hidrológicas críticas:
-
-1. Redistribución de la precipitación: En términos generales, las regiones húmedas tienden a volverse más húmedas y las regiones áridas más secas.
-
-2. Extremos más violentos: Al haber más energía y humedad en el aire, las tormentas se vuelven más intensas, aumentando el riesgo de inundaciones repentinas. Al mismo tiempo, el aumento de la evaporación prolonga y agrava las sequías en otras regiones. 
-
-3. Degradación de la calidad del agua: El aumento de la temperatura del agua reduce el oxígeno disuelto y favorece el crecimiento de patógenos, afectando la potabilidad del recurso.
-
-4. Impactos observados en la criósfera y el Mar: El calentamiento no es uniforme y se siente con mayor fuerza en las altas latitudes y montañas.  
-
-  - Glaciares y Nieve: Se observa un retroceso acelerado de los glaciares alpinos y una disminución del manto de nieve estacional. En cuencas dependientes del deshielo, esto altera el "timing" de los caudales, provocando picos de escorrentía más tempranos en la primavera y caudales mínimos más severos en verano.
-
-  - Nivel del Mar: El nivel medio del océano ha subido a una tasa de aproximadamente 1.5 a 3.2 mm/año debido a la expansión térmica del agua y al derretimiento de los mantos de hielo de Groenlandia y la Antártida. Esto incrementa la intrusión salina en acuíferos costeros.
-
-5. Implicaciones para la ingeniería civil
-
-El diseño de infraestructura (presas, puentes, sistemas de alcantarillado pluvial, carreteras) se basa históricamente en el análisis de frecuencia de eventos extremos. Sin embargo, el cambio climático introduce no-estacionariedad: las probabilidades de inundación calculadas con datos del siglo XX ya no son válidas para el siglo XXI.  
-
-
-6. Modelado y escenarios futuros
-
-Para predecir estos cambios, se utilizan Modelos de Circulación General (GCM), que son representaciones matemáticas complejas de los procesos físicos de la atmósfera y los océanos. Estos modelos se alimentan de escenarios de emisiones (como los RCP o SRES), que suponen diferentes niveles de éxito de la humanidad en la reducción de GEI. El objetivo no es dar un pronóstico exacto, sino evaluar la sensibilidad de nuestras cuencas ante posibles condiciones futuras para diseñar estrategias de adaptación robustas.
-
-
----
-
-<div style="font-size: 0.8em;">
-
-**Nota**
-
-En apartados siguientes se abordará nuevamente la temática de cambio climático, pero desde una perspectiva de análisis y diseño hidrológico.
-
- </div>
- 
----
-
-
-
+Para estimar el clima futuro se usan **modelos climáticos globales**, que resuelven las ecuaciones físicas de la atmósfera y el océano. Se corren con **escenarios** de emisiones y desarrollo; los del sexto informe del Grupo Intergubernamental de Expertos sobre el Cambio Climático (IPCC) se llaman SSP, por *Shared Socioeconomic Pathways*. Sus resultados no son pronósticos, sino rangos de futuros posibles, y sirven para ver qué tan sensible es una cuenca o una obra a cambios plausibles del clima. Los capítulos sobre cambio climático, desde el [de definición y fundamentos](<29-Definición y fundamentos del cambio climático.qmd>), retoman el tema desde el análisis y el diseño.
