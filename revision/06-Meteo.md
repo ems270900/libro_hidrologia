@@ -48,3 +48,8 @@ Richardson (1922), Wallace y Hobbs (2006), Trenberth y Smith (2005), atmósfera 
 ## Pendiente para el autor
 
 - Las figuras `fig-calor`, `fig-latitud`, `fig-invernadero`, `fig-frente_frio` y `fig-conver_diver` no tienen fuente. Si son de otra obra, hay que agregarla.
+
+## Segunda entrega (observaciones del autor, PR #23)
+
+- La sección de corrientes oceánicas abre con una pregunta al lector: ¿por qué, si Nueva York y Madrid están casi en la misma latitud, los inviernos de Nueva York son mucho más fríos? Se creó el bloque `.pregunta` y se documentó en la guía de estilo.
+- Se quitaron 61 negritas dentro de párrafos y listas. Quedan solo las etiquetas al inicio de cada elemento de lista y los rótulos de los ejemplos. El criterio quedó en la guía de estilo (sección 8).

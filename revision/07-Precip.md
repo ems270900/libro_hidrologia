@@ -36,3 +36,19 @@ Pedidas por el autor:
 ## Referencias nuevas
 
 Adler et al. (2018) y Trenberth et al. (2007).
+
+## Segunda entrega (observaciones del autor, PR #23)
+
+- Se volvió al epígrafe original ("Algunas personas sienten la lluvia. Otras solo se mojan."). Como no se encontró una fuente que confirme que es de Bob Marley (también se atribuye a Roger Miller), la firma dice "Frase popular, atribuida a Bob Marley".
+- Se quitaron 15 negritas dentro de párrafos y listas.
+- Figura 7.3: se marcó el máximo de la ZCIT (2213 mm a 6° N), el eje dice "Ecuador" en lugar de 0°, y se movieron las etiquetas que tocaban la curva y la línea de la media global.
+
+## Qué le falta al capítulo
+
+El capítulo cubre lo que se necesita antes de los capítulos de estadística e IDF. Lo que se podría agregar, en orden de utilidad para el diseño:
+
+1. **Factor de reducción por área.** La lluvia de diseño de una estación es puntual; en cuencas de más de unos 25 km² la lluvia media de la misma tormenta es menor. Falta explicar el factor y dar un ejemplo.
+2. **Ejemplo de regresión lluvia-altitud** con estaciones reales de una cuenca de Costa Rica (@eq-precip-altitud), con el inventario de `datos/mapas/estaciones_cr.gpkg` y lluvias de una fuente publicada.
+3. **Precipitación máxima probable**, al menos su definición, si no se trata en otro capítulo.
+
+La consistencia de registros (curva doble masa) y el relleno de datos van en el capítulo 8.
