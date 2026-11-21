@@ -14,9 +14,9 @@ Estados: **Revisado** (revisión completa con `GUIA_ESTILO.md`), **Sin revisar**
 | 5. Fuentes de información hidrometeorológica | Revisado | [05](05-Fuentes_info_hidrometeo.md) | #17, #18, #20 |
 | 6. Principios de meteorología y climatología | Revisado | [06](06-Meteo.md) | #21, #23 |
 | 7. Precipitación | Revisado | [07](07-Precip.md) | #22, #23, #25 |
-| 8. Verificación y completado de registros hidrológicos | Revisado | [08](08-Registros.md) | #19, #24 |
-| 9. Conceptos básicos de probabilidad | Sin revisar (siguiente) | — | #19 |
-| 10. Conceptos clave de probabilidad en hidrología | Sin revisar | — | #19 |
+| 8. Verificación y completado de registros hidrológicos | Revisado | [08](08-Registros.md) | #19, #24, #26, #27, #28, #29 |
+| 9. Conceptos básicos de probabilidad | Revisado | [09](09-Probabilidad.md) | #19, #30 |
+| 10. Conceptos clave de probabilidad en hidrología | Sin revisar (siguiente) | — | #19 |
 | 11. Modelos estadísticos y distribuciones de probabilidad | Sin revisar | — | #19 |
 | 12. Distribuciones paramétricas comunes en hidrología | Sin revisar | — | #19 |
 | 13. Intensidad, duración y frecuencia | Revisado (piloto) | [13](13-IDF.md) | #6, #7, #10 |
