@@ -5,8 +5,8 @@ suppress-bibliography: true
 ---
 
 ::: {.quote-block}
-“La teoría de las probabilidades no es, en el fondo, más que el sentido común reducido a cálculo.”\
-— *Pierre-Simon Laplace, Ensayo filosófico sobre las probabilidades (1814)*
+“Es imposible que lo improbable nunca ocurra.”\
+— *Atribuida a Emil Julius Gumbel (1891–1966), estadístico conocido por su trabajo en la teoría de valores extremos*
 :::
 
 ## La estadística en hidrología {#sec-prob-estadistica}
@@ -326,7 +326,7 @@ En hidrología, $F(x)$ es la probabilidad de no excedencia de $x$, y $1 - F(x)$ 
 3. Es no decreciente: si $x_1 < x_2$, entonces $F(x_1) \le F(x_2)$.
 4. La probabilidad de un intervalo es la diferencia de la FDA en sus extremos: $P(a < X \le b) = F(b) - F(a)$.
 
-Con una muestra de $n$ datos, la FDA se estima con la función de distribución empírica: la fracción de los datos que son menores o iguales que $x$. Esa estimación no da probabilidades fuera del rango observado. En el capítulo siguiente se ven las posiciones de graficación, que corrigen ese límite para el análisis de frecuencia.
+Con una muestra de $n$ datos, la FDA se estima con la función de distribución empírica: la fracción de los datos que son menores o iguales que $x$. Esa estimación no da probabilidades fuera del rango observado. Más adelante, en el capítulo de modelos estadísticos, se ven las posiciones de graficación, que asignan a cada dato ordenado una probabilidad de excedencia para el análisis de frecuencia.
 
 ### Función de densidad de probabilidad {#sec-prob-fdp}
 
