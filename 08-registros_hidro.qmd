@@ -99,7 +99,7 @@ Basta con que una de las dos pruebas rechace la hipótesis nula para considerar 
 
 ::: {.callout-note title="Ejemplo: consistencia de dos estaciones con la curva de doble masa"}
 
-El @tbl-registros-anual tiene la lluvia anual de cinco estaciones de una misma región climática en 1970–1986. Los datos son de ejemplo. Las curvas de doble masa preliminares de C y D se ven irregulares. Use como patrón el promedio de A, B y E y verifique si C y D son consistentes. Si alguna no lo es, corríjala tomando como correcto el periodo reciente.
+El @tbl-registros-anual tiene la lluvia anual de cinco estaciones de una misma región climática en 1970–1986. Los datos son hipotéticos. Las curvas de doble masa preliminares de C y D se ven irregulares. Use como patrón el promedio de A, B y E y verifique si C y D son consistentes. Si alguna no lo es, corríjala tomando como correcto el periodo reciente.
 
 ```{r}
 #| label: tbl-registros-anual
@@ -268,7 +268,7 @@ El método del inverso de la distancia del capítulo anterior (@eq-precip-idw) t
 
 ::: {.callout-note title="Ejemplo: relleno de un mes faltante con tres métodos"}
 
-Falta la lluvia de agosto de 1985 en la estación X: el pluviómetro no funcionó durante 25 días. Las vecinas A, B y C, de la misma región climática, sí tienen el dato. El @tbl-registros-vecinas da la lluvia de agosto de 1985, las normales de 1970–2010 y la distancia a X. Los datos son de ejemplo. Estime la lluvia de agosto de 1985 en X con el promedio aritmético, con la razón normal (con normales anuales y con normales de agosto) y con el inverso del cuadrado de la distancia.
+Falta la lluvia de agosto de 1985 en la estación X: el pluviómetro no funcionó durante 25 días. Las vecinas A, B y C, de la misma región climática, sí tienen el dato. El @tbl-registros-vecinas da la lluvia de agosto de 1985, las normales de 1970–2010 y la distancia a X. Los datos son hipotéticos. Estime la lluvia de agosto de 1985 en X con el promedio aritmético, con la razón normal (con normales anuales y con normales de agosto) y con el inverso del cuadrado de la distancia.
 
 | Estación | Agosto de 1985 (mm) | Normal anual (mm) | Normal de agosto (mm) | Distancia a X (km) |
 |:--:|:--:|:--:|:--:|:--:|
@@ -479,9 +479,9 @@ El modelo tiene 36 parámetros: 12 medias, 12 desviaciones estándar y 12 correl
 
 Con $Z$ normal el modelo puede producir caudales negativos en los meses secos de ríos muy variables. En ese caso se aplica a los logaritmos de los caudales, que además representan mejor la asimetría de las series de caudal.
 
-::: {.callout-note title="Ejemplo: relleno de caudales mensuales en Tapantí con Thomas y Fiering"}
+::: {.callout-note title="Ejemplo: relleno de caudales mensuales con Thomas y Fiering"}
 
-El archivo `datos/caudal_mensual_tapanti.csv` tiene el caudal medio mensual (m³/s) de la estación 0922 Tapantí Arriba, en el río Grande de Orosi, de 1992 a 2023. Faltan 28 meses, todos desde 2013. Rellene los faltantes con el método de Thomas y Fiering con $Z = 0$ y genere después 100 años sintéticos para comprobar que el modelo conserva la media y la desviación de cada mes.
+El archivo `datos/caudal_mensual_estacion_montana.csv` tiene 32 años de caudal medio mensual (m³/s) de una estación fluviográfica de montaña de Costa Rica. Los datos son ilustrativos y no se identifica la estación. Faltan 28 meses, todos desde 2013. Rellene los faltantes con el método de Thomas y Fiering con $Z = 0$ y genere después 100 años sintéticos para comprobar que el modelo conserva la media y la desviación de cada mes.
 
 **Solución:**
 
@@ -505,8 +505,8 @@ El resto de los meses se rellena igual, en orden cronológico.
 
 library(tidyverse)
 
-# 1) Caudal medio mensual (m³/s) de 0922 Tapantí Arriba, en orden cronológico
-caudal <- read_csv("datos/caudal_mensual_tapanti.csv") %>%
+# 1) Caudal medio mensual (m³/s), en orden cronológico
+caudal <- read_csv("datos/caudal_mensual_estacion_montana.csv") %>%
   pivot_longer(-anio, names_to = "mes_txt", values_to = "q") %>%
   mutate(mes = match(mes_txt, c("ene", "feb", "mar", "abr", "may", "jun",
                                 "jul", "ago", "sep", "oct", "nov", "dic"))) %>%
@@ -569,7 +569,7 @@ sum(q_sint < 0)   # caudales negativos generados
 
 ```{r}
 #| label: fig-registros-thomas-fiering
-#| fig-cap: "Caudal medio mensual de Tapantí Arriba. Arriba: serie de 2010–2023 con los meses rellenados. Abajo: media mensual del registro y de 100 años generados con el modelo, con la franja de más y menos una desviación estándar."
+#| fig-cap: "Caudal medio mensual de la estación del ejemplo. Arriba: serie de 2010–2023 con los meses rellenados. Abajo: media mensual del registro y de 100 años generados con el modelo, con la franja de más y menos una desviación estándar."
 #| fig-alt: "Arriba, serie mensual de caudal entre 2 y 34 m³/s con puntos anaranjados en los meses rellenados desde 2013. Abajo, dos curvas casi superpuestas de la media mensual, mínima en marzo y máxima en noviembre, con sus franjas de variación"
 #| echo: false
 #| out-width: 95%
